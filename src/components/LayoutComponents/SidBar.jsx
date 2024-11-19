@@ -1,4 +1,4 @@
-import React from "react";
+
 import dashboard from "../../assets/routerImg/dashboard.png";
 import categorie from "../../assets/routerImg/categorie.png";
 import settings from "../../assets/routerImg/settings.png";
@@ -7,7 +7,7 @@ import user from "../../assets/routerImg/user.png";
 import { Menu } from "antd";
 import logo from "../../assets/header/logo.png";
 import { Link } from "react-router-dom";
-import "./sidebar.css"; // Import the CSS file
+
 
 const items = [
   {
@@ -78,8 +78,8 @@ const SidBar = () => {
   return (
     <div className="custom-sidebar">
       {/* Logo */}
-      <div className="custom-sidebar-logo">
-        <img src={logo} alt="Logo" className="w-24" />
+      <div className="custom-sidebar-logo flex justify-center">
+        <img src={logo} alt="Logo" className="w-[190px]" />
       </div>
 
       {/* Menu */}
@@ -93,7 +93,7 @@ const SidBar = () => {
         theme="dark"
         mode="inline"
         items={items}
-        className="custom-menu"
+        
       />
 
       {/* Footer (Log Out) */}
