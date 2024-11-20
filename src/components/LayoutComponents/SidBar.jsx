@@ -52,10 +52,10 @@ const items = [
     link: "/dashboard/Subscription",
   },
   {
-    key: "settings",
+    key: "profile",
     label: "Settings",
     icon: settings,
-    link: "/dashboard/Settings",
+    link: "/dashboard/Settings/profile",
     children: [
       {
         key: "profile",

@@ -104,7 +104,7 @@ const data = [
 
 const Dashboard = () => {
   return (
-    <div className="p-6 min-h-screen">
+    <div className="p-2 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mb-16">
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="font-semibold">Total Subscriber</h3>

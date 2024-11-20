@@ -93,7 +93,7 @@ const CreatorManagement = () => {
 
   return (
     <div>
-      <div className="flex justify-between my-7">
+      <div className="flex justify-between mb-7 mt-4">
         <h1 className="flex gap-4">
           <span className="text-[#004466] mt-[7px]">
             <FaArrowLeft />

@@ -52,7 +52,7 @@ const Subcategory = () => {
   };
 
   return (
-    <div>
+    <div className="mb-7 mt-4">
       <h1 className="flex gap-4">
         <span className="text-[#004466] mt-[7px]">
           <FaArrowLeft />

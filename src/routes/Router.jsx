@@ -7,7 +7,7 @@ import UserManagement from "../page/UserManagement/UserManagement";
 import CreatorManagement from "../page/CreatorManagement/CreatorManagement";
 
 import Subscription from "../page/Subscription/Subscription";
-import Settings from "../page/Settings/Settings";
+
 import Profile from "../page/Settings/Profile";
 import TermsCondition from "../page/Settings/TermsCondition";
 import FAQ from "../page/Settings/FAQ";
@@ -49,8 +49,8 @@ import Subcategory from "../page/CategoriesManagement/Subcategory";
         element: <Subscription></Subscription>
         },
         {
-          path: '/dashboard/Settings', 
-          element: <Settings></Settings>
+          path: '/dashboard/Settings/profile', 
+          element: <Profile></Profile>
         },
         {
           path: '/dashboard/Settings/profile', 
