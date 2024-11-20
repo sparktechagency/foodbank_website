@@ -3,7 +3,7 @@ import profilee from "../../../src/assets/header/profileLogo.png";
 
 const Header = () => {
   return (
-    <div className="bg-[#02111E] text-white ">
+    <div className="bg-[#050505] text-white ">
       <div className="flex justify-between">
         <div>
 
