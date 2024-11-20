@@ -117,49 +117,45 @@ const UserManagement = () => {
 
       {/* Modal */}
       <Modal
-        centered
-        open={modal2Open}
-        onCancel={closeModal}
-        footer={null}
-        closable={false}
-        width={400}
-         bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
+  centered
+  open={modal2Open}
+  onCancel={closeModal}
+  footer={null}
+  closable={false}
+  width={400}
+  bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
   className="no-border-radius-modal"
-      >
-        <div className="flex justify-center py-8">
-          <img
-            className="w-[70px] h-[70px] rounded-full"
-            src={Profile}
-            alt="profile"
-          />
+>
+  <div className="flex justify-center py-8">
+    <img
+      className="w-[70px] h-[70px] rounded-full"
+      src={Profile}
+      alt="profile"
+    />
+  </div>
+  <div>
+    <div className="grid grid-cols-2">
+      <div className="text-lg gap-4">
+        <h4>Name:</h4>
+        <h4>Date of birth:</h4>
+        <h4>Contact Number:</h4>
+        <h4>Email:</h4>
+        <h4>Subscription:</h4>
+        <h4>Address:</h4>
+      </div>
+      <div className="gap-4 text-lg text-neutral-500">
+        <h3>{selectedRecord?.userName}</h3>
+        <h3>{selectedRecord?.dateOfBirth}</h3>
+        <h3>{selectedRecord?.contactNumber}</h3>
+        <h3>{selectedRecord?.email}</h3>
+        <h3>{selectedRecord?.subscription}</h3>
+        <div className="bg-[#D9D9D9] p-3 rounded">
+          {selectedRecord?.address}
         </div>
-        <div>
-          <div className="grid grid-cols-2">
-            <div className="text-lg gap-4">
-              <h4 className="">Name:</h4>
-              <h4>Date of birth:</h4>
-              <h4>Contact Number:</h4>
-              <h4>Email:</h4>
-              <h4>Name:</h4>
-              <h4>Subscription</h4>
-            </div>
-            <div className="gap-4 text-lg text-neutral-500">
-              <h3 className="">Jenny tom</h3>
-              <h3>05/12/2024</h3>
-              <h3>(201) 555-0124</h3>
-              <h3>cgcra@yahoo.com</h3>
-              <h3>Jenny tom</h3>
-              <h3>Monthly</h3>
-            </div>
-          </div>
-          <div className="flex gap-3 mt-5 mb-6">
-            <h3>Adress</h3>{" "}
-            <div className="bg-[#D9D9D9] p-3 rounded">
-              47 W 13th St, New York, NY 10011, USA
-            </div>
-          </div>
-        </div>
-      </Modal>
+      </div>
+    </div>
+  </div>
+</Modal>
     </div>
   );
 };

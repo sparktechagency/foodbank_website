@@ -8,7 +8,7 @@ const Header = () => {
         <div>
 
         </div>
-      <div className="flex gap-8 p-11">
+      <div className="flex gap-8 p-6">
         <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-white text-black ">
         <LuBell />
         </div>
@@ -18,7 +18,7 @@ const Header = () => {
           </div>
           <div className="text-end">
             <h3>Jony Toms</h3>
-            <h4>Admin</h4>
+            <h4 className="text-sm">Admin</h4>
           </div>
         </div>
       </div>

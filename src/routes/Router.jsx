@@ -5,7 +5,7 @@ import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import Dashboard from "../components/Dashboard/Dashboard";
 import UserManagement from "../page/UserManagement/UserManagement";
 import CreatorManagement from "../page/CreatorManagement/CreatorManagement";
-import CategoriesManagement from "../page/CategoriesManagement/CategoriesManagement";
+
 import Subscription from "../page/Subscription/Subscription";
 import Settings from "../page/Settings/Settings";
 import Profile from "../page/Settings/Profile";
@@ -33,8 +33,8 @@ import Subcategory from "../page/CategoriesManagement/Subcategory";
           element: <CreatorManagement></CreatorManagement>
         },
         {
-          path: '/dashboard/CategoriesManagement', 
-          element: <CategoriesManagement></CategoriesManagement>
+          path: '/dashboard/CategoriesManagement/Categories', 
+          element: <Categories></Categories>
         },
         {
           path: '/dashboard/CategoriesManagement/Categories', 

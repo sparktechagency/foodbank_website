@@ -11,6 +11,10 @@
 
 
 
+select option {
+  background-color: #EDC4C5;
+
+}
 
 
 
@@ -49,8 +53,8 @@
 
 /* Active pagination button */
 .ant-pagination-item-active {
-  background-color: #f5222d !important; /* Active background color */
-  border-color: #f5222d !important;    /* Active border color */
+  background-color: #D9000A !important; /* Active background color */
+  border-color: #D9000A !important;    /* Active border color */
 }
 
 /* Active pagination button text */
@@ -66,4 +70,44 @@
 .no-border-radius-modal .ant-modal {
   border-radius: 0 !important;
 }
+
+
+
+
+
+
+
+:where(.css-dev-only-do-not-override-49qm).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #ff3916;
+  
+}
+
+
+.custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: red !important; /* Active ট্যাবের টেক্সট লাল হবে */
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background-color: red !important; /* Active ট্যাবের নিচের বর্ডার লাল হবে */
+}
+
+
+.custom-tabs .ant-tabs-tab:hover {
+  color: inherit !important; /* Hover করলে রঙ পরিবর্তন হবে না */
+}
+
+.custom-tabs .ant-tabs-tab-btn:hover {
+  color: inherit !important; /* ট্যাবের বাটনের hover রঙ রিমুভ */
+}
+
+
+.custom-tabs .ant-tabs-tab {
+  border-bottom: none !important; /* প্রতিটি ট্যাবের নিচে থাকা বর্ডার রিমুভ */
+}
+
+.custom-tabs .ant-tabs-tab-active {
+  border-bottom: 2px solid red !important; /* শুধুমাত্র অ্যাক্টিভ ট্যাবের জন্য বর্ডার */
+}
+
+
 
