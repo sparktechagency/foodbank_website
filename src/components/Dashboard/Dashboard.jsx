@@ -109,13 +109,13 @@ const Dashboard = () => {
     <div className="p-2 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mb-16">
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
-          <h3 className="font-semibold">Total Subscriber</h3>
+          <h3 className="text-gray-500">Total Subscriber</h3>
           <div className="flex justify-center my-2">
             <div className="bg-white p-2  rounded-full">
             <img className="" src={suscriber} alt="" />
             </div>
           </div>
-          <p className="text-2xl font-bold">$8250</p>
+          <p className="text-2xl font-bold">250</p>
         </div>
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="text-gray-500">Total Users</h3>
@@ -124,7 +124,7 @@ const Dashboard = () => {
             <img className="" src={totalUser} alt="" />
             </div>
           </div>
-          <p className="text-2xl font-bold">852,650</p>
+          <p className="text-2xl font-bold">650</p>
         </div>
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="text-gray-500">Total Creator</h3>
@@ -133,7 +133,7 @@ const Dashboard = () => {
             <img className="" src={totalCreate} alt="" />
             </div>
           </div>
-          <p className="text-2xl font-bold">52,650</p>
+          <p className="text-2xl font-bold">630</p>
         </div>
       </div>
 

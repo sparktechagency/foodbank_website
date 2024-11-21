@@ -16,6 +16,7 @@
     "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.1.7",
     "@mui/x-charts": "^7.22.2",
+    "@reduxjs/toolkit": "^2.3.0",
     "antd": "^5.22.1",
     "antd-style": "^3.7.1",
     "class-variance-authority": "^0.7.0",

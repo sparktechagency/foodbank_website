@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -7,32 +7,38 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const Categories = () => {
-  const [openAddModal, setOpenAddModal] = useState(false); // Add Modal State
-  const [editModal, setEditModal] = useState({ isOpen: false, id: null }); // Edit Modal State
+  const [openAddModal, setOpenAddModal] = useState(false); 
+  const [editModal, setEditModal] = useState({ isOpen: false, id: null }); 
   const navigate = useNavigate(); 
-  // State to manage input values
-  const [newCategory, setNewCategory] = useState(""); // For Add Category Modal
-  const [editedCategory, setEditedCategory] = useState(""); // For Edit Category Modal
+ 
+  const [newCategory, setNewCategory] = useState(""); 
+  const [editedCategory, setEditedCategory] = useState("");
 
-  // Table data as an array of objects
+
+  // const [category, setCategory] = useState([])
+
+  // useEffect(()=>{
+  //   fetch('http://192.168.10.220:3000/category/')
+  //   .then(res => res.json())
+  //   .then(data=> setCategory(data))
+  // },[])
+
   const tableData = [
     { id: 1, eventName: "Classics Music", total: "01" },
     { id: 2, eventName: "Jazz Night", total: "02" },
     { id: 3, eventName: "Rock Fest", total: "03" },
   ];
 
-  // Function to handle saving new category
   const handleAddCategory = () => {
     console.log("New Category Added:", newCategory);
-    setOpenAddModal(false); // Close the modal after saving
-    setNewCategory(""); // Clear input
+    setOpenAddModal(false); 
+    setNewCategory(""); 
   };
 
-  // Function to handle saving edited category
   const handleEditCategory = () => {
     console.log("Category Edited:", editedCategory);
-    setEditModal({ isOpen: false, id: null }); // Close the edit modal
-    setEditedCategory(""); // Clear input
+    setEditModal({ isOpen: false, id: null }); 
+    setEditedCategory(""); 
   };
 
   const handleBlock = () => {
@@ -60,14 +66,14 @@ const Categories = () => {
       <h1 className="flex gap-4">
           <button
             className="text-[#EF4849] "
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+            onClick={() => navigate(-1)} 
           >
             <FaArrowLeft />
           </button>
           <span className="text-lg font-semibold">Category Management</span>
         </h1>
 
-      {/* Add Category Button */}
+    
       <div className="flex justify-between mt-9">
         <button className="bg-[#E0CCCD] px-6 py-1 rounded">Category</button>
         <button
@@ -78,7 +84,7 @@ const Categories = () => {
         </button>
       </div>
 
-      {/* Table */}
+     
       <div className="mt-16">
         <div className="overflow-x-auto">
           <table className="min-w-full">
@@ -95,7 +101,7 @@ const Categories = () => {
                   <td className="px-4 py-2 text-left">{index + 1}</td>
                   <td className="px-4 py-2 text-center">{item.eventName}</td>
                   <td className="px-4 py-2 text-right flex gap-2 justify-end">
-                    {/* Edit Button */}
+                  
                     <div
                       onClick={() =>
                         setEditModal({ isOpen: true, id: item.id })
@@ -104,7 +110,7 @@ const Categories = () => {
                     >
                       <MdOutlineModeEdit />
                     </div>
-                    {/* Delete Button */}
+                   
                     <div onClick={handleBlock} className="w-[36px] h-[36px] text-lg bg-[#FF5454] flex justify-center items-center text-white rounded cursor-pointer">
                       <RiDeleteBin6Line />
                     </div>
@@ -116,12 +122,12 @@ const Categories = () => {
         </div>
       </div>
 
-      {/* Add Category Modal */}
+     
       <Modal
         centered
         open={openAddModal}
         onCancel={() => setOpenAddModal(false)}
-        footer={null} // Removes Cancel and OK buttons
+        footer={null} 
         width={600}
       >
         <div className="mb-20 mt-4">
@@ -135,7 +141,7 @@ const Categories = () => {
                   type="text"
                   placeholder="Enter category name"
                   value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)} // Bind input value
+                  onChange={(e) => setNewCategory(e.target.value)} 
                 />
                 <div className="w-full flex gap-3 mt-11">
                   <button
@@ -157,12 +163,12 @@ const Categories = () => {
         </div>
       </Modal>
 
-      {/* Edit Category Modal */}
+      
       <Modal
         centered
         open={editModal.isOpen}
         onCancel={() => setEditModal({ isOpen: false, id: null })}
-        footer={null} // Removes Cancel and OK buttons
+        footer={null} 
         width={600}
       >
         <div className="mb-20 mt-4">
@@ -176,7 +182,7 @@ const Categories = () => {
                   type="text"
                   placeholder="Edit category name"
                   value={editedCategory}
-                  onChange={(e) => setEditedCategory(e.target.value)} // Bind input value
+                  onChange={(e) => setEditedCategory(e.target.value)} 
                   defaultValue={
                     tableData.find((item) => item.id === editModal.id)?.eventName
                   }

@@ -8,6 +8,7 @@ import logo from "../../assets/header/logo.png";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa"; // Arrow icon
+import { IoIosLogIn } from "react-icons/io";
 
 const items = [
   {
@@ -143,11 +144,13 @@ const SidBar = () => {
                   ? "bg-[#EDC4C5] rounded-md"
                   : "bg-white rounded-md hover:bg-gray-200"
               }`}
-              onClick={() => {
+              onClick={(e) => {
                 if (item.children) {
+                  e.preventDefault(); // Prevent navigation for parent items with children
                   onParentClick(item.key); // Toggle expansion for parent
+                } else {
+                  setSelectedKey(item.key); // Update selected key for non-parent
                 }
-                setSelectedKey(item.key); // Update selected key
               }}
             >
               <img src={item.icon} alt={item.label} className="w-5 h-5 mr-3" />
@@ -175,7 +178,10 @@ const SidBar = () => {
                         ? "bg-[#EDC4C5]"
                         : "hover:bg-gray-200"
                     }`}
-                    onClick={() => setSelectedKey(child.key)}
+                    onClick={() => {
+                      setSelectedKey(child.key); // Update selected key for child
+                      setExpandedKeys([]); // Optional: collapse other menus on child selection
+                    }}
                   >
                     <span className="block w-full text-black">
                       {child.label}
@@ -191,8 +197,9 @@ const SidBar = () => {
       {/* Footer (Log Out) */}
       <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
         <Link to={"/login"}>
-          <button className="w-full bg-white rounded-md text-black p-3">
-            Log Out
+          <button className="w-full flex bg-white text-start rounded-md text-black p-3">
+          <span className="text-2xl"><IoIosLogIn /></span>
+            <span className="ml-3">Log Out</span>
           </button>
         </Link>
       </div>
