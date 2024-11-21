@@ -62,9 +62,9 @@ const FAQ = () => {
                   Q: {item.title}
                 </div>
                 {/* Edit button to open the Edit FAQ modal */}
-                <div onClick={() => openEditModal(item)} className="text-[#555555] text-2xl pr-4">
+                <button onClick={() => openEditModal(item)} className="text-[#555555] text-2xl pr-4">
                   <RiEdit2Fill />
-                </div>
+                </button>
               </div>
               <div className="mt-3 bg-[#BCBABA26] p-3 rounded-md shadow">
                 {item.ans}
@@ -99,13 +99,13 @@ const FAQ = () => {
           </div>
 
           <div className="mt-3">
-            <p className="mb-1">Answer</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-              placeholder="Provide the answer here"
-            />
-          </div>
+  <p className="mb-1">Answer</p>
+  <textarea
+    className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+    rows="5" // Increases the height of the textarea
+    placeholder="Write your description here..." // Optional placeholder text
+  />
+</div>
 
           <div className="flex justify-center mt-11">
             <button className="bg-[#02111E] rounded py-2 px-4 text-white">
@@ -139,16 +139,13 @@ const FAQ = () => {
           </div>
 
           <div className="mt-3">
-            <p className="mb-1">Answer</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-              value={currentFAQ?.ans || ""}
-              onChange={(e) =>
-                setCurrentFAQ({ ...currentFAQ, ans: e.target.value })
-              }
-            />
-          </div>
+  <p className="mb-1">Answer</p>
+  <textarea
+    className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+    rows="5" // Increases the height of the textarea
+    placeholder="Write your description here..." // Optional placeholder text
+  />
+</div>
 
           <div className="flex justify-center mt-11">
             <button className="bg-[#02111E] rounded py-2 px-4 text-white">

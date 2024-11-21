@@ -1,11 +1,12 @@
 import dashboard from "../../assets/routerImg/dashboard.png";
 import categorie from "../../assets/routerImg/categorie.png";
+import create from "../../assets/routerImg/create.png";
 import settings from "../../assets/routerImg/settings.png";
 import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa"; // Arrow icon
 
 const items = [
@@ -13,7 +14,7 @@ const items = [
     key: "dashboard",
     label: "Dashboard",
     icon: dashboard,
-    link: "/dashboard",
+    link: "/",
   },
   {
     key: "userManagement",
@@ -24,7 +25,7 @@ const items = [
   {
     key: "creatorManagement",
     label: "Creator Management",
-    icon: user,
+    icon: create,
     link: "/dashboard/CreatorManagement",
   },
   {
@@ -84,8 +85,37 @@ const items = [
 const SidBar = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]); // Track expanded keys
+  const location = useLocation(); // Track current route location
 
-  // Toggle expand or collapse of items with children
+  // Update `selectedKey` based on current URL
+  useEffect(() => {
+    const currentPath = location.pathname;
+
+    // Find the parent item or child item based on the current path
+    const parentItem = items.find(
+      (item) =>
+        item.link === currentPath ||
+        (item.children &&
+          item.children.some((child) => child.link === currentPath))
+    );
+
+    if (parentItem) {
+      // Update the selected key for parent or child
+      setSelectedKey(
+        parentItem.children
+          ? parentItem.children.find((child) => child.link === currentPath)
+              ?.key || parentItem.key
+          : parentItem.key
+      );
+
+      // Automatically expand parent if child is selected
+      if (parentItem.children && !expandedKeys.includes(parentItem.key)) {
+        setExpandedKeys([...expandedKeys, parentItem.key]);
+      }
+    }
+  }, [location, expandedKeys]);
+
+  // Handle parent item toggle for children
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
       prev.includes(key)
@@ -94,14 +124,10 @@ const SidBar = () => {
     );
   };
 
-  const onClick = (key) => {
-    setSelectedKey(key); // Update active item
-  };
-
   return (
     <div className="custom-sidebar h-full bg-[#050505]">
       {/* Logo */}
-      <div className="custom-sidebar-logo flex justify-center ">
+      <div className="custom-sidebar-logo flex justify-center">
         <img src={logo} alt="Logo" className="w-[160px]" />
       </div>
 
@@ -119,15 +145,15 @@ const SidBar = () => {
               }`}
               onClick={() => {
                 if (item.children) {
-                  onParentClick(item.key); // Toggle the parent item expansion
+                  onParentClick(item.key); // Toggle expansion for parent
                 }
-                onClick(item.key); // Update active item
+                setSelectedKey(item.key); // Update selected key
               }}
             >
               <img src={item.icon} alt={item.label} className="w-5 h-5 mr-3" />
               <span className="block w-full text-black">{item.label}</span>
 
-              {/* Arrow icon to toggle children */}
+              {/* Arrow icon for expandable items */}
               {item.children && (
                 <FaChevronRight
                   className={`ml-auto transform transition-all duration-300 ${
@@ -137,7 +163,7 @@ const SidBar = () => {
               )}
             </Link>
 
-            {/* Render Children with Animation */}
+            {/* Render Children */}
             {item.children && expandedKeys.includes(item.key) && (
               <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
                 {item.children.map((child) => (
@@ -149,9 +175,11 @@ const SidBar = () => {
                         ? "bg-[#EDC4C5]"
                         : "hover:bg-gray-200"
                     }`}
-                    onClick={() => onClick(child.key)}
+                    onClick={() => setSelectedKey(child.key)}
                   >
-                    <span className="block w-full text-black">{child.label}</span>
+                    <span className="block w-full text-black">
+                      {child.label}
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -161,10 +189,12 @@ const SidBar = () => {
       </div>
 
       {/* Footer (Log Out) */}
-      <div className="custom-sidebar-footer absolute bottom-0 w-full p-4 ">
-        <button className="w-full bg-white rounded-md text-black p-3">
-          Log Out
-        </button>
+      <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
+        <Link to={"/login"}>
+          <button className="w-full bg-white rounded-md text-black p-3">
+            Log Out
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -12,9 +12,11 @@ import {
 } from "recharts";
 
 import dash from "../../assets/routerImg/dash.png";
-import taka from "../../assets/routerImg/taka.png";
-import userDash from "../../assets/routerImg/userDash.png";
-import total from "../../assets/routerImg/total.png";
+
+import suscriber from "../../assets/routerImg/suscriber.png";
+import totalCreate from "../../assets/routerImg/totalCreate.png";
+import totalUser from "../../assets/routerImg/totalUser.png";
+
 
 const dataa = [
   { name: "Jan", value: 20 },
@@ -108,22 +110,28 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mb-16">
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="font-semibold">Total Subscriber</h3>
-          <div className="flex justify-center">
-            <img src={taka} alt="" />
+          <div className="flex justify-center my-2">
+            <div className="bg-white p-2  rounded-full">
+            <img className="" src={suscriber} alt="" />
+            </div>
           </div>
           <p className="text-2xl font-bold">$8250</p>
         </div>
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="text-gray-500">Total Users</h3>
-          <div className="flex justify-center">
-            <img src={userDash} alt="" />
+          <div className="flex justify-center my-2">
+          <div className="bg-white p-2  rounded-full">
+            <img className="" src={totalUser} alt="" />
+            </div>
           </div>
           <p className="text-2xl font-bold">852,650</p>
         </div>
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="text-gray-500">Total Creator</h3>
-          <div className="flex justify-center">
-            <img src={total} alt="" />
+          <div className="flex justify-center my-2">
+          <div className="bg-white p-2  rounded-full">
+            <img className="" src={totalCreate} alt="" />
+            </div>
           </div>
           <p className="text-2xl font-bold">52,650</p>
         </div>

@@ -14,14 +14,19 @@ import FAQ from "../page/Settings/FAQ";
 import PrivacyPolicy from "../page/Settings/PrivacyPolicy";
 import Categories from "../page/CategoriesManagement/Categories";
 import Subcategory from "../page/CategoriesManagement/Subcategory";
+import AuthLayOut from "../Auth/AuthLayOut";
+import ForgetPass from "../Auth/ForgetPass";
+import Verify from "../Auth/Verify";
+import ResetPass from "../Auth/ResetPass";
+import Notification from "../page/Notification/Notification";
 
   export const router = createBrowserRouter([
     {
-      path: "/dashboard",
+      path: "/",
       element: <DashboardLayout></DashboardLayout>,
       children:[
         {
-          path: '/dashboard', 
+          path: '/', 
           element: <Dashboard></Dashboard>
         },
         {
@@ -57,6 +62,10 @@ import Subcategory from "../page/CategoriesManagement/Subcategory";
           element: <Profile></Profile>
         },
         {
+          path: '/dashboard/Settings/notification', 
+          element: <Notification></Notification>
+        },
+        {
           path: '/dashboard/Settings/Terms&Condition', 
           element: <TermsCondition></TermsCondition>
         },
@@ -70,5 +79,22 @@ import Subcategory from "../page/CategoriesManagement/Subcategory";
         },
       ]
     },
+
+    {
+      path:'/login',
+      element: <AuthLayOut></AuthLayOut>
+    },
+    {
+      path: '/forgetpassword',
+      element:<ForgetPass></ForgetPass>
+    },
+    {
+      path: '/verify',
+      element:<Verify></Verify>
+    },
+    {
+      path: '/reset',
+      element:<ResetPass></ResetPass>
+    }
   ]);
 

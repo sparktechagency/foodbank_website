@@ -1,29 +1,253 @@
 import { LuBell } from "react-icons/lu";
 import profilee from "../../../src/assets/header/profileLogo.png";
 import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
+
+import { useState } from "react";
+import { Drawer, Radio, Space } from "antd";
+
+import dashboard from "../../assets/routerImg/dashboard.png";
+import categorie from "../../assets/routerImg/categorie.png";
+import create from "../../assets/routerImg/create.png";
+import settings from "../../assets/routerImg/settings.png";
+import subscription from "../../assets/routerImg/subscription.png";
+import user from "../../assets/routerImg/user.png";
+import logo from "../../assets/header/logo.png";
+
+import { FaChevronRight } from "react-icons/fa"; // Arrow icon
+
+const items = [
+  {
+    key: "dashboard",
+    label: "Dashboard",
+    icon: dashboard,
+    link: "/",
+  },
+  {
+    key: "userManagement",
+    label: "User Management",
+    icon: user,
+    link: "/dashboard/UserManagement",
+  },
+  {
+    key: "creatorManagement",
+    label: "Creator Management",
+    icon: create,
+    link: "/dashboard/CreatorManagement",
+  },
+  {
+    key: "categoriesManagement",
+    label: "Categories Management",
+    icon: categorie,
+    link: "/dashboard/CategoriesManagement/Categories",
+    children: [
+      {
+        key: "categoriesManagement",
+        label: "Categories",
+        link: "/dashboard/CategoriesManagement/Categories",
+      },
+      {
+        key: "subcategory",
+        label: "Subcategory",
+        link: "/dashboard/CategoriesManagement/Subcategory",
+      },
+    ],
+  },
+  {
+    key: "subscription",
+    label: "Subscription",
+    icon: subscription,
+    link: "/dashboard/Subscription",
+  },
+  {
+    key: "profile",
+    label: "Settings",
+    icon: settings,
+    link: "/dashboard/Settings/profile",
+    children: [
+      {
+        key: "profile",
+        label: "Profile",
+        link: "/dashboard/Settings/profile",
+      },
+      {
+        key: "terms",
+        label: "Terms & Condition",
+        link: "/dashboard/Settings/Terms&Condition",
+      },
+      {
+        key: "privacy",
+        label: "Privacy Policy",
+        link: "/dashboard/Settings/PrivacyPolicy",
+      },
+      {
+        key: "faq",
+        label: "FAQ",
+        link: "/dashboard/Settings/FAQ",
+      },
+    ],
+  },
+];
 
 const Header = () => {
-  return (
-    <div className="bg-[#050505] text-white ">
-      <div className="flex justify-between">
-        <div>
+  const [selectedKey, setSelectedKey] = useState("dashboard");
+  const [expandedKeys, setExpandedKeys] = useState([]); // Track expanded keys
 
-        </div>
-      <div className="flex gap-8 p-6">
-        <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-white text-black ">
-        <LuBell />
-        </div>
-        <Link to={'/dashboard/Settings/profile'}>
-        <div className="flex gap-3">
-          <div>
-            <img className="w-[45px] h-[45px]" src={profilee} alt="profile" />
+  // Toggle expand or collapse of items with children
+  const onParentClick = (key) => {
+    setExpandedKeys((prev) =>
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+    );
+  };
+
+  const onClick = (key) => {
+    setSelectedKey(key); // Update active item
+  };
+
+  const [open, setOpen] = useState(false);
+  const [placement, setPlacement] = useState("left");
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+  return (
+    <div className="bg-[#050505] text-white pt-5">
+      <div className="flex justify-between">
+        <div className="lg:hidden ">
+          <div className="py-3 pl-4">
+            <div onClick={showDrawer} className="text-3xl ">
+              <FaBars />
+            </div>
           </div>
-          <div className="text-end">
-            <h3>Jony Toms</h3>
-            <h4 className="text-sm">Admin</h4>
+        </div>
+        <div></div>
+        <div className="flex gap-8 p-1 px-6">
+          <div className="relative">
+            {/* Avatar Style Notification Bell Icon */}
+            <Link to={'/dashboard/Settings/notification'}>
+            <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-white text-black ">
+              <span>
+                <LuBell />
+              </span>
+            </div></Link>
+
+            <Space>
+              <Radio.Group value={placement} onChange={onChange}></Radio.Group>
+            </Space>
+            <Drawer
+            
+              placement={placement}
+              closable={false}
+              onClose={onClose}
+              open={open}
+              key={placement}
+            >
+              <div className="bg-black h-screen -m-6">
+              <div className="custom-sidebar-logo flex justify-center ">
+                <img src={logo} alt="Logo" className="w-[160px]" />
+              </div>
+
+              {/* Sidebar Menu */}
+              <div className="menu-items">
+                {items.map((item) => (
+                  <div key={item.key}>
+                    {/* Render Parent Item */}
+                    <Link
+                      to={item.link}
+                      className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
+                        selectedKey === item.key
+                          ? "bg-[#EDC4C5] rounded-md"
+                          : "bg-white rounded-md hover:bg-gray-200"
+                      }`}
+                      onClick={() => {
+                        if (item.children) {
+                          onParentClick(item.key); // Toggle the parent item expansion
+                        }
+                        onClick(item.key); // Update active item
+                      }}
+                    >
+                      <img
+                        src={item.icon}
+                        alt={item.label}
+                        className="w-5 h-5 mr-3"
+                      />
+                      <span className="block w-full text-black">
+                        {item.label}
+                      </span>
+
+                      {/* Arrow icon to toggle children */}
+                      {item.children && (
+                        <FaChevronRight
+                          className={`ml-auto transform transition-all duration-300 ${
+                            expandedKeys.includes(item.key) ? "rotate-90" : ""
+                          }`}
+                        />
+                      )}
+                    </Link>
+
+                    {/* Render Children with Animation */}
+                    {item.children && expandedKeys.includes(item.key) && (
+                      <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.key}
+                            to={child.link}
+                            className={`menu-item p-4 flex items-center cursor-pointer ${
+                              selectedKey === child.key
+                                ? "bg-[#EDC4C5]"
+                                : "hover:bg-gray-200"
+                            }`}
+                            onClick={() => onClick(child.key)}
+                          >
+                            <span className="block w-full text-black">
+                              {child.label}
+                            </span>
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer (Log Out) */}
+              <div className="custom-sidebar-footer absolute bottom-0 w-full p-4 ">
+                <Link to={"/login"}>
+                  <button className="w-full bg-white rounded-md text-black p-3">
+                    Log Out
+                  </button>
+                </Link>
+              </div>
+              </div>
+            </Drawer>
+
+            {/* Notification Badge */}
+            <span className="absolute top-0 right-0 -mr-2  w-5 h-5 bg-white text-black text-xs flex items-center justify-center rounded-full">
+              0
+            </span>
           </div>
-        </div></Link>
-      </div>
+
+          <Link to={"/dashboard/Settings/profile"}>
+            <div className="flex gap-3">
+              <div>
+                <img
+                  className="w-[45px] h-[45px]"
+                  src={profilee}
+                  alt="profile"
+                />
+              </div>
+              <div className="text-end">
+                <h3>Jony Toms</h3>
+                <h4 className="text-sm">Admin</h4>
+              </div>
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );

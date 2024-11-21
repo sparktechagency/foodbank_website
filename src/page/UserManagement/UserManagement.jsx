@@ -1,11 +1,32 @@
-import { Table, Input, Space } from "antd";
+import { Table, Input, Space, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { MdBlockFlipped } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
-import { Modal } from "antd";
+import { useNavigate } from "react-router-dom"; // React Router থেকে import
 import Profile from "../../assets/header/profileLogo.png";
+import Swal from "sweetalert2";
+
+const handleBlock = () => {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Block it!",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        title: "Blocked",
+        text: "Your file has been Blocked.",
+        icon: "success",
+      });
+    }
+  });
+};
 
 const columns = (openModal) => [
   {
@@ -56,13 +77,15 @@ const columns = (openModal) => [
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        {/* LuEye button will trigger the modal */}
         <button className="mt-2" onClick={() => openModal(record)}>
           <span className="text-xl">
             <LuEye />
           </span>
         </button>
-        <button className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md">
+        <button
+          onClick={handleBlock}
+          className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md"
+        >
           <MdBlockFlipped />
         </button>
       </Space>
@@ -70,7 +93,7 @@ const columns = (openModal) => [
   },
 ];
 
-const dataSource = Array.from({ length: 11 }).map((_, i) => ({
+const dataSource = Array.from({ length: 3 }).map((_, i) => ({
   key: i + 1,
   sl: `#${1233 + i}`,
   userName: `User ${i + 1}`,
@@ -78,12 +101,13 @@ const dataSource = Array.from({ length: 11 }).map((_, i) => ({
   dateOfBirth: "05/12/2024",
   contactNumber: `(201) 555-01${i}4`,
   email: `user${i + 1}@gmail.com`,
-  subscription: i % 2 === 0 ? "Monthly" : "Yearly",
+  subscription: i % 2 === 0 ? "Gold" : "Yearly",
 }));
 
 const UserManagement = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
+  const navigate = useNavigate(); // React Router এর useNavigate হুক
 
   const openModal = (record) => {
     setSelectedRecord(record);
@@ -99,9 +123,12 @@ const UserManagement = () => {
     <div>
       <div className="flex justify-between mb-7 mt-4">
         <h1 className="flex gap-4">
-          <span className="text-[#004466] mt-[7px]">
+          <button
+            className="text-[#EF4849] -mt-[20px]"
+            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+          >
             <FaArrowLeft />
-          </span>
+          </button>
           <span className="text-lg font-semibold">User Management</span>
         </h1>
         <Input
@@ -111,51 +138,59 @@ const UserManagement = () => {
         />
       </div>
 
-      <Table columns={columns(openModal)} dataSource={dataSource} />
+      <Table
+        columns={columns(openModal)}
+        dataSource={dataSource}
+        pagination={{
+          position: ["bottomCenter"],
+          hideOnSinglePage: false,
+        }}
+      />
 
       <div className="text-black -mt-11"></div>
 
       {/* Modal */}
       <Modal
-  centered
-  open={modal2Open}
-  onCancel={closeModal}
-  footer={null}
-  closable={false}
-  width={400}
-  bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
-  className="no-border-radius-modal"
->
-  <div className="flex justify-center py-8">
-    <img
-      className="w-[70px] h-[70px] rounded-full"
-      src={Profile}
-      alt="profile"
-    />
-  </div>
-  <div>
-    <div className="grid grid-cols-2">
-      <div className="text-lg gap-4">
-        <h4>Name:</h4>
-        <h4>Date of birth:</h4>
-        <h4>Contact Number:</h4>
-        <h4>Email:</h4>
-        <h4>Subscription:</h4>
-        <h4>Address:</h4>
-      </div>
-      <div className="gap-4 text-lg text-neutral-500">
-        <h3>{selectedRecord?.userName}</h3>
-        <h3>{selectedRecord?.dateOfBirth}</h3>
-        <h3>{selectedRecord?.contactNumber}</h3>
-        <h3>{selectedRecord?.email}</h3>
-        <h3>{selectedRecord?.subscription}</h3>
-        <div className="bg-[#D9D9D9] p-3 rounded">
-          {selectedRecord?.address}
+        centered
+        open={modal2Open}
+        onCancel={closeModal}
+        footer={null}
+        closable={true} // Enable the default close button
+        width={400}
+        bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
+        className="no-border-radius-modal"
+        closeIcon={<span className="text-lg text-black">×</span>} // Custom close icon (X)
+      >
+        <div className="flex justify-center py-8">
+          <img
+            className="w-[70px] h-[70px] rounded-full"
+            src={Profile}
+            alt="profile"
+          />
         </div>
-      </div>
-    </div>
-  </div>
-</Modal>
+        <div>
+          <div className="grid grid-cols-2">
+            <div className="text-lg gap-4">
+              <h4>Name:</h4>
+              <h4>Date of birth:</h4>
+              <h4>Contact Number:</h4>
+              <h4>Email:</h4>
+              <h4>Subscription:</h4>
+              <h4>Address:</h4>
+            </div>
+            <div className="gap-4 text-lg text-neutral-500">
+              <h3>{selectedRecord?.userName}</h3>
+              <h3>{selectedRecord?.dateOfBirth}</h3>
+              <h3>{selectedRecord?.contactNumber}</h3>
+              <h3>{selectedRecord?.email}</h3>
+              <h3>{selectedRecord?.subscription}</h3>
+              <div className="bg-[#D9D9D9] p-3 rounded">
+                {selectedRecord?.address}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 };

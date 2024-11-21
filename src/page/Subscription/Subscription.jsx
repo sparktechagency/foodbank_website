@@ -3,8 +3,9 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { Modal } from "antd";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
+// Columns definition with the edit action
 const columns = (openModal) => [
   {
     title: "SL no.",
@@ -29,45 +30,30 @@ const columns = (openModal) => [
     dataIndex: "descricption",
   },
   {
-    title: "Status",
-    dataIndex: "status",
-    render: (status) => (
-      <span
-        className={`px-3 py-1 rounded ${
-          status === "Active" ? "border border-[#338BFF] rounded-full px-7 text-[#338BFF]" : "border border-[#F3A211] rounded-full px-4 text-[#F3A211]"
-        }`}
-      >
-        {status}
-      </span>
-    ),
-  },
-  {
     title: "Action",
     dataIndex: "action",
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        <button className="" onClick={() => openModal(record)}>
+        <button onClick={() => openModal(record)}>
           <span className="bg-[#004466] text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md">
             <MdOutlineModeEdit />
           </span>
-        </button>
-        <button className="bg-[#D9000A] text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md">
-          <RiDeleteBin6Line />
         </button>
       </Space>
     ),
   },
 ];
 
-const dataSource = Array.from({ length: 11 }).map((_, i) => ({
+// Sample data source
+const dataSource = Array.from({ length: 3 }).map((_, i) => ({
   key: i + 1,
   sl: `#0${1 + i}`,
-  name: `Hawaiian Music`,
-  durationTime: `1 Hour`,
+  name: `Gold`,
+  durationTime: `jan`,
   price: "2.30",
-  descricption: "Limited profile views per day, limited voice notes and message, standard verification process",
-  status: i % 2 === 0 ? "Active" : "Upcoming",
+  descricption:
+    "Limited profile views per day, limited voice notes and message, standard verification process",
   subscription: i % 2 === 0 ? "Monthly" : "Yearly",
 }));
 
@@ -76,11 +62,15 @@ const Subscription = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  // Open the edit modal with the selected record
   const openModal = (record) => {
     setSelectedRecord(record);
     setModal2Open(true);
   };
 
+  // Close the edit modal and clear the selected record
   const closeModal = () => {
     setModal2Open(false);
     setSelectedRecord(null);
@@ -88,19 +78,34 @@ const Subscription = () => {
 
   return (
     <div>
+      {/* Header Section */}
       <div className="flex justify-between mb-7 mt-4">
         <h1 className="flex gap-4">
-          <span className="text-[#004466] mt-[7px]">
+          <button
+            className="text-[#EF4849] -mt-[12px]"
+            onClick={() => navigate(-1)} // Navigate to the previous page
+          >
             <FaArrowLeft />
-          </span>
+          </button>
           <span className="text-lg font-semibold">Subscription</span>
         </h1>
-        <button onClick={() => setOpen(true)} className="bg-[#02111E] py-2 px-3 rounded text-white">
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-[#02111E] py-2 px-3 rounded text-white"
+        >
           + Add Subscription
         </button>
       </div>
 
-      <Table columns={columns(openModal)} dataSource={dataSource} />
+      {/* Table */}
+      <Table
+        columns={columns(openModal)} // Pass openModal to handle edit
+        dataSource={dataSource}
+        pagination={{
+          position: ["bottomCenter"],
+          hideOnSinglePage: false,
+        }}
+      />
 
       {/* Edit Modal */}
       <Modal
@@ -113,49 +118,59 @@ const Subscription = () => {
         <div>
           <h1 className="text-center font-bold mb-2">+Edit Subscription</h1>
 
+          {/* Name Field */}
           <div>
             <p className="mb-1">Name</p>
-            <select
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
-              value={selectedRecord ? selectedRecord.name : ""}
-            >
-              <option value="gold">Gold</option>
-              <option value="primary">Primary</option>
-            </select>
+            <input
+              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+              type="text"
+            />
           </div>
 
+          {/* Time Duration Field */}
           <div className="my-3">
             <p className="mb-1">Time Duration</p>
             <select
               className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
-              value={selectedRecord ? selectedRecord.durationTime : ""}
+              defaultValue={selectedRecord?.durationTime || ""}
             >
-              <option value="1 Hour">1 Hour</option>
-              <option value="2 Hours">2 Hours</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Yearly">Yearly</option>
             </select>
           </div>
 
+          {/* Price Field */}
           <div>
             <p className="mb-1">Price</p>
             <input
               className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
               type="text"
-              value={selectedRecord ? selectedRecord.price : ""}
+              defaultValue={selectedRecord?.price || ""}
             />
           </div>
 
+          {/* Description Field */}
           <div className="mt-3">
             <p className="mb-1">Description</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-              value={selectedRecord ? selectedRecord.descricption : ""}
+            <textarea
+              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+              rows="5"
+              placeholder="Write your description here..."
+              defaultValue={selectedRecord?.descricption || ""}
             />
           </div>
 
+          {/* Save and Cancel Buttons */}
           <div className="w-full flex gap-3 mt-11">
-            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">Save</button>
-            <button className="bg-[#D9000A] w-full py-2 px-4 rounded text-white">Cancel</button>
+            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">
+              Save
+            </button>
+            <button
+              className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </Modal>
@@ -171,35 +186,54 @@ const Subscription = () => {
         <div>
           <h1 className="text-center font-bold mb-2">+Add Subscription</h1>
 
+          {/* Name Field */}
           <div>
             <p className="mb-1">Name</p>
-            <select className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11">
-              <option value="gold">Gold</option>
-              <option value="primary">Primary</option>
-            </select>
+            <input
+              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+              type="text"
+            />
           </div>
 
+          {/* Time Duration Field */}
           <div className="my-3">
             <p className="mb-1">Time Duration</p>
             <select className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11">
-              <option value="1 Hour">1 Hour</option>
-              <option value="2 Hours">2 Hours</option>
+              <option value="Monthly">Monthly</option>
+              <option value="Yearly">Yearly</option>
             </select>
           </div>
 
+          {/* Price Field */}
           <div>
             <p className="mb-1">Price</p>
-            <input className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]" type="text" />
+            <input
+              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+              type="text"
+            />
           </div>
 
+          {/* Description Field */}
           <div className="mt-3">
             <p className="mb-1">Description</p>
-            <input className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]" type="text" />
+            <textarea
+              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+              rows="5"
+              placeholder="Write your description here..."
+            />
           </div>
 
+          {/* Save and Cancel Buttons */}
           <div className="w-full flex gap-3 mt-11">
-            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">Save</button>
-            <button className="bg-[#D9000A] w-full py-2 px-4 rounded text-white">Cancel</button>
+            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">
+              Save
+            </button>
+            <button
+              className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       </Modal>
