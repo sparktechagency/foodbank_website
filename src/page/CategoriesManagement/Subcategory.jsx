@@ -5,43 +5,31 @@ import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import UseCategory from "../../hook/UseCategory";
+import UseAxios from "../../hook/UseAxios";
 
 const Subcategory = () => {
-  const [open, setOpen] = useState(false); // Modal for Add
-  const [editOpen, setEditOpen] = useState(false); // Modal for Edit
-  const [editData, setEditData] = useState(null); // Data for the item being edited
-  const [categoryName, setCategoryName] = useState(""); // for Category in Add
-  const [subcategoryName, setSubcategoryName] = useState(""); 
-  
-  
-  const navigate = useNavigate(); 
+  const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [categoryName, setCategoryName] = useState("");
+  const [subcategoryName, setSubcategoryName] = useState("");
 
-  // Sample data to be edited
-  const [subcategoryData, setSubcategoryData] = useState([
-    {
-      id: 1,
-      subcategory: "National Baptist Convention of America International",
-      category: "Genres",
-    },
-    {
-      id: 2,
-      subcategory: "National Baptist Convention of America International",
-      category: "Classics Music",
-    },
-  ]);
+  const [category, isLoading, refetch] = UseCategory();
 
-  // Open Add modal
+  const axiosUrl = UseAxios();
+
+  const navigate = useNavigate();
+
   const handleAddOpen = () => {
     setOpen(true);
   };
 
-  // Open Edit modal
   const handleEditOpen = (item) => {
-    setEditData(item); // Set the data to be edited
-    setEditOpen(true); // Open the edit modal
+    setEditData(item);
+    setEditOpen(true);
   };
 
-  // Handle modal close
   const handleCancel = () => {
     setOpen(false);
     setEditOpen(false);
@@ -56,17 +44,47 @@ const Subcategory = () => {
         item.id === editData.id ? { ...item, ...editData } : item
       )
     );
-    setEditOpen(false); 
+    setEditOpen(false);
   };
 
-  // Handle saving the Add modal data
-  const handleSaveAdd = () => {
-    console.log("Category Name:", categoryName);
-    console.log("Subcategory Name:", subcategoryName);
-    setOpen(false);
+  const handleSubCategoryAdd = async () => {
+    try {
+      const response = await axiosUrl.post("/sub-category/create", {
+        categoryId: categoryName, // Selected category ID
+        title: subcategoryName, // New subcategory name
+      });
+
+      if (response.status === 201) {
+        Swal.fire({
+          title: "Success",
+          text: response.data.message,
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+
+        refetch(); // Refresh category data
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Failed to add the subcategory. Please try again.",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
+      }
+    } catch (error) {
+      console.error("Error adding subcategory:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong! Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+
+    setOpen(false); // Close modal
   };
 
-  const handleBlock = () => {
+  const handleDeleted = () => {
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -88,21 +106,20 @@ const Subcategory = () => {
   return (
     <div className="mb-7 mt-4">
       <h1 className="flex gap-4">
-          <button
-            className="text-[#EF4849]  "
-            onClick={() => navigate(-1)} 
-          >
-            <FaArrowLeft />
-          </button>
-          <span className="text-lg font-semibold">Subcategory</span>
-        </h1>
+        <button className="text-[#EF4849]  " onClick={() => navigate(-1)}>
+          <FaArrowLeft />
+        </button>
+        <span className="text-lg font-semibold">Subcategory</span>
+      </h1>
 
       <div>
         <div className="flex justify-between mt-9">
           <select className="bg-[#E0CCCD] px-6 py-1 rounded" name="" id="">
-            <option value="Genres">Genres</option>
-            <option value="classical">classical</option>
-            <option value="Millennial">Millennial</option>
+            {category.map((cat) => (
+              <>
+                <option value={cat.title}>{cat.title}</option>
+              </>
+            ))}
           </select>
           <button
             onClick={handleAddOpen}
@@ -125,19 +142,27 @@ const Subcategory = () => {
               </tr>
             </thead>
             <tbody>
-              {subcategoryData.map((item, index) => (
-                <tr className="bg-[#D9D9D9]" key={item.id}>
+              {category.map((item, index) => (
+                <tr className="bg-[#D9D9D9]" key={item._id}>
                   <td className="px-4 py-2 text-left">{index + 1}</td>
-                  <td className="px-4 py-2 text-start">{item.subcategory}</td>
-                  <td className="px-4 py-2 text-start">{item.category}</td>
+                  <td className="px-4 py-2 text-start flex">
+                    {/* Map over subCategories */}
+                    {item.subCategories.map((sub, subIndex) => (
+                      <div key={subIndex}>{sub.title}, </div>
+                    ))}
+                  </td>
+                  <td className="px-4 py-2 text-start">{item.title}</td>
                   <td className="px-4 py-2 text-right flex gap-2 justify-end">
                     <button
                       className="w-[36px] h-[36px] text-lg bg-[#007BFF] flex justify-center items-center text-white rounded"
-                      onClick={() => handleEditOpen(item)} 
+                      onClick={() => handleEditOpen(item)}
                     >
                       <MdOutlineModeEdit />
                     </button>
-                    <button onClick={handleBlock} className="w-[36px] h-[36px] text-lg bg-[#FF5454] flex justify-center items-center text-white rounded">
+                    <button
+                      onClick={handleDeleted}
+                      className="w-[36px] h-[36px] text-lg bg-[#FF5454] flex justify-center items-center text-white rounded"
+                    >
                       <RiDeleteBin6Line />
                     </button>
                   </td>
@@ -162,19 +187,25 @@ const Subcategory = () => {
             <div className="mx-20">
               <p className="mb-2">Category Name</p>
               <select
-                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
-                value={categoryName}
-                onChange={(e) => setCategoryName(e.target.value)}
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+                value={categoryName} // Holds selected category ID
+                onChange={(e) => setCategoryName(e.target.value)} // Set category ID
               >
-                <option value="Genres">Genres</option>
-                <option value="Classical">Classical</option>
-                <option value="Millennial">Millennial</option>
+                <option value="" disabled>
+                  Select a category
+                </option>
+                {category.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.title}
+                  </option>
+                ))}
               </select>
 
               <p className="mb-2 mt-4">Subcategory</p>
               <input
                 className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mb-4"
                 type="text"
+                placeholder="Enter Subcategory Name"
                 value={subcategoryName}
                 onChange={(e) => setSubcategoryName(e.target.value)}
               />
@@ -185,7 +216,7 @@ const Subcategory = () => {
                 </button>
                 <button
                   className="bg-[#004466] w-full py-2 px-4 rounded text-white"
-                  onClick={handleSaveAdd}
+                  onClick={handleSubCategoryAdd}
                 >
                   Save
                 </button>

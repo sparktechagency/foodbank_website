@@ -23,11 +23,15 @@ const Categories = () => {
   const [category, isLoading, refetch] = UseCategory();
   console.log(category);
 
-  const tableData = [
-    { id: 1, title: "Classics Music", total: "01" },
-    { id: 2, title: "Jazz Night", total: "02" },
-    { id: 3, title: "Rock Fest", total: "03" },
-  ];
+
+
+  
+
+  // const tableData = [
+  //   { id: 1, title: "Classics Music", total: "01" },
+  //   { id: 2, title: "Jazz Night", total: "02" },
+  //   { id: 3, title: "Rock Fest", total: "03" },
+  // ];
 
   const handleAddCategory = async () => {
     console.log("New Category Added:", newCategory);
@@ -67,6 +71,8 @@ const Categories = () => {
     setOpenAddModal(false);
     setNewCategory("");
   };
+
+  
   const handleEditCategory = async () => {
     console.log("Category Edited:", editedCategory);
 
