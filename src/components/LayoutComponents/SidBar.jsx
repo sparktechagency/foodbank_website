@@ -79,6 +79,11 @@ const items = [
         label: "FAQ",
         link: "/dashboard/Settings/FAQ",
       },
+      {
+        key: "about",
+        label: "About Us",
+        link: "/dashboard/Settings/aboutUs",
+      },
     ],
   },
 ];

@@ -84,7 +84,7 @@ const columns = (openModal) => [
             <LuEye />
           </span>
         </button>
-        <button onClick={handleBlock} className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md">
+        <button onClick={handleBlock} className="bg-[#D9000A] text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md">
           <MdBlockFlipped />
         </button>
       </Space>

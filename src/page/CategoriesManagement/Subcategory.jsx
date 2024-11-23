@@ -56,14 +56,14 @@ const Subcategory = () => {
         item.id === editData.id ? { ...item, ...editData } : item
       )
     );
-    setEditOpen(false); // Close the modal after saving
+    setEditOpen(false); 
   };
 
   // Handle saving the Add modal data
   const handleSaveAdd = () => {
     console.log("Category Name:", categoryName);
     console.log("Subcategory Name:", subcategoryName);
-    setOpen(false); // Close the Add modal
+    setOpen(false);
   };
 
   const handleBlock = () => {
@@ -90,7 +90,7 @@ const Subcategory = () => {
       <h1 className="flex gap-4">
           <button
             className="text-[#EF4849]  "
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+            onClick={() => navigate(-1)} 
           >
             <FaArrowLeft />
           </button>
@@ -133,7 +133,7 @@ const Subcategory = () => {
                   <td className="px-4 py-2 text-right flex gap-2 justify-end">
                     <button
                       className="w-[36px] h-[36px] text-lg bg-[#007BFF] flex justify-center items-center text-white rounded"
-                      onClick={() => handleEditOpen(item)} // Open edit modal
+                      onClick={() => handleEditOpen(item)} 
                     >
                       <MdOutlineModeEdit />
                     </button>

@@ -19,6 +19,7 @@ import ForgetPass from "../Auth/ForgetPass";
 import Verify from "../Auth/Verify";
 import ResetPass from "../Auth/ResetPass";
 import Notification from "../page/Notification/Notification";
+import About from "../page/Settings/About";
 
   export const router = createBrowserRouter([
     {
@@ -72,6 +73,10 @@ import Notification from "../page/Notification/Notification";
         {
           path: '/dashboard/Settings/FAQ', 
           element: <FAQ></FAQ>
+        },
+        {
+          path: '/dashboard/Settings/aboutUs', 
+          element: <About></About>
         },
         {
           path: '/dashboard/Settings/PrivacyPolicy', 
