@@ -1,6 +1,4 @@
-import {
-    createBrowserRouter,
-  } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import DashboardLayout from "../layout/dashboardLayout/DashboardLayout";
 import Dashboard from "../components/Dashboard/Dashboard";
 import UserManagement from "../page/UserManagement/UserManagement";
@@ -21,86 +19,90 @@ import ResetPass from "../Auth/ResetPass";
 import Notification from "../page/Notification/Notification";
 import About from "../page/Settings/About";
 import Login from "../Auth/Login";
+import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 
-  export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <DashboardLayout></DashboardLayout>,
-      children:[
-        {
-          path: '/', 
-          element: <Dashboard></Dashboard>
-        },
-        {
-            path: '/dashboard/UserManagement', 
-            element: <UserManagement></UserManagement>
-        },
-        {
-          path: '/dashboard/CreatorManagement', 
-          element: <CreatorManagement></CreatorManagement>
-        },
-        {
-          path: '/dashboard/CategoriesManagement/Categories', 
-          element: <Categories></Categories>
-        },
-        {
-          path: '/dashboard/CategoriesManagement/Categories', 
-          element: <Categories></Categories>
-        },
-        {
-          path: '/dashboard/CategoriesManagement/Subcategory', 
-          element: <Subcategory></Subcategory>
-        },
-        {
-        path: '/dashboard/Subscription', 
-        element: <Subscription></Subscription>
-        },
-        {
-          path: '/dashboard/Settings/profile', 
-          element: <Profile></Profile>
-        },
-        {
-          path: '/dashboard/Settings/profile', 
-          element: <Profile></Profile>
-        },
-        {
-          path: '/dashboard/Settings/notification', 
-          element: <Notification></Notification>
-        },
-        {
-          path: '/dashboard/Settings/Terms&Condition', 
-          element: <TermsCondition></TermsCondition>
-        },
-        {
-          path: '/dashboard/Settings/FAQ', 
-          element: <FAQ></FAQ>
-        },
-        {
-          path: '/dashboard/Settings/aboutUs', 
-          element: <About></About>
-        },
-        {
-          path: '/dashboard/Settings/PrivacyPolicy', 
-          element: <PrivacyPolicy></PrivacyPolicy>
-        },
-      ]
-    },
+export const router = createBrowserRouter([
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout></DashboardLayout>
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        path: "/",
+        element: <Dashboard></Dashboard>,
+      },
+      {
+        path: "/dashboard/UserManagement",
+        element: <UserManagement></UserManagement>,
+      },
+      {
+        path: "/dashboard/CreatorManagement",
+        element: <CreatorManagement></CreatorManagement>,
+      },
+      {
+        path: "/dashboard/CategoriesManagement/Categories",
+        element: <Categories></Categories>,
+      },
+      {
+        path: "/dashboard/CategoriesManagement/Categories",
+        element: <Categories></Categories>,
+      },
+      {
+        path: "/dashboard/CategoriesManagement/Subcategory",
+        element: <Subcategory></Subcategory>,
+      },
+      {
+        path: "/dashboard/Subscription",
+        element: <Subscription></Subscription>,
+      },
+      {
+        path: "/dashboard/Settings/profile",
+        element: <Profile></Profile>,
+      },
+      {
+        path: "/dashboard/Settings/profile",
+        element: <Profile></Profile>,
+      },
+      {
+        path: "/dashboard/Settings/notification",
+        element: <Notification></Notification>,
+      },
+      {
+        path: "/dashboard/Settings/Terms&Condition",
+        element: <TermsCondition></TermsCondition>,
+      },
+      {
+        path: "/dashboard/Settings/FAQ",
+        element: <FAQ></FAQ>,
+      },
+      {
+        path: "/dashboard/Settings/aboutUs",
+        element: <About></About>,
+      },
+      {
+        path: "/dashboard/Settings/PrivacyPolicy",
+        element: <PrivacyPolicy></PrivacyPolicy>,
+      },
+    ],
+  },
 
-    {
-      path:'/login',
-      element: <Login></Login>
-    },
-    {
-      path: '/forgetpassword',
-      element:<ForgetPass></ForgetPass>
-    },
-    {
-      path: '/verify',
-      element:<Verify></Verify>
-    },
-    {
-      path: '/reset',
-      element:<ResetPass></ResetPass>
-    }
-  ]);
-
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/forgetpassword",
+    element: <ForgetPass></ForgetPass>,
+  },
+  {
+    path: "/verify",
+    element: <Verify></Verify>,
+  },
+  {
+    path: "/reset",
+    element: <ResetPass></ResetPass>,
+  },
+]);

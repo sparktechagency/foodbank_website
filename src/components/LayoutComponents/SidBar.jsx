@@ -5,7 +5,7 @@ import settings from "../../assets/routerImg/settings.png";
 import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa"; // Arrow icon
 import { IoIosLogIn } from "react-icons/io";
@@ -92,6 +92,7 @@ const SidBar = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]); // Track expanded keys
   const location = useLocation(); // Track current route location
+  const navigate = useNavigate(); // Navigate after logout
 
   // Update `selectedKey` based on current URL
   useEffect(() => {
@@ -128,6 +129,12 @@ const SidBar = () => {
         ? prev.filter((item) => item !== key)
         : [...prev, key]
     );
+  };
+
+  // Logout Function
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Remove the token from local storage
+    navigate("/login"); // Redirect to the login page after logout
   };
 
   return (
@@ -201,12 +208,13 @@ const SidBar = () => {
 
       {/* Footer (Log Out) */}
       <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
-        <Link to={"/login"}>
-          <button className="w-full flex bg-white text-start rounded-md text-black p-3">
+        <button
+          onClick={handleLogout} // Trigger logout on button click
+          className="w-full flex bg-white text-start rounded-md text-black p-3"
+        >
           <span className="text-2xl"><IoIosLogIn /></span>
-            <span className="ml-3">Log Out</span>
-          </button>
-        </Link>
+          <span className="ml-3">Log Out</span>
+        </button>
       </div>
     </div>
   );

@@ -9,10 +9,14 @@ const Login = () => {
   const onFinish = async (values) => {
     try {
       const response = await axiosUrl.post("/auth/login", values); 
+      console.log('====================================');
+      console.log(response);
+      console.log('====================================');
       if (response.status === 200) {
-        message.success("Login Successful!");
+       
         
         localStorage.setItem("token", response.data.token);
+        message.success("Login Successful!");
         navigate("/"); 
       }
     } catch (error) {
@@ -25,6 +29,8 @@ const Login = () => {
     console.log("Failed:", errorInfo);
     message.error("Please fill all required fields correctly.");
   };
+
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">

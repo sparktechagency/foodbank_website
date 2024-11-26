@@ -1,10 +1,20 @@
-import { useState } from "react";
-import { Avatar, Upload, Input, Form,  message } from "antd";
+import { useState, useEffect } from "react";
+import { Avatar, Upload, Input, Form, message } from "antd";
 import { FaCamera } from "react-icons/fa";
+import UseAdminProfile from "../../hook/UseAdminProfile";
 
 const Profile = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("1");
+
+  const [admin, isLoading, refetch] = UseAdminProfile();
+  console.log(admin);
+
+  useEffect(() => {
+    if (admin) {
+     
+    }
+  }, [admin]);
 
   const handleProfilePicUpload = (e) => {
     setProfilePic(e.file.originFileObj);
@@ -32,17 +42,17 @@ const Profile = () => {
         <Form
           name="edit-profile"
           initialValues={{
-            username: "Asadujjaman",
-            email: "asadujjaman@gmail.com",
-            contactNo: "+99007007007",
-            address: "79/A Joker Vila, Gotham City",
+            username: admin?.user?.name || "", 
+            email: admin?.auth?.email || "",     
+            contactNo: "",                      
+            address: admin?.user?.address || "", 
           }}
           onFinish={handleFormSubmit}
         >
           <div className="p-4">
             <h2 className="text-xl font-semibold mb-4 text-center">Edit Your Profile</h2>
             <div className="space-y-4">
-              {/* Custom User Name Label */}
+              
               <Form.Item
                 name="username"
                 label={<span className="">User Name</span>}
@@ -53,16 +63,13 @@ const Profile = () => {
                 <Input className="w-full rounded-sm py-2" placeholder="User Name" />
               </Form.Item>
               
-              {/* Custom Email Label */}
+             
               <Form.Item
                 name="email"
                 label={<span className="">Email Address</span>}
                 labelCol={{ span: 24 }}
                 wrapperCol={{ span: 24 }}
-                rules={[
-                  { required: true, message: "Email is required!" },
-                  { type: "email", message: "Please enter a valid email!" },
-                ]}
+                rules={[{ required: true, message: "Email is required!" }, { type: "email", message: "Please enter a valid email!" }]}
               >
                 <Input className="w-full rounded-sm py-2" placeholder="Email" />
               </Form.Item>
@@ -90,7 +97,7 @@ const Profile = () => {
               </Form.Item>
 
               <div className="flex justify-center">
-                <button type="submit"  className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
+                <button type="submit" className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
                   Save Changes
                 </button>
               </div>
@@ -149,7 +156,7 @@ const Profile = () => {
               </Form.Item>
 
               <div className="flex justify-center">
-              <button type="submit"  className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
+                <button type="submit" className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
                   Save Changes
                 </button>
               </div>
@@ -178,7 +185,7 @@ const Profile = () => {
             <FaCamera className="text-gray-600 w-5 h-5" />
           </Upload>
         </div>
-        <p className="text-lg font-semibold mt-4">Jenny Torn</p>
+        <p className="text-lg font-semibold mt-4">{admin?.user?.name || "Loading..."}</p>
       </div>
 
       {/* Custom Tabs Section */}
@@ -187,9 +194,7 @@ const Profile = () => {
           {tabItems.map((item) => (
             <button
               key={item.key}
-              className={`py-2 font-medium ${
-                activeTab === item.key ? "border-b border-red-500 text-red-500" : "text-gray-600 hover:text-[#02111E]"
-              } transition`}
+              className={`py-2 font-medium ${activeTab === item.key ? "border-b border-red-500 text-red-500" : "text-gray-600 hover:text-[#02111E]"}`}
               onClick={() => setActiveTab(item.key)}
             >
               {item.label}
