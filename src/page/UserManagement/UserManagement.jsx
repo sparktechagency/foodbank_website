@@ -4,195 +4,244 @@ import { MdBlockFlipped } from "react-icons/md";
 import { LuEye } from "react-icons/lu";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // React Router থেকে import
+import { useNavigate } from "react-router-dom";
 import Profile from "../../assets/header/profileLogo.png";
 import Swal from "sweetalert2";
+import UseUserManagement from "../../hook/UseUserManagement";
 
-const handleBlock = () => {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You won't be able to revert this!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, Block it!",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire({
-        title: "Blocked",
-        text: "Your file has been Blocked.",
-        icon: "success",
-      });
-    }
-  });
+import unlocked from "../../assets/routerImg/unlocked.png"
+
+// Block handler
+const handleBlock = (record, setBlocked) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Block it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+           
+            setBlocked((prevState) => ({
+                ...prevState,
+                [record.key]: true,
+            }));
+            Swal.fire({
+                title: "Blocked",
+                text: "The user has been blocked.",
+                icon: "success",
+            });
+        }
+    });
 };
 
-const columns = (openModal) => [
-  {
-    title: "SL no.",
-    dataIndex: "sl",
-    width: 70,
-    align: "center",
-  },
-  {
-    title: "User's Name",
-    dataIndex: "userName",
-    width: 150,
-    render: (text) => (
-      <Space>
-        <img
-          src="https://via.placeholder.com/32"
-          alt="avatar"
-          style={{ borderRadius: "50%", width: 32, height: 32 }}
-        />
-        {text}
-      </Space>
-    ),
-  },
-  {
-    title: "Address",
-    dataIndex: "address",
-  },
-  {
-    title: "Date of birth",
-    dataIndex: "dateOfBirth",
-  },
-  {
-    title: "Contact Number",
-    dataIndex: "contactNumber",
-  },
-  {
-    title: "Email",
-    dataIndex: "email",
-  },
-  {
-    title: "Subscription",
-    dataIndex: "subscription",
-    align: "center",
-  },
-  {
-    title: "Action",
-    dataIndex: "action",
-    align: "center",
-    render: (_, record) => (
-      <Space size="middle">
-        <button className="mt-2" onClick={() => openModal(record)}>
-          <span className="text-xl">
-            <LuEye />
-          </span>
-        </button>
-        <button
-          onClick={handleBlock}
-          className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md"
-        >
-          <MdBlockFlipped />
-        </button>
-      </Space>
-    ),
-  },
+// Unblock handler
+const handleUnblock = (record, setBlocked) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You want to unblock this user!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Unblock it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Here, you would typically make an API call to update the user's unblock status
+            setBlocked((prevState) => ({
+                ...prevState,
+                [record.key]: false, // Unblock this specific user by key
+            }));
+            Swal.fire({
+                title: "Unblocked",
+                text: "The user has been unblocked.",
+                icon: "success",
+            });
+        }
+    });
+};
+
+const columns = (openModal, setBlocked, blocked) => [
+    {
+        title: "SL no.",
+        dataIndex: "sl",
+        width: 70,
+        align: "center",
+    },
+    {
+        title: "User's Name",
+        dataIndex: "userName",
+        width: 150,
+        render: (text) => (
+            <Space>
+                <img
+                    src="https://via.placeholder.com/32"
+                    alt="avatar"
+                    style={{ borderRadius: "50%", width: 32, height: 32 }}
+                />
+                {text}
+            </Space>
+        ),
+    },
+    {
+        title: "Address",
+        dataIndex: "address",
+    },
+    {
+        title: "Date of birth",
+        dataIndex: "dateOfBirth",
+    },
+    {
+        title: "Contact Number",
+        dataIndex: "contactNumber",
+    },
+    {
+        title: "Email",
+        dataIndex: "email",
+    },
+    {
+        title: "Subscription",
+        dataIndex: "subscription",
+        align: "center",
+    },
+    {
+        title: "Action",
+        dataIndex: "action",
+        align: "center",
+        render: (_, record) => (
+            <Space size="middle">
+                {/* Conditionally render the "view" button or unblock button */}
+                {!blocked[record.key] ? (
+                    <button className="mt-2" onClick={() => openModal(record)}>
+                        <span className="text-xl">
+                            <LuEye />
+                        </span>
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => handleUnblock(record, setBlocked)}
+                        className="bg-green-600 text-white w-[80px] h-[30px] flex justify-center text-sm items-center rounded-md"
+                    >
+                        Unblock
+                    </button>
+                )}
+                {/* Block button */}
+                {!blocked[record.key] ? (
+                    <button
+                        onClick={() => handleBlock(record, setBlocked)}
+                        className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md"
+                    >
+                        <MdBlockFlipped />
+                    </button>
+                ) : null} 
+            </Space>
+        ),
+    },
 ];
 
-const dataSource = Array.from({ length: 3 }).map((_, i) => ({
-  key: i + 1,
-  sl: `#${1233 + i}`,
-  userName: `User ${i + 1}`,
-  address: "456 Elm Street, Los Angeles, CA 90001",
-  dateOfBirth: "05/12/2024",
-  contactNumber: `(201) 555-01${i}4`,
-  email: `user${i + 1}@gmail.com`,
-  subscription: i % 2 === 0 ? "Gold" : "Yearly",
-}));
-
 const UserManagement = () => {
-  const [modal2Open, setModal2Open] = useState(false);
-  const [selectedRecord, setSelectedRecord] = useState(null);
-  const navigate = useNavigate(); // React Router এর useNavigate হুক
+    const [modal2Open, setModal2Open] = useState(false);
+    const [selectedRecord, setSelectedRecord] = useState(null);
+    const [blocked, setBlocked] = useState({}); 
+    const navigate = useNavigate();
+    const [alluser, isLoading, refetch] = UseUserManagement();
 
-  const openModal = (record) => {
-    setSelectedRecord(record);
-    setModal2Open(true);
-  };
+    const openModal = (record) => {
+        setSelectedRecord(record);
+        setModal2Open(true);
+    };
 
-  const closeModal = () => {
-    setModal2Open(false);
-    setSelectedRecord(null);
-  };
+    const closeModal = () => {
+        setModal2Open(false);
+        setSelectedRecord(null);
+    };
 
-  return (
-    <div>
-      <div className="flex justify-between mb-7 mt-4">
-        <h1 className="flex gap-4">
-          <button
-            className="text-[#EF4849] -mt-[20px]"
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
-          >
-            <FaArrowLeft />
-          </button>
-          <span className="text-lg font-semibold">User Management</span>
-        </h1>
-        <Input
-          placeholder="Search here..."
-          prefix={<SearchOutlined />}
-          style={{ marginBottom: "16px", maxWidth: "300px" }}
-        />
-      </div>
+    const userData = alluser.map((user, index) => ({
+        key: user._id,
+        sl: `#${index + 1}`,
+        userName: user.name,
+        address: user.address,
+        dateOfBirth: user.dateOfBirth || "N/A",
+        contactNumber: user.contactNumber || "-",
+        email: user.auth.email,
+        subscription: user.auth.subscriptionType,
+    }));
 
-      <Table
-        columns={columns(openModal)}
-        dataSource={dataSource}
-        pagination={{
-          position: ["bottomCenter"],
-          hideOnSinglePage: false,
-        }}
-      />
-
-      <div className="text-black -mt-11"></div>
-
-      {/* Modal */}
-      <Modal
-        centered
-        open={modal2Open}
-        onCancel={closeModal}
-        footer={null}
-        closable={true} // Enable the default close button
-        width={400}
-        bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
-        className="no-border-radius-modal"
-        closeIcon={<span className="text-lg text-black">×</span>} // Custom close icon (X)
-      >
-        <div className="flex justify-center py-8">
-          <img
-            className="w-[70px] h-[70px] rounded-full"
-            src={Profile}
-            alt="profile"
-          />
-        </div>
+    return (
         <div>
-          <div className="grid grid-cols-2">
-            <div className="text-lg gap-4">
-              <h4>Name:</h4>
-              <h4>Date of birth:</h4>
-              <h4>Contact Number:</h4>
-              <h4>Email:</h4>
-              <h4>Subscription:</h4>
-              <h4>Address:</h4>
+            <div className="flex justify-between mb-7 mt-4">
+                <h1 className="flex gap-4">
+                    <button
+                        className="text-[#EF4849] -mt-[20px]"
+                        onClick={() => navigate(-1)}
+                    >
+                        <FaArrowLeft />
+                    </button>
+                    <span className="text-lg font-semibold">User Management</span>
+                </h1>
+                <Input
+                    placeholder="Search here..."
+                    prefix={<SearchOutlined />}
+                    style={{ marginBottom: "16px", maxWidth: "300px" }}
+                />
             </div>
-            <div className="gap-4 text-lg text-neutral-500">
-              <h3>{selectedRecord?.userName}</h3>
-              <h3>{selectedRecord?.dateOfBirth}</h3>
-              <h3>{selectedRecord?.contactNumber}</h3>
-              <h3>{selectedRecord?.email}</h3>
-              <h3>{selectedRecord?.subscription}</h3>
-              <div className="bg-[#D9D9D9] p-3 rounded">
-                {selectedRecord?.address}
-              </div>
-            </div>
-          </div>
+
+            <Table
+                columns={columns(openModal, setBlocked, blocked)}
+                dataSource={userData}
+                loading={isLoading}
+                pagination={{
+                    position: ["bottomCenter"],
+                    hideOnSinglePage: false,
+                }}
+            />
+
+            {/* Modal */}
+            <Modal
+                centered
+                open={modal2Open}
+                onCancel={closeModal}
+                footer={null}
+                closable={true}
+                width={400}
+                bodyStyle={{ borderRadius: 0 }}
+                className="no-border-radius-modal"
+                closeIcon={<span className="text-lg text-black">×</span>}
+            >
+                <div className="flex justify-center py-8">
+                    <img
+                        className="w-[70px] h-[70px] rounded-full"
+                        src={Profile}
+                        alt="profile"
+                    />
+                </div>
+                <div>
+                    <div className="grid grid-cols-2">
+                        <div className="text-lg gap-4">
+                            <h4>Name:</h4>
+                            <h4>Date of birth:</h4>
+                            <h4>Contact Number:</h4>
+                            <h4>Email:</h4>
+                            <h4>Subscription:</h4>
+                            <h4>Address:</h4>
+                        </div>
+                        <div className="gap-4 text-lg text-neutral-500">
+                            <h3>{selectedRecord?.userName}</h3>
+                            <h3>{selectedRecord?.dateOfBirth}</h3>
+                            <h3>{selectedRecord?.contactNumber}</h3>
+                            <h3>{selectedRecord?.email}</h3>
+                            <h3>{selectedRecord?.subscription}</h3>
+                            <div className="bg-[#D9D9D9] p-3 rounded">
+                                {selectedRecord?.address}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
-      </Modal>
-    </div>
-  );
+    );
 };
 
 export default UserManagement;

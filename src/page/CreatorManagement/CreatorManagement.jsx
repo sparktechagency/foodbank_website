@@ -7,6 +7,7 @@ import { useState } from "react";
 import Profile from "../../assets/header/profileLogo.png";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import UseCreateUser from "../../hook/UseCreateUser";
 
 
 
@@ -106,7 +107,10 @@ const dataSource = Array.from({ length: 3 }).map((_, i) => ({
 const CreatorManagement = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const [createUser, isLoading, refetch] = UseCreateUser(); // Fetch API data
+  console.log(createUser); // Debugging API response
 
   const openModal = (record) => {
     setSelectedRecord(record);
@@ -118,17 +122,28 @@ const CreatorManagement = () => {
     setSelectedRecord(null);
   };
 
+  // Map API data to match table's `dataSource` structure
+  const mappedData = createUser.map((creator, index) => ({
+    key: creator._id,
+    sl: index + 1, // Serial number
+    userName: creator.user.name, // Creator's name
+    address: creator.user.address, // Creator's address
+    dateOfBirth: creator.user.dateOfBirth, // DOB
+    contactNumber: creator.user.contactNumber || "-", // Handle missing data
+    email: creator.user.auth.email, // Email
+  }));
+
   return (
     <div>
       <div className="flex justify-between mb-7 mt-4">
-      <h1 className="flex gap-4">
+        <h1 className="flex gap-4">
           <button
             className="text-[#EF4849] -mt-[20px]"
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+            onClick={() => navigate(-1)}
           >
             <FaArrowLeft />
           </button>
-          <span className="text-lg font-semibold">All Creator</span>
+          <span className="text-lg font-semibold">All Creators</span>
         </h1>
         <Input
           placeholder="Search here..."
@@ -137,16 +152,15 @@ const CreatorManagement = () => {
         />
       </div>
 
-      <Table columns={columns(openModal)} dataSource={dataSource} 
-      pagination={{
-        position: ["bottomCenter"], 
-        
-         
-        
-        hideOnSinglePage: false, 
-      }}/>
-
-      <div className="text-black -mt-11"></div>
+      <Table
+        columns={columns(openModal)}
+        dataSource={mappedData} // Use mapped data from API
+        loading={isLoading} // Show loader while fetching data
+        pagination={{
+          position: ["bottomCenter"],
+          hideOnSinglePage: false,
+        }}
+      />
 
       {/* Modal */}
       <Modal
@@ -154,7 +168,7 @@ const CreatorManagement = () => {
         open={modal2Open}
         onCancel={closeModal}
         footer={null}
-        closable={true}  // Enable the default close button
+        closable={true} // Enable the default close button
         width={400}
         bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
         className="no-border-radius-modal"

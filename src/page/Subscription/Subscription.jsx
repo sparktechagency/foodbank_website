@@ -1,11 +1,12 @@
-import { Table, Space } from "antd";
+import { Table, Space, Modal } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
-import { Modal } from "antd";
 import { useNavigate } from "react-router-dom";
+import UseSubscription from "../../hook/UseSubscription";
+import UseAxios from "../../hook/UseAxios";
+import Swal from "sweetalert2";
 
-// Columns definition with the edit action
 const columns = (openModal) => [
   {
     title: "SL no.",
@@ -18,16 +19,16 @@ const columns = (openModal) => [
     dataIndex: "name",
   },
   {
-    title: "Duration Time",
-    dataIndex: "durationTime",
+    title: "Interval",
+    dataIndex: "interval",
   },
   {
     title: "Price",
     dataIndex: "price",
   },
   {
-    title: "Descricption",
-    dataIndex: "descricption",
+    title: "Description",
+    dataIndex: "description",
   },
   {
     title: "Action",
@@ -45,36 +46,160 @@ const columns = (openModal) => [
   },
 ];
 
-// Sample data source
-const dataSource = Array.from({ length: 3 }).map((_, i) => ({
-  key: i + 1,
-  sl: `#0${1 + i}`,
-  name: `Gold`,
-  durationTime: `jan`,
-  price: "2.30",
-  descricption:
-    "Limited profile views per day, limited voice notes and message, standard verification process",
-  subscription: i % 2 === 0 ? "Monthly" : "Yearly",
-}));
-
 const Subscription = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [open, setOpen] = useState(false);
-
+  const [subscription, isLoading, refetch] = UseSubscription(); 
   const navigate = useNavigate();
 
-  // Open the edit modal with the selected record
+  const axiosUrl = UseAxios();
+
+  // State for edit form
+  const [editForm, setEditForm] = useState({
+    name: '',
+    interval: 'month',
+    unitAmount: '',
+    description: ''
+  });
+
+  // State for add form
+  const [addForm, setAddForm] = useState({
+    name: '',
+    interval: 'month',
+    unitAmount: '',
+    description: ''
+  });
+
   const openModal = (record) => {
     setSelectedRecord(record);
+    setEditForm({
+      name: record.name,
+      interval: record.interval.toLowerCase(),
+      unitAmount: record.price.replace(/\s/g, ''), // Remove any spaces
+      description: record.description === '-' ? '' : record.description
+    });
     setModal2Open(true);
   };
 
-  // Close the edit modal and clear the selected record
   const closeModal = () => {
     setModal2Open(false);
     setSelectedRecord(null);
   };
+
+  const handleAddSubscription = async (e) => {
+    e.preventDefault();
+
+    const newSubscription = {
+      name: addForm.name,
+      interval: addForm.interval,
+      unitAmount: parseFloat(addForm.unitAmount),
+      description: addForm.description,
+    };
+
+    try {
+      const response = await axiosUrl.post("/plan/create", newSubscription);
+      console.log("Response from server:", response);
+      if (response.data.message === "Plan created successfully") {
+        refetch();
+        setOpen(false);
+        // Reset add form
+        setAddForm({
+          name: '',
+          interval: 'month',
+          unitAmount: '',
+          description: ''
+        });
+        // SweetAlert success
+        Swal.fire({
+          title: 'Success!',
+          text: 'Subscription plan added successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    } catch (error) {
+      console.error("Error creating subscription: ", error);
+      console.error("Error response:", error.response);
+      // SweetAlert error
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong, please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+  const handleUpdateSubscription = async (e) => {
+    e.preventDefault();
+
+    if (!selectedRecord) return;
+
+    const updatedSubscription = {
+      name: editForm.name,
+      interval: editForm.interval,
+      unitAmount: parseFloat(editForm.unitAmount),
+      description: editForm.description || '-'
+    };
+
+    console.log(updatedSubscription);
+    try {
+      const response = await axiosUrl.put(`/plan/edit/${selectedRecord.key}`, updatedSubscription);
+
+      console.log("Response from server:", response);
+
+      if (response.data.message === "Plan updated successfully") {
+        refetch();
+        setModal2Open(false);
+        setSelectedRecord(null);
+        // SweetAlert success
+        Swal.fire({
+          title: 'Success!',
+          text: 'Subscription plan updated successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }
+    } catch (error) {
+      console.error("Error updating subscription: ", error);
+      console.error("Error response:", error.response);
+      // SweetAlert error
+      Swal.fire({
+        title: 'Error!',
+        text: 'Something went wrong, please try again.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
+    }
+  };
+
+  // Handler for edit form input changes
+  const handleEditFormChange = (e) => {
+    const { name, value } = e.target;
+    setEditForm(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  // Handler for add form input changes
+  const handleAddFormChange = (e) => {
+    const { name, value } = e.target;
+    setAddForm(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const dataSource = subscription.map((plan, index) => ({
+    key: plan._id,
+    sl: index + 1,
+    name: plan.name,
+    interval: plan.interval,
+    price: `${plan.unitAmount} `,
+    description: plan.description || "-",
+  }));
 
   return (
     <div>
@@ -83,14 +208,22 @@ const Subscription = () => {
         <h1 className="flex gap-4">
           <button
             className="text-[#EF4849] -mt-[12px]"
-            onClick={() => navigate(-1)} // Navigate to the previous page
+            onClick={() => navigate(-1)}
           >
             <FaArrowLeft />
           </button>
           <span className="text-lg font-semibold">Subscription</span>
         </h1>
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setAddForm({
+              name: '',
+              interval: 'month',
+              unitAmount: '',
+              description: ''
+            });
+            setOpen(true);
+          }}
           className="bg-[#02111E] py-2 px-3 rounded text-white"
         >
           + Add Subscription
@@ -99,7 +232,7 @@ const Subscription = () => {
 
       {/* Table */}
       <Table
-        columns={columns(openModal)} // Pass openModal to handle edit
+        columns={columns(openModal)}
         dataSource={dataSource}
         pagination={{
           position: ["bottomCenter"],
@@ -116,62 +249,81 @@ const Subscription = () => {
         width={500}
       >
         <div>
-          <h1 className="text-center font-bold mb-2">+Edit Subscription</h1>
+          <h1 className="text-center font-bold mb-2">Edit Subscription</h1>
 
-          {/* Name Field */}
-          <div>
-            <p className="mb-1">Name</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-            />
-          </div>
+          <form onSubmit={handleUpdateSubscription}>
+            {/* Name Field */}
+            <div>
+              <p className="mb-1">Name</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+                type="text"
+                name="name"
+                value={editForm.name}
+                onChange={handleEditFormChange}
+                required
+              />
+            </div>
 
-          {/* Time Duration Field */}
-          <div className="my-3">
-            <p className="mb-1">Time Duration</p>
-            <select
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
-              defaultValue={selectedRecord?.durationTime || ""}
-            >
-              <option value="Monthly">Monthly</option>
-              <option value="Yearly">Yearly</option>
-            </select>
-          </div>
+            {/* Time Duration Field */}
+            <div className="my-3">
+              <p className="mb-1">Time Duration</p>
+              <select
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
+                name="interval"
+                value={editForm.interval}
+                onChange={handleEditFormChange}
+                required
+              >
+                <option value="month">Monthly</option>
+                <option value="year">Yearly</option>
+              </select>
+            </div>
 
-          {/* Price Field */}
-          <div>
-            <p className="mb-1">Price</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-              defaultValue={selectedRecord?.price || ""}
-            />
-          </div>
+            {/* Price Field */}
+            <div>
+              <p className="mb-1">Price</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+                type="number"
+                name="unitAmount"
+                value={editForm.unitAmount}
+                onChange={handleEditFormChange}
+                required
+              />
+            </div>
 
-          {/* Description Field */}
-          <div className="mt-3">
-            <p className="mb-1">Description</p>
-            <textarea
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
-              rows="5"
-              placeholder="Write your description here..."
-              defaultValue={selectedRecord?.descricption || ""}
-            />
-          </div>
+            {/* Description Field */}
+            <div className="mt-3">
+              <p className="mb-1">Description</p>
+              <textarea
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+                rows="5"
+                name="description"
+                value={editForm.description}
+                onChange={handleEditFormChange}
+                placeholder="Write your description here..."
+                required
+              />
+            </div>
 
-          {/* Save and Cancel Buttons */}
-          <div className="w-full flex gap-3 mt-11">
-            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">
-              Save
-            </button>
-            <button
-              className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
-              onClick={closeModal}
-            >
-              Cancel
-            </button>
-          </div>
+            {/* Save and Cancel Buttons */}
+            <div className="w-full flex gap-3 mt-11">
+              <button 
+                type="submit" 
+                className="bg-[#02111E] w-full rounded py-2 px-4 text-white"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </Modal>
 
@@ -184,57 +336,81 @@ const Subscription = () => {
         width={500}
       >
         <div>
-          <h1 className="text-center font-bold mb-2">+Add Subscription</h1>
+          <h1 className="text-center font-bold mb-2">Add Subscription</h1>
 
-          {/* Name Field */}
-          <div>
-            <p className="mb-1">Name</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-            />
-          </div>
+          <form onSubmit={handleAddSubscription}>
+            {/* Name Field */}
+            <div>
+              <p className="mb-1">Name</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+                type="text"
+                name="name"
+                value={addForm.name}
+                onChange={handleAddFormChange}
+                required
+              />
+            </div>
 
-          {/* Time Duration Field */}
-          <div className="my-3">
-            <p className="mb-1">Time Duration</p>
-            <select className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11">
-              <option value="Monthly">Monthly</option>
-              <option value="Yearly">Yearly</option>
-            </select>
-          </div>
+            {/* Time Duration Field */}
+            <div className="my-3">
+              <p className="mb-1">Time Duration</p>
+              <select
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mr-11"
+                name="interval"
+                value={addForm.interval}
+                onChange={handleAddFormChange}
+                required
+              >
+                <option value="month">Monthly</option>
+                <option value="year">Yearly</option>
+              </select>
+            </div>
 
-          {/* Price Field */}
-          <div>
-            <p className="mb-1">Price</p>
-            <input
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              type="text"
-            />
-          </div>
+            {/* Price Field */}
+            <div>
+              <p className="mb-1">Price</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
+                type="number"
+                name="unitAmount"
+                value={addForm.unitAmount}
+                onChange={handleAddFormChange}
+                required
+              />
+            </div>
 
-          {/* Description Field */}
-          <div className="mt-3">
-            <p className="mb-1">Description</p>
-            <textarea
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
-              rows="5"
-              placeholder="Write your description here..."
-            />
-          </div>
+            {/* Description Field */}
+            <div className="mt-3">
+              <p className="mb-1">Description</p>
+              <textarea
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
+                rows="5"
+                name="description"
+                value={addForm.description}
+                onChange={handleAddFormChange}
+                placeholder="Write your description here..."
+                required
+              />
+            </div>
 
-          {/* Save and Cancel Buttons */}
-          <div className="w-full flex gap-3 mt-11">
-            <button className="bg-[#02111E] w-full rounded py-2 px-4 text-white">
-              Save
-            </button>
-            <button
-              className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
-              onClick={() => setOpen(false)}
-            >
-              Cancel
-            </button>
-          </div>
+            {/* Save and Cancel Buttons */}
+            <div className="w-full flex gap-3 mt-11">
+              <button 
+                type="submit" 
+                className="bg-[#02111E] w-full rounded py-2 px-4 text-white"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                className="bg-[#D9000A] w-full py-2 px-4 rounded text-white"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       </Modal>
     </div>

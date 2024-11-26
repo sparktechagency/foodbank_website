@@ -1,15 +1,31 @@
-import { Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Checkbox, Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import UseAxios from "../hook/UseAxios";
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
+const Login = () => {
+  const axiosUrl = UseAxios(); 
+  const navigate = useNavigate(); 
 
-const onFinishFailed = (errorInfo) => {
-  console.log("Failed:", errorInfo);
-};
+  const onFinish = async (values) => {
+    try {
+      const response = await axiosUrl.post("/auth/login", values); 
+      if (response.status === 200) {
+        message.success("Login Successful!");
+        
+        localStorage.setItem("token", response.data.token);
+        navigate("/"); 
+      }
+    } catch (error) {
+      console.error("Login failed:", error.response?.data?.message || error.message);
+      message.error(error.response?.data?.message || "Login failed. Please try again.");
+    }
+  };
 
-const AuthLayOut = () => {
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+    message.error("Please fill all required fields correctly.");
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="bg-white p-20 rounded-lg shadow-lg w-full max-w-md">
@@ -24,28 +40,30 @@ const AuthLayOut = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical" // Ant Design's vertical layout
+          layout="vertical"
         >
-          {/* Username Field */}
+          {/* Email Field */}
           <Form.Item
-            label={<span className="text-gray-700 font-medium">Username</span>}
-            name="username"
+            name="email"
             rules={[
               {
                 required: true,
-                message: "Please input your username!",
+                message: "Please input your Email!",
+              },
+              {
+                type: "email",
+                message: "The input is not valid E-mail!",
               },
             ]}
           >
             <Input
-              placeholder="Enter your username"
+              placeholder="Enter your Email"
               className="w-full px-4 py-2 border border-[#02111E] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </Form.Item>
 
           {/* Password Field */}
           <Form.Item
-            label={<span className="text-gray-700 font-medium">Password</span>}
             name="password"
             rules={[
               {
@@ -56,7 +74,7 @@ const AuthLayOut = () => {
           >
             <Input.Password
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-[#02111E]rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-[#02111E] rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </Form.Item>
 
@@ -66,7 +84,7 @@ const AuthLayOut = () => {
               <Checkbox className="text-gray-700">Remember me</Checkbox>
             </Form.Item>
             <Link
-              to={'/forgetpassword'}
+              to={"/forgetpassword"}
               className="text-sm text-black hover:underline focus:outline-none"
             >
               Forget password?
@@ -75,10 +93,8 @@ const AuthLayOut = () => {
 
           {/* Submit Button */}
           <Form.Item>
-            
             <button
               type="submit"
-              
               className="w-full py-2 bg-[#02111E] text-white rounded-md hover:bg-gray-800 focus:ring-2 focus:ring-gray-500"
             >
               Sign In
@@ -90,4 +106,4 @@ const AuthLayOut = () => {
   );
 };
 
-export default AuthLayOut;
+export default Login;

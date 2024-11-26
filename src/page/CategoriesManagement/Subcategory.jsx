@@ -16,17 +16,17 @@ const Subcategory = () => {
   const [subcategoryName, setSubcategoryName] = useState("");
 
   const [category, isLoading, refetch] = UseCategory();
-
   const axiosUrl = UseAxios();
-
   const navigate = useNavigate();
 
-  const handleAddOpen = () => {
-    setOpen(true);
-  };
+  const handleAddOpen = () => setOpen(true);
 
-  const handleEditOpen = (item) => {
-    setEditData(item);
+  const handleEditOpen = (item, sub) => {
+    setEditData({
+      id: sub._id,
+      subcategory: sub.title,
+      category: item.title,
+    });
     setEditOpen(true);
   };
 
@@ -36,22 +36,77 @@ const Subcategory = () => {
   };
 
   // Handle saving the edited data
-  const handleSaveEdit = () => {
-    console.log("Updated Category:", editData.category);
-    console.log("Updated Subcategory:", editData.subcategory);
-    setSubcategoryData((prevData) =>
-      prevData.map((item) =>
-        item.id === editData.id ? { ...item, ...editData } : item
-      )
-    );
+  const handleSaveEdit = async () => {
+    try {
+      const response = await axiosUrl.put(`/sub-category/update/${editData.id}`, {
+        title: editData.subcategory,
+      });
+
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Success",
+          text: "Subcategory updated successfully!",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+        refetch(); // Refresh category data
+      } else {
+        throw new Error("Failed to update subcategory");
+      }
+    } catch (error) {
+      console.error("Error updating subcategory:", error);
+      Swal.fire({
+        title: "Error",
+        text: "Something went wrong! Please try again later.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
     setEditOpen(false);
+  };
+
+  const handleDeleted = async (subId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axiosUrl.delete(`/sub-category/delete/${subId}`);
+
+          if (response.status === 200) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Subcategory has been deleted.",
+              icon: "success",
+            });
+            refetch(); // Refresh category data
+          } else {
+            throw new Error("Failed to delete subcategory");
+          }
+        } catch (error) {
+          console.error("Error deleting subcategory:", error);
+          Swal.fire({
+            title: "Error",
+            text: "Something went wrong! Please try again later.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    });
   };
 
   const handleSubCategoryAdd = async () => {
     try {
       const response = await axiosUrl.post("/sub-category/create", {
-        categoryId: categoryName, // Selected category ID
-        title: subcategoryName, // New subcategory name
+        categoryId: categoryName,
+        title: subcategoryName,
       });
 
       if (response.status === 201) {
@@ -61,8 +116,7 @@ const Subcategory = () => {
           icon: "success",
           confirmButtonText: "OK",
         });
-
-        refetch(); // Refresh category data
+        refetch();
       } else {
         Swal.fire({
           title: "Error",
@@ -80,29 +134,9 @@ const Subcategory = () => {
         confirmButtonText: "OK",
       });
     }
-
-    setOpen(false); // Close modal
+    setOpen(false);
   };
 
-  const handleDeleted = () => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, Delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: "Deleted",
-          text: "Your file has been Deleted.",
-          icon: "success",
-        });
-      }
-    });
-  };
   return (
     <div className="mb-7 mt-4">
       <h1 className="flex gap-4">
@@ -116,9 +150,9 @@ const Subcategory = () => {
         <div className="flex justify-between mt-9">
           <select className="bg-[#E0CCCD] px-6 py-1 rounded" name="" id="">
             {category.map((cat) => (
-              <>
-                <option value={cat.title}>{cat.title}</option>
-              </>
+              <option value={cat.title} key={cat._id}>
+                {cat.title}
+              </option>
             ))}
           </select>
           <button
@@ -142,54 +176,47 @@ const Subcategory = () => {
               </tr>
             </thead>
             <tbody>
-              {category.map((item, index) => (
-                <tr className="bg-[#D9D9D9]" key={item._id}>
-                  <td className="px-4 py-2 text-left">{index + 1}</td>
-                  <td className="px-4 py-2 text-start flex">
-                    {/* Map over subCategories */}
-                    {item.subCategories.map((sub, subIndex) => (
-                      <div key={subIndex}>{sub.title}, </div>
-                    ))}
-                  </td>
-                  <td className="px-4 py-2 text-start">{item.title}</td>
-                  <td className="px-4 py-2 text-right flex gap-2 justify-end">
-                    <button
-                      className="w-[36px] h-[36px] text-lg bg-[#007BFF] flex justify-center items-center text-white rounded"
-                      onClick={() => handleEditOpen(item)}
-                    >
-                      <MdOutlineModeEdit />
-                    </button>
-                    <button
-                      onClick={handleDeleted}
-                      className="w-[36px] h-[36px] text-lg bg-[#FF5454] flex justify-center items-center text-white rounded"
-                    >
-                      <RiDeleteBin6Line />
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {category.map((item, index) =>
+                item.subCategories.map((sub, subIndex) => (
+                  <tr className="bg-[#D9D9D9]" key={sub._id}>
+                    <td className="px-4 py-2 text-left">
+                      {index + 1}.{subIndex + 1}
+                    </td>
+                    <td className="px-4 py-2 text-start">{sub.title}</td>
+                    <td className="px-4 py-2 text-start">{item.title}</td>
+                    <td className="px-4 py-2 text-right flex gap-2 justify-end">
+                      <button
+                        className="w-[36px] h-[36px] text-lg bg-[#007BFF] flex justify-center items-center text-white rounded"
+                        onClick={() => handleEditOpen(item, sub)}
+                      >
+                        <MdOutlineModeEdit />
+                      </button>
+                      <button
+                        onClick={() => handleDeleted(sub._id)}
+                        className="w-[36px] h-[36px] text-lg bg-[#FF5454] flex justify-center items-center text-white rounded"
+                      >
+                        <RiDeleteBin6Line />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
       {/* Add Category Modal */}
-      <Modal
-        centered
-        open={open}
-        onCancel={handleCancel}
-        footer={null}
-        width={600}
-      >
+      <Modal centered open={open} onCancel={handleCancel} footer={null} width={600}>
         <div className="mb-11 mt-4">
-          <div className="font-bold text-center mb-11">+Add Category</div>
+          <div className="font-bold text-center mb-11">+ Add Category</div>
           <div>
             <div className="mx-20">
               <p className="mb-2">Category Name</p>
               <select
                 className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-                value={categoryName} // Holds selected category ID
-                onChange={(e) => setCategoryName(e.target.value)} // Set category ID
+                value={categoryName}
+                onChange={(e) => setCategoryName(e.target.value)}
               >
                 <option value="" disabled>
                   Select a category
@@ -211,7 +238,10 @@ const Subcategory = () => {
               />
 
               <div className="w-full flex gap-3 mt-11">
-                <button className="bg-[#D9000A] w-full rounded py-2 px-4 text-white">
+                <button
+                  className="bg-[#D9000A] w-full rounded py-2 px-4 text-white"
+                  onClick={handleCancel}
+                >
                   Cancel
                 </button>
                 <button
@@ -226,46 +256,47 @@ const Subcategory = () => {
         </div>
       </Modal>
 
-      {/* Edit Subcategory Modal */}
-      <Modal
-        centered
-        open={editOpen}
-        onCancel={handleCancel}
-        footer={null}
-        width={600}
-      >
+      {/* Edit Modal */}
+      <Modal centered open={editOpen} onCancel={handleCancel} footer={null} width={600}>
         <div className="mb-11 mt-4">
           <div className="font-bold text-center mb-11">Edit Subcategory</div>
-          <div className="mx-20">
-            <p className="mb-2">Category</p>
-            <select
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000]"
-              value={editData?.category || ""}
-              onChange={(e) =>
-                setEditData({ ...editData, category: e.target.value })
-              }
-            >
-              <option value="Genres">Genres</option>
-              <option value="Classics Music">Classics Music</option>
-            </select>
+          <div>
+            <div className="mx-20">
+              <p className="mb-2">Category Name</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#D9D9D9] mb-4"
+                type="text"
+                value={editData?.category}
+                disabled
+              />
 
-            <p className="mb-2 mt-4">Subcategory Name</p>
-            <input
-              type="text"
-              className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mb-4"
-              value={editData?.subcategory || ""}
-              onChange={(e) =>
-                setEditData({ ...editData, subcategory: e.target.value })
-              }
-            />
+              <p className="mb-2">Subcategory Name</p>
+              <input
+                className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] mb-4"
+                type="text"
+                value={editData?.subcategory || ""}
+                onChange={(e) =>
+                  setEditData((prev) => ({
+                    ...prev,
+                    subcategory: e.target.value,
+                  }))
+                }
+              />
 
-            <div className="w-full flex justify-center mt-11">
-              <button
-                className="bg-[#004466] py-2 px-4 rounded text-white"
-                onClick={handleSaveEdit}
-              >
-                Save Changes
-              </button>
+              <div className="w-full flex gap-3 mt-11">
+                <button
+                  className="bg-[#D9000A] w-full rounded py-2 px-4 text-white"
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="bg-[#004466] w-full py-2 px-4 rounded text-white"
+                  onClick={handleSaveEdit}
+                >
+                  Save
+                </button>
+              </div>
             </div>
           </div>
         </div>

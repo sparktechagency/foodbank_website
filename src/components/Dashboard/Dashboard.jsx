@@ -16,6 +16,8 @@ import dash from "../../assets/routerImg/dash.png";
 import suscriber from "../../assets/routerImg/suscriber.png";
 import totalCreate from "../../assets/routerImg/totalCreate.png";
 import totalUser from "../../assets/routerImg/totalUser.png";
+import UseCreateUser from "../../hook/UseCreateUser";
+import UseUserManagement from "../../hook/UseUserManagement";
 
 
 const dataa = [
@@ -105,6 +107,9 @@ const data = [
 ];
 
 const Dashboard = () => {
+  const [createUser] = UseCreateUser();
+
+  const[alluser ] = UseUserManagement();
   return (
     <div className="p-2 min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-20 mb-16">
@@ -124,7 +129,7 @@ const Dashboard = () => {
             <img className="" src={totalUser} alt="" />
             </div>
           </div>
-          <p className="text-2xl font-bold">650</p>
+          <p className="text-2xl font-bold">{alluser.length}</p>
         </div>
         <div className="bg-[#F4E9E9] p-4 rounded-xl shadow text-center">
           <h3 className="text-gray-500">Total Creator</h3>
@@ -133,7 +138,7 @@ const Dashboard = () => {
             <img className="" src={totalCreate} alt="" />
             </div>
           </div>
-          <p className="text-2xl font-bold">630</p>
+          <p className="text-2xl font-bold">{createUser.length}</p>
         </div>
       </div>
 

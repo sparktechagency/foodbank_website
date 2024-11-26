@@ -72,6 +72,15 @@ select option {
 
 
 
+/* :where(.css-dev-only-do-not-override-49qm)[class^="ant-checkbox"] [class^="ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class*=" ant-checkbox"] [class^="ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class^="ant-checkbox"] [class*=" ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class*=" ant-checkbox"] [class*=" ant-checkbox"] {
+    box-sizing: border-box;
+    background-color: #D9000A;
+} */
+
+:where(.css-dev-only-do-not-override-49qm).ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #000000;
+  border-color: #000000;
+}
 
 
 
@@ -79,6 +88,8 @@ select option {
   color: #ff3916;
   
 }
+
+
 
 
 .custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {

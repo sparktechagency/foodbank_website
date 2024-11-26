@@ -14,12 +14,13 @@ import FAQ from "../page/Settings/FAQ";
 import PrivacyPolicy from "../page/Settings/PrivacyPolicy";
 import Categories from "../page/CategoriesManagement/Categories";
 import Subcategory from "../page/CategoriesManagement/Subcategory";
-import AuthLayOut from "../Auth/AuthLayOut";
+
 import ForgetPass from "../Auth/ForgetPass";
 import Verify from "../Auth/Verify";
 import ResetPass from "../Auth/ResetPass";
 import Notification from "../page/Notification/Notification";
 import About from "../page/Settings/About";
+import Login from "../Auth/Login";
 
   export const router = createBrowserRouter([
     {
@@ -87,7 +88,7 @@ import About from "../page/Settings/About";
 
     {
       path:'/login',
-      element: <AuthLayOut></AuthLayOut>
+      element: <Login></Login>
     },
     {
       path: '/forgetpassword',
