@@ -2,17 +2,30 @@ import { useState, useEffect } from "react";
 import { Avatar, Upload } from "antd";
 import { FaCamera } from "react-icons/fa";
 import UseAdminProfile from "../../hook/UseAdminProfile";
+import UseAxios from "../../hook/UseAxios";
+import Swal from "sweetalert2";
 
 const Profile = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("1");
 
   const [admin, isLoading, refetch] = UseAdminProfile();
-  console.log(admin);
+  const axiosUrl = UseAxios();
 
+  const [formData, setFormData] = useState({
+    username: '',
+    contactNo: '',
+    address: ''
+  });
+
+  // Update form data when admin data is loaded
   useEffect(() => {
     if (admin) {
-      // You can perform any operations you need on admin data here
+      setFormData({
+        username: admin?.user?.name || '',
+        contactNo: admin?.user?.contact || '',
+        address: admin?.user?.address || ''
+      });
     }
   }, [admin]);
 
@@ -20,24 +33,45 @@ const Profile = () => {
     setProfilePic(e.file.originFileObj);
   };
 
-  const handleProfileUpdate = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-
-    // Extract values from the form
-    const updatedData = {
-      username: formData.get("username"),
-      email: formData.get("email"),
-      contactNo: formData.get("contactNo"),
-      address: formData.get("address"),
-    };
-
-    console.log("Profile Updated:", updatedData);
-    alert("Profile updated successfully!");
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axiosUrl.put('/dashboard/update', {
+        name: formData.username,
+        contact: formData.contactNo,
+        address: formData.address
+      });
+
+      if (response.status === 200) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Profile Updated!',
+          text: 'Your profile has been successfully updated.',
+          confirmButtonColor: '#02111E'
+        });
+        // Optionally refetch the profile data to refresh
+        refetch();
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Failed',
+        text: error.response?.data?.message || 'Failed to update profile. Please try again.',
+        confirmButtonColor: '#d33'
+      });
+    }
+  };
+
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
@@ -50,13 +84,20 @@ const Profile = () => {
       return;
     }
 
-    const updatedPassword = {
-      currentPassword: formData.get("currentPassword"),
-      newPassword,
-    };
+    try {
+      const response = await axiosUrl.put('/dashboard/update-password', {
+        currentPassword: formData.get("currentPassword"),
+        newPassword: newPassword
+      });
 
-    console.log("Password Updated:", updatedPassword);
-    alert("Password updated successfully!");
+      if (response.status === 200) {
+        alert("Password updated successfully!");
+        form.reset();
+      }
+    } catch (error) {
+      console.error('Password update failed:', error);
+      alert('Failed to update password. Please try again.');
+    }
   };
 
   const tabItems = [
@@ -76,7 +117,8 @@ const Profile = () => {
                   className="w-full rounded-sm p-2 mt-2 border"
                   id="username"
                   placeholder="User Name"
-                  defaultValue={admin?.user?.name || ""}
+                  value={formData.username}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
@@ -87,24 +129,25 @@ const Profile = () => {
                   type="email"
                   name="email"
                   id="email"
-                  className="w-full rounded-sm p-2 mt-2 border"
+                  className="w-full rounded-sm p-2 mt-2 border bg-gray-200"
                   placeholder="Email"
                   defaultValue={admin?.auth?.email || ""}
-                  required
+                  disabled
                 />
               </div>
 
-              <div className="form-group ">
-                <label htmlFor="contactNo"><span >Contact No.</span>
+              <div className="form-group">
+                <label htmlFor="contactNo">Contact No.</label>
                 <input
                   type="text"
                   name="contactNo"
                   id="contactNo"
-                  className="w-full rounded-sm p-2 mt-2 border "
+                  className="w-full rounded-sm p-2 mt-2 border"
                   placeholder="Contact No"
-                  defaultValue=""
+                  value={formData.contactNo}
+                  onChange={handleInputChange}
                   required
-                /></label>
+                />
               </div>
 
               <div className="form-group">
@@ -115,7 +158,8 @@ const Profile = () => {
                   id="address"
                   className="w-full rounded-sm p-2 mt-2 border"
                   placeholder="Address"
-                  defaultValue={admin?.user?.address || ""}
+                  value={formData.address}
+                  onChange={handleInputChange}
                   required
                 />
               </div>
