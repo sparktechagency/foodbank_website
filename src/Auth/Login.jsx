@@ -8,7 +8,7 @@ const Login = () => {
 
   const onFinish = async (values) => {
     try {
-      const response = await axiosUrl.post("/auth/login", values); 
+      const response = await axiosUrl.post("/dashboard/login", values); 
       console.log('====================================');
       console.log(response);
       console.log('====================================');

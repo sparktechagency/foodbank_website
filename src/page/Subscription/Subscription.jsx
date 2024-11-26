@@ -133,22 +133,41 @@ const Subscription = () => {
 
   const handleUpdateSubscription = async (e) => {
     e.preventDefault();
-
+  
     if (!selectedRecord) return;
-
-    const updatedSubscription = {
-      name: editForm.name,
-      interval: editForm.interval,
-      unitAmount: parseFloat(editForm.unitAmount),
-      description: editForm.description || '-'
-    };
-
-    console.log(updatedSubscription);
+  
+    const updatedSubscription = {};
+  
+    // Only add fields that have changed
+    if (editForm.name !== selectedRecord.name) {
+      updatedSubscription.name = editForm.name;
+    }
+    if (editForm.interval !== selectedRecord.interval) {
+      updatedSubscription.interval = editForm.interval;
+    }
+    if (parseFloat(editForm.unitAmount) !== parseFloat(selectedRecord.price.replace(/\s/g, ''))) {
+      updatedSubscription.unitAmount = parseFloat(editForm.unitAmount);
+    }
+    if (editForm.description !== selectedRecord.description) {
+      updatedSubscription.description = editForm.description || '-';
+    }
+  
+    // If no changes were detected, don't proceed with the update
+    if (Object.keys(updatedSubscription).length === 0) {
+      Swal.fire({
+        title: 'No changes detected!',
+        text: 'You did not modify any field.',
+        icon: 'info',
+        confirmButtonText: 'OK',
+      });
+      return;
+    }
+  
     try {
       const response = await axiosUrl.put(`/plan/edit/${selectedRecord.key}`, updatedSubscription);
-
+  
       console.log("Response from server:", response);
-
+  
       if (response.data.message === "Plan updated successfully") {
         refetch();
         setModal2Open(false);
@@ -158,7 +177,7 @@ const Subscription = () => {
           title: 'Success!',
           text: 'Subscription plan updated successfully.',
           icon: 'success',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
         });
       }
     } catch (error) {
@@ -169,11 +188,10 @@ const Subscription = () => {
         title: 'Error!',
         text: 'Something went wrong, please try again.',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
     }
   };
-
   // Handler for edit form input changes
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;

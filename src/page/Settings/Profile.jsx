@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Avatar, Upload, Input, Form, message } from "antd";
+import { Avatar, Upload } from "antd";
 import { FaCamera } from "react-icons/fa";
 import UseAdminProfile from "../../hook/UseAdminProfile";
 
@@ -12,7 +12,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (admin) {
-     
+      // You can perform any operations you need on admin data here
     }
   }, [admin]);
 
@@ -20,18 +20,43 @@ const Profile = () => {
     setProfilePic(e.file.originFileObj);
   };
 
-  const handleFormSubmit = (values) => {
-    console.log("Form Submitted:", values);
-    message.success("Profile updated successfully!");
+  const handleProfileUpdate = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    // Extract values from the form
+    const updatedData = {
+      username: formData.get("username"),
+      email: formData.get("email"),
+      contactNo: formData.get("contactNo"),
+      address: formData.get("address"),
+    };
+
+    console.log("Profile Updated:", updatedData);
+    alert("Profile updated successfully!");
   };
 
-  const handlePasswordSubmit = (values) => {
-    if (values.newPassword !== values.confirmPassword) {
-      message.error("New password and confirm password do not match");
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+
+    const newPassword = formData.get("newPassword");
+    const confirmPassword = formData.get("confirmPassword");
+
+    if (newPassword !== confirmPassword) {
+      alert("New password and confirm password do not match!");
       return;
     }
-    console.log("Password Updated:", values);
-    message.success("Password updated successfully!");
+
+    const updatedPassword = {
+      currentPassword: formData.get("currentPassword"),
+      newPassword,
+    };
+
+    console.log("Password Updated:", updatedPassword);
+    alert("Password updated successfully!");
   };
 
   const tabItems = [
@@ -39,62 +64,61 @@ const Profile = () => {
       key: "1",
       label: "Edit Profile",
       content: (
-        <Form
-          name="edit-profile"
-          initialValues={{
-            username: admin?.user?.name || "", 
-            email: admin?.auth?.email || "",     
-            contactNo: "",                      
-            address: admin?.user?.address || "", 
-          }}
-          onFinish={handleFormSubmit}
-        >
+        <form onSubmit={handleProfileUpdate}>
           <div className="p-4">
             <h2 className="text-xl font-semibold mb-4 text-center">Edit Your Profile</h2>
-            <div className="space-y-4">
-              
-              <Form.Item
-                name="username"
-                label={<span className="">User Name</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "User name is required!" }]}
-              >
-                <Input className="w-full rounded-sm py-2" placeholder="User Name" />
-              </Form.Item>
-              
-             
-              <Form.Item
-                name="email"
-                label={<span className="">Email Address</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "Email is required!" }, { type: "email", message: "Please enter a valid email!" }]}
-              >
-                <Input className="w-full rounded-sm py-2" placeholder="Email" />
-              </Form.Item>
+            <div className="space-y-6">
+              <div className="form-group">
+                <label className="" htmlFor="username">User Name</label>
+                <input
+                  type="text"
+                  name="username"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  id="username"
+                  placeholder="User Name"
+                  defaultValue={admin?.user?.name || ""}
+                  required
+                />
+              </div>
 
-              {/* Custom Contact Number Label */}
-              <Form.Item
-                name="contactNo"
-                label={<span className="">Contact No.</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "Contact number is required!" }]}
-              >
-                <Input className="w-full rounded-sm py-2" placeholder="Contact No" />
-              </Form.Item>
+              <div className="form-group">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  placeholder="Email"
+                  defaultValue={admin?.auth?.email || ""}
+                  required
+                />
+              </div>
 
-              {/* Custom Address Label */}
-              <Form.Item
-                name="address"
-                label={<span className="">Address</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "Address is required!" }]}
-              >
-                <Input className="w-full rounded-sm py-2" placeholder="Address" />
-              </Form.Item>
+              <div className="form-group ">
+                <label htmlFor="contactNo"><span >Contact No.</span>
+                <input
+                  type="text"
+                  name="contactNo"
+                  id="contactNo"
+                  className="w-full rounded-sm p-2 mt-2 border "
+                  placeholder="Contact No"
+                  defaultValue=""
+                  required
+                /></label>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  name="address"
+                  id="address"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  placeholder="Address"
+                  defaultValue={admin?.user?.address || ""}
+                  required
+                />
+              </div>
 
               <div className="flex justify-center">
                 <button type="submit" className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
@@ -103,57 +127,52 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        </Form>
+        </form>
       ),
     },
     {
       key: "2",
       label: "Change Password",
       content: (
-        <Form
-          name="change-password"
-          initialValues={{
-            currentPassword: "",
-            newPassword: "",
-            confirmPassword: "",
-          }}
-          onFinish={handlePasswordSubmit}
-        >
+        <form onSubmit={handlePasswordSubmit}>
           <div className="p-4">
             <h2 className="text-xl font-semibold mb-4 text-center">Change Your Password</h2>
-            <div className="space-y-4">
-              {/* Custom Current Password Label */}
-              <Form.Item
-                name="currentPassword"
-                label={<span className="">Current Password</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "Current password is required!" }]}
-              >
-                <Input.Password className="w-full rounded-sm py-2" placeholder="Old Password" />
-              </Form.Item>
+            <div className="space-y-6">
+              <div className="form-group">
+                <label htmlFor="currentPassword">Current Password</label>
+                <input
+                  type="password"
+                  name="currentPassword"
+                  id="currentPassword"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  placeholder="Old Password"
+                  required
+                />
+              </div>
 
-              {/* Custom New Password Label */}
-              <Form.Item
-                name="newPassword"
-                label={<span className="">New Password</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "New password is required!" }]}
-              >
-                <Input.Password className="w-full rounded-sm py-2" placeholder="New Password" />
-              </Form.Item>
+              <div className="form-group">
+                <label htmlFor="newPassword">New Password</label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  id="newPassword"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  placeholder="New Password"
+                  required
+                />
+              </div>
 
-              {/* Custom Confirm Password Label */}
-              <Form.Item
-                name="confirmPassword"
-                label={<span className=" ">Confirm New Password</span>}
-                labelCol={{ span: 24 }}
-                wrapperCol={{ span: 24 }}
-                rules={[{ required: true, message: "Please confirm your new password!" }]}
-              >
-                <Input.Password className="w-full rounded-sm py-2" placeholder="Confirm Password" />
-              </Form.Item>
+              <div className="form-group">
+                <label htmlFor="confirmPassword">Confirm New Password</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  className="w-full rounded-sm p-2 mt-2 border"
+                  placeholder="Confirm Password"
+                  required
+                />
+              </div>
 
               <div className="flex justify-center">
                 <button type="submit" className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
@@ -162,7 +181,7 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        </Form>
+        </form>
       ),
     },
   ];
