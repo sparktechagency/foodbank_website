@@ -9,101 +9,188 @@ import Profile from "../../assets/header/profileLogo.png";
 import Swal from "sweetalert2";
 
 import UseUserManagement from "../../hook/UseUserManagement";
-
+import UseAxios from "../../hook/UseAxios";
 import AdminUrl from "../../hook/AdminUrl";
+
+
+const axiosUrl = UseAxios()
+const adminUrl = AdminUrl()
+
+const blockUser = async (id) => {
+    try {
+        console.log("Blocking user with ID:", id); 
+        const response = await adminUrl.post(`/dashboard/block/${id}`);
+        console.log("Block response:", response.data); 
+        return response.data;
+    } catch (error) {
+        console.error("Error blocking user:", error);
+        throw error;
+    }
+};
+
+
+const unblockUser = async (id) => {
+    try {
+        console.log("Unblocking user with ID:", id); 
+        const response = await adminUrl.post(`/dashboard/unblock/${id}`);
+        console.log("Unblock response:", response.data); 
+        return response.data;
+    } catch (error) {
+        console.error("Error unblocking user:", error);
+        throw error;
+    }
+};
+
+const handleBlock = async (record, setBlocked, refetch) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Block it!",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                console.log("Attempting to block user:", record.key); // Debug log
+                await blockUser(record.key);
+                setBlocked((prevState) => ({
+                    ...prevState,
+                    [record.key]: true,
+                }));
+                console.log("User blocked successfully:", record.key); // Confirmation log
+                Swal.fire({
+                    title: "Blocked",
+                    text: "The user has been blocked.",
+                    icon: "success",
+                });
+                refetch();
+            } catch (error) {
+                console.error("Failed to block user:", error); // Error log
+                Swal.fire("Error", "Failed to block the user.", "error");
+            }
+        }
+    });
+};
+
+
+const handleUnblock = async (record, setBlocked, refetch) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You want to unblock this user!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Unblock it!",
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                console.log("Attempting to unblock user:", record.key); // Debug log
+                await unblockUser(record.key);
+                setBlocked((prevState) => ({
+                    ...prevState,
+                    [record.key]: false,
+                }));
+                console.log("User unblocked successfully:", record.key); // Confirmation log
+                Swal.fire({
+                    title: "Unblocked",
+                    text: "The user has been unblocked.",
+                    icon: "success",
+                });
+                refetch();
+            } catch (error) {
+                console.error("Failed to unblock user:", error); // Error log
+                Swal.fire("Error", "Failed to unblock the user.", "error");
+            }
+        }
+    });
+};
+
+
+const columns = (openModal, setBlocked, blocked, refetch) => [
+    {
+        title: "SL no.",
+        dataIndex: "sl",
+        width: 70,
+        align: "center",
+    },
+    {
+        title: "User's Name",
+        dataIndex: "userName",
+        width: 150,
+        render: (text) => (
+            <Space>
+                <img
+                    src="https://via.placeholder.com/32"
+                    alt="avatar"
+                    style={{ borderRadius: "50%", width: 32, height: 32 }}
+                />
+                {text}
+            </Space>
+        ),
+    },
+    {
+        title: "Address",
+        dataIndex: "address",
+    },
+    {
+        title: "Date of birth",
+        dataIndex: "dateOfBirth",
+    },
+    {
+        title: "Contact Number",
+        dataIndex: "contactNumber",
+    },
+    {
+        title: "Email",
+        dataIndex: "email",
+    },
+    {
+        title: "Subscription",
+        dataIndex: "subscription",
+        align: "center",
+    },
+    {
+        title: "Action",
+        dataIndex: "action",
+        align: "center",
+        render: (_, record) => (
+            <Space size="middle">
+                {!blocked[record.key] ? (
+                    <button className="mt-2" onClick={() => openModal(record)}>
+                        <span className="text-xl">
+                            <LuEye />
+                        </span>
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => handleUnblock(record, setBlocked, refetch)}
+                        className="bg-green-600 text-white w-[80px] h-[30px] flex justify-center text-sm items-center rounded-md"
+                    >
+                        Unblock
+                    </button>
+                )}
+                {!blocked[record.key] ? (
+                    <button
+                        onClick={() => handleBlock(record, setBlocked, refetch)}
+                        className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md"
+                    >
+                        <MdBlockFlipped />
+                    </button>
+                ) : null}
+            </Space>
+        ),
+    },
+];
 
 const UserManagement = () => {
     const [modal2Open, setModal2Open] = useState(false);
     const [selectedRecord, setSelectedRecord] = useState(null);
+    const [blocked, setBlocked] = useState({});
     const navigate = useNavigate();
     const [alluser, isLoading, refetch] = UseUserManagement();
-    const adminUrl = AdminUrl();
-
-    const blockUser = async (id) => {
-        try {
-            console.log("Blocking user with ID:", id);
-            const response = await adminUrl.post(`/dashboard/block/${id}`);
-            console.log("Block response:", response.data);
-            return response.data;
-        } catch (error) {
-            console.error("Error blocking user:", error.response ? error.response.data : error.message);
-            throw error;
-        }
-    };
-
-    const unblockUser = async (id) => {
-        try {
-            console.log("Unblocking user with ID:", id);
-            const response = await adminUrl.post(`/dashboard/unblock/${id}`);
-            console.log("Unblock response:", response.data);
-            return response.data;
-        } catch (error) {
-            console.error("Error unblocking user:", error.response ? error.response.data : error.message);
-            throw error;
-        }
-    };
-
-
-    const handleBlock = async (record) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You want to block this user!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Block it!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    await blockUser(record.key);
-                    Swal.fire({
-                        title: "Blocked",
-                        text: "The user has been blocked successfully.",
-                        icon: "success",
-                    });
-                    refetch(); 
-                } catch (error) {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Failed to block the user. " + (error.response?.data?.message || error.message),
-                        icon: "error",
-                    });
-                }
-            }
-        });
-    };
-
-
-    const handleUnblock = async (record) => {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You want to unblock this user!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, Unblock it!",
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    await unblockUser(record.key);
-                    Swal.fire({
-                        title: "Unblocked",
-                        text: "The user has been unblocked successfully.",
-                        icon: "success",
-                    });
-                    refetch(); 
-                } catch (error) {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Failed to unblock the user. " + (error.response?.data?.message || error.message),
-                        icon: "error",
-                    });
-                }
-            }
-        });
-    };
 
     const openModal = (record) => {
         setSelectedRecord(record);
@@ -124,84 +211,7 @@ const UserManagement = () => {
         contactNumber: user.contactNumber || "-",
         email: user.auth.email,
         subscription: user.auth.subscriptionType,
-        isBlocked: user.auth.isBlocked,
     }));
-
-    const columns = [
-        {
-            title: "SL no.", 
-            dataIndex: "sl",
-            width: 70,
-            align: "center",
-        },
-        {
-            title: "User's Name",
-            dataIndex: "userName",
-            width: 150,
-            render: (text) => (
-                <Space>
-                    <img
-                        src="https://via.placeholder.com/32"
-                        alt="avatar"
-                        style={{ borderRadius: "50%", width: 32, height: 32 }}
-                    />
-                    {text}
-                </Space>
-            ),
-        },
-        {
-            title: "Address",
-            dataIndex: "address",
-        },
-        {
-            title: "Date of birth",
-            dataIndex: "dateOfBirth",
-        },
-        {
-            title: "Contact Number",
-            dataIndex: "contactNumber",
-        },
-        {
-            title: "Email",
-            dataIndex: "email",
-        },
-        {
-            title: "Subscription",
-            dataIndex: "subscription",
-            align: "center",
-        },
-        {
-            title: "Action",
-            dataIndex: "action",
-            align: "center",
-            render: (_, record) => (
-                <Space size="middle">
-                    {!record.isBlocked ? (
-                        <>
-                            <button className="mt-2" onClick={() => openModal(record)}>
-                                <span className="text-xl">
-                                    <LuEye />
-                                </span>
-                            </button>
-                            <button
-                                onClick={() => handleBlock(record)}
-                                className="bg-red-600 text-white w-[30px] h-[30px] flex justify-center text-xl items-center rounded-md"
-                            >
-                                <MdBlockFlipped />
-                            </button>
-                        </>
-                    ) : (
-                        <button
-                            onClick={() => handleUnblock(record)}
-                            className="bg-green-600 text-white w-[80px] h-[30px] flex justify-center text-sm items-center rounded-md"
-                        >
-                            Unblock
-                        </button>
-                    )}
-                </Space>
-            ),
-        },
-    ];
 
     return (
         <div>
@@ -223,7 +233,7 @@ const UserManagement = () => {
             </div>
 
             <Table
-                columns={columns}
+                columns={columns(openModal, setBlocked, blocked, refetch)}
                 dataSource={userData}
                 loading={isLoading}
                 pagination={{
