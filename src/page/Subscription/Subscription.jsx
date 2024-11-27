@@ -55,7 +55,7 @@ const Subscription = () => {
 
   const axiosUrl = UseAxios();
 
-  // State for edit form
+  
   const [editForm, setEditForm] = useState({
     name: '',
     interval: 'month',
@@ -63,7 +63,7 @@ const Subscription = () => {
     description: ''
   });
 
-  // State for add form
+
   const [addForm, setAddForm] = useState({
     name: '',
     interval: 'month',
@@ -76,7 +76,7 @@ const Subscription = () => {
     setEditForm({
       name: record.name,
       interval: record.interval.toLowerCase(),
-      unitAmount: record.price.replace(/\s/g, ''), // Remove any spaces
+      unitAmount: record.price.replace(/\s/g, ''), 
       description: record.description === '-' ? '' : record.description
     });
     setModal2Open(true);
