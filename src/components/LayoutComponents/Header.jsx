@@ -1,6 +1,6 @@
 import { LuBell } from "react-icons/lu";
 import profilee from "../../../src/assets/header/profileLogo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 
 import { useState } from "react";
@@ -14,7 +14,9 @@ import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
 
-import { FaChevronRight } from "react-icons/fa"; // Arrow icon
+import { FaChevronRight } from "react-icons/fa"; 
+import UseAdminProfile from "../../hook/UseAdminProfile";
+import { IoIosLogIn } from "react-icons/io";
 
 const items = [
   {
@@ -91,9 +93,13 @@ const items = [
 
 const Header = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
-  const [expandedKeys, setExpandedKeys] = useState([]); // Track expanded keys
+  const [expandedKeys, setExpandedKeys] = useState([]); 
+  const navigate = useNavigate(); 
+  const [admin] = UseAdminProfile()
 
-  // Toggle expand or collapse of items with children
+  console.log(admin)
+
+
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
       prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
@@ -101,7 +107,7 @@ const Header = () => {
   };
 
   const onClick = (key) => {
-    setSelectedKey(key); // Update active item
+    setSelectedKey(key);
   };
 
   const [open, setOpen] = useState(false);
@@ -114,6 +120,10 @@ const Header = () => {
   };
   const onChange = (e) => {
     setPlacement(e.target.value);
+  };
+  const handleLogout = () => {
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
   };
   return (
     <div className="bg-[#050505] text-white pt-5">
@@ -217,11 +227,15 @@ const Header = () => {
 
               {/* Footer (Log Out) */}
               <div className="custom-sidebar-footer absolute bottom-0 w-full p-4 ">
-                <Link to={"/login"}>
-                  <button className="w-full bg-white rounded-md text-black p-3">
-                    Log Out
-                  </button>
-                </Link>
+                
+                <button
+          onClick={handleLogout} 
+          className="w-full flex bg-white text-start rounded-md text-black p-3"
+        >
+          <span className="text-2xl"><IoIosLogIn /></span>
+          <span className="ml-3">Log Out</span>
+        </button>
+                
               </div>
               </div>
             </Drawer>
@@ -242,7 +256,7 @@ const Header = () => {
                 />
               </div>
               <div className="text-end">
-                <h3>Jony Toms</h3>
+                <h3>{admin?.user?.name || "Loading..."}</h3>
                 <h4 className="text-sm">Admin</h4>
               </div>
             </div>

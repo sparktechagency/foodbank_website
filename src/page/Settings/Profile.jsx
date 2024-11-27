@@ -15,10 +15,15 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     username: '',
     contactNo: '',
-    address: ''  
+    address: ''
   });
 
-  
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    currentPassword: false,
+    newPassword: false,
+    confirmPassword: false
+  });
+
   useEffect(() => {
     if (admin) {
       setFormData({
@@ -45,10 +50,16 @@ const Profile = () => {
     e.preventDefault();
 
     try {
+      const token = localStorage.getItem('token');
+
       const response = await axiosUrl.put('/dashboard/update', {
         name: formData.username,
         contact: formData.contactNo,
         address: formData.address
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.status === 200) {
@@ -58,7 +69,7 @@ const Profile = () => {
           text: 'Your profile has been successfully updated.',
           confirmButtonColor: '#02111E'
         });
-        // Optionally refetch the profile data to refresh
+        
         refetch();
       }
     } catch (error) {
@@ -76,28 +87,69 @@ const Profile = () => {
     const form = e.target;
     const formData = new FormData(form);
 
+    const currentPassword = formData.get("currentPassword");
     const newPassword = formData.get("newPassword");
     const confirmPassword = formData.get("confirmPassword");
 
+    // Check if new passwords match
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match!");
+      Swal.fire({
+        icon: 'error',
+        title: 'Password Mismatch',
+        text: 'New password and confirm password do not match!',
+        confirmButtonColor: '#d33'
+      });
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Password Too Short',
+        text: 'Your new password must be at least 8 characters long.',
+        confirmButtonColor: '#d33'
+      });
       return;
     }
 
     try {
-      const response = await axiosUrl.put('/dashboard/update-password', {
-        currentPassword: formData.get("currentPassword"),
-        newPassword: newPassword
+      const token = localStorage.getItem('token');
+
+      const response = await axiosUrl.put('/dashboard/change-password', {
+        password: currentPassword,
+        newPassword: newPassword,
+        confirmPassword: newPassword
+      }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       if (response.status === 200) {
-        alert("Password updated successfully!");
+        Swal.fire({
+          icon: 'success',
+          title: 'Password Updated!',
+          text: 'Your password has been successfully updated.',
+          confirmButtonColor: '#02111E'
+        });
+
         form.reset();
       }
     } catch (error) {
-      console.error('Password update failed:', error);
-      alert('Failed to update password. Please try again.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Update Failed',
+        text: error.response?.data?.message || 'Failed to update password. Please try again.',
+        confirmButtonColor: '#d33'
+      });
     }
+  };
+
+  const togglePasswordVisibility = (field) => {
+    setPasswordVisibility((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field]
+    }));
   };
 
   const tabItems = [
@@ -110,7 +162,7 @@ const Profile = () => {
             <h2 className="text-xl font-semibold mb-4 text-center">Edit Your Profile</h2>
             <div className="space-y-6">
               <div className="form-group">
-                <label className="" htmlFor="username">User Name</label>
+                <label htmlFor="username">User Name</label>
                 <input
                   type="text"
                   name="username"
@@ -184,43 +236,70 @@ const Profile = () => {
             <div className="space-y-6">
               <div className="form-group">
                 <label htmlFor="currentPassword">Current Password</label>
-                <input
-                  type="password"
-                  name="currentPassword"
-                  id="currentPassword"
-                  className="w-full rounded-sm p-2 mt-2 border"
-                  placeholder="Old Password"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={passwordVisibility.currentPassword ? "text" : "password"}
+                    name="currentPassword"
+                    id="currentPassword"
+                    className="w-full rounded-sm p-2 mt-2 border"
+                    placeholder="Old Password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("currentPassword")}
+                    className="absolute right-2 top-4 text-gray-600"
+                  >
+                    {passwordVisibility.currentPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="newPassword">New Password</label>
-                <input
-                  type="password"
-                  name="newPassword"
-                  id="newPassword"
-                  className="w-full rounded-sm p-2 mt-2 border"
-                  placeholder="New Password"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={passwordVisibility.newPassword ? "text" : "password"}
+                    name="newPassword"
+                    id="newPassword"
+                    className="w-full rounded-sm p-2 mt-2 border"
+                    placeholder="New Password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("newPassword")}
+                    className="absolute right-2 top-4 text-gray-600"
+                  >
+                    {passwordVisibility.newPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
 
               <div className="form-group">
                 <label htmlFor="confirmPassword">Confirm New Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  className="w-full rounded-sm p-2 mt-2 border"
-                  placeholder="Confirm Password"
-                  required
-                />
+                <div className="relative">
+                  <input
+                    type={passwordVisibility.confirmPassword ? "text" : "password"}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    className="w-full rounded-sm p-2 mt-2 border"
+                    placeholder="Confirm Password"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility("confirmPassword")}
+                    className="absolute right-2 top-4 text-gray-600"
+                  >
+                    {passwordVisibility.confirmPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
 
               <div className="flex justify-center">
                 <button type="submit" className="mt-2 bg-[#02111E] px-5 py-3 rounded text-white">
-                  Save Changes
+                  Update Password
                 </button>
               </div>
             </div>
@@ -229,6 +308,7 @@ const Profile = () => {
       ),
     },
   ];
+
 
   return (
     <div className="max-w-2xl mx-auto mt-8 bg-white rounded-lg p-6">
@@ -254,7 +334,7 @@ const Profile = () => {
       {/* Custom Tabs Section */}
       <div className="mb-4">
         <div className="flex space-x-6 justify-center mb-4">
-          {tabItems.map((item) => (
+        {tabItems.map((item) => (
             <button
               key={item.key}
               className={`py-2 font-medium ${activeTab === item.key ? "border-b border-red-500 text-red-500" : "text-gray-600 hover:text-[#02111E]"}`}
@@ -264,10 +344,8 @@ const Profile = () => {
             </button>
           ))}
         </div>
+        <div>{tabItems.find((item) => item.key === activeTab)?.content}</div>
       </div>
-
-      {/* Tab Content */}
-      <div>{tabItems.find((item) => item.key === activeTab)?.content}</div>
     </div>
   );
 };

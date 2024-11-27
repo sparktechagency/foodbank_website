@@ -1,43 +1,59 @@
-import { Checkbox, Form, Input, message } from "antd";
+import { Checkbox, Form, Input, message, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import UseAxios from "../hook/UseAxios";
+import { useState } from "react";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const axiosUrl = UseAxios(); 
-  const navigate = useNavigate(); 
+  const [loading, setLoading] = useState(false); 
+  const axiosUrl = UseAxios();
+  const navigate = useNavigate();
 
   const onFinish = async (values) => {
+    setLoading(true);
     try {
-      const response = await axiosUrl.post("/dashboard/login", values); 
-      console.log('====================================');
-      console.log(response);
-      console.log('====================================');
+      const response = await axiosUrl.post("/dashboard/login", values);
       if (response.status === 200) {
-       
-        
         localStorage.setItem("token", response.data.token);
-        message.success("Login Successful!");
-        navigate("/"); 
+        
+       
+        Swal.fire({
+          title: "Login Successful!",
+          text: "Welcome back!",
+          icon: "success",
+          confirmButtonText: "OK"
+        });
+
+        navigate("/");  
       }
     } catch (error) {
       console.error("Login failed:", error.response?.data?.message || error.message);
-      message.error(error.response?.data?.message || "Login failed. Please try again.");
+
+      Swal.fire({
+        title: "Login Failed",
+        text: error.response?.data?.message || "Login failed. Please try again.",
+        icon: "error",
+        confirmButtonText: "Try Again"
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    message.error("Please fill all required fields correctly.");
+    // Show SweetAlert2 error message on form validation failure
+    Swal.fire({
+      title: "Form Validation Failed",
+      text: "Please fill all required fields correctly.",
+      icon: "warning",
+      confirmButtonText: "OK"
+    });
   };
-
-  
-
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
       <div className="bg-white p-20 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-          Sign In
-        </h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Sign In</h2>
         <Form
           name="basic"
           initialValues={{
@@ -101,9 +117,11 @@ const Login = () => {
           <Form.Item>
             <button
               type="submit"
+              
               className="w-full py-2 bg-[#02111E] text-white rounded-md hover:bg-gray-800 focus:ring-2 focus:ring-gray-500"
+              loading={loading} 
             >
-              Sign In
+              {loading ? "Signing In..." : "Sign In"}
             </button>
           </Form.Item>
         </Form>
