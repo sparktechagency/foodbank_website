@@ -128,7 +128,7 @@ const Header = () => {
         <div></div>
         <div className="flex gap-8 p-1 px-6">
           <div className="relative">
-            {/* Avatar Style Notification Bell Icon */}
+          
             <Link to={'/dashboard/Settings/notification'}>
             <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-white text-black ">
               <span>
@@ -152,11 +152,11 @@ const Header = () => {
                 <img src={logo} alt="Logo" className="w-[160px]" />
               </div>
 
-              {/* Sidebar Menu */}
+              
               <div className="menu-items">
                 {items.map((item) => (
                   <div key={item.key}>
-                    {/* Render Parent Item */}
+                  
                     <Link
                       to={item.link}
                       className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
@@ -166,9 +166,9 @@ const Header = () => {
                       }`}
                       onClick={() => {
                         if (item.children) {
-                          onParentClick(item.key); // Toggle the parent item expansion
+                          onParentClick(item.key); 
                         }
-                        onClick(item.key); // Update active item
+                        onClick(item.key); 
                       }}
                     >
                       <img
@@ -180,7 +180,7 @@ const Header = () => {
                         {item.label}
                       </span>
 
-                      {/* Arrow icon to toggle children */}
+                    
                       {item.children && (
                         <FaChevronRight
                           className={`ml-auto transform transition-all duration-300 ${
@@ -190,7 +190,7 @@ const Header = () => {
                       )}
                     </Link>
 
-                    {/* Render Children with Animation */}
+                  
                     {item.children && expandedKeys.includes(item.key) && (
                       <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
                         {item.children.map((child) => (

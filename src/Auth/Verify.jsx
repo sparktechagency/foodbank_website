@@ -31,7 +31,7 @@ const Verify = () => {
               <input
                 {...props}
                 className="w-16 h-16 text-center text-lg border border-black rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                style={{ width: "40px", height: "50px" }} // Adding inline styles for fallback
+                style={{ width: "40px", height: "50px" }} 
               />
             )}
           />

@@ -9,9 +9,9 @@ import Profile from "../../assets/header/profileLogo.png";
 import Swal from "sweetalert2";
 import UseUserManagement from "../../hook/UseUserManagement";
 
-import unlocked from "../../assets/routerImg/unlocked.png"
 
-// Block handler
+
+
 const handleBlock = (record, setBlocked) => {
     Swal.fire({
         title: "Are you sure?",
@@ -49,10 +49,10 @@ const handleUnblock = (record, setBlocked) => {
         confirmButtonText: "Yes, Unblock it!",
     }).then((result) => {
         if (result.isConfirmed) {
-            // Here, you would typically make an API call to update the user's unblock status
+            
             setBlocked((prevState) => ({
                 ...prevState,
-                [record.key]: false, // Unblock this specific user by key
+                [record.key]: false, 
             }));
             Swal.fire({
                 title: "Unblocked",
@@ -112,7 +112,7 @@ const columns = (openModal, setBlocked, blocked) => [
         align: "center",
         render: (_, record) => (
             <Space size="middle">
-                {/* Conditionally render the "view" button or unblock button */}
+                
                 {!blocked[record.key] ? (
                     <button className="mt-2" onClick={() => openModal(record)}>
                         <span className="text-xl">
@@ -127,7 +127,7 @@ const columns = (openModal, setBlocked, blocked) => [
                         Unblock
                     </button>
                 )}
-                {/* Block button */}
+                
                 {!blocked[record.key] ? (
                     <button
                         onClick={() => handleBlock(record, setBlocked)}

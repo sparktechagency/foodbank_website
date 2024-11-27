@@ -7,7 +7,7 @@ import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaChevronRight } from "react-icons/fa"; // Arrow icon
+import { FaChevronRight } from "react-icons/fa"; 
 import { IoIosLogIn } from "react-icons/io";
 
 const items = [
@@ -90,15 +90,15 @@ const items = [
 
 const SidBar = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
-  const [expandedKeys, setExpandedKeys] = useState([]); // Track expanded keys
-  const location = useLocation(); // Track current route location
-  const navigate = useNavigate(); // Navigate after logout
+  const [expandedKeys, setExpandedKeys] = useState([]); 
+  const location = useLocation();
+  const navigate = useNavigate(); 
 
-  // Update `selectedKey` based on current URL
+
   useEffect(() => {
     const currentPath = location.pathname;
 
-    // Find the parent item or child item based on the current path
+  
     const parentItem = items.find(
       (item) =>
         item.link === currentPath ||
@@ -107,7 +107,7 @@ const SidBar = () => {
     );
 
     if (parentItem) {
-      // Update the selected key for parent or child
+
       setSelectedKey(
         parentItem.children
           ? parentItem.children.find((child) => child.link === currentPath)
@@ -115,14 +115,13 @@ const SidBar = () => {
           : parentItem.key
       );
 
-      // Automatically expand parent if child is selected
       if (parentItem.children && !expandedKeys.includes(parentItem.key)) {
         setExpandedKeys([...expandedKeys, parentItem.key]);
       }
     }
   }, [location, expandedKeys]);
 
-  // Handle parent item toggle for children
+
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
       prev.includes(key)
@@ -133,8 +132,8 @@ const SidBar = () => {
 
   // Logout Function
   const handleLogout = () => {
-    localStorage.removeItem("token"); // Remove the token from local storage
-    navigate("/login"); // Redirect to the login page after logout
+    localStorage.removeItem("token"); 
+    navigate("/login"); 
   };
 
   return (
@@ -158,10 +157,10 @@ const SidBar = () => {
               }`}
               onClick={(e) => {
                 if (item.children) {
-                  e.preventDefault(); // Prevent navigation for parent items with children
-                  onParentClick(item.key); // Toggle expansion for parent
+                  e.preventDefault(); 
+                  onParentClick(item.key); 
                 } else {
-                  setSelectedKey(item.key); // Update selected key for non-parent
+                  setSelectedKey(item.key); 
                 }
               }}
             >
@@ -191,8 +190,8 @@ const SidBar = () => {
                         : "hover:bg-gray-200"
                     }`}
                     onClick={() => {
-                      setSelectedKey(child.key); // Update selected key for child
-                      setExpandedKeys([]); // Optional: collapse other menus on child selection
+                      setSelectedKey(child.key); 
+                      setExpandedKeys([]); 
                     }}
                   >
                     <span className="block w-full text-black">
@@ -209,7 +208,7 @@ const SidBar = () => {
       {/* Footer (Log Out) */}
       <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
         <button
-          onClick={handleLogout} // Trigger logout on button click
+          onClick={handleLogout} 
           className="w-full flex bg-white text-start rounded-md text-black p-3"
         >
           <span className="text-2xl"><IoIosLogIn /></span>

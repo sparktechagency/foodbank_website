@@ -5,12 +5,12 @@ import SidBar from "../../components/LayoutComponents/SidBar";
 const DashboardLayout = () => {
   return (
     <div className="lg:flex h-screen">
-      {/* Sidebar */}
+    
       <div className="lg:w-80 bg-[#02111E] lg:fixed lg:top-0 lg:left-0 lg:bottom-0 hidden lg:block">
         <SidBar />
       </div>
 
-      {/* Content Area */}
+     
       <div className="lg:flex-1 lg:ml-80">
         <Header />
         <div className="p-4">

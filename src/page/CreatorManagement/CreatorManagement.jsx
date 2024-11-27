@@ -79,7 +79,7 @@ const columns = (openModal) => [
     align: "center",
     render: (_, record) => (
       <Space size="middle">
-        {/* LuEye button will trigger the modal */}
+       
         <button className="mt-2" onClick={() => openModal(record)}>
           <span className="text-xl">
             <LuEye />
@@ -109,8 +109,8 @@ const CreatorManagement = () => {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const navigate = useNavigate();
 
-  const [createUser, isLoading, refetch] = UseCreateUser(); // Fetch API data
-  console.log(createUser); // Debugging API response
+  const [createUser, isLoading, refetch] = UseCreateUser(); 
+  console.log(createUser); 
 
   const openModal = (record) => {
     setSelectedRecord(record);
@@ -122,15 +122,15 @@ const CreatorManagement = () => {
     setSelectedRecord(null);
   };
 
-  // Map API data to match table's `dataSource` structure
+
   const mappedData = createUser.map((creator, index) => ({
     key: creator._id,
-    sl: index + 1, // Serial number
-    userName: creator.user.name, // Creator's name
-    address: creator.user.address, // Creator's address
-    dateOfBirth: creator.user.dateOfBirth, // DOB
-    contactNumber: creator.user.contactNumber || "-", // Handle missing data
-    email: creator.user.auth.email, // Email
+    sl: index + 1,
+    userName: creator.user.name, 
+    address: creator.user.address,
+    dateOfBirth: creator.user.dateOfBirth, 
+    contactNumber: creator.user.contactNumber || "-",
+    email: creator.user.auth.email, 
   }));
 
   return (
@@ -154,8 +154,8 @@ const CreatorManagement = () => {
 
       <Table
         columns={columns(openModal)}
-        dataSource={mappedData} // Use mapped data from API
-        loading={isLoading} // Show loader while fetching data
+        dataSource={mappedData}
+        loading={isLoading} 
         pagination={{
           position: ["bottomCenter"],
           hideOnSinglePage: false,
@@ -168,15 +168,15 @@ const CreatorManagement = () => {
         open={modal2Open}
         onCancel={closeModal}
         footer={null}
-        closable={true} // Enable the default close button
+        closable={true} 
         width={400}
-        bodyStyle={{ borderRadius: 0 }} // Ensures no border-radius for the content
+        bodyStyle={{ borderRadius: 0 }} 
         className="no-border-radius-modal"
       >
         <div className="flex justify-center py-8">
           <img
             className="w-[70px] h-[70px] rounded-full"
-            src={Profile} // You can dynamically update the profile picture if needed
+            src={Profile} 
             alt="profile"
           />
         </div>

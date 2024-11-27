@@ -31,7 +31,7 @@ const ForgetPass = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical" // Ant Design's vertical layout
+          layout="vertical" 
         >
           {/* Email Field */}
           <Form.Item

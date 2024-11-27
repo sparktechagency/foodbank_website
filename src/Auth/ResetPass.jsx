@@ -28,7 +28,7 @@ const ResetPass = () => {
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
-          layout="vertical" // Ant Design's vertical layout
+          layout="vertical" 
         >
           {/* Password Field */}
           <Form.Item
@@ -56,7 +56,7 @@ const ResetPass = () => {
           <Form.Item
             name="confirmPassword"
             
-            dependencies={["password"]} // Depends on the "password" field
+            dependencies={["password"]} 
             rules={[
               {
                 required: true,

@@ -32,7 +32,7 @@ const TermsCondition = () => {
       <h1 className="flex gap-4">
           <button
             className="text-[#EF4849] "
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+            onClick={() => navigate(-1)} 
           >
             <FaArrowLeft />
           </button>

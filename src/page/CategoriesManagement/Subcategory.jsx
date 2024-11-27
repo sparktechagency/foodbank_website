@@ -35,7 +35,7 @@ const Subcategory = () => {
     setEditOpen(false);
   };
 
-  // Handle saving the edited data
+
   const handleSaveEdit = async () => {
     try {
       const response = await axiosUrl.put(`/sub-category/update/${editData.id}`, {
@@ -49,7 +49,7 @@ const Subcategory = () => {
           icon: "success",
           confirmButtonText: "OK",
         });
-        refetch(); // Refresh category data
+        refetch(); 
       } else {
         throw new Error("Failed to update subcategory");
       }
@@ -85,7 +85,7 @@ const Subcategory = () => {
               text: "Subcategory has been deleted.",
               icon: "success",
             });
-            refetch(); // Refresh category data
+            refetch(); 
           } else {
             throw new Error("Failed to delete subcategory");
           }

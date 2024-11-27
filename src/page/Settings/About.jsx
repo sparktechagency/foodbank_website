@@ -44,7 +44,7 @@ const About = () => {
         config={config}
         tabIndex={1}
         onBlur={newContent => setContent(newContent)}
-        // onChange={newContent => { }}
+        
       />
       
 

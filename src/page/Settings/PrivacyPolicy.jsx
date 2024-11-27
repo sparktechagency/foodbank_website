@@ -8,11 +8,9 @@ const PrivacyPolicy = () => {
 
   const editor = useRef(null);
   const [content, setContent] = useState('');
-//   const [isLoading, seLoading] = useState(false)
+
   const navigate = useNavigate(); 
-//   const handleTerms = () => {
-//       console.log(content)
-//   }
+
   const config = {
       readonly: false,
       placeholder: 'Start typings...',
@@ -32,7 +30,7 @@ const PrivacyPolicy = () => {
       <h1 className="flex gap-4">
           <button
             className="text-[#EF4849] "
-            onClick={() => navigate(-1)} // পূর্ববর্তী পেজে নেভিগেট করবে
+            onClick={() => navigate(-1)} 
           >
             <FaArrowLeft />
           </button>
@@ -47,7 +45,7 @@ const PrivacyPolicy = () => {
         config={config}
         tabIndex={1}
         onBlur={newContent => setContent(newContent)}
-        // onChange={newContent => { }}
+      
       />
       
 

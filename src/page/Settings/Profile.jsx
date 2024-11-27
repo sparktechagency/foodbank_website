@@ -15,10 +15,10 @@ const Profile = () => {
   const [formData, setFormData] = useState({
     username: '',
     contactNo: '',
-    address: ''
+    address: ''  
   });
 
-  // Update form data when admin data is loaded
+  
   useEffect(() => {
     if (admin) {
       setFormData({

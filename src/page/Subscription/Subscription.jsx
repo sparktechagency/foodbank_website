@@ -138,7 +138,7 @@ const Subscription = () => {
   
     const updatedSubscription = {};
   
-    // Only add fields that have changed
+
     if (editForm.name !== selectedRecord.name) {
       updatedSubscription.name = editForm.name;
     }
@@ -152,7 +152,6 @@ const Subscription = () => {
       updatedSubscription.description = editForm.description || '-';
     }
   
-    // If no changes were detected, don't proceed with the update
     if (Object.keys(updatedSubscription).length === 0) {
       Swal.fire({
         title: 'No changes detected!',
@@ -172,7 +171,7 @@ const Subscription = () => {
         refetch();
         setModal2Open(false);
         setSelectedRecord(null);
-        // SweetAlert success
+        
         Swal.fire({
           title: 'Success!',
           text: 'Subscription plan updated successfully.',
@@ -183,7 +182,7 @@ const Subscription = () => {
     } catch (error) {
       console.error("Error updating subscription: ", error);
       console.error("Error response:", error.response);
-      // SweetAlert error
+    
       Swal.fire({
         title: 'Error!',
         text: 'Something went wrong, please try again.',
@@ -192,7 +191,7 @@ const Subscription = () => {
       });
     }
   };
-  // Handler for edit form input changes
+ 
   const handleEditFormChange = (e) => {
     const { name, value } = e.target;
     setEditForm(prevState => ({
@@ -201,7 +200,7 @@ const Subscription = () => {
     }));
   };
 
-  // Handler for add form input changes
+  
   const handleAddFormChange = (e) => {
     const { name, value } = e.target;
     setAddForm(prevState => ({

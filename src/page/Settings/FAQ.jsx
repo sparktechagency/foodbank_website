@@ -44,7 +44,7 @@ const FAQ = () => {
   return (
     <div>
       <div className="flex justify-end">
-        {/* Button to trigger the Add FAQ modal */}
+      
         <button
           onClick={() => setOpen(true)}
           className="bg-[#02111E] py-2 px-3 rounded text-white"
@@ -61,7 +61,7 @@ const FAQ = () => {
                 <div className="">
                   Q: {item.title}
                 </div>
-                {/* Edit button to open the Edit FAQ modal */}
+              
                 <button onClick={() => openEditModal(item)} className="text-[#555555] text-2xl pr-4">
                   <RiEdit2Fill />
                 </button>
@@ -70,7 +70,7 @@ const FAQ = () => {
                 {item.ans}
               </div>
             </div>
-            {/* Delete icon */}
+            
             <div className="text-2xl mt-1">
               <RxCross2 />
             </div>
@@ -78,7 +78,6 @@ const FAQ = () => {
         ))}
       </div>
 
-     {/* Add FAQ Modal */}
      <Modal
         centered
         open={open}
@@ -102,8 +101,8 @@ const FAQ = () => {
   <p className="mb-1">Answer</p>
   <textarea
     className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
-    rows="5" // Increases the height of the textarea
-    placeholder="Write your description here..." // Optional placeholder text
+    rows="5" 
+    placeholder="Write your description here..."
   />
 </div>
 
@@ -115,7 +114,7 @@ const FAQ = () => {
         </div>
       </Modal>
 
-      {/* Edit FAQ Modal */}
+    
       <Modal
         centered
         open={editOpen}
@@ -142,8 +141,8 @@ const FAQ = () => {
   <p className="mb-1">Answer</p>
   <textarea
     className="border w-full border-neutral-400 rounded p-2 px-4 bg-[#00000000] text-lg"
-    rows="5" // Increases the height of the textarea
-    placeholder="Write your description here..." // Optional placeholder text
+    rows="5" 
+    placeholder="Write your description here..."
   />
 </div>
 
