@@ -384,7 +384,7 @@ const Subscription = () => {
               </select>
             </div>
 
-            {/* Price Field */}
+           
             <div>
               <p className="mb-1">Price</p>
               <input
