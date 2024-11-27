@@ -397,7 +397,7 @@ const Subscription = () => {
               />
             </div>
 
-            {/* Description Field */}
+            
             <div className="mt-3">
               <p className="mb-1">Description</p>
               <textarea
@@ -411,7 +411,7 @@ const Subscription = () => {
               />
             </div>
 
-            {/* Save and Cancel Buttons */}
+           
             <div className="w-full flex gap-3 mt-11">
               <button 
                 type="submit" 

@@ -129,7 +129,7 @@ const UserManagement = () => {
 
     const columns = [
         {
-            title: "SL no.",
+            title: "SL no.", 
             dataIndex: "sl",
             width: 70,
             align: "center",
