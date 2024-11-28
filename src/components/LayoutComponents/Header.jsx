@@ -240,7 +240,6 @@ const Header = () => {
               </div>
             </Drawer>
 
-            {/* Notification Badge */}
             <span className="absolute top-0 right-0 -mr-2  w-5 h-5 bg-white text-black text-xs flex items-center justify-center rounded-full">
               0
             </span>
