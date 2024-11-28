@@ -6,7 +6,7 @@ import Swal from "sweetalert2";  // Import SweetAlert2
 
 const Verify = () => {
   const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Manage loading state
+  const [isLoading, setIsLoading] = useState(false); 
   const navigate = useNavigate();
   const axiosUrl = UseAxios();
 
@@ -23,7 +23,7 @@ const Verify = () => {
       return;
     }
 
-    setIsLoading(true); // Set loading to true when the verification starts
+    setIsLoading(true); 
 
     try {
       const response = await axiosUrl.post("/auth/recover-password", {
@@ -52,7 +52,7 @@ const Verify = () => {
         confirmButtonText: "Try Again"
       });
     } finally {
-      setIsLoading(false); // Stop loading state
+      setIsLoading(false);
     }
   };
 
