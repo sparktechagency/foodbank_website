@@ -2,7 +2,7 @@ import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate } from "react-router-dom";
 import UseAxios from "../hook/UseAxios";
-import Swal from "sweetalert2";  // Import SweetAlert2
+import Swal from "sweetalert2";  
 
 const Verify = () => {
   const [otp, setOtp] = useState("");
@@ -78,7 +78,7 @@ const Verify = () => {
         <button
           onClick={handleVerify}
           className="w-full py-2 bg-[#02111E] text-white rounded-md"
-          disabled={isLoading} // Disable button while loading
+          disabled={isLoading} 
         >
           {isLoading ? "Verifying..." : "Verify OTP"}
         </button>
