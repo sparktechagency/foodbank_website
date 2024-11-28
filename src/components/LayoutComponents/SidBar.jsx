@@ -167,7 +167,7 @@ const SidBar = () => {
               <img src={item.icon} alt={item.label} className="w-5 h-5 mr-3" />
               <span className="block w-full text-black">{item.label}</span>
 
-              {/* Arrow icon for expandable items */}
+              
               {item.children && (
                 <FaChevronRight
                   className={`ml-auto transform transition-all duration-300 ${
@@ -177,7 +177,7 @@ const SidBar = () => {
               )}
             </Link>
 
-            {/* Render Children */}
+           
             {item.children && expandedKeys.includes(item.key) && (
               <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
                 {item.children.map((child) => (
