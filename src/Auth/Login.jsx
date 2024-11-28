@@ -42,7 +42,7 @@ const Login = () => {
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-    // Show SweetAlert2 error message on form validation failure
+  
     Swal.fire({
       title: "Form Validation Failed",
       text: "Please fill all required fields correctly.",
@@ -64,7 +64,7 @@ const Login = () => {
           autoComplete="off"
           layout="vertical"
         >
-          {/* Email Field */}
+          
           <Form.Item
             name="email"
             rules={[
@@ -84,7 +84,7 @@ const Login = () => {
             />
           </Form.Item>
 
-          {/* Password Field */}
+        
           <Form.Item
             name="password"
             rules={[
@@ -100,7 +100,7 @@ const Login = () => {
             />
           </Form.Item>
 
-          {/* Remember Me & Forget Password */}
+          
           <div className="flex items-center justify-between mb-4">
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox className="text-gray-700">Remember me</Checkbox>
@@ -113,7 +113,7 @@ const Login = () => {
             </Link>
           </div>
 
-          {/* Submit Button */}
+        
           <Form.Item>
             <button
               type="submit"

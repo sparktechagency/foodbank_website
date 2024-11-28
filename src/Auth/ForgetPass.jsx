@@ -83,7 +83,7 @@ const ForgetPass = () => {
             <button
               type="submit"
               className="w-full py-2 bg-[#02111E] text-white rounded-md"
-              disabled={isLoading}  // Disable the button during loading
+              disabled={isLoading}  
             >
               {isLoading ? "Sending OTP..." : "Send OTP"}  
             </button>
