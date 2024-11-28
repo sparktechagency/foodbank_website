@@ -84,7 +84,7 @@ const ResetPass = () => {
           autoComplete="off"
           layout="vertical"
         >
-          {/* Password Input Field */}
+        
           <Form.Item
             name="password"
             rules={[
