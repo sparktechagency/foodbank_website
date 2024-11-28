@@ -98,7 +98,7 @@ const ResetPass = () => {
             />
           </Form.Item>
 
-          {/* Confirm Password Input Field */}
+          
           <Form.Item
             name="confirmPassword"
             dependencies={["password"]}
@@ -120,12 +120,12 @@ const ResetPass = () => {
             />
           </Form.Item>
 
-          {/* Submit Button */}
+         
           <Form.Item>
             <button
               type="submit"
               className="w-full py-2 bg-[#02111E] text-white rounded-md"
-              disabled={isLoading}  // Disable the button during loading
+              disabled={isLoading}  
             >
               {isLoading ? "Resetting..." : "Reset Password"}  
             </button>
