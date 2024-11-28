@@ -102,7 +102,7 @@ select option {
 
 
 .custom-tabs .ant-tabs-tab:hover {
-  color: inherit !important; /* Hover করলে রঙ পরিবর্তন হবে না */
+  color: inherit !important; 
 }
 
 .custom-tabs .ant-tabs-tab-btn:hover {

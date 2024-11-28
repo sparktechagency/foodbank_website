@@ -19,15 +19,15 @@ import ResetPass from "../Auth/ResetPass";
 import Notification from "../page/Notification/Notification";
 import About from "../page/Settings/About";
 import Login from "../Auth/Login";
-import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: (
-      <ProtectedRoute>
+     
         <DashboardLayout></DashboardLayout>
-      </ProtectedRoute>
+      
     ),
     children: [
       {
