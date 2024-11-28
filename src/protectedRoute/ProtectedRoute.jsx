@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import UseAxios from "../hook/UseAxios";
 import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = () => {
   const request = UseAxios();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
