@@ -103,14 +103,14 @@ const Subscription = () => {
       if (response.data.message === "Plan created successfully") {
         refetch();
         setOpen(false);
-        // Reset add form
+      
         setAddForm({
           name: '',
           interval: 'month',
           unitAmount: '',
           description: ''
         });
-        // SweetAlert success
+       
         Swal.fire({
           title: 'Success!',
           text: 'Subscription plan added successfully.',
@@ -121,7 +121,7 @@ const Subscription = () => {
     } catch (error) {
       console.error("Error creating subscription: ", error);
       console.error("Error response:", error.response);
-      // SweetAlert error
+      
       Swal.fire({
         title: 'Error!',
         text: 'Something went wrong, please try again.',

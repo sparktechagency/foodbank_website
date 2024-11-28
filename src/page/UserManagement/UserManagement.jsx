@@ -13,7 +13,7 @@ import UseAxios from "../../hook/UseAxios";
 import AdminUrl from "../../hook/AdminUrl";
 
 
-const axiosUrl = UseAxios()
+
 const adminUrl = AdminUrl()
 
 const blockUser = async (id) => {
@@ -53,13 +53,13 @@ const handleBlock = async (record, setBlocked, refetch) => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                console.log("Attempting to block user:", record.key); // Debug log
+                console.log("Attempting to block user:", record.key);
                 await blockUser(record.key);
                 setBlocked((prevState) => ({
                     ...prevState,
                     [record.key]: true,
                 }));
-                console.log("User blocked successfully:", record.key); // Confirmation log
+                console.log("User blocked successfully:", record.key); 
                 Swal.fire({
                     title: "Blocked",
                     text: "The user has been blocked.",
@@ -67,7 +67,7 @@ const handleBlock = async (record, setBlocked, refetch) => {
                 });
                 refetch();
             } catch (error) {
-                console.error("Failed to block user:", error); // Error log
+                console.error("Failed to block user:", error); 
                 Swal.fire("Error", "Failed to block the user.", "error");
             }
         }
@@ -87,13 +87,13 @@ const handleUnblock = async (record, setBlocked, refetch) => {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                console.log("Attempting to unblock user:", record.key); // Debug log
+                console.log("Attempting to unblock user:", record.key); 
                 await unblockUser(record.key);
                 setBlocked((prevState) => ({
                     ...prevState,
                     [record.key]: false,
                 }));
-                console.log("User unblocked successfully:", record.key); // Confirmation log
+                console.log("User unblocked successfully:", record.key); 
                 Swal.fire({
                     title: "Unblocked",
                     text: "The user has been unblocked.",
@@ -101,7 +101,7 @@ const handleUnblock = async (record, setBlocked, refetch) => {
                 });
                 refetch();
             } catch (error) {
-                console.error("Failed to unblock user:", error); // Error log
+                console.error("Failed to unblock user:", error); 
                 Swal.fire("Error", "Failed to unblock the user.", "error");
             }
         }
@@ -184,6 +184,8 @@ const columns = (openModal, setBlocked, blocked, refetch) => [
         ),
     },
 ];
+
+
 
 const UserManagement = () => {
     const [modal2Open, setModal2Open] = useState(false);
