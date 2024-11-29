@@ -26,11 +26,11 @@ const Clients = () => {
   });
   const [errors, setErrors] = useState({});
 
-  // Handle input changes
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" }); // Clear error message when user types
+    setErrors({ ...errors, [name]: "" }); 
   };
 
   // Validation function
