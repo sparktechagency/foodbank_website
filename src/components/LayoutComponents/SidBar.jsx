@@ -1,7 +1,9 @@
-import dashboard from "../../assets/routerImg/dashboard.png";
-import categorie from "../../assets/routerImg/categorie.png";
+import reports from "../../assets/header/reports.png";
+import clients from "../../assets/header/clients.png";
+import volunteers from "../../assets/header/volunteers.png";
+import events from "../../assets/header/events.png";
 import create from "../../assets/routerImg/create.png";
-import settings from "../../assets/routerImg/settings.png";
+import { TbUsers } from "react-icons/tb";
 import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
@@ -9,83 +11,85 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaChevronRight } from "react-icons/fa"; 
 import { IoIosLogIn } from "react-icons/io";
-
+import { MdOutlineBarChart } from "react-icons/md";
+import { FaRegHandPaper } from "react-icons/fa";
+import { CgNotes } from "react-icons/cg";
 const items = [
   {
-    key: "dashboard",
-    label: "Dashboard",
-    icon: dashboard,
+    key: "events",
+    label: "events",
+    icon: <MdOutlineBarChart />,
     link: "/",
   },
   {
-    key: "userManagement",
-    label: "User Management",
-    icon: user,
-    link: "/dashboard/UserManagement",
+    key: "clients",
+    label: "Clients",
+    icon: <TbUsers />,
+    link: "/dashboard/clients",
   },
   {
-    key: "creatorManagement",
-    label: "Creator Management",
-    icon: create,
-    link: "/dashboard/CreatorManagement",
+    key: "volunteers",
+    label: "Volunteers",
+    icon: <FaRegHandPaper />,
+    link: "/dashboard/volunteers",
   },
+  // {
+  //   key: "categoriesManagement",
+  //   label: "Categories Management",
+  //   icon: categorie,
+  //   link: "/dashboard/CategoriesManagement/Categories",
+  //   children: [
+  //     {
+  //       key: "categoriesManagement",
+  //       label: "Categories",
+  //       link: "/dashboard/CategoriesManagement/Categories",
+  //     },
+  //     {
+  //       key: "subcategory",
+  //       label: "Subcategory",
+  //       link: "/dashboard/CategoriesManagement/Subcategory",
+  //     },
+  //   ],
+  // },
   {
-    key: "categoriesManagement",
-    label: "Categories Management",
-    icon: categorie,
-    link: "/dashboard/CategoriesManagement/Categories",
-    children: [
-      {
-        key: "categoriesManagement",
-        label: "Categories",
-        link: "/dashboard/CategoriesManagement/Categories",
-      },
-      {
-        key: "subcategory",
-        label: "Subcategory",
-        link: "/dashboard/CategoriesManagement/Subcategory",
-      },
-    ],
+    key: "reports",
+    label: "Reports",
+    icon: <CgNotes />,
+    link: "/dashboard/reports",
   },
-  {
-    key: "subscription",
-    label: "Subscription",
-    icon: subscription,
-    link: "/dashboard/Subscription",
-  },
-  {
-    key: "profile",
-    label: "Settings",
-    icon: settings,
-    link: "/dashboard/Settings/profile",
-    children: [
-      {
-        key: "profile",
-        label: "Profile",
-        link: "/dashboard/Settings/profile",
-      },
-      {
-        key: "terms",
-        label: "Terms & Condition",
-        link: "/dashboard/Settings/Terms&Condition",
-      },
-      {
-        key: "privacy",
-        label: "Privacy Policy",
-        link: "/dashboard/Settings/PrivacyPolicy",
-      },
-      {
-        key: "faq",
-        label: "FAQ",
-        link: "/dashboard/Settings/FAQ",
-      },
-      {
-        key: "about",
-        label: "About Us",
-        link: "/dashboard/Settings/aboutUs",
-      },
-    ],
-  },
+  // {
+  //   key: "profile",
+  //   label: "Settings",
+  //   icon: settings,
+  //   link: "/dashboard/Settings/profile",
+  //   children: [
+  //     {
+  //       key: "profile",
+  //       label: "Profile",
+  //       link: "/dashboard/Settings/profile",
+  //     },
+  //     {
+  //       key: "terms",
+  //       label: "Terms & Condition",
+  //       link: "/dashboard/Settings/Terms&Condition",
+  //     },
+  //     {
+  //       key: "privacy",
+  //       label: "Privacy Policy",
+  //       link: "/dashboard/Settings/PrivacyPolicy",
+  //     },
+  //     {
+  //       key: "faq",
+  //       label: "FAQ",
+  //       link: "/dashboard/Settings/FAQ",
+  //     },
+  //     {
+  //       key: "about",
+  //       label: "About Us",
+  //       link: "/dashboard/Settings/aboutUs",
+  //     },
+  //   ],
+  // },
 ];
 
 const SidBar = () => {
@@ -137,23 +141,23 @@ const SidBar = () => {
   };
 
   return (
-    <div className="custom-sidebar h-full bg-[#050505]">
+    <div className="custom-sidebar h-full bg-[#F7F7F8]">
       {/* Logo */}
-      <div className="custom-sidebar-logo flex justify-center">
-        <img src={logo} alt="Logo" className="w-[160px]" />
+      <div className="custom-sidebar-logo flex justify-center pt-11">
+        <img src={logo} alt="Logo" className="w-[180px]" />
       </div>
 
       {/* Sidebar Menu */}
-      <div className="menu-items">
+      <div className="menu-items pt-12">
         {items.map((item) => (
           <div key={item.key}>
             {/* Render Parent Item */}
             <Link
               to={item.link}
-              className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
+              className={`menu-item my-4 mx-5 py-2 px-3 flex items-center cursor-pointer ${
                 selectedKey === item.key
-                  ? "bg-[#EDC4C5] rounded-md"
-                  : "bg-white rounded-md hover:bg-gray-200"
+                  ? "text-blue-600 rounded-md"
+                  : " hover:text-blue-700 "
               }`}
               onClick={(e) => {
                 if (item.children) {
@@ -164,8 +168,8 @@ const SidBar = () => {
                 }
               }}
             >
-              <img src={item.icon} alt={item.label} className="w-5 h-5 mr-3" />
-              <span className="block w-full text-black">{item.label}</span>
+              <p className="w-5 h-5 mr-3 mt-1">{item.icon}</p>
+              <span className="block w-full text-">{item.label}</span>
 
               
               {item.children && (

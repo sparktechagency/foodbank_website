@@ -10,11 +10,10 @@
 
 
 select option {
-  background-color: #EDC4C5;
-
+  background-color: rgb(255, 255, 255) ;
+border-radius: none;
+   border: none;
 }
-
-
 
 
 
