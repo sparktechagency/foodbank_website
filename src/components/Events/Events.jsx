@@ -171,7 +171,7 @@ const Events = () => {
                     onClick={() => setActiveTab("list")}
                     className={`${
                       activeTab === "list" ? "bg-white" : "bg-transparent"
-                    } rounded px-2 py-[8px] pl-8 w-[120px]`}
+                    } rounded px-2 py-[8px]  w-[120px]`}
                   >
                     List View
                   </button>
