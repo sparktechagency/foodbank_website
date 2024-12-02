@@ -1,11 +1,18 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { MdAccessTime } from "react-icons/md";
+import { Link } from "react-router-dom";
+import ClientsDelivery from "../../components/clients/ClientsDelivery";
 
 const Clients = () => {
   const [activeTab, setActiveTab] = useState("list");
-
+  const [currentPage, setCurrentPage] = useState(1);
   const [modal2Open, setModal2Open] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -16,8 +23,8 @@ const Clients = () => {
     adress: "",
     apartment: "",
     city: "",
-            state: "",
-            zipcode: "",
+    state: "",
+    zipcode: "",
     date: "",
     timeFrom: "",
     timeTo: "",
@@ -26,14 +33,13 @@ const Clients = () => {
   });
   const [errors, setErrors] = useState({});
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" }); 
+    setErrors({ ...errors, [name]: "" });
   };
 
-  // Validation function
+
   const validateForm = () => {
     let formErrors = {};
     if (!formData.first.trim()) formErrors.first = "Event first is required.";
@@ -58,16 +64,14 @@ const Clients = () => {
       formErrors.warehouseVolunteers = "Volunteers count is required.";
 
     setErrors(formErrors);
-    return Object.keys(formErrors).length === 0; // Return true if no errors
+    return Object.keys(formErrors).length === 0;
   };
 
-  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
       console.log("Form Data:", formData);
 
-      // Close Modal and reset form
       setModal2Open(false);
       setFormData({
         first: "",
@@ -77,8 +81,8 @@ const Clients = () => {
         adress: "",
         apartment: "",
         city: "",
-            state: "",
-            zipcode: "",
+        state: "",
+        zipcode: "",
         date: "",
         timeFrom: "",
         timeTo: "",
@@ -90,31 +94,127 @@ const Clients = () => {
 
   const eventData = [
     {
-      eventName: "September Holiday Drive 9/2",
-      eventType: "Holiday Drive",
-      date: "9/2/24",
-      volunteerSpots: "13/25",
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      email: "foisal@gmail.com",
+      clientDelivery: "None",
+      status: "Active",
+      bags: "1",
     },
     {
-      eventName: "Mitzvah Sunday 10/14",
-      eventType: "Mitzvah Day",
-      date: "10/14/24",
-      volunteerSpots: "25/25",
+      clientName: "Jose Root",
+      phone: "01693454373",
+      email: "ssdf#gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 1",
+      status: "Inactive",
+      bags: "6",
     },
     {
-      eventName: "Mitzvah Sunday 10/28",
-      eventType: "Mitzvah Day",
-      date: "10/28/24",
-      volunteerSpots: "11/25",
+      clientName: "Julite Khanom",
+      phone: "01694349873",
+      email: "ddfosis@gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 2",
+      status: "Active",
+      bags: "3",
+    },
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      email: "foisal@gmail.com",
+      clientDelivery: "None",
+      status: "Active",
+      bags: "1",
+    },
+    {
+      clientName: "Jose Root",
+      phone: "01693454373",
+      email: "ssdf#gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 1",
+      status: "Inactive",
+      bags: "6",
+    },
+    {
+      clientName: "Julite Khanom",
+      phone: "01694349873",
+      email: "ddfosis@gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 2",
+      status: "Active",
+      bags: "3",
+    },
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      email: "foisal@gmail.com",
+      clientDelivery: "None",
+      status: "Active",
+      bags: "1",
+    },
+    {
+      clientName: "Jose Root",
+      phone: "01693454373",
+      email: "ssdf#gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 1",
+      status: "Inactive",
+      bags: "6",
+    },
+    {
+      clientName: "Julite Khanom",
+      phone: "01694349873",
+      email: "ddfosis@gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 2",
+      status: "Active",
+      bags: "3",
+    },
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      email: "foisal@gmail.com",
+      clientDelivery: "None",
+      status: "Active",
+      bags: "1",
+    },
+    {
+      clientName: "Jose Root",
+      phone: "01693454373",
+      email: "ssdf#gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 1",
+      status: "Inactive",
+      bags: "6",
+    },
+    {
+      clientName: "Julite Khanom",
+      phone: "01694349873",
+      email: "ddfosis@gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 2",
+      status: "Active",
+      bags: "3",
     },
   ];
 
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(eventData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentEvents = eventData.slice(startIndex, endIndex);
+
+  // Pagination handlers
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <div className="px-5 pt-10 min-h-screen">
       <h1 className="text-2xl font-bold">Clients</h1>
 
       <div className="mt-10">
-        <div className="flex w-[215px] gap-4 rounded-lg p-[px] ">
+        <div className="flex gap-4 rounded-lg p-[px] ">
           <button
             onClick={() => setActiveTab("list")}
             className={`${
@@ -123,7 +223,7 @@ const Clients = () => {
                 : "bg-transparent"
             } px-2 py-1`}
           >
-            List View
+            Clients
           </button>
           <button
             onClick={() => setActiveTab("calendar")}
@@ -133,115 +233,168 @@ const Clients = () => {
                 : "bg-transparent"
             } py-1  px-2`}
           >
-            Calendar View
+            Clients Delivery Groups
           </button>
         </div>
         <hr />
 
-        <div className="mt-5 lg:flex justify-between">
-          {/* Search Box */}
-          <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search Event"
-              className="ml-2 flex-1 outline-none text-sm text-gray-700 placeholder-gray-400"
-            />
-          </div>
-
-          <div className="lg:flex mt-3 gap-3">
-            {/* Tabs for List and Calendar View */}
-
-            {/* Filters */}
-
-            <div>
-              <select className="border rounded py-2 " name="" id="">
-                <option value="all client">All Client</option>
-                <option value="Holocaust Survivors">Holocaust Survivors</option>
-                <option value="Non- Holocaust Survivors">
-                  Non- Holocaust Survivors
-                </option>
-              </select>
-            </div>
-            <div>
-              <button
-                onClick={() => setModal2Open(true)}
-                className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
-              >
-                + Add Event
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-5">
+        <div className="">
           {activeTab === "list" && (
-            <div className=" rounded-lg ">
-              {/* Table View */}
-              <table className="min-w-full border-collapse  border border-gray-300">
-                <thead>
-                  <tr className="bg-gray-100 ">
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Event Name
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Event Type
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Date
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots Filled
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots Filled
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots Filled
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {eventData.map((event, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      }`}
+            <>
+              <div className="mt-2 mb-5 lg:flex justify-between">
+                {/* Search Box */}
+                <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search Event"
+                    className="ml-2 flex-1 outline-none text-sm text-gray-700 placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="lg:flex mt-3 gap-3 ">
+                  {/* Tabs for List and Calendar View */}
+
+                  {/* Filters */}
+
+                  <div>
+                    <select className="border rounded py-2 " name="" id="">
+                      <option value="all client">All Client</option>
+                      <option value="Holocaust Survivors">
+                        Holocaust Survivors
+                      </option>
+                      <option value="Non- Holocaust Survivors">
+                        Non- Holocaust Survivors
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => setModal2Open(true)}
+                      className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
                     >
-                      <td className=" px-4 py-3 text-sm">{event.eventName}</td>
-                      <td className=" px-4 py-3 text-sm">{event.eventType}</td>
-                      <td className=" px-4 py-3 text-sm">{event.date}</td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.volunteerSpots}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.volunteerSpots}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.volunteerSpots}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        <BiDotsVerticalRounded />
-                      </td>
+                      + Add Event
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div className="rounded-lg">
+                {/* Table View */}
+                <table className="min-w-full border-collapse border border-gray-300">
+                  <thead>
+                    <tr className="bg-gray-100">
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Client Name
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Phone
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Alternate Phone #
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Holocaust Survivor
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Client Delivery Group
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium">
+                        Bags
+                      </th>
+                      <th className="px-4 py-2 text-left text-sm font-medium"></th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {currentEvents.map((event, index) => (
+                      <tr
+                        key={index}
+                        className={`${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
+                      >
+                        <td className="px-4 py-3 text-sm">
+                          {event.clientName}
+                        </td>
+                        <td className="px-4 py-3 text-sm">{event.phone}</td>
+                        <td className="px-4 py-3 text-sm">{event.email}</td>
+                        <td className="px-4 py-3 text-sm ">
+                          <span className="flex">
+                            <span className="bg-[#EDEDED] text-[#234E6F] pl-3 pr-2 gap-1 rounded-full p-1 flex">
+                              {event.clientDelivery}
+                              <IoIosArrowDown className="text-xl" />
+                            </span>
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 text-sm flex">
+                          <Link to={"/clients/clientsDetails"}>
+                            <span className="bg-[#EDEDED] p-1 px-2 gap-1 text-[#234E6F]  rounded-full  flex">
+                              {event.status}
+                              <IoIosArrowDown className="text-xl" />
+                            </span>
+                          </Link>
+                        </td>
+                        <td className="px-4 py-3 text-sm">{event.bags}</td>
+                        <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
+                          <BiDotsVerticalRounded />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              {/* Pagination Controls */}
+              <div className="flex justify-between items-center mt-4 px-4">
+                <span className="text-sm text-gray-700">
+                  Showing {startIndex + 1} to{" "}
+                  {Math.min(endIndex, eventData.length)} of {eventData.length}{" "}
+                  items
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={handlePreviousPage}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <IoIosArrowBack />
+                  </button>
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                    (page) => (
+                      <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        className={`px-3 py-1 rounded-md ${
+                          currentPage === page
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-200 text-gray-700"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    )
+                  )}
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                    className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <IoIosArrowForward />
+                  </button>
+                </div>
+              </div>
+            </>
           )}
           {activeTab === "calendar" && (
-            <div className="border rounded-lg p-5 bg-white">
+            <div className="">
               {/* Calendar View */}
-              <div className="bg-white rounded-lg p-5"></div>
+              <ClientsDelivery></ClientsDelivery>
             </div>
           )}
         </div>
@@ -431,9 +584,6 @@ const Clients = () => {
               )}
             </label>
           </div>
-
-          
-          
 
           <div className="  mt-3">
             <label htmlFor="deliveryDrivers">

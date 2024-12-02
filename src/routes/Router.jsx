@@ -15,6 +15,11 @@ import Events from "../components/Events/Events";
 import Clients from "../page/Clients/Clients";
 import Volunteers from "../page/Volunteers/Volunteers";
 import Reports from "../page/Reports/Reports";
+import ClientDetailsPage from "../page/Clients/ClientDetailsPage";
+import ClientDeliveryDetailsPage from "../page/Clients/ClientDeliveryDetailsPage";
+import EventClientDetailsPage from "../components/Events/EventClientDetailsPage";
+import ConfirmedVoluntrees from "../components/Events/ConfirmedVoluntrees";
+import EventView from "../components/Events/EventView";
 
 
 
@@ -32,18 +37,40 @@ export const router = createBrowserRouter([
         element: <Events></Events>
       },
       {
-        path: "/dashboard/clients",
+        path: "/event/eventDetails",
+        element: <EventClientDetailsPage></EventClientDetailsPage>
+      },
+      {
+        path: "/event/confirmedVolunteers",
+        element: <ConfirmedVoluntrees></ConfirmedVoluntrees>
+      },
+      {
+        path: "/event/eventView",
+        element: <EventView></EventView>
+      },
+      {
+        path: "/clients",
         element: <Clients></Clients>
       },
       {
-        path: "/dashboard/volunteers",
+        path: "/clients/ClientDeliveryDetailsPage",
+        element: <ClientDeliveryDetailsPage></ClientDeliveryDetailsPage>
+      },
+      {
+        path: "/clients/clientsDetails",
+        element: <ClientDetailsPage></ClientDetailsPage>,
+      },
+
+      {
+        path: "/volunteers",
         element: <Volunteers></Volunteers>
       },
       
       {
-        path: "/dashboard/reports",
+        path: "/reports",
         element: <Reports></Reports>
       },
+
      
       
       

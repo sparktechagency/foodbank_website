@@ -25,13 +25,13 @@ const items = [
     key: "clients",
     label: "Clients",
     icon: <TbUsers />,
-    link: "/dashboard/clients",
+    link: "/clients",
   },
   {
     key: "volunteers",
     label: "Volunteers",
     icon: <FaRegHandPaper />,
-    link: "/dashboard/volunteers",
+    link: "/volunteers",
   },
   // {
   //   key: "categoriesManagement",
@@ -55,7 +55,7 @@ const items = [
     key: "reports",
     label: "Reports",
     icon: <CgNotes />,
-    link: "/dashboard/reports",
+    link: "/reports",
   },
   // {
   //   key: "profile",
@@ -141,7 +141,7 @@ const SidBar = () => {
   };
 
   return (
-    <div className="custom-sidebar h-full bg-[#F7F7F8]">
+    <div className="custom-sidebar h-full bg-[#F7F7F8] border-r">
       {/* Logo */}
       <div className="custom-sidebar-logo flex justify-center pt-11">
         <img src={logo} alt="Logo" className="w-[180px]" />

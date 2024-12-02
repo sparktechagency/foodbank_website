@@ -6,6 +6,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 const localizer = momentLocalizer(moment);
 import { Modal } from "antd";
 import { MdAccessTime } from "react-icons/md";
+import { Link } from "react-router-dom";
 const myEventsList = [
   {
     title: "Mitzvah Sunday",
@@ -246,7 +247,7 @@ const Events = () => {
                         {event.volunteerSpots}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        <BiDotsVerticalRounded />
+                        <Link to={'/event/eventDetails'}><BiDotsVerticalRounded /></Link>
                       </td>
                     </tr>
                   ))}
