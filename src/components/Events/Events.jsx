@@ -63,7 +63,7 @@ const Events = () => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    
+
     // Clear the specific field's error when user starts typing
     if (formErrors[name]) {
       setFormErrors({ ...formErrors, [name]: "" });
@@ -111,10 +111,10 @@ const Events = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // Validate the form
     const validationErrors = validateForm();
-    
+
     // If there are any errors, set them and prevent submission
     if (Object.keys(validationErrors).length > 0) {
       setFormErrors(validationErrors);
@@ -139,7 +139,6 @@ const Events = () => {
     setFormErrors({});
   };
 
-
   return (
     <div className="px-5 pt-10 min-h-screen">
       <div>
@@ -163,48 +162,54 @@ const Events = () => {
             />
           </div>
 
-          <div className="lg:flex mt-3 gap-3">
-            {/* Tabs for List and Calendar View */}
-            <div className="flex bg-[#EDF0F2] w-[215px] gap-4 rounded-lg p-[2px]">
-              <button
-                onClick={() => setActiveTab("list")}
-                className={`${
-                  activeTab === "list" ? "bg-white" : "bg-transparent"
-                } rounded px-2 py-1`}
-              >
-                List View
-              </button>
-              <button
-                onClick={() => setActiveTab("calendar")}
-                className={`${
-                  activeTab === "calendar" ? "bg-white" : "bg-transparent"
-                } py-1 rounded px-2`}
-              >
-                Calendar View
-              </button>
-            </div>
+          <div>
+            <div className="lg:flex mt-3 gap-2">
+              {/* Tabs for List and Calendar View */}
+              <div>
+                <div className="flex bg-[#EDF0F2] w-[230px] gap-4 rounded-lg p-[2px]">
+                  <button
+                    onClick={() => setActiveTab("list")}
+                    className={`${
+                      activeTab === "list" ? "bg-white" : "bg-transparent"
+                    } rounded px-2 py-[8px] pl-8 w-[120px]`}
+                  >
+                    List View
+                  </button>
+                  <button
+                    onClick={() => setActiveTab("calendar")}
+                    className={`${
+                      activeTab === "calendar" ? "bg-white" : "bg-transparent"
+                    } py-1 rounded text-center w-[120px]`}
+                  >
+                    Calendar View
+                  </button>
+                </div>
+              </div>
 
-            {/* Filters */}
-            <div>
-              <select className="border rounded py-2 " name="" id="">
-                <option value="upcoming event">Upcoming Event</option>
-                <option value="past events">Past Events</option>
-              </select>
-            </div>
-            <div>
-              <select className="border rounded py-2 " name="" id="">
-                <option value="all events">All Events</option>
-                <option value="holiday drive">Holiday Drive</option>
-                <option value="mitzvah sunday">Mitzvah Sunday</option>
-              </select>
-            </div>
-            <div>
-              <button
-                onClick={() => setModal2Open(true)}
-                className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
-              >
-                + Add Event
-              </button>
+
+
+              {/* Filters */}
+              <div>
+                <select className="border rounded py-2 " name="" id="">
+                  <option value="upcoming event">Upcoming Event</option>
+                  <option value="past events">Past Events</option>
+                </select>
+              </div>
+              <div>
+                <select className="border rounded py-2 " name="" id="">
+                  <option value="all events">All Events</option>
+                  <option value="holiday drive">Holiday Drive</option>
+                  <option value="mitzvah sunday">Mitzvah Sunday</option>
+                </select>
+              </div>
+              <div>
+                <button
+                  onClick={() => setModal2Open(true)}
+                  className=" bg-[#234E6F] w-[100px] rounded-full py-2 text-white"
+                >
+                  + Add Event
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -247,7 +252,9 @@ const Events = () => {
                         {event.volunteerSpots}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        <Link to={'/event/eventDetails'}><BiDotsVerticalRounded /></Link>
+                        <Link to={"/event/eventDetails"}>
+                          <BiDotsVerticalRounded />
+                        </Link>
                       </td>
                     </tr>
                   ))}
@@ -306,7 +313,7 @@ const Events = () => {
               <span className="font-semibold">Event Name</span>
               <input
                 className={`w-full border ${
-                  formErrors.name ? 'border-red-500' : 'border-neutral-400'
+                  formErrors.name ? "border-red-500" : "border-neutral-400"
                 } mt-1 py-2 rounded-md mb-3`}
                 type="text"
                 name="name"
@@ -316,7 +323,9 @@ const Events = () => {
                 required
               />
               {formErrors.name && (
-                <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.name}</p>
+                <p className="text-red-500 text-sm -mt-2 mb-2">
+                  {formErrors.name}
+                </p>
               )}
             </label>
 
@@ -324,7 +333,7 @@ const Events = () => {
               <span className="font-semibold">Event Type</span>
               <select
                 className={`w-full border ${
-                  formErrors.type ? 'border-red-500' : 'border-neutral-400'
+                  formErrors.type ? "border-red-500" : "border-neutral-400"
                 } mt-1 py-2 rounded-md mb-3`}
                 name="type"
                 id="type"
@@ -337,7 +346,9 @@ const Events = () => {
                 <option value="tujbah day">Tujbah Day</option>
               </select>
               {formErrors.type && (
-                <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.type}</p>
+                <p className="text-red-500 text-sm -mt-2 mb-2">
+                  {formErrors.type}
+                </p>
               )}
             </label>
 
@@ -346,7 +357,7 @@ const Events = () => {
               <span className="font-semibold">Location</span>
               <select
                 className={`w-full border ${
-                  formErrors.location ? 'border-red-500' : 'border-neutral-400'
+                  formErrors.location ? "border-red-500" : "border-neutral-400"
                 } mt-1 py-2 rounded-md`}
                 name="location"
                 id="location"
@@ -359,7 +370,9 @@ const Events = () => {
                 <option value="Tujbah Day">Tujbah Day</option>
               </select>
               {formErrors.location && (
-                <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.location}</p>
+                <p className="text-red-500 text-sm -mt-2 mb-2">
+                  {formErrors.location}
+                </p>
               )}
             </label>
 
@@ -375,7 +388,7 @@ const Events = () => {
                   <span className="col-span-1">On</span>
                   <input
                     className={`w-full border ${
-                      formErrors.date ? 'border-red-500' : 'border-neutral-400'
+                      formErrors.date ? "border-red-500" : "border-neutral-400"
                     } rounded px-1 col-span-3`}
                     type="text"
                     name="date"
@@ -386,14 +399,18 @@ const Events = () => {
                   />
                 </label>
                 {formErrors.date && (
-                  <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.date}</p>
+                  <p className="text-red-500 text-sm -mt-2 mb-2">
+                    {formErrors.date}
+                  </p>
                 )}
 
                 <label className="grid grid-cols-4" htmlFor="timeFrom">
                   <span className="col-span-1">From</span>
                   <select
                     className={`w-full border ${
-                      formErrors.timeFrom ? 'border-red-500' : 'border-neutral-400'
+                      formErrors.timeFrom
+                        ? "border-red-500"
+                        : "border-neutral-400"
                     } rounded px-1 col-span-3`}
                     name="timeFrom"
                     id="timeFrom"
@@ -406,14 +423,18 @@ const Events = () => {
                   </select>
                 </label>
                 {formErrors.timeFrom && (
-                  <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.timeFrom}</p>
+                  <p className="text-red-500 text-sm -mt-2 mb-2">
+                    {formErrors.timeFrom}
+                  </p>
                 )}
 
                 <label className="grid grid-cols-4" htmlFor="timeTo">
                   <span className="col-span-1">To</span>
                   <select
                     className={`w-full border col-span-3 ${
-                      formErrors.timeTo ? 'border-red-500' : 'border-neutral-400'
+                      formErrors.timeTo
+                        ? "border-red-500"
+                        : "border-neutral-400"
                     } rounded px-1`}
                     name="timeTo"
                     id="timeTo"
@@ -426,7 +447,9 @@ const Events = () => {
                   </select>
                 </label>
                 {formErrors.timeTo && (
-                  <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.timeTo}</p>
+                  <p className="text-red-500 text-sm -mt-2 mb-2">
+                    {formErrors.timeTo}
+                  </p>
                 )}
               </div>
             </div>
@@ -437,7 +460,9 @@ const Events = () => {
                 <span className="font-semibold">Delivery Drivers Needed</span>
                 <select
                   className={`border w-full py-1 ${
-                    formErrors.deliveryDrivers ? 'border-red-500' : 'border-neutral-400'
+                    formErrors.deliveryDrivers
+                      ? "border-red-500"
+                      : "border-neutral-400"
                   } rounded px-1`}
                   name="deliveryDrivers"
                   id="deliveryDrivers"
@@ -449,7 +474,9 @@ const Events = () => {
                   <option value="2">2</option>
                 </select>
                 {formErrors.deliveryDrivers && (
-                  <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.deliveryDrivers}</p>
+                  <p className="text-red-500 text-sm -mt-2 mb-2">
+                    {formErrors.deliveryDrivers}
+                  </p>
                 )}
               </label>
 
@@ -459,7 +486,9 @@ const Events = () => {
                 </span>
                 <select
                   className={`border w-full ${
-                    formErrors.warehouseVolunteers ? 'border-red-500' : 'border-neutral-400'
+                    formErrors.warehouseVolunteers
+                      ? "border-red-500"
+                      : "border-neutral-400"
                   } rounded px-1 py-1`}
                   name="warehouseVolunteers"
                   id="warehouseVolunteers"
@@ -471,7 +500,9 @@ const Events = () => {
                   <option value="2">2</option>
                 </select>
                 {formErrors.warehouseVolunteers && (
-                  <p className="text-red-500 text-sm -mt-2 mb-2">{formErrors.warehouseVolunteers}</p>
+                  <p className="text-red-500 text-sm -mt-2 mb-2">
+                    {formErrors.warehouseVolunteers}
+                  </p>
                 )}
               </label>
             </div>
