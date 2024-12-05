@@ -51,6 +51,7 @@ const Events = () => {
 
   const [formData, setFormData] = useState({
     name: "",
+    message: "",
     type: "",
     location: "",
     date: "",
@@ -76,6 +77,10 @@ const Events = () => {
     // Check each required field
     if (!formData.name.trim()) {
       errors.name = "Event Name is required";
+    }
+
+    if (!formData.name.trim()) {
+      errors.message = "Event message is required";
     }
 
     if (!formData.type.trim()) {
@@ -129,6 +134,7 @@ const Events = () => {
     setFormData({
       name: "",
       type: "",
+      message: "",
       location: "",
       date: "",
       timeFrom: "",
@@ -158,7 +164,7 @@ const Events = () => {
             <input
               type="text"
               placeholder="Search Event"
-              className="ml-2 flex-1 outline-none text-sm text-gray-700 placeholder-gray-400"
+              className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
             />
           </div>
 
@@ -186,17 +192,15 @@ const Events = () => {
                 </div>
               </div>
 
-
-
               {/* Filters */}
               <div>
-                <select className="border rounded py-2 " name="" id="">
+                <select className="border rounded py-2 bg-white" name="" id="">
                   <option value="upcoming event">Upcoming Event</option>
                   <option value="past events">Past Events</option>
                 </select>
               </div>
               <div>
-                <select className="border rounded py-2 " name="" id="">
+                <select className="border rounded py-2 bg-white" name="" id="">
                   <option value="all events">All Events</option>
                   <option value="holiday drive">Holiday Drive</option>
                   <option value="mitzvah sunday">Mitzvah Sunday</option>
@@ -225,6 +229,7 @@ const Events = () => {
                     <th className=" px-4 py-2 text-left text-sm font-medium">
                       Event Name
                     </th>
+
                     <th className=" px-4 py-2 text-left text-sm font-medium">
                       Event Type
                     </th>
@@ -245,16 +250,29 @@ const Events = () => {
                         index % 2 === 0 ? "bg-white" : "bg-gray-50"
                       }`}
                     >
-                      <td className=" px-4 py-3 text-sm">{event.eventName}</td>
+                      <td className=" px-4 py-3 text-sm">
+                        <Link to={"/event/eventDetails"}>
+                          {event.eventName}
+                        </Link>
+                      </td>
                       <td className=" px-4 py-3 text-sm">{event.eventType}</td>
                       <td className=" px-4 py-3 text-sm">{event.date}</td>
                       <td className="px-4 py-3 text-sm">
                         {event.volunteerSpots}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        <Link to={"/event/eventDetails"}>
-                          <BiDotsVerticalRounded />
-                        </Link>
+                        
+                        <details className="dropdown">
+                          <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none"><BiDotsVerticalRounded /></summary>
+                          <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                            <li>
+                              <a>Edit</a>
+                            </li>
+                            <li>
+                              <a>Delete</a>
+                            </li>
+                          </ul>
+                        </details>
                       </td>
                     </tr>
                   ))}
@@ -312,7 +330,7 @@ const Events = () => {
             <label htmlFor="name">
               <span className="font-semibold">Event Name</span>
               <input
-                className={`w-full border ${
+                className={`w-full border bg-white ${
                   formErrors.name ? "border-red-500" : "border-neutral-400"
                 } mt-1 py-2 rounded-md mb-3`}
                 type="text"
@@ -332,8 +350,8 @@ const Events = () => {
             <label htmlFor="type">
               <span className="font-semibold">Event Type</span>
               <select
-                className={`w-full border ${
-                  formErrors.type ? "border-red-500" : "border-neutral-400"
+                className={`w-full border bg-white ${
+                  formErrors.type ? "border-red-500 " : "border-neutral-400"
                 } mt-1 py-2 rounded-md mb-3`}
                 name="type"
                 id="type"
@@ -356,9 +374,9 @@ const Events = () => {
             <label htmlFor="location">
               <span className="font-semibold">Location</span>
               <select
-                className={`w-full border ${
-                  formErrors.location ? "border-red-500" : "border-neutral-400"
-                } mt-1 py-2 rounded-md`}
+                className={`w-full border bg-white ${
+                  formErrors.location ? "border-red-500 " : "border-neutral-400"
+                } mt-1 mb-3 py-2 rounded-md`}
                 name="location"
                 id="location"
                 value={formData.location}
@@ -376,6 +394,26 @@ const Events = () => {
               )}
             </label>
 
+            <label htmlFor="message">
+              <span className="font-semibold ">Default message</span>
+              <input
+                className={`w-full border bg-white ${
+                  formErrors.message ? "border-red-500 bg-white" : "border-neutral-400"
+                } mt-1 py-2 rounded-md mb-3`}
+                type="text"
+                name="message"
+                id="name"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+              />
+              {formErrors.message && (
+                <p className="text-red-500 text-sm -mt-2 mb-2">
+                  {formErrors.message}
+                </p>
+              )}
+            </label>
+
             {/* Date & Time section with similar error handling */}
             <div className="border border-neutral-400 mt-3 rounded-md">
               <h1 className="flex border-b border-neutral-400 p-3 font-semibold">
@@ -387,8 +425,8 @@ const Events = () => {
                 <label className="grid grid-cols-4" htmlFor="date">
                   <span className="col-span-1">On</span>
                   <input
-                    className={`w-full border ${
-                      formErrors.date ? "border-red-500" : "border-neutral-400"
+                    className={`w-full border bg-white ${
+                      formErrors.date ? "border-red-500 " : "border-neutral-400"
                     } rounded px-1 col-span-3`}
                     type="text"
                     name="date"
@@ -407,7 +445,7 @@ const Events = () => {
                 <label className="grid grid-cols-4" htmlFor="timeFrom">
                   <span className="col-span-1">From</span>
                   <select
-                    className={`w-full border ${
+                    className={`w-full border bg-white ${
                       formErrors.timeFrom
                         ? "border-red-500"
                         : "border-neutral-400"
@@ -431,7 +469,7 @@ const Events = () => {
                 <label className="grid grid-cols-4" htmlFor="timeTo">
                   <span className="col-span-1">To</span>
                   <select
-                    className={`w-full border col-span-3 ${
+                    className={`w-full border col-span-3 bg-white ${
                       formErrors.timeTo
                         ? "border-red-500"
                         : "border-neutral-400"
@@ -459,7 +497,7 @@ const Events = () => {
               <label className="w-full" htmlFor="deliveryDrivers">
                 <span className="font-semibold">Delivery Drivers Needed</span>
                 <select
-                  className={`border w-full py-1 ${
+                  className={`border w-full py-1 bg-white ${
                     formErrors.deliveryDrivers
                       ? "border-red-500"
                       : "border-neutral-400"
@@ -485,7 +523,7 @@ const Events = () => {
                   Warehouse Volunteers Needed
                 </span>
                 <select
-                  className={`border w-full ${
+                  className={`border w-full bg-white ${
                     formErrors.warehouseVolunteers
                       ? "border-red-500"
                       : "border-neutral-400"

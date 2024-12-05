@@ -82,13 +82,14 @@ const ConfirmedVoluntrees = () => {
             <input
               type="text"
               placeholder="Search Event"
-              className="ml-2 flex-1 outline-none text-sm text-gray-700 placeholder-gray-400"
+              className="ml-2 flex-1 bg-white outline-none text-sm text-gray-700 placeholder-gray-400"
             />
           </div>
           </div>
 
 
-          <table className="min-w-full border-collapse mx-5 mt-6 border border-gray-300">
+         <div className="mx-5">
+         <table className="min-w-full border-collapse  mt-6 border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100 ">
                     <th className=" px-4 py-2 text-left text-sm font-medium">
@@ -157,6 +158,7 @@ const ConfirmedVoluntrees = () => {
                   ))}
                 </tbody>
               </table>
+         </div>
 
 
     </div>

@@ -2,6 +2,7 @@ import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { useState } from "react";
 import Volunteers from "./Volunteers";
+import { Link } from "react-router-dom";
 
 const EventClientDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("list");
@@ -104,7 +105,18 @@ const EventClientDetailsPage = () => {
                 : "bg-transparent"
             } py-1  px-2`}
           >
-            Volunteers
+            Driver Volunteers
+          </button>
+
+          <button
+            onClick={() => setActiveTab("warehouse")}
+            className={`${
+              activeTab === "warehouse"
+                ? "  border-b-2 border-blue-600"
+                : "bg-transparent"
+            } py-1  px-2`}
+          >
+            Warehouse Volunteers
           </button>
         </div>
         <hr />
@@ -173,7 +185,7 @@ const EventClientDetailsPage = () => {
                   <div>
                     {currentEvents.map((event) => (
                       <div className="flex justify-between space-y-4">
-                        <h1 className="mt-2">{event.eventName}</h1>
+                        <Link to={'/clients/clientsDetails'}><h1 className="mt-2">{event.eventName}</h1></Link>
                         <button className="bg-blue-600 text-white px-3 rounded-full text-sm">
                           {event.event}
                         </button>
@@ -245,6 +257,13 @@ const EventClientDetailsPage = () => {
         )}
 
         {activeTab === "calendar" && (
+          <div className="">
+            {/* Calendar View */}
+            <Volunteers></Volunteers>
+          </div>
+        )}
+
+{activeTab === "warehouse" && (
           <div className="">
             {/* Calendar View */}
             <Volunteers></Volunteers>

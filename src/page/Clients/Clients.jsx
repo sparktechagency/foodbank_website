@@ -39,7 +39,6 @@ const Clients = () => {
     setErrors({ ...errors, [name]: "" });
   };
 
-
   const validateForm = () => {
     let formErrors = {};
     if (!formData.first.trim()) formErrors.first = "Event first is required.";
@@ -255,7 +254,7 @@ const Clients = () => {
                   <input
                     type="text"
                     placeholder="Search Event"
-                    className="ml-2 flex-1 outline-none text-sm text-gray-700 placeholder-gray-400"
+                    className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"
                   />
                 </div>
 
@@ -265,7 +264,11 @@ const Clients = () => {
                   {/* Filters */}
 
                   <div>
-                    <select className="border rounded py-2 " name="" id="">
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
                       <option value="all client">All Client</option>
                       <option value="Holocaust Survivors">
                         Holocaust Survivors
@@ -320,7 +323,9 @@ const Clients = () => {
                         }`}
                       >
                         <td className="px-4 py-3 text-sm">
-                          {event.clientName}
+                          <Link to={"/clients/clientsDetails"}>
+                            {event.clientName}
+                          </Link>
                         </td>
                         <td className="px-4 py-3 text-sm">{event.phone}</td>
                         <td className="px-4 py-3 text-sm">{event.email}</td>
@@ -328,7 +333,6 @@ const Clients = () => {
                           <span className="flex">
                             <span className="bg-[#EDEDED] text-[#234E6F] pl-3 pr-2 gap-1 rounded-full p-1 flex">
                               {event.clientDelivery}
-                              <IoIosArrowDown className="text-xl" />
                             </span>
                           </span>
                         </td>
@@ -336,13 +340,24 @@ const Clients = () => {
                           <Link to={"/clients/clientsDetails"}>
                             <span className="bg-[#EDEDED] p-1 px-2 gap-1 text-[#234E6F]  rounded-full  flex">
                               {event.status}
-                              <IoIosArrowDown className="text-xl" />
                             </span>
                           </Link>
                         </td>
                         <td className="px-4 py-3 text-sm">{event.bags}</td>
                         <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                          <BiDotsVerticalRounded />
+                          <details className="dropdown ">
+                            <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
+                              <BiDotsVerticalRounded />
+                            </summary>
+                            <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                              <li>
+                                <a>Edit</a>
+                              </li>
+                              <li>
+                                <a>Delete</a>
+                              </li>
+                            </ul>
+                          </details>
                         </td>
                       </tr>
                     ))}
@@ -440,7 +455,7 @@ const Clients = () => {
               <label htmlFor="first">
                 <span className="font-semibold">First Name</span>
                 <input
-                  className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                   type="text"
                   name="first"
                   id="first"
@@ -455,7 +470,7 @@ const Clients = () => {
               <label htmlFor="last">
                 <span className="font-semibold">Last Name</span>
                 <input
-                  className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                   type="text"
                   name="last"
                   id="last"
@@ -471,7 +486,7 @@ const Clients = () => {
             <label htmlFor="email">
               <span className="font-semibold">Email Adress</span>
               <input
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 type="email"
                 name="email"
                 id="email"
@@ -486,7 +501,7 @@ const Clients = () => {
             <label htmlFor="number">
               <span className="font-semibold">Phone Number</span>
               <input
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 type="text"
                 name="number"
                 id="number"
@@ -501,7 +516,7 @@ const Clients = () => {
             <label htmlFor="adress">
               <span className="font-semibold">Adress</span>
               <input
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 type="text"
                 name="adress"
                 id="adress"
@@ -516,7 +531,7 @@ const Clients = () => {
             <label htmlFor="apartment">
               <span className="font-semibold">Apartment, suite, etc. *</span>
               <input
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 type="text"
                 name="apartment"
                 id="apartment"
@@ -533,7 +548,7 @@ const Clients = () => {
             <label htmlFor="city">
               <span className="font-semibold">city</span>
               <select
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 name="city"
                 id="city"
                 value={formData.city}
@@ -551,7 +566,7 @@ const Clients = () => {
             <label htmlFor="state">
               <span className="font-semibold">state</span>
               <select
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 name="state"
                 id="state"
                 value={formData.state}
@@ -569,7 +584,7 @@ const Clients = () => {
             <label htmlFor="zipcode">
               <span className="font-semibold">zipcode</span>
               <select
-                className="w-full border border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 name="zipcode"
                 id="zipcode"
                 value={formData.zipcode}
@@ -589,7 +604,7 @@ const Clients = () => {
             <label htmlFor="deliveryDrivers">
               <span className="font-semibold">Delivery Drivers Needed</span>
               <select
-                className="w-full border mb-2 border-neutral-400 rounded-md py-2"
+                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
                 name="deliveryDrivers"
                 id="deliveryDrivers"
                 value={formData.deliveryDrivers}
@@ -607,7 +622,7 @@ const Clients = () => {
             <label htmlFor="warehouseVolunteers">
               <span className="font-semibold">Warehouse Volunteers Needed</span>
               <select
-                className="w-full  border border-neutral-400 rounded-md py-2"
+                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
                 name="warehouseVolunteers"
                 id="warehouseVolunteers"
                 value={formData.warehouseVolunteers}
