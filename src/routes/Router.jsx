@@ -20,6 +20,7 @@ import ClientDeliveryDetailsPage from "../page/Clients/ClientDeliveryDetailsPage
 import EventClientDetailsPage from "../components/Events/EventClientDetailsPage";
 import ConfirmedVoluntrees from "../components/Events/ConfirmedVoluntrees";
 import EventView from "../components/Events/EventView";
+import Admin from "../page/Admin/Admin";
 
 
 
@@ -67,13 +68,9 @@ export const router = createBrowserRouter([
       },
       
       {
-        path: "/reports",
-        element: <Reports></Reports>
+        path: "/admin",
+        element: <Admin></Admin>
       },
-
-     
-      
-      
     ],
   },
 

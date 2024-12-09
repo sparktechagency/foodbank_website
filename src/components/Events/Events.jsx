@@ -275,7 +275,7 @@ const Events = () => {
                           <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none"><BiDotsVerticalRounded /></summary>
                           <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                             <li>
-                              <a>Edit</a>
+                              <a onClick={() => setModal2Open(true)}>Edit</a>
                             </li>
                             <li>
                               <a>Delete</a>

@@ -124,7 +124,7 @@ const ClientsDelivery = () => {
                   </summary>
                   <ul className="menu dropdown-content bg-white text-black rounded z-30 right-0 w-44 p-2 shadow">
                     <li>
-                      <a>Edit</a>
+                      <a onClick={() => setModalOpen(true)}>Edit</a>
                     </li>
                     <li>
                       <a>Delete</a>

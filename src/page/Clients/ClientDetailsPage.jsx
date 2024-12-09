@@ -98,27 +98,27 @@ const ClientDetailsPage = () => {
       driver: "Holiday Drive",
       schedule: "9/2/24",
       confirmation: "confirmed",
-      dietary: "11/25",
-      people: "11/25",
-      bags: "11/25",
+      dietary: "None",
+      people: "1",
+      bags: "3",
     },
     {
       event: "Mitzvah Sunday 10/14",
       driver: "Mitzvah Day",
       schedule: "10/14/24",
       confirmation: "confirmed",
-      dietary: "11/25",
-      people: "11/25",
-      bags: "11/25",
+      dietary: "None",
+      people: "1",
+      bags: "3",
     },
     {
       event: "Mitzvah Sunday 10/28",
       driver: "Mitzvah Day",
       schedule: "10/28/24",
       confirmation: "confirmed",
-      dietary: "11/25",
-      people: "11/25",
-      bags: "11/25",
+      dietary: "None",
+      people: "1",
+      bags: "3",
     },
   ];
 
@@ -145,8 +145,8 @@ const ClientDetailsPage = () => {
                 </div>
 
                 <div className="mb-8">
-                  <h1 className="font-semibold">Email</h1>
-                  <p>alena@gmail.com</p>
+                  <h1 className="font-semibold">Alternate Phone</h1>
+                  <p>983-344-5332</p>
                 </div>
               </div>
 
@@ -157,7 +157,7 @@ const ClientDetailsPage = () => {
                 </div>
                 <div>
                   <h1 className="font-semibold">Phone</h1>
-                  <p>017232432432</p>
+                  <p>983-344-5332</p>
                 </div>
               </div>
               
@@ -189,27 +189,27 @@ const ClientDetailsPage = () => {
             <thead>
               <tr className="bg-gray-100 ">
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Event Name
+                  Event 
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Event Type
+                  Driver
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Date
+                  Schedule Date
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Spots Filled
+                  Confirmation
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Spots Filled
+                  Dietary Restrictions
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Spots Filled
+                  # of People
                 </th>
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Spots Filled
+                  # of Bags
                 </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium"></th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">Delivery Instructions</th>
               </tr>
             </thead>
             <tbody>
@@ -231,10 +231,8 @@ const ClientDetailsPage = () => {
                   <td className="px-4 py-3 text-sm">{event.dietary}</td>
                   <td className="px-4 py-3 text-sm">{event.people}</td>
                   <td className="px-4 py-3 text-sm">{event.bags}</td>
-
-                  <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                    <BiDotsVerticalRounded />
-                  </td>
+                  <td className="px-4 py-3 text-sm"></td>
+                  
                 </tr>
               ))}
             </tbody>

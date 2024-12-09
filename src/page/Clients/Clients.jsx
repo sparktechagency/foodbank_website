@@ -49,7 +49,8 @@ const Clients = () => {
     let formErrors = {};
     if (!formData.first.trim()) formErrors.first = "Event first is required.";
     if (!formData.last.trim()) formErrors.last = "Event last is required.";
-    if (!formData.Holocaust.trim()) formErrors.Holocaust = "Holocaust is required.";
+    if (!formData.Holocaust.trim())
+      formErrors.Holocaust = "Holocaust is required.";
 
     if (!formData.date.trim()) formErrors.date = "date is required.";
     if (!formData.number.trim())
@@ -70,7 +71,6 @@ const Clients = () => {
     if (!formData.timeTo) formErrors.timeTo = "End time is required.";
     if (!formData.deliveryDrivers)
       formErrors.deliveryDrivers = "Delivery drivers count is required.";
-
 
     if (!formData.household)
       formErrors.household = "household count is required.";
@@ -129,7 +129,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "None",
-      
+
       bags: "1",
     },
     {
@@ -138,7 +138,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-     
+
       bags: "6",
     },
     {
@@ -147,7 +147,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "No",
       clientDelivery: "Mitzvah Sunday Week 2",
-     
+
       bags: "3",
     },
     {
@@ -156,7 +156,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "None",
-    
+
       bags: "1",
     },
     {
@@ -165,7 +165,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      
+
       bags: "6",
     },
     {
@@ -174,7 +174,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
-      
+
       bags: "3",
     },
     {
@@ -182,7 +182,7 @@ const Clients = () => {
       phone: "01694349873",
       alternatePhone: "956-3445-343-3234",
       clientDelivery: "None",
-      
+
       bags: "1",
     },
     {
@@ -191,7 +191,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      
+
       bags: "6",
     },
     {
@@ -200,7 +200,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
-     
+
       bags: "3",
     },
     {
@@ -209,7 +209,7 @@ const Clients = () => {
       alternatePhone: "956-3445-343-3234",
       holocaust: "yes",
       clientDelivery: "None",
-      
+
       bags: "1",
     },
     {
@@ -348,7 +348,7 @@ const Clients = () => {
                       <th className="px-4 py-2 text-left text-sm font-medium">
                         Client Delivery Group
                       </th>
-                     
+
                       <th className="px-4 py-2 text-left text-sm font-medium">
                         Bags
                       </th>
@@ -369,17 +369,30 @@ const Clients = () => {
                           </Link>
                         </td>
                         <td className="px-4 py-3 text-sm">{event.phone}</td>
-                        <td className="px-4 py-3 text-sm">{event.alternatePhone}</td>
+                        <td className="px-4 py-3 text-sm">
+                          {event.alternatePhone}
+                        </td>
                         <td className="px-4 py-3 text-sm">{event.holocaust}</td>
                         <td className="px-4 py-3 text-sm ">
                           <span className="flex">
-                          <Link to={"/clients/clientsDetails"}>
-                            <span className="bg-[#EDEDED] text-[#234E6F] pl-3 pr-2 gap-1 rounded-full p-1 flex">
-                              {event.clientDelivery}
-                            </span></Link>
+                            <span className=" gap-1 rounded-full  flex">
+                              <select
+                                className="bg-[#EDEDED] px-2  p-1 rounded-full text-[#234E6F]"
+                                name="None"
+                                id=""
+                              >
+                                <option value="None">None</option>
+                                <option value="mitzvah Monday">
+                                  mitzvah Monday
+                                </option>
+                                <option value="mitzvah Sunday">
+                                  mitzvah Sunday
+                                </option>
+                              </select>
+                            </span>
                           </span>
                         </td>
-                        
+
                         <td className="px-4 py-3 text-sm">{event.bags}</td>
                         <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                           <details className="dropdown ">
@@ -388,7 +401,7 @@ const Clients = () => {
                             </summary>
                             <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                               <li>
-                                <a>Edit</a>
+                                <a onClick={() => setModal2Open(true)}>Edit</a>
                               </li>
                               <li>
                                 <a>Delete</a>
@@ -539,9 +552,7 @@ const Clients = () => {
                 <option value="2">2</option>
               </select>
               {errors.Holocaust && (
-                <p className="text-red-500 text-sm">
-                  {errors.Holocaust}
-                </p>
+                <p className="text-red-500 text-sm">{errors.Holocaust}</p>
               )}
             </label>
 
@@ -559,7 +570,6 @@ const Clients = () => {
                 <p className="text-red-500 text-sm">{errors.date}</p>
               )}
             </label>
-
 
             <label htmlFor="number">
               <span className="font-semibold">Phone Number</span>
@@ -679,74 +689,74 @@ const Clients = () => {
           </div>
 
           <div className="flex gap-3 mt-3">
-              <label className="w-full" htmlFor="household">
-                <span className="font-semibold">Number of People in Household</span>
-                <select
-                  className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
-                  name="household"
-                  id="household"
-                  value={formData.household}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </select>
-                {errors.state && (
+            <label className="w-full" htmlFor="household">
+              <span className="font-semibold">
+                Number of People in Household
+              </span>
+              <select
+                className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
+                name="household"
+                id="household"
+                value={formData.household}
+                onChange={handleInputChange}
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              {errors.state && (
                 <p className="text-red-500 text-sm">{errors.state}</p>
               )}
-              </label>
+            </label>
 
-              <label className="w-full" htmlFor="bags">
-                <span className="font-semibold">
-                  Number of Bags
-                </span>
-                <select
-                  className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
-                  name="bags"
-                  id="bags"
-                  value={formData.bags}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </select>
-                {errors.state && (
+            <label className="w-full" htmlFor="bags">
+              <span className="font-semibold">Number of Bags</span>
+              <select
+                className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
+                name="bags"
+                id="bags"
+                value={formData.bags}
+                onChange={handleInputChange}
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              {errors.state && (
                 <p className="text-red-500 text-sm">{errors.state}</p>
               )}
-              </label>
-            </div>
+            </label>
+          </div>
 
           <label htmlFor="deitary">
-              <span className="font-semibold">Deitary Restrictions</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="text"
-                name="deitary"
-                id="deitary"
-                value={formData.deitary}
-                onChange={handleInputChange}
-              />
-              {errors.deitary && (
-                <p className="text-red-500 text-sm">{errors.deitary}</p>
-              )}
-            </label>
+            <span className="font-semibold">Deitary Restrictions</span>
+            <input
+              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+              type="text"
+              name="deitary"
+              id="deitary"
+              value={formData.deitary}
+              onChange={handleInputChange}
+            />
+            {errors.deitary && (
+              <p className="text-red-500 text-sm">{errors.deitary}</p>
+            )}
+          </label>
 
           <label htmlFor="deliveryIns">
-              <span className="font-semibold">Delivery Instructions</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="text"
-                name="deliveryIns"
-                id="deliveryIns"
-                value={formData.deliveryIns}
-                onChange={handleInputChange}
-              />
-              {errors.deliveryIns && (
-                <p className="text-red-500 text-sm">{errors.deliveryIns}</p>
-              )}
-            </label>
+            <span className="font-semibold">Delivery Instructions</span>
+            <input
+              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+              type="text"
+              name="deliveryIns"
+              id="deliveryIns"
+              value={formData.deliveryIns}
+              onChange={handleInputChange}
+            />
+            {errors.deliveryIns && (
+              <p className="text-red-500 text-sm">{errors.deliveryIns}</p>
+            )}
+          </label>
 
           <div className="  mt-1">
             <label htmlFor="deliveryDrivers">
@@ -766,11 +776,6 @@ const Clients = () => {
                 <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
               )}
             </label>
-
-            
-
-
-
           </div>
         </form>
       </Modal>

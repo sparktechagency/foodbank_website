@@ -6,38 +6,35 @@ import { Link } from "react-router-dom";
 const ConfirmedVoluntrees = () => {
     const eventData = [
         {
-          valunteerName: "September Holiday Drive 9/2",
-          volunteerType: "Holiday Drive",
-          deliveryLocation: "9/2/24",
-          carSize: "13/25",
-          time: "13/25",
-          driver: "13/25",
-          assigned: "13/25",
-          progress: "view",
+          valunteerName: "Ellen Beffer",
+          volunteerType: "Driver",
+          deliveryLocation: "Hallandale",
+          
+          driver: "No",
+          assigned: "Yes",
+          
           clients: "view",
         },
         {
-            valunteerName: "September Holiday Drive 9/2",
-            volunteerType: "Holiday Drive",
-            deliveryLocation: "9/2/24",
-            carSize: "13/25",
-            time: "13/25",
-            driver: "13/25",
-            assigned: "13/25",
-            progress: "view",
-            clients: "view",
-          },
-          {
-            valunteerName: "September Holiday Drive 9/2",
-            volunteerType: "Holiday Drive",
-            deliveryLocation: "9/2/24",
-            carSize: "13/25",
-            time: "13/25",
-            driver: "13/25",
-            assigned: "13/25",
-            progress: "view",
-            clients: "view",
-          },
+          valunteerName: "Ellen Beffer",
+          volunteerType: "Driver",
+          deliveryLocation: "Hallandale",
+          
+          driver: "No",
+          assigned: "Yes",
+          
+          clients: "view",
+        },
+        {
+          valunteerName: "Ellen Beffer",
+          volunteerType: "Driver",
+          deliveryLocation: "Hallandale",
+          
+          driver: "No",
+          assigned: "Yes",
+          
+          clients: "view",
+        },
       ];
       
   return (
@@ -48,7 +45,7 @@ const ConfirmedVoluntrees = () => {
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
         </h1>
 
-        <h1 className="text-2xl font-bold mt-3">Clients</h1>
+        <h1 className="text-2xl font-bold mt-3">Delivery Drivers: Confirmed Volunteers</h1>
 
         <div className="flex gap-5 mt-3 ">
           <span className="flex">
@@ -93,33 +90,24 @@ const ConfirmedVoluntrees = () => {
                 <thead>
                   <tr className="bg-gray-100 ">
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Event Name
+                      Volunteer Name
                     </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Event Type
+                      Volunteer Type
                     </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Date
+                      Preferred Delivery Location
                     </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
+                      Vip Driver
                     </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
+                      Assigned
                     </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
+                     Clients
                     </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium">
-                      Volunteer Spots 
-                    </th>
-                    <th className=" px-4 py-2 text-left text-sm font-medium"></th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -133,12 +121,8 @@ const ConfirmedVoluntrees = () => {
                       <td className=" px-4 py-3 text-sm">{event.valunteerName}</td>
                       <td className=" px-4 py-3 text-sm">{event.volunteerType}</td>
                       <td className=" px-4 py-3 text-sm">{event.deliveryLocation}</td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.carSize}
-                      </td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.time}
-                      </td>
+                      
+                     
                       <td className="px-4 py-3 text-sm">
                         {event.driver}
                       </td>
@@ -146,14 +130,9 @@ const ConfirmedVoluntrees = () => {
                         {event.assigned}
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        <Link to={'/event/eventView'}><span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">{event.progress}</span></Link>
+                        <Link to={'/event/eventView'}><span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">{event.clients}</span></Link>
                       </td>
-                      <td className="px-4 py-3 text-sm">
-                      <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">{event.clients}</span>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        <Link to={'/event/eventDetails'}><BiDotsVerticalRounded /></Link>
-                      </td>
+                      
                     </tr>
                   ))}
                 </tbody>

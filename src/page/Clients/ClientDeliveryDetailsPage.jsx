@@ -13,86 +13,75 @@ const ClientDeliveryDetailsPage = () => {
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
-
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
       bags: "1",
-    },
-    {
-      clientName: "Jose Root",
-      phone: "01693454373",
-      email: "ssdf#gmail.com",
-
-      bags: "6",
-    },
-    {
-      clientName: "Julite Khanom",
-      phone: "01694349873",
-      email: "ddfosis@gmail.com",
-
-      bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
-
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
       bags: "1",
-    },
-    {
-      clientName: "Jose Root",
-      phone: "01693454373",
-      email: "ssdf#gmail.com",
-
-      bags: "6",
-    },
-    {
-      clientName: "Julite Khanom",
-      phone: "01694349873",
-      email: "ddfosis@gmail.com",
-
-      bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
-
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
       bags: "1",
-    },
-    {
-      clientName: "Jose Root",
-      phone: "01693454373",
-      email: "ssdf#gmail.com",
-
-      bags: "6",
-    },
-    {
-      clientName: "Julite Khanom",
-      phone: "01694349873",
-      email: "ddfosis@gmail.com",
-
-      bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
-
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
       bags: "1",
     },
     {
-      clientName: "Jose Root",
-      phone: "01693454373",
-      email: "ssdf#gmail.com",
-
-      bags: "6",
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
+      bags: "1",
     },
     {
-      clientName: "Julite Khanom",
+      clientName: "Alena Molin",
       phone: "01694349873",
-      email: "ddfosis@gmail.com",
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
+      bags: "1",
+    },
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
+      bags: "1",
+    },
 
-      bags: "3",
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      alernatePhone: "988-3434-323",
+      address:"10009 Brookfield Drive",
+      city:"Hallandele",
+      zipCode:"11234",
+      bags: "1",
     },
   ];
 
@@ -150,12 +139,21 @@ const ClientDeliveryDetailsPage = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Client Name
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Phone</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Phone #</th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Alternate Phone #
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Holocaust Survivor
+                Adress
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                City
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Zip Code
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Bags
               </th>
             </tr>
           </thead>
@@ -167,7 +165,11 @@ const ClientDeliveryDetailsPage = () => {
               >
                 <td className="px-4 py-3 text-sm"><Link to={"/clients/clientsDetails"}>{event.clientName}</Link></td>
                 <td className="px-4 py-3 text-sm">{event.phone}</td>
-                <td className="px-4 py-3 text-sm">{event.email}</td>
+                <td className="px-4 py-3 text-sm">{event.alernatePhone}</td>
+                <td className="px-4 py-3 text-sm">{event.address}</td>
+                <td className="px-4 py-3 text-sm">{event.city}</td>
+                <td className="px-4 py-3 text-sm">{event.zipCode}</td>
+                
 
                 <td className="px-4 py-3 text-sm">{event.bags}</td>
               </tr>

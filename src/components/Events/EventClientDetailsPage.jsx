@@ -274,7 +274,7 @@ const EventClientDetailsPage = () => {
                   <div className="">
                   {searchEventData.map((item) => (
                     <div className="flex justify-between space-y-4">
-                      <h1 className="mt-2">{item.eventName}</h1>
+                      <Link to={'/clients/clientsDetails'}><h1 className="mt-2">{item.eventName}</h1></Link>
                       <button className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
                         {item.event}
                       </button>

@@ -52,10 +52,10 @@ const items = [
   //   ],
   // },
   {
-    key: "reports",
-    label: "Reports",
+    key: "admin",
+    label: "Admin",
     icon: <CgNotes />,
-    link: "/reports",
+    link: "/admin",
   },
   // {
   //   key: "profile",
