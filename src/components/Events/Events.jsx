@@ -65,7 +65,7 @@ const Events = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    // Clear the specific field's error when user starts typing
+    
     if (formErrors[name]) {
       setFormErrors({ ...formErrors, [name]: "" });
     }
