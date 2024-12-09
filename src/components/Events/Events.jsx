@@ -28,18 +28,21 @@ const eventData = [
     eventType: "Holiday Drive",
     date: "9/2/24",
     volunteerSpots: "13/25",
+    archive: "Yes",
   },
   {
     eventName: "Mitzvah Sunday 10/14",
     eventType: "Mitzvah Day",
     date: "10/14/24",
     volunteerSpots: "25/25",
+    archive: "Yes",
   },
   {
     eventName: "Mitzvah Sunday 10/28",
     eventType: "Mitzvah Day",
     date: "10/28/24",
     volunteerSpots: "11/25",
+    archive: "Yes",
   },
 ];
 
@@ -239,6 +242,9 @@ const Events = () => {
                     <th className=" px-4 py-2 text-left text-sm font-medium">
                       Volunteer Spots Filled
                     </th>
+                    <th className=" px-4 py-2 text-left text-sm font-medium">
+                      Archive
+                    </th>
                     <th className=" px-4 py-2 text-left text-sm font-medium"></th>
                   </tr>
                 </thead>
@@ -259,6 +265,9 @@ const Events = () => {
                       <td className=" px-4 py-3 text-sm">{event.date}</td>
                       <td className="px-4 py-3 text-sm">
                         {event.volunteerSpots}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {event.archive}
                       </td>
                       <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                         

@@ -18,8 +18,10 @@ const Clients = () => {
   const [formData, setFormData] = useState({
     first: "",
     last: "",
-    email: "",
+    Holocaust: "",
+    date: "",
     number: "",
+    alternateNumber: "",
     adress: "",
     apartment: "",
     city: "",
@@ -29,6 +31,10 @@ const Clients = () => {
     timeFrom: "",
     timeTo: "",
     deliveryDrivers: "",
+    household: "",
+    bags: "",
+    deitary: "",
+    deliveryIns: "",
     warehouseVolunteers: "",
   });
   const [errors, setErrors] = useState({});
@@ -43,9 +49,14 @@ const Clients = () => {
     let formErrors = {};
     if (!formData.first.trim()) formErrors.first = "Event first is required.";
     if (!formData.last.trim()) formErrors.last = "Event last is required.";
-    if (!formData.email.trim()) formErrors.email = "Event last is required.";
+    if (!formData.Holocaust.trim()) formErrors.Holocaust = "Holocaust is required.";
+
+    if (!formData.date.trim()) formErrors.date = "date is required.";
     if (!formData.number.trim())
       formErrors.number = "Event number is required.";
+    if (!formData.alternateNumber.trim())
+      formErrors.alternateNumber = "alternateNumber number is required.";
+
     if (!formData.adress.trim())
       formErrors.adress = "Event adress is required.";
     if (!formData.apartment.trim())
@@ -59,6 +70,20 @@ const Clients = () => {
     if (!formData.timeTo) formErrors.timeTo = "End time is required.";
     if (!formData.deliveryDrivers)
       formErrors.deliveryDrivers = "Delivery drivers count is required.";
+
+
+    if (!formData.household)
+      formErrors.household = "household count is required.";
+
+    if (!formData.deitary)
+      formErrors.deitary = "deitary Restrictions count is required.";
+
+    if (!formData.bags)
+      formErrors.bags = "bags Restrictions count is required.";
+
+    if (!formData.deliveryIns)
+      formErrors.deliveryIns = "Delivery Instruction count is required.";
+
     if (!formData.warehouseVolunteers)
       formErrors.warehouseVolunteers = "Volunteers count is required.";
 
@@ -75,8 +100,10 @@ const Clients = () => {
       setFormData({
         first: "",
         last: "",
-        email: "",
+        Holocaust: "",
+        date: "",
         number: "",
+        alternateNumber: "",
         adress: "",
         apartment: "",
         city: "",
@@ -86,6 +113,10 @@ const Clients = () => {
         timeFrom: "",
         timeTo: "",
         deliveryDrivers: "",
+        household: "",
+        bags: "",
+        deitary: "",
+        deliveryIns: "",
         warehouseVolunteers: "",
       });
     }
@@ -95,97 +126,106 @@ const Clients = () => {
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "None",
-      status: "Active",
+      
       bags: "1",
     },
     {
       clientName: "Jose Root",
       phone: "01693454373",
-      email: "ssdf#gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      status: "Inactive",
+     
       bags: "6",
     },
     {
       clientName: "Julite Khanom",
       phone: "01694349873",
-      email: "ddfosis@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "No",
       clientDelivery: "Mitzvah Sunday Week 2",
-      status: "Active",
+     
       bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "None",
-      status: "Active",
+    
       bags: "1",
     },
     {
       clientName: "Jose Root",
       phone: "01693454373",
-      email: "ssdf#gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      status: "Inactive",
+      
       bags: "6",
     },
     {
       clientName: "Julite Khanom",
       phone: "01694349873",
-      email: "ddfosis@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
-      status: "Active",
+      
       bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
+      alternatePhone: "956-3445-343-3234",
       clientDelivery: "None",
-      status: "Active",
+      
       bags: "1",
     },
     {
       clientName: "Jose Root",
       phone: "01693454373",
-      email: "ssdf#gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      status: "Inactive",
+      
       bags: "6",
     },
     {
       clientName: "Julite Khanom",
       phone: "01694349873",
-      email: "ddfosis@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
-      status: "Active",
+     
       bags: "3",
     },
     {
       clientName: "Alena Molin",
       phone: "01694349873",
-      email: "foisal@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "None",
-      status: "Active",
+      
       bags: "1",
     },
     {
       clientName: "Jose Root",
       phone: "01693454373",
-      email: "ssdf#gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
-      status: "Inactive",
       bags: "6",
     },
     {
       clientName: "Julite Khanom",
       phone: "01694349873",
-      email: "ddfosis@gmail.com",
+      alternatePhone: "956-3445-343-3234",
+      holocaust: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
-      status: "Active",
       bags: "3",
     },
   ];
@@ -308,6 +348,7 @@ const Clients = () => {
                       <th className="px-4 py-2 text-left text-sm font-medium">
                         Client Delivery Group
                       </th>
+                     
                       <th className="px-4 py-2 text-left text-sm font-medium">
                         Bags
                       </th>
@@ -328,21 +369,17 @@ const Clients = () => {
                           </Link>
                         </td>
                         <td className="px-4 py-3 text-sm">{event.phone}</td>
-                        <td className="px-4 py-3 text-sm">{event.email}</td>
+                        <td className="px-4 py-3 text-sm">{event.alternatePhone}</td>
+                        <td className="px-4 py-3 text-sm">{event.holocaust}</td>
                         <td className="px-4 py-3 text-sm ">
                           <span className="flex">
+                          <Link to={"/clients/clientsDetails"}>
                             <span className="bg-[#EDEDED] text-[#234E6F] pl-3 pr-2 gap-1 rounded-full p-1 flex">
                               {event.clientDelivery}
-                            </span>
+                            </span></Link>
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-sm flex">
-                          <Link to={"/clients/clientsDetails"}>
-                            <span className="bg-[#EDEDED] p-1 px-2 gap-1 text-[#234E6F]  rounded-full  flex">
-                              {event.status}
-                            </span>
-                          </Link>
-                        </td>
+                        
                         <td className="px-4 py-3 text-sm">{event.bags}</td>
                         <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                           <details className="dropdown ">
@@ -424,8 +461,9 @@ const Clients = () => {
           setFormData({
             first: "",
             last: "",
-            email: "",
+            Holocaust: "",
             number: "",
+            alternateNumber: "",
             adress: "",
             apartment: "",
             city: "",
@@ -435,6 +473,10 @@ const Clients = () => {
             timeFrom: "",
             timeTo: "",
             deliveryDrivers: "",
+            household: "",
+            bags: "",
+            deitary: "",
+            deliveryIns: "",
             warehouseVolunteers: "",
           });
           setErrors({});
@@ -483,20 +525,41 @@ const Clients = () => {
               </label>
             </div>
 
-            <label htmlFor="email">
-              <span className="font-semibold">Email Adress</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
+            <label htmlFor="Holocaust">
+              <span className="font-semibold">Holocaust Survivor</span>
+              <select
+                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
+                name="Holocaust"
+                id="Holocaust"
+                value={formData.Holocaust}
                 onChange={handleInputChange}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              {errors.Holocaust && (
+                <p className="text-red-500 text-sm">
+                  {errors.Holocaust}
+                </p>
               )}
             </label>
+
+            <label htmlFor="date">
+              <span className="font-semibold">Date of Birth</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="date"
+                name="date"
+                id="date"
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+              {errors.date && (
+                <p className="text-red-500 text-sm">{errors.date}</p>
+              )}
+            </label>
+
 
             <label htmlFor="number">
               <span className="font-semibold">Phone Number</span>
@@ -510,6 +573,21 @@ const Clients = () => {
               />
               {errors.number && (
                 <p className="text-red-500 text-sm">{errors.number}</p>
+              )}
+            </label>
+
+            <label htmlFor="alternateNumber">
+              <span className="font-semibold">Alternate Phone Number</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="text"
+                name="alternateNumber"
+                id="alternateNumber"
+                value={formData.alternateNumber}
+                onChange={handleInputChange}
+              />
+              {errors.alternateNumber && (
+                <p className="text-red-500 text-sm">{errors.alternateNumber}</p>
               )}
             </label>
 
@@ -600,7 +678,77 @@ const Clients = () => {
             </label>
           </div>
 
-          <div className="  mt-3">
+          <div className="flex gap-3 mt-3">
+              <label className="w-full" htmlFor="household">
+                <span className="font-semibold">Number of People in Household</span>
+                <select
+                  className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
+                  name="household"
+                  id="household"
+                  value={formData.household}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+                {errors.state && (
+                <p className="text-red-500 text-sm">{errors.state}</p>
+              )}
+              </label>
+
+              <label className="w-full" htmlFor="bags">
+                <span className="font-semibold">
+                  Number of Bags
+                </span>
+                <select
+                  className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
+                  name="bags"
+                  id="bags"
+                  value={formData.bags}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+                {errors.state && (
+                <p className="text-red-500 text-sm">{errors.state}</p>
+              )}
+              </label>
+            </div>
+
+          <label htmlFor="deitary">
+              <span className="font-semibold">Deitary Restrictions</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="text"
+                name="deitary"
+                id="deitary"
+                value={formData.deitary}
+                onChange={handleInputChange}
+              />
+              {errors.deitary && (
+                <p className="text-red-500 text-sm">{errors.deitary}</p>
+              )}
+            </label>
+
+          <label htmlFor="deliveryIns">
+              <span className="font-semibold">Delivery Instructions</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="text"
+                name="deliveryIns"
+                id="deliveryIns"
+                value={formData.deliveryIns}
+                onChange={handleInputChange}
+              />
+              {errors.deliveryIns && (
+                <p className="text-red-500 text-sm">{errors.deliveryIns}</p>
+              )}
+            </label>
+
+          <div className="  mt-1">
             <label htmlFor="deliveryDrivers">
               <span className="font-semibold">Delivery Drivers Needed</span>
               <select
@@ -619,25 +767,10 @@ const Clients = () => {
               )}
             </label>
 
-            <label htmlFor="warehouseVolunteers">
-              <span className="font-semibold">Warehouse Volunteers Needed</span>
-              <select
-                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
-                name="warehouseVolunteers"
-                id="warehouseVolunteers"
-                value={formData.warehouseVolunteers}
-                onChange={handleInputChange}
-              >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              {errors.warehouseVolunteers && (
-                <p className="text-red-500 text-sm">
-                  {errors.warehouseVolunteers}
-                </p>
-              )}
-            </label>
+            
+
+
+
           </div>
         </form>
       </Modal>

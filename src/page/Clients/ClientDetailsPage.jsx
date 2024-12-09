@@ -312,20 +312,30 @@ const ClientDetailsPage = () => {
               </label>
             </div>
 
-            <label htmlFor="email">
-              <span className="font-semibold">Email Adress</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
+            <label htmlFor="Holocaust">
+              <span className="font-semibold">Holocaust Survivor</span>
+              <select
+                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
+                name="Holocaust"
+                id="Holocaust"
+                value={formData.Holocaust}
                 onChange={handleInputChange}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
+              >
+                <option value="">Select</option>
+                <option value="1">Yes</option>
+                <option value="2">No</option>
+              </select>
+              {errors.Holocaust && (
+                <p className="text-red-500 text-sm">{errors.Holocaust}</p>
               )}
             </label>
+
+            <span className="font-semibold">Date of Birth</span>
+              <input className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1" type="date" name="" id="" />
+
+
+
+            
 
             <label htmlFor="number">
               <span className="font-semibold">Phone Number</span>
@@ -339,6 +349,21 @@ const ClientDetailsPage = () => {
               />
               {errors.number && (
                 <p className="text-red-500 text-sm">{errors.number}</p>
+              )}
+            </label>
+
+            <label htmlFor="phonnumber">
+              <span className="font-semibold">Alternate Phone Number</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="text"
+                name="phonnumber"
+                id="phonnumber"
+                value={formData.phonnumber}
+                onChange={handleInputChange}
+              />
+              {errors.phonnumber && (
+                <p className="text-red-500 text-sm">{errors.phonnumber}</p>
               )}
             </label>
 
@@ -429,9 +454,46 @@ const ClientDetailsPage = () => {
             </label>
           </div>
 
+
+          <div className="flex gap-3 mt-3">
+              <label className="w-full" htmlFor="deliveryDrivers">
+                <span className="font-semibold">Number of People in Household</span>
+                <select
+                  className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
+                  name="deliveryDrivers"
+                  id="deliveryDrivers"
+                  
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+                
+              </label>
+
+              <label className="w-full" htmlFor="warehouseVolunteers">
+                <span className="font-semibold">
+                  Number of Bags
+                </span>
+                <select
+                  className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
+                  name="warehouseVolunteers"
+                  id="warehouseVolunteers"
+                  
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                </select>
+                
+              </label>
+            </div>
+
           <div className="  mt-3">
             <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Delivery Drivers Needed</span>
+              <span className="font-semibold">Delivery Instructions.</span>
               <select
                 className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
                 name="deliveryDrivers"
@@ -449,7 +511,7 @@ const ClientDetailsPage = () => {
             </label>
 
             <label htmlFor="warehouseVolunteers">
-              <span className="font-semibold">Warehouse Volunteers Needed</span>
+              <span className="font-semibold">Client Delivery Group(optional)</span>
               <select
                 className="w-full  border bg-white border-neutral-400 rounded-md py-2"
                 name="warehouseVolunteers"
@@ -467,6 +529,8 @@ const ClientDetailsPage = () => {
                 </p>
               )}
             </label>
+
+            
           </div>
         </form>
       </Modal>

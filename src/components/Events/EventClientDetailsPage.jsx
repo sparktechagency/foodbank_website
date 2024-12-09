@@ -10,7 +10,7 @@ const EventClientDetailsPage = () => {
   const clientData = [
     {
       eventName: "September Holiday Drive 9/2",
-      event: "remove",
+      event: "remove from Event",
     },
     {
       eventName: "September Holiday Drive 9/2",
@@ -21,7 +21,35 @@ const EventClientDetailsPage = () => {
   const addEventData = [
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Remove from Event",
+    },
+    {
+      eventName: "darhan dilo",
+      event: "Remove from Event",
+    },
+    {
+      eventName: "max olis",
+      event: "Remove from Event",
+    },
+    {
+      eventName: "darhan dilo",
+      event: "Remove from Event",
+    },
+    {
+      eventName: "darhan dilo",
+      event: "Remove from Event",
+    },
+    {
+      eventName: "darhan dilo",
+      event: "Remove from Event",
+    },
+  ];
+
+
+  const searchEventData = [
+    {
+      eventName: "max olis",
+      event: "Add to Event",
     },
     {
       eventName: "darhan dilo",
@@ -29,7 +57,7 @@ const EventClientDetailsPage = () => {
     },
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Add to Event",
     },
     {
       eventName: "darhan dilo",
@@ -71,7 +99,7 @@ const EventClientDetailsPage = () => {
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
         </h1>
 
-        <h1 className="text-2xl font-bold mt-3">Clients</h1>
+        <h1 className="text-2xl font-bold mt-3">Mitzvah Sunday 10/12</h1>
 
         <div className="flex gap-5 mt-3 ">
           <span className="flex">
@@ -133,11 +161,11 @@ const EventClientDetailsPage = () => {
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
               <div className="rounded-xl shadow p-3">
-                <h1>Holocaust Survivors</h1>
+                <h1>Non-holocaust Survivors</h1>
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
               <div className="rounded-xl shadow p-3">
-                <h1>Holocaust Survivors</h1>
+                <h1>Total</h1>
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
             </div>
@@ -227,7 +255,7 @@ const EventClientDetailsPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center border-b border-gray-300 px-1 my-3 mt-7 w-full mr-5">
+              <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-500"
@@ -242,15 +270,17 @@ const EventClientDetailsPage = () => {
                     className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
                   />
                 </div>
-              <div className="bg-white border px-4 py-2 rounded">
-                  {clientData.map((item) => (
+              <div className="bg-white border grid grid-cols-2 px-4 py-2 rounded">
+                  <div className="">
+                  {searchEventData.map((item) => (
                     <div className="flex justify-between space-y-4">
                       <h1 className="mt-2">{item.eventName}</h1>
-                      <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
+                      <button className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
                         {item.event}
                       </button>
                     </div>
                   ))}
+                  </div>
                 </div>
             </div>
           </>
