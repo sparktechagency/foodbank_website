@@ -5,237 +5,143 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 const DriverVolunteers = () => {
 
-    const [modal2Open, setModal2Open] = useState(false);
+  const [modal2Open, setModal2Open] = useState(false);
 
-    const [formData, setFormData] = useState({
-      first: "",
-      last: "",
-      Holocaust: "",
-      date: "",
-      number: "",
-      alternateNumber: "",
-      adress: "",
-      apartment: "",
-      city: "",
-      state: "",
-      zipcode: "",
-      date: "",
-      timeFrom: "",
-      timeTo: "",
-      deliveryDrivers: "",
-      household: "",
-      bags: "",
-      deitary: "",
-      deliveryIns: "",
-      warehouseVolunteers: "",
-    });
-    const [errors, setErrors] = useState({});
-  
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormData({ ...formData, [name]: value });
-      setErrors({ ...errors, [name]: "" });
-    };
-  
-    const validateForm = () => {
-      let formErrors = {};
-      if (!formData.first.trim()) formErrors.first = "Event first is required.";
-      if (!formData.last.trim()) formErrors.last = "Event last is required.";
-      if (!formData.Holocaust.trim())
-        formErrors.Holocaust = "Holocaust is required.";
-  
-      if (!formData.date.trim()) formErrors.date = "date is required.";
-      if (!formData.number.trim())
-        formErrors.number = "Event number is required.";
-      if (!formData.alternateNumber.trim())
-        formErrors.alternateNumber = "alternateNumber number is required.";
-  
-      if (!formData.adress.trim())
-        formErrors.adress = "Event adress is required.";
-      if (!formData.apartment.trim())
-        formErrors.apartment = "Event apartment is required.";
-      if (!formData.city) formErrors.city = "Event city is required.";
-      if (!formData.state) formErrors.state = "Event state is required.";
-  
-      if (!formData.zipcode) formErrors.zipcode = "zipcode is required.";
-      if (!formData.date) formErrors.date = "Date is required.";
-      if (!formData.timeFrom) formErrors.timeFrom = "Start time is required.";
-      if (!formData.timeTo) formErrors.timeTo = "End time is required.";
-      if (!formData.deliveryDrivers)
-        formErrors.deliveryDrivers = "Delivery drivers count is required.";
-  
-      if (!formData.household)
-        formErrors.household = "household count is required.";
-  
-      if (!formData.deitary)
-        formErrors.deitary = "deitary Restrictions count is required.";
-  
-      if (!formData.bags)
-        formErrors.bags = "bags Restrictions count is required.";
-  
-      if (!formData.deliveryIns)
-        formErrors.deliveryIns = "Delivery Instruction count is required.";
-  
-      if (!formData.warehouseVolunteers)
-        formErrors.warehouseVolunteers = "Volunteers count is required.";
-  
-      setErrors(formErrors);
-      return Object.keys(formErrors).length === 0;
-    };
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      if (validateForm()) {
-        console.log("Form Data:", formData);
-  
-        setModal2Open(false);
-        setFormData({
-          first: "",
-          last: "",
-          Holocaust: "",
-          date: "",
-          number: "",
-          alternateNumber: "",
-          adress: "",
-          apartment: "",
-          city: "",
-          state: "",
-          zipcode: "",
-          date: "",
-          timeFrom: "",
-          timeTo: "",
-          deliveryDrivers: "",
-          household: "",
-          bags: "",
-          deitary: "",
-          deliveryIns: "",
-          warehouseVolunteers: "",
-        });
-      }
-    };
+  const [formData, setFormData] = useState({
+    first: "",
+            last: "",
+            email:'',
+            Holocaust: "",
+            number: "",         
+            adress: "",
+            clients: [],
+  });
+  const [errors, setErrors] = useState({});
 
-    const eventData = [
-        {
-          clientName: "Alena Molin",
-          phone: "01694349873",
-          email: "foisal@gmail.com",
-          clientDelivery: "None",
-          status: "Active",
-          bags: "1",
-        },
-        {
-          clientName: "Jose Root",
-          phone: "01693454373",
-          email: "ssdf#gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 1",
-          status: "Inactive",
-          bags: "6",
-        },
-        {
-          clientName: "Julite Khanom",
-          phone: "01694349873",
-          email: "ddfosis@gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 2",
-          status: "Active",
-          bags: "3",
-        },
-        {
-          clientName: "Alena Molin",
-          phone: "01694349873",
-          email: "foisal@gmail.com",
-          clientDelivery: "None",
-          status: "Active",
-          bags: "1",
-        },
-        {
-          clientName: "Jose Root",
-          phone: "01693454373",
-          email: "ssdf#gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 1",
-          status: "Inactive",
-          bags: "6",
-        },
-        {
-          clientName: "Julite Khanom",
-          phone: "01694349873",
-          email: "ddfosis@gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 2",
-          status: "Active",
-          bags: "3",
-        },
-        {
-          clientName: "Alena Molin",
-          phone: "01694349873",
-          email: "foisal@gmail.com",
-          clientDelivery: "None",
-          status: "Active",
-          bags: "1",
-        },
-        {
-          clientName: "Jose Root",
-          phone: "01693454373",
-          email: "ssdf#gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 1",
-          status: "Inactive",
-          bags: "6",
-        },
-        {
-          clientName: "Julite Khanom",
-          phone: "01694349873",
-          email: "ddfosis@gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 2",
-          status: "Active",
-          bags: "3",
-        },
-        {
-          clientName: "Alena Molin",
-          phone: "01694349873",
-          email: "foisal@gmail.com",
-          clientDelivery: "None",
-          status: "Active",
-          bags: "1",
-        },
-        {
-          clientName: "Jose Root",
-          phone: "01693454373",
-          email: "ssdf#gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 1",
-          status: "Inactive",
-          bags: "6",
-        },
-        {
-          clientName: "Julite Khanom",
-          phone: "01694349873",
-          email: "ddfosis@gmail.com",
-          clientDelivery: "Mitzvah Sunday Week 2",
-          status: "Active",
-          bags: "3",
-        },
-      ];
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
+  };
+
+  const validateForm = () => {
+    let formErrors = {};
+    if (!formData.first.trim()) formErrors.first = "Event first is required.";
+    if (!formData.last.trim()) formErrors.last = "Event last is required.";
+    if (!formData.Holocaust.trim())
+      formErrors.Holocaust = "Holocaust is required.";
+
+   
+    if (!formData.number.trim())
+      formErrors.number = "Event number is required.";
+   
+
+    if (!formData.adress.trim())
+      formErrors.adress = "Event adress is required.";
     
-      const [currentPage, setCurrentPage] = useState(1);
+    if (formData.clients.length === 0) {
+      formErrors.clients = "At least one client must be selected";
+    }
+    if (!formData.warehouseVolunteers)
+      formErrors.warehouseVolunteers = "Volunteers count is required.";
+
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
+  const availableClients = [
+    "Alena Artmyeva",
+    "John Doe",
+    "Jane Smith",
+    "Michael Johnson",
+  ];
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleCheckboxChange = (client) => {
+    if (formData.clients.includes(client)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        clients: prevData.clients.filter((c) => c !== client),
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        clients: [...prevData.clients, client],
+      }));
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     
-      const itemsPerPage = 10;
-      const totalPages = Math.ceil(eventData.length / itemsPerPage);
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const currentEvents = eventData.slice(startIndex, endIndex);
+    if (validateForm()) {
+      
     
-      // Pagination handlers
-      const handlePreviousPage = () => {
-        setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-      };
+      setModal2Open(false);
+      setFormData({
+        first: "",
+            last: "",
+            email:'',
+            Holocaust: "",
+            number: "",         
+            adress: "",
+            clients: [],
+      });
+      
+    }
+    console.log("Form Data:", formData);
     
-      const handleNextPage = () => {
-        setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-      };
+  };
+
+  const eventData = [
+    {
+      clientName: "Alena Molin",
+      phone: "01694349873",
+      email: "foisal@gmail.com",
+      clientDelivery: "None",
+      status: "Active",
+      bags: "1",
+    },
+    {
+      clientName: "Jose Root",
+      phone: "01693454373",
+      email: "ssdf#gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 1",
+      status: "Inactive",
+      bags: "6",
+    },
+    {
+      clientName: "Julite Khanom",
+      phone: "01694349873",
+      email: "ddfosis@gmail.com",
+      clientDelivery: "Mitzvah Sunday Week 2",
+      status: "Active",
+      bags: "3",
+    },
     
-      const handlePageChange = (page) => {
-        setCurrentPage(page);
-      };
+  ];
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(eventData.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentEvents = eventData.slice(startIndex, endIndex);
+
+  // Pagination handlers
+  const handlePreviousPage = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  };
+
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  };
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
     return (
-        <div>
-            <div>
+      <div>
       <div className="mt-2 mb-5 mx-5 lg:flex justify-between">
         {/* Search Box */}
         <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
@@ -389,9 +295,8 @@ const DriverVolunteers = () => {
           </button>
         </div>
       </div>
-    </div>
 
-    <Modal
+      <Modal
         title="Add Event"
         centered
         open={modal2Open}
@@ -400,23 +305,11 @@ const DriverVolunteers = () => {
           setFormData({
             first: "",
             last: "",
+            email:'',
             Holocaust: "",
-            number: "",
-            alternateNumber: "",
+            number: "",         
             adress: "",
-            apartment: "",
-            city: "",
-            state: "",
-            zipcode: "",
-            date: "",
-            timeFrom: "",
-            timeTo: "",
-            deliveryDrivers: "",
-            household: "",
-            bags: "",
-            deitary: "",
-            deliveryIns: "",
-            warehouseVolunteers: "",
+            clients: [],
           });
           setErrors({});
         }}
@@ -464,20 +357,18 @@ const DriverVolunteers = () => {
               </label>
             </div>
 
-            
-
-            <label htmlFor="apartment">
-              <span className="font-semibold">Apartment, suite, etc. *</span>
+            <label htmlFor="email">
+              <span className="font-semibold">Email Address</span>
               <input
                 className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="text"
-                name="apartment"
-                id="apartment"
-                value={formData.apartment}
+                type="email"
+                name="email"
+                id="email"
+                value={formData.email}
                 onChange={handleInputChange}
               />
-              {errors.apartment && (
-                <p className="text-red-500 text-sm">{errors.apartment}</p>
+              {errors.email && (
+                <p className="text-red-500 text-sm">{errors.email}</p>
               )}
             </label>
 
@@ -496,10 +387,6 @@ const DriverVolunteers = () => {
               )}
             </label>
 
-
-
-            
-
             <label htmlFor="adress">
               <span className="font-semibold">Adress</span>
               <input
@@ -514,55 +401,67 @@ const DriverVolunteers = () => {
                 <p className="text-red-500 text-sm">{errors.adress}</p>
               )}
             </label>
-
-            
-
-            
           </div>
 
-          
-
           <label htmlFor="Holocaust">
-              <span className="font-semibold">Holocaust Survivor</span>
-              <select
-                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
-                name="Holocaust"
-                id="Holocaust"
-                value={formData.Holocaust}
-                onChange={handleInputChange}
-              >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              {errors.Holocaust && (
-                <p className="text-red-500 text-sm">{errors.Holocaust}</p>
-              )}
-            </label>
+            <span className="font-semibold">Is the Volunteer a Vip</span>
+            <select
+              className="w-full  border bg-white border-neutral-400 rounded-md py-2"
+              name="Holocaust"
+              id="Holocaust"
+              value={formData.Holocaust}
+              onChange={handleInputChange}
+            >
+              <option value="">Select</option>
+              <option value="1">Yes</option>
+              <option value="2">No</option>
+            </select>
+            {errors.Holocaust && (
+              <p className="text-red-500 text-sm">{errors.Holocaust}</p>
+            )}
+          </label>
 
-          
           <div className="  mt-1">
-            <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Delivery Drivers Needed</span>
-              <select
-                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
-                name="deliveryDrivers"
-                id="deliveryDrivers"
-                value={formData.deliveryDrivers}
-                onChange={handleInputChange}
+            
+
+            <span className="font-semibold">Select Your Preferred Volunteer Role</span>
+            <div className="relative mt-2">
+              <div
+                className="border border-gray-400 rounded p-2 cursor-pointer"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              {errors.deliveryDrivers && (
-                <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
+                {formData.clients.length > 0
+                  ? formData.clients.join(", ")
+                  : "Select Clients"}
+              </div>
+              {isDropdownOpen && (
+                <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
+                  {availableClients.map((client, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <input
+                        type="checkbox"
+                        id={`client-${index}`}
+                        className="mr-2 accent-red-200 cursor-pointer"
+                        checked={formData.clients.includes(client)}
+                        onChange={() => handleCheckboxChange(client)}
+                      />
+                      <label htmlFor={`client-${index}`}>{client}</label>
+                    </div>
+                  ))}
+                </div>
               )}
-            </label>
+            </div>
+
+            {errors.clients && (
+              <p className="text-red-500 text-sm -mt-2 mb-2">
+                {errors.clients}
+              </p>
+            )}
+
           </div>
         </form>
       </Modal>
-        </div>
+    </div>
     );
 };
 
