@@ -67,35 +67,35 @@ const EventView = () => {
 
   return (
     <div className="min-h-screen">
-      <div className="px-5 pt-6">
+      <div className="lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1">
           <span className="text-[#007AFF]">Events</span>{" "}
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
         </h1>
 
-        <div className="flex justify-between">
+        <div className="lg:flex justify-between">
           <div>
             <h1 className="text-2xl font-bold mt-3">Clients</h1>
-            <div className="flex gap-5 mt-3">
-              <span className="flex">
-                <IoIosTimer className="text-xl mt-[3px] mr-1" />
-                10/28/2024, 8:30AM - 11AM
-              </span>
-              <span>|</span>
-              <span className="flex">
-                <CiLocationOn className="text-xl mt-[3px] mr-1" />
-                The Cupboard
-              </span>
-              <span>|</span>
-              <span>Mitzvah Day</span>
-            </div>
+            <div className="lg:flex lg:gap-5 mt-3 ">
+          <span className="flex">
+            <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
+            10/28/2024, 8:30AM - 11AM
+          </span>
+          <span className="hidden lg:block">|</span>
+          <span className="flex">
+            <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
+            The Cupboard
+          </span>
+          <span className="hidden lg:block">|</span>
+          <span>Mitzvah Day</span>
+        </div>
             <div className="flex gap-5 mt-3">
               <span className="flex">Priority Sunday</span>
               <span>|</span>
               <span>Large Car</span>
             </div>
           </div>
-          <div className="flex gap-3">
+          <div className="lg:flex gap-3 mt-3 lg-mt-0">
             <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
                 <p>Total Assigned</p>
@@ -103,7 +103,7 @@ const EventView = () => {
               </div>
             </div>
             <div>
-              <div className="bg-[#E3F5FF] p-4 rounded-lg">
+              <div className="bg-[#E3F5FF] p-4 rounded-lg my-3 lg:my-0">
                 <p>Client Assigned</p>
                 <h1 className="text-xl font-semibold">4/15</h1>
               </div>
@@ -118,8 +118,8 @@ const EventView = () => {
         </div>
       </div>
 
-      <div className="mx-5">
-        <table className="min-w-full border-collapse mt-6 border border-gray-300">
+      <div className="lg:mx-5 mx-2 overflow-x-auto">
+        <table className="lg:w-full w-[1000px] border-collapse mt-6 border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 text-left text-sm font-medium">

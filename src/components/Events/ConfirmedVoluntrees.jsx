@@ -39,7 +39,7 @@ const ConfirmedVoluntrees = () => {
       
   return (
     <div className="min-h-screen">
-      <div className="bg-[#FAFAFA] px-5 pt-6">
+      <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Events</span>{" "}
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
@@ -47,17 +47,17 @@ const ConfirmedVoluntrees = () => {
 
         <h1 className="text-2xl font-bold mt-3">Delivery Drivers: Confirmed Volunteers</h1>
 
-        <div className="flex gap-5 mt-3 ">
+        <div className="lg:flex lg:gap-5 mt-3 ">
           <span className="flex">
-            <IoIosTimer className="text-xl mt-[3px] mr-1" />
+            <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
             10/28/2024, 8:30AM - 11AM
           </span>
-          <span>|</span>
+          <span className="hidden lg:block">|</span>
           <span className="flex">
-            <CiLocationOn className="text-xl mt-[3px] mr-1" />
+            <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
             The Cupboard
           </span>
-          <span>|</span>
+          <span className="hidden lg:block">|</span>
           <span>Mitzvah Day</span>
         </div>
       </div>
@@ -65,7 +65,7 @@ const ConfirmedVoluntrees = () => {
 
 
 
-      <div className="mt-5 lg:flex justify-between px-5 pt-3">
+      <div className="mt-5 lg:flex justify-between lg:px-5 px-2 pt-3">
           {/* Search Box */}
           <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5 pb-3">
             <svg
@@ -85,7 +85,7 @@ const ConfirmedVoluntrees = () => {
           </div>
 
 
-         <div className="mx-5">
+         <div className="lg:mx-5 mx-2 overflow-x-auto">
          <table className="min-w-full border-collapse  mt-6 border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100 ">

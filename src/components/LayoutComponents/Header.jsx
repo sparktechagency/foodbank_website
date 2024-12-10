@@ -1,7 +1,7 @@
 import { LuBell } from "react-icons/lu";
 import profilee from "../../../src/assets/header/profileLogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { FaBars, FaRegHandPaper } from "react-icons/fa";
 
 import { useState } from "react";
 import { Drawer, Radio, Space } from "antd";
@@ -14,91 +14,98 @@ import subscription from "../../assets/routerImg/subscription.png";
 import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
 
-import { FaChevronRight } from "react-icons/fa"; 
+import { FaChevronRight } from "react-icons/fa";
 import UseAdminProfile from "../../hook/UseAdminProfile";
 import { IoIosLogIn } from "react-icons/io";
+import { MdOutlineBarChart } from "react-icons/md";
+import { TbUsers } from "react-icons/tb";
+import { CgNotes } from "react-icons/cg";
 
 const items = [
   {
-    key: "dashboard",
-    label: "Dashboard",
-    icon: dashboard,
+    key: "events",
+    label: "events",
+    icon: <MdOutlineBarChart />,
     link: "/",
   },
   {
-    key: "userManagement",
-    label: "User Management",
-    icon: user,
-    link: "/dashboard/UserManagement",
+    key: "clients",
+    label: "Clients",
+    icon: <TbUsers />,
+    link: "/clients",
   },
   {
-    key: "creatorManagement",
-    label: "Creator Management",
-    icon: create,
-    link: "/dashboard/CreatorManagement",
+    key: "volunteers",
+    label: "Volunteers",
+    icon: <FaRegHandPaper />,
+    link: "/volunteers",
   },
+  // {
+  //   key: "categoriesManagement",
+  //   label: "Categories Management",
+  //   icon: categorie,
+  //   link: "/dashboard/CategoriesManagement/Categories",
+  //   children: [
+  //     {
+  //       key: "categoriesManagement",
+  //       label: "Categories",
+  //       link: "/dashboard/CategoriesManagement/Categories",
+  //     },
+  //     {
+  //       key: "subcategory",
+  //       label: "Subcategory",
+  //       link: "/dashboard/CategoriesManagement/Subcategory",
+  //     },
+  //   ],
+  // },
   {
-    key: "categoriesManagement",
-    label: "Categories Management",
-    icon: categorie,
-    link: "/dashboard/CategoriesManagement/Categories",
-    children: [
-      {
-        key: "categoriesManagement",
-        label: "Categories",
-        link: "/dashboard/CategoriesManagement/Categories",
-      },
-      {
-        key: "subcategory",
-        label: "Subcategory",
-        link: "/dashboard/CategoriesManagement/Subcategory",
-      },
-    ],
+    key: "admin",
+    label: "Admin",
+    icon: <CgNotes />,
+    link: "/admin",
   },
-  {
-    key: "subscription",
-    label: "Subscription",
-    icon: subscription,
-    link: "/dashboard/Subscription",
-  },
-  {
-    key: "profile",
-    label: "Settings",
-    icon: settings,
-    link: "/dashboard/Settings/profile",
-    children: [
-      {
-        key: "profile",
-        label: "Profile",
-        link: "/dashboard/Settings/profile",
-      },
-      {
-        key: "terms",
-        label: "Terms & Condition",
-        link: "/dashboard/Settings/Terms&Condition",
-      },
-      {
-        key: "privacy",
-        label: "Privacy Policy",
-        link: "/dashboard/Settings/PrivacyPolicy",
-      },
-      {
-        key: "faq",
-        label: "FAQ",
-        link: "/dashboard/Settings/FAQ",
-      },
-    ],
-  },
+  // {
+  //   key: "profile",
+  //   label: "Settings",
+  //   icon: settings,
+  //   link: "/dashboard/Settings/profile",
+  //   children: [
+  //     {
+  //       key: "profile",
+  //       label: "Profile",
+  //       link: "/dashboard/Settings/profile",
+  //     },
+  //     {
+  //       key: "terms",
+  //       label: "Terms & Condition",
+  //       link: "/dashboard/Settings/Terms&Condition",
+  //     },
+  //     {
+  //       key: "privacy",
+  //       label: "Privacy Policy",
+  //       link: "/dashboard/Settings/PrivacyPolicy",
+  //     },
+  //     {
+  //       key: "faq",
+  //       label: "FAQ",
+  //       link: "/dashboard/Settings/FAQ",
+  //     },
+  //     {
+  //       key: "about",
+  //       label: "About Us",
+  //       link: "/dashboard/Settings/aboutUs",
+  //     },
+  //   ],
+  // },
 ];
 
 const Header = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
-  const [expandedKeys, setExpandedKeys] = useState([]); 
-  const navigate = useNavigate(); 
-  const [admin] = UseAdminProfile()
+  const [expandedKeys, setExpandedKeys] = useState([]);
+  const navigate = useNavigate();
+  const [admin] = UseAdminProfile();
 
-  console.log(admin)
-
+  console.log(admin);
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
@@ -122,11 +129,11 @@ const Header = () => {
     setPlacement(e.target.value);
   };
   const handleLogout = () => {
-    localStorage.removeItem("token"); 
-    navigate("/login"); 
+    localStorage.removeItem("token");
+    navigate("/login");
   };
   return (
-    <div className="bg-[#050505] text-white pt-5">
+    <div className="bg-[#f7f7f7] text-black py-3">
       <div className="flex justify-between">
         <div className="lg:hidden ">
           <div className="py-3 pl-4">
@@ -136,130 +143,82 @@ const Header = () => {
           </div>
         </div>
         <div></div>
-        <div className="flex gap-8 p-1 px-6">
+        <div className="flex gap-8 p-1 ">
           <div className="relative">
-          
-            <Link to={'/dashboard/Settings/notification'}>
-            <div className="w-[45px] h-[45px] flex items-center justify-center text-xl rounded-full bg-white text-black ">
-              <span>
-                <LuBell />
-              </span>
-            </div></Link>
-
             <Space>
               <Radio.Group value={placement} onChange={onChange}></Radio.Group>
             </Space>
+
             <Drawer
-            
               placement={placement}
               closable={false}
               onClose={onClose}
               open={open}
               key={placement}
             >
-              <div className="bg-black h-screen -m-6">
-              <div className="custom-sidebar-logo flex justify-center ">
-                <img src={logo} alt="Logo" className="w-[160px]" />
-              </div>
+              <div className="custom-sidebar h-full ">
+                {/* Logo */}
+                <div className="custom-sidebar-logo flex justify-center pt-5">
+                  <img src={logo} alt="Logo" className="w-[180px]" />
+                </div>
 
-              
-              <div className="menu-items">
-                {items.map((item) => (
-                  <div key={item.key}>
-                  
-                    <Link
-                      to={item.link}
-                      className={`menu-item my-4 mx-5 py-3 px-3 flex items-center cursor-pointer ${
-                        selectedKey === item.key
-                          ? "bg-[#EDC4C5] rounded-md"
-                          : "bg-white rounded-md hover:bg-gray-200"
-                      }`}
-                      onClick={() => {
-                        if (item.children) {
-                          onParentClick(item.key); 
-                        }
-                        onClick(item.key); 
-                      }}
-                    >
-                      <img
-                        src={item.icon}
-                        alt={item.label}
-                        className="w-5 h-5 mr-3"
-                      />
-                      <span className="block w-full text-black">
-                        {item.label}
-                      </span>
+                {/* Sidebar Menu */}
+                <div className="menu-items pt-5">
+                  {items.map((item) => (
+                    <div key={item.key}>
+                      {/* Render Parent Item */}
+                      <Link
+                        to={item.link}
+                        className={`menu-item my-4  py-2  flex items-center cursor-pointer ${
+                          selectedKey === item.key
+                            ? "text-blue-600 rounded-md"
+                            : " hover:text-blue-700 "
+                        }`}
+                        onClick={(e) => {
+                          if (item.children) {
+                            e.preventDefault();
+                            onParentClick(item.key);
+                          } else {
+                            setSelectedKey(item.key);
+                          }
+                        }}
+                      >
+                        <p className="w-5 h-5 mr-3 mt-1">{item.icon}</p>
+                        <span className="block w-full text-">{item.label}</span>
 
-                    
-                      {item.children && (
-                        <FaChevronRight
-                          className={`ml-auto transform transition-all duration-300 ${
-                            expandedKeys.includes(item.key) ? "rotate-90" : ""
-                          }`}
-                        />
-                      )}
-                    </Link>
-
-                  
-                    {item.children && expandedKeys.includes(item.key) && (
-                      <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
-                        {item.children.map((child) => (
-                          <Link
-                            key={child.key}
-                            to={child.link}
-                            className={`menu-item p-4 flex items-center cursor-pointer ${
-                              selectedKey === child.key
-                                ? "bg-[#EDC4C5]"
-                                : "hover:bg-gray-200"
+                        {item.children && (
+                          <FaChevronRight
+                            className={`ml-auto transform transition-all duration-300 ${
+                              expandedKeys.includes(item.key) ? "rotate-90" : ""
                             }`}
-                            onClick={() => onClick(child.key)}
-                          >
-                            <span className="block w-full text-black">
-                              {child.label}
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                          />
+                        )}
+                      </Link>
 
-              {/* Footer (Log Out) */}
-              <div className="custom-sidebar-footer absolute bottom-0 w-full p-4 ">
-                
-                <button
-          onClick={handleLogout} 
-          className="w-full flex bg-white text-start rounded-md text-black p-3"
-        >
-          <span className="text-2xl"><IoIosLogIn /></span>
-          <span className="ml-3">Log Out</span>
-        </button>
-                
-              </div>
+                      
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer (Log Out) */}
+                <div className="custom-sidebar-footer absolute bottom-0  ">
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex bg-white text-start rounded-md mb-8 text-black "
+                  >
+                    <span className="text-2xl">
+                      <IoIosLogIn />
+                    </span>
+                    <span className="ml-3">Log Out</span>
+                  </button>
+                </div>
               </div>
             </Drawer>
-
-            <span className="absolute top-0 right-0 -mr-2  w-5 h-5 bg-white text-black text-xs flex items-center justify-center rounded-full">
-              0
-            </span>
           </div>
 
-          <Link to={"/dashboard/Settings/profile"}>
-            <div className="flex gap-3">
-              <div>
-                <img
-                  className="w-[45px] h-[45px]"
-                  src={profilee}
-                  alt="profile"
-                />
-              </div>
-              <div className="text-end">
-                <h3>{admin?.user?.name || "Loading..."}</h3>
-                <h4 className="text-sm">Admin</h4>
-              </div>
-            </div>
-          </Link>
+          <div className=" mt-2">
+            <img src={logo} alt="Logo" className="w-[180px]" />
+          </div>
         </div>
       </div>
     </div>

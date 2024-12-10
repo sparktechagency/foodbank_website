@@ -153,6 +153,12 @@ const ClientsDelivery = () => {
           });
           setFormErrors({});
         }}
+        bodyStyle={{
+          maxHeight: "50vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
+          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
+           // আরামদায়ক প্যাডিং
+        }}
+       
         footer={[
           <button
             key="save"

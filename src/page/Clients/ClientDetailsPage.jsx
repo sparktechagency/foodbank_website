@@ -123,127 +123,12 @@ const ClientDetailsPage = () => {
   ];
 
   return (
-    <div className=" min-h-screen">
-      <div className="bg-[#FAFAFA] px-5 py-6">
-        <h1 className="flex gap-1 ">
-          <span className="text-[#007AFF]">Clients</span>{" "}
-          <IoIosArrowForward className="mt-1" /> Alena Armyeva
-        </h1>
-
-        <h1 className="text-2xl font-bold mt-3">Clients</h1>
-      </div>
-
-      <div className="px-5 pt-5">
-        <h2 className="text-md font-semibold mb-1 ">Details</h2>
-        <div className="flex justify-between border p-5 max-w-[900px]">
-          <div>
-            <div className="flex gap-16">
-              <div>
-                <div className="mb-8">
-                  <h1 className="font-semibold">First Name</h1>
-                  <p>Altena</p>
-                </div>
-
-                <div className="mb-8">
-                  <h1 className="font-semibold">Alternate Phone</h1>
-                  <p>983-344-5332</p>
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-7">
-                  <h1 className="font-semibold">Last Name</h1>
-                  <p>Faris</p>
-                </div>
-                <div>
-                  <h1 className="font-semibold">Phone</h1>
-                  <p>983-344-5332</p>
-                </div>
-              </div>
-              
-            </div>
-            <div>
-            <div>
-            <Link to={'/clients'}><button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
-              Archive
-            </button></Link>
-          </div>
-              <div className="mt-4">
-                <h1 className="font-semibold">Adress</h1>
-                <p>1460 NW 80th Ave, Apt 402, Margate, FL 33063</p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <button onClick={() => setModal2Open(true)} className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
-              Edit
-            </button>
-          </div>
-        </div>
-        
-
-        <div>
-          <h1 className="text-md font-semibold mb-1 mt-8">Events</h1>
-          <table className="min-w-full border-collapse  border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100 ">
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Event 
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Driver
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Schedule Date
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Confirmation
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Dietary Restrictions
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  # of People
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  # of Bags
-                </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">Delivery Instructions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {eventData.map((event, index) => (
-                <tr
-                  key={index}
-                  className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                >
-                  <td className=" px-4 py-3 text-sm">
-                  <Link to={"/event/eventDetails"}><p className="text-[#007AFF] underline">{event.event}</p></Link>
-                  </td>
-                  <td className=" px-4 py-3 text-sm">{event.driver}</td>
-                  <td className=" px-4 py-3 text-sm">{event.schedule}</td>
-                  <td className="px-4 py-3 text-sm flex">
-                    <p className="bg-[#F0F9F2] border border-[#81c9a6] rounded-full text-[#236847] py-1 px-3">
-                      {event.confirmation}
-                    </p>
-                  </td>
-                  <td className="px-4 py-3 text-sm">{event.dietary}</td>
-                  <td className="px-4 py-3 text-sm">{event.people}</td>
-                  <td className="px-4 py-3 text-sm">{event.bags}</td>
-                  <td className="px-4 py-3 text-sm"></td>
-                  
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div className=" min-h-screen lg:px-5 px-2 lg:pt-10 pt-3">
 
 
-
-      <Modal
+<Modal
         title="Add Event"
+        className="bg-red-500"
         centered
         open={modal2Open}
         onCancel={() => {
@@ -266,6 +151,14 @@ const ClientDetailsPage = () => {
           });
           setErrors({});
         }}
+
+        bodyStyle={{
+          maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
+          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
+           // আরামদায়ক প্যাডিং
+        }}
+        
+        
         footer={[
           <button
             key="save"
@@ -453,7 +346,7 @@ const ClientDetailsPage = () => {
           </div>
 
 
-          <div className="flex gap-3 mt-3">
+          <div className="lg:flex gap-3 mt-3">
               <label className="w-full" htmlFor="deliveryDrivers">
                 <span className="font-semibold">Number of People in Household</span>
                 <select
@@ -532,6 +425,132 @@ const ClientDetailsPage = () => {
           </div>
         </form>
       </Modal>
+
+
+
+
+
+
+
+      <div className="bg-[#FAFAFA] ">
+        <h1 className="flex gap-1 ">
+          <span className="text-[#007AFF]">Clients</span>{" "}
+          <IoIosArrowForward className="mt-1" /> Alena Armyeva
+        </h1>
+
+        <h1 className="text-2xl font-bold mt-3">Clients</h1>
+      </div>
+
+      <div className="lg:px-5 px-2 pt-5 text-sm lg:text-base">
+        <h2 className="text-md font-semibold mb-1 ">Details</h2>
+        <div className="flex justify-between border p-5 max-w-[900px]">
+          <div>
+            <div className="flex gap-16">
+              <div>
+                <div className="mb-8">
+                  <h1 className="font-semibold">First Name</h1>
+                  <p>Altena</p>
+                </div>
+
+                <div className="mb-8">
+                  <h1 className="font-semibold">Alternate Phone</h1>
+                  <p>983-344-5332</p>
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-7">
+                  <h1 className="font-semibold">Last Name</h1>
+                  <p>Faris</p>
+                </div>
+                <div>
+                  <h1 className="font-semibold">Phone</h1>
+                  <p>983-344-5332</p>
+                </div>
+              </div>
+              
+            </div>
+            <div>
+            <div>
+            <Link to={'/clients'}><button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
+              Archive
+            </button></Link>
+          </div>
+              <div className="mt-4">
+                <h1 className="font-semibold">Adress</h1>
+                <p>1460 NW 80th Ave, Apt 402, Margate, FL 33063</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <button onClick={() => setModal2Open(true)} className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
+              Edit
+            </button>
+          </div>
+        </div>
+        
+
+        <div className="overflow-x-auto">
+          <h1 className="text-md font-semibold mb-1 mt-8">Events</h1>
+          <table className="lg:w-full w-[1000px] border-collapse  border border-gray-300">
+            <thead>
+              <tr className="bg-gray-100 ">
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Event 
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Driver
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Schedule Date
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Confirmation
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Dietary Restrictions
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  # of People
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  # of Bags
+                </th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">Delivery Instructions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {eventData.map((event, index) => (
+                <tr
+                  key={index}
+                  className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                >
+                  <td className=" px-4 py-3 text-sm">
+                  <Link to={"/event/eventDetails"}><p className="text-[#007AFF] underline">{event.event}</p></Link>
+                  </td>
+                  <td className=" px-4 py-3 text-sm">{event.driver}</td>
+                  <td className=" px-4 py-3 text-sm">{event.schedule}</td>
+                  <td className="px-4 py-3 text-sm flex">
+                    <p className="bg-[#F0F9F2] border border-[#81c9a6] rounded-full text-[#236847] py-1 px-3">
+                      {event.confirmation}
+                    </p>
+                  </td>
+                  <td className="px-4 py-3 text-sm">{event.dietary}</td>
+                  <td className="px-4 py-3 text-sm">{event.people}</td>
+                  <td className="px-4 py-3 text-sm">{event.bags}</td>
+                  <td className="px-4 py-3 text-sm"></td>
+                  
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+             
+
+      
     </div>
   );
 };

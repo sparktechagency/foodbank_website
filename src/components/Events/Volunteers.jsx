@@ -160,7 +160,8 @@ const Volunteers = () => {
   return (
     <div className="mt-5 ">
       <h2 className="text-xl font-semibold mb-2">Volunteers</h2>
-      <table className="min-w-full border-collapse  border border-gray-300">
+      <div className="overflow-x-auto">
+      <table className="min-w-full border-collapse overflow-x-auto border border-gray-300">
         <thead>
           <tr className="bg-gray-100 ">
             <th className=" px-4 py-2 text-left text-sm font-medium">
@@ -173,7 +174,7 @@ const Volunteers = () => {
             <th className=" px-4 py-2 text-left text-sm font-medium">
               Volunteer Spots Filled
             </th>
-            <th className=" px-4 py-2 text-left text-sm font-medium"></th>
+           
           </tr>
         </thead>
         <tbody>
@@ -190,17 +191,14 @@ const Volunteers = () => {
               <td className="px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
                 {event.volunteersRespons}
               </td>
-              <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                <Link to={"/event/eventDetails"}>
-                  <BiDotsVerticalRounded />
-                </Link>
-              </td>
+              
             </tr>
           ))}
         </tbody>
       </table>
+      </div>
 
-      <div className="bg-[#F6F7F9] rounded my-5 p-5">
+      <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
         <div className="grid grid-cols-2">
           <div>
             <div className="grid grid-cols-2">
@@ -211,7 +209,7 @@ const Volunteers = () => {
               
             </div>
           </div>
-          <div>
+          <div className="hidden lg:block">
             <div className="grid grid-cols-2">
               <p className="mt-8 mb-1 ml-2 ">Clients Added to Event</p>
 
@@ -242,6 +240,27 @@ const Volunteers = () => {
                 </button>
               </div>
             ))}
+          </div>
+
+          <div className="lg:hidden ">
+            <div className="grid grid-cols-2">
+              <p className="mt-8 mb-1 ml-2 ">Clients Added to Event</p>
+
+              <div className="flex items-center mt-4 w-full ">
+                <input
+                  type="text"
+                  className=" flex-1 outline-none text-sm bg-[#F6F7F9] text-gray-700 placeholder-gray-400"
+                />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-500"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                </svg>
+              </div>
+            </div>
           </div>
 
           <div className="bg-white px-4 border py-2 rounded">
@@ -308,7 +327,7 @@ const Volunteers = () => {
                 className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
               />
             </div>
-            <div className="bg-white border grid grid-cols-2 px-4 py-2 rounded">
+            <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
               <div className="">
                 {searchEventData.map((item) => (
                   <div className="flex justify-between space-y-4">

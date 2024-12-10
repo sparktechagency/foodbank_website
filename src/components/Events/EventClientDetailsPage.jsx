@@ -45,7 +45,6 @@ const EventClientDetailsPage = () => {
     },
   ];
 
-
   const searchEventData = [
     {
       eventName: "max olis",
@@ -93,7 +92,7 @@ const EventClientDetailsPage = () => {
   };
   return (
     <div className="min-h-screen">
-      <div className="bg-[#FAFAFA] px-5 pt-6">
+      <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Events</span>{" "}
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
@@ -101,20 +100,20 @@ const EventClientDetailsPage = () => {
 
         <h1 className="text-2xl font-bold mt-3">Mitzvah Sunday 10/12</h1>
 
-        <div className="flex gap-5 mt-3 ">
+        <div className="lg:flex lg:gap-5 mt-3 ">
           <span className="flex">
-            <IoIosTimer className="text-xl mt-[3px] mr-1" />
+            <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
             10/28/2024, 8:30AM - 11AM
           </span>
-          <span>|</span>
+          <span className="hidden lg:block">|</span>
           <span className="flex">
-            <CiLocationOn className="text-xl mt-[3px] mr-1" />
+            <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
             The Cupboard
           </span>
-          <span>|</span>
+          <span className="hidden lg:block">|</span>
           <span>Mitzvah Day</span>
         </div>
-        <div className="flex gap-4 rounded-lg p-[px] mt-6">
+        <div className="flex gap-4 text-sm lg:text-base rounded-lg p-[px] mt-6">
           <button
             onClick={() => setActiveTab("list")}
             className={`${
@@ -150,7 +149,7 @@ const EventClientDetailsPage = () => {
         <hr />
       </div>
 
-      <div className="px-5">
+      <div className="lg:px-5 px-2">
         {activeTab === "list" && (
           <>
             {/* Pagination Controls */}
@@ -160,7 +159,7 @@ const EventClientDetailsPage = () => {
                 <h1>Holocaust Survivors</h1>
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
-              <div className="rounded-xl shadow p-3">
+              <div className="rounded-xl shadow p-3 my-4 lg:my-0">
                 <h1>Non-holocaust Survivors</h1>
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
@@ -170,13 +169,50 @@ const EventClientDetailsPage = () => {
               </div>
             </div>
 
-            <div className="bg-[#F6F7F9] rounded my-5 p-5">
+            <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
               <div className="grid grid-cols-2">
                 <div>
                   <h1 className="font-semibold">Invite Clients</h1>
                   <p className="mt-2 mb-1">Client Groups</p>
                 </div>
                 <div>
+                  <div className="hidden lg:block">
+                    <div className="grid grid-cols-2">
+                      <p className="mt-8 mb-1 ml-2 ">Clients Added to Event</p>
+
+                      <div className="flex items-center mt-4 w-full ">
+                        <input
+                          type="text"
+                          className=" flex-1 outline-none text-sm bg-[#F6F7F9] text-gray-700 placeholder-gray-400"
+                        />
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 text-gray-500"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="lg:grid grid-cols-2 gap-4">
+                <div className="bg-white border px-4 py-2 rounded">
+                  {clientData.map((item) => (
+                    <div className="flex justify-between space-y-4">
+                      <h1 className="mt-2">{item.eventName}</h1>
+                      <div>
+                        <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
+                          {item.event}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="lg:hidden ">
                   <div className="grid grid-cols-2">
                     <p className="mt-8 mb-1 ml-2 ">Clients Added to Event</p>
 
@@ -196,24 +232,14 @@ const EventClientDetailsPage = () => {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="lg:grid grid-cols-2 gap-4">
-                <div className="bg-white border px-4 py-2 rounded">
-                  {clientData.map((item) => (
-                    <div className="flex justify-between space-y-4">
-                      <h1 className="mt-2">{item.eventName}</h1>
-                      <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
-                        {item.event}
-                      </button>
-                    </div>
-                  ))}
-                </div>
 
                 <div className="bg-white px-4 border py-2 rounded">
                   <div>
                     {currentEvents.map((event) => (
                       <div className="flex justify-between space-y-4">
-                        <Link to={'/clients/clientsDetails'}><h1 className="mt-2">{event.eventName}</h1></Link>
+                        <Link to={"/clients/clientsDetails"}>
+                          <h1 className="mt-2">{event.eventName}</h1>
+                        </Link>
                         <button className="bg-blue-600 text-white px-3 rounded-full text-sm">
                           {event.event}
                         </button>
@@ -256,32 +282,34 @@ const EventClientDetailsPage = () => {
                 </div>
               </div>
               <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-500"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
-                  </svg>
-                  <input
-                    type="text"
-                    placeholder="Search Event"
-                    className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
-                  />
-                </div>
-              <div className="bg-white border grid grid-cols-2 px-4 py-2 rounded">
-                  <div className="">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-gray-500"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search Event"
+                  className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
+                />
+              </div>
+              <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
+                <div className="">
                   {searchEventData.map((item) => (
                     <div className="flex justify-between space-y-4">
-                      <Link to={'/clients/clientsDetails'}><h1 className="mt-2">{item.eventName}</h1></Link>
+                      <Link to={"/clients/clientsDetails"}>
+                        <h1 className="mt-2">{item.eventName}</h1>
+                      </Link>
                       <button className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
                         {item.event}
                       </button>
                     </div>
                   ))}
-                  </div>
                 </div>
+              </div>
             </div>
           </>
         )}
@@ -293,7 +321,7 @@ const EventClientDetailsPage = () => {
           </div>
         )}
 
-{activeTab === "warehouse" && (
+        {activeTab === "warehouse" && (
           <div className="">
             {/* Calendar View */}
             <Volunteers></Volunteers>

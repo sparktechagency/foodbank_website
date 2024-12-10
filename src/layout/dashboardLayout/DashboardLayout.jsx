@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 
 import SidBar from "../../components/LayoutComponents/SidBar";
+import Header from "../../components/LayoutComponents/Header";
 
 const DashboardLayout = () => {
   
@@ -13,7 +14,9 @@ const DashboardLayout = () => {
 
      
       <div className="lg:flex-1 lg:ml-64">
-      
+      <div className="lg:hidden">
+      <Header />
+      </div>
         <div className="">
           <Outlet />
         </div>

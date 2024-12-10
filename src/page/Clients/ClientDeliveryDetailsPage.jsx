@@ -105,7 +105,7 @@ const ClientDeliveryDetailsPage = () => {
   };
   return (
     <div className="min-h-screen">
-      <div className="bg-[#FAFAFA] px-5 py-6">
+      <div className="bg-[#FAFAFA] lg:px-5 px-2 py-6">
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Clients</span>{" "}
           <IoIosArrowForward className="mt-1" /> Alena Armyeva
@@ -114,8 +114,8 @@ const ClientDeliveryDetailsPage = () => {
         <h1 className="text-2xl font-bold mt-3">Clients</h1>
       </div>
 
-      <div className="px-5">
-        <div className="flex items-center border-b  py-6 border-gray-300 px-4 w-full mr-5">
+      <div className="lg:px-5 px-2">
+        <div className="flex items-center border-b py-6 border-gray-300 px-4 w-full mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-gray-500"
@@ -132,8 +132,9 @@ const ClientDeliveryDetailsPage = () => {
         </div>
       </div>
 
-      <div className="px-5 py-6">
-        <table className="min-w-full  border-collapse border border-gray-300">
+      <div className="lg:px-5 px-2 py-6 ">
+        < div className="overflow-x-auto">
+        <table className="lg:w-full w-[1000px]  border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 text-left text-sm font-medium">
@@ -176,6 +177,7 @@ const ClientDeliveryDetailsPage = () => {
             ))}
           </tbody>
         </table>
+        </div>
 
         <div className="flex justify-between items-center mt-4 px-4">
           <span className="text-sm text-gray-700">

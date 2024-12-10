@@ -249,10 +249,14 @@ const Clients = () => {
     setCurrentPage(page);
   };
   return (
-    <div className="px-5 pt-10 min-h-screen">
-      <h1 className="text-2xl font-bold">Clients</h1>
+    <div className="lg:px-5 px-2 lg:pt-10 pt-5 min-h-screen">
+      <div className="">
+        <h1 className="text-2xl font-bold">Clients</h1>
 
-      <div className="mt-10">
+      
+      </div>
+
+      <div className="lg:mt-10 mt-5">
         <div className="flex gap-4 rounded-lg p-[px] ">
           <button
             onClick={() => setActiveTab("list")}
@@ -282,7 +286,7 @@ const Clients = () => {
             <>
               <div className="mt-2 mb-5 lg:flex justify-between">
                 {/* Search Box */}
-                <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
+                <div className="flex items-center py-3 border-b border-gray-300 px-1 w-full mr-5">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5 text-gray-500"
@@ -298,7 +302,7 @@ const Clients = () => {
                   />
                 </div>
 
-                <div className="lg:flex mt-3 gap-3 ">
+                <div className="flex justify-between mt-3 gap-3 ">
                   {/* Tabs for List and Calendar View */}
 
                   {/* Filters */}
@@ -318,7 +322,7 @@ const Clients = () => {
                       </option>
                     </select>
                   </div>
-                  <div>
+                  <div className="">
                     <button
                       onClick={() => setModal2Open(true)}
                       className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
@@ -328,9 +332,9 @@ const Clients = () => {
                   </div>
                 </div>
               </div>
-              <div className="rounded-lg">
+              <div className="rounded-lg overflow-x-auto">
                 {/* Table View */}
-                <table className="min-w-full border-collapse border border-gray-300">
+                <table className="lg:w-full w-[1000px]  border-collapse border border-gray-300">
                   <thead>
                     <tr className="bg-gray-100">
                       <th className="px-4 py-2 text-left text-sm font-medium">
@@ -494,6 +498,12 @@ const Clients = () => {
           });
           setErrors({});
         }}
+        bodyStyle={{
+          maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
+          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
+           // আরামদায়ক প্যাডিং
+        }}
+        
         footer={[
           <button
             key="save"
@@ -688,7 +698,7 @@ const Clients = () => {
             </label>
           </div>
 
-          <div className="flex gap-3 mt-3">
+          <div className="lg:flex gap-3 mt-3">
             <label className="w-full" htmlFor="household">
               <span className="font-semibold">
                 Number of People in Household

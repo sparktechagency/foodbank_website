@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const Groups = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -10,6 +11,7 @@ const Groups = () => {
     Holocaust: "",
     timeTo: "",
     deliveryDrivers: "",
+    clients: [],
   });
   const [errors, setErrors] = useState({});
 
@@ -28,9 +30,32 @@ const Groups = () => {
     if (!formData.timeTo) formErrors.timeTo = "End time is required.";
     if (!formData.deliveryDrivers)
       formErrors.deliveryDrivers = "Delivery drivers count is required.";
-
+    if (formData.clients.length === 0) {
+      formErrors.clients = "At least one client must be selected";
+    }
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
+  };
+
+  const availableClients = [
+    "Alena Artmyeva",
+    "John Doe",
+    "Jane Smith",
+    "Michael Johnson",
+  ];
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const handleCheckboxChange = (client) => {
+    if (formData.clients.includes(client)) {
+      setFormData((prevData) => ({
+        ...prevData,
+        clients: prevData.clients.filter((c) => c !== client),
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        clients: [...prevData.clients, client],
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -41,7 +66,7 @@ const Groups = () => {
       setModal2Open(false);
       setFormData({
         Holocaust: "",
-
+        clients: [],
         timeTo: "",
         deliveryDrivers: "",
       });
@@ -64,16 +89,7 @@ const Groups = () => {
 
       bags: "1",
     },
-    {
-      clientName: "Alena Molin",
-
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-
-      bags: "1",
-    },
+    
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,27 +115,26 @@ const Groups = () => {
   return (
     <div>
       <div>
-        <div className="mt-2 mb-5 mx-5 lg:flex justify-between">
-          {/* Search Box */}
-          <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search Event"
-              className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
-            />
-          </div>
+      <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
+        {/* Search Box */}
+        <div className="flex items-center border-b py-3 border-gray-300 px-1 w-full mr-5">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5 text-gray-500"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search Event"
+            className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
+          />
+        </div>
 
-          <div className="lg:flex mt-3 gap-3 ">
-            {/* Tabs for List and Calendar View */}
-            <div>
+        <div className=" mt-4 flex justify-between gap-3 ">
+        <div>
               <select className="border rounded py-2 bg-white" name="" id="">
                 <option value="all client">All Client</option>
                 <option value="Holocaust Survivors">Holocaust Survivors</option>
@@ -138,10 +153,10 @@ const Groups = () => {
                 +Add Volunteer
               </button>
             </div>
-          </div>
         </div>
+      </div>
 
-        <div className="mx-5">
+        <div className="lg:mx-5 mx-2">
           <table className="min-w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
@@ -160,7 +175,7 @@ const Groups = () => {
                   key={index}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
-                  <td className="px-4 py-3 text-sm">{event.clientName}</td>
+                  <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
 
                   <td className="px-4 py-3 text-sm">{event.bags}</td>
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
@@ -231,6 +246,7 @@ const Groups = () => {
             Holocaust: "",
             timeTo: "",
             deliveryDrivers: "",
+            clients: [],
           });
           setErrors({});
         }}
@@ -284,23 +300,41 @@ const Groups = () => {
           </div>
 
           <div className="  mt-1">
-            <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Delivery Drivers Needed</span>
-              <select
-                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
-                name="deliveryDrivers"
-                id="deliveryDrivers"
-                value={formData.deliveryDrivers}
-                onChange={handleInputChange}
+            <span className="font-semibold">
+              Select Your Preferred Volunteer Role
+            </span>
+            <div className="relative mt-2">
+              <div
+                className="border border-gray-400 rounded p-2 cursor-pointer"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              {errors.deliveryDrivers && (
-                <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
+                {formData.clients.length > 0
+                  ? formData.clients.join(", ")
+                  : "Select Clients"}
+              </div>
+              {isDropdownOpen && (
+                <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
+                  {availableClients.map((client, index) => (
+                    <div key={index} className="flex items-center mb-2">
+                      <input
+                        type="checkbox"
+                        id={`client-${index}`}
+                        className="mr-2 accent-red-200 cursor-pointer"
+                        checked={formData.clients.includes(client)}
+                        onChange={() => handleCheckboxChange(client)}
+                      />
+                      <label htmlFor={`client-${index}`}>{client}</label>
+                    </div>
+                  ))}
+                </div>
               )}
-            </label>
+            </div>
+
+            {errors.clients && (
+              <p className="text-red-500 text-sm -mt-2 mb-2">
+                {errors.clients}
+              </p>
+            )}
           </div>
         </form>
       </Modal>

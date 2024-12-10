@@ -2,18 +2,19 @@ import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const AllVolunteers = () => {
   const [modal2Open, setModal2Open] = useState(false);
 
   const [formData, setFormData] = useState({
     first: "",
-            last: "",
-            email:'',
-            Holocaust: "",
-            number: "",         
-            adress: "",
-            clients: [],
+    last: "",
+    email: "",
+    Holocaust: "",
+    number: "",
+    adress: "",
+    clients: [],
   });
   const [errors, setErrors] = useState({});
 
@@ -30,14 +31,12 @@ const AllVolunteers = () => {
     if (!formData.Holocaust.trim())
       formErrors.Holocaust = "Holocaust is required.";
 
-   
     if (!formData.number.trim())
       formErrors.number = "Event number is required.";
-   
 
     if (!formData.adress.trim())
       formErrors.adress = "Event adress is required.";
-    
+
     if (formData.clients.length === 0) {
       formErrors.clients = "At least one client must be selected";
     }
@@ -71,24 +70,20 @@ const AllVolunteers = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      
-    
       setModal2Open(false);
       setFormData({
         first: "",
-            last: "",
-            email:'',
-            Holocaust: "",
-            number: "",         
-            adress: "",
-            clients: [],
+        last: "",
+        email: "",
+        Holocaust: "",
+        number: "",
+        adress: "",
+        clients: [],
       });
-      
     }
     console.log("Form Data:", formData);
-    
   };
 
   const eventData = [
@@ -116,7 +111,6 @@ const AllVolunteers = () => {
       status: "Active",
       bags: "3",
     },
-    
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -141,9 +135,9 @@ const AllVolunteers = () => {
   };
   return (
     <div>
-      <div className="mt-2 mb-5 mx-5 lg:flex justify-between">
+      <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
         {/* Search Box */}
-        <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
+        <div className="flex items-center border-b py-3 border-gray-300 px-1 w-full mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-gray-500"
@@ -159,7 +153,7 @@ const AllVolunteers = () => {
           />
         </div>
 
-        <div className="lg:flex mt-3 gap-3 ">
+        <div className=" mt-4 flex justify-end gap-3 ">
           {/* Tabs for List and Calendar View */}
 
           {/* Filters */}
@@ -175,8 +169,8 @@ const AllVolunteers = () => {
         </div>
       </div>
 
-      <div className="mx-5">
-        <table className="min-w-full border-collapse border border-gray-300">
+      <div className="lg:mx-5 mx-2 overflow-x-auto">
+        <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 text-left text-sm font-medium">
@@ -204,7 +198,7 @@ const AllVolunteers = () => {
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <td className="px-4 py-3 text-sm">{event.clientName}</td>
+                <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
                 <td className="px-4 py-3 text-sm">{event.phone}</td>
                 <td className="px-4 py-3 text-sm">{event.email}</td>
                 <td className="px-4 py-3 text-sm ">
@@ -304,9 +298,9 @@ const AllVolunteers = () => {
           setFormData({
             first: "",
             last: "",
-            email:'',
+            email: "",
             Holocaust: "",
-            number: "",         
+            number: "",
             adress: "",
             clients: [],
           });
@@ -421,9 +415,9 @@ const AllVolunteers = () => {
           </label>
 
           <div className="  mt-1">
-            
-
-            <span className="font-semibold">Select Your Preferred Volunteer Role</span>
+            <span className="font-semibold">
+              Select Your Preferred Volunteer Role
+            </span>
             <div className="relative mt-2">
               <div
                 className="border border-gray-400 rounded p-2 cursor-pointer"
@@ -456,7 +450,6 @@ const AllVolunteers = () => {
                 {errors.clients}
               </p>
             )}
-
           </div>
         </form>
       </Modal>

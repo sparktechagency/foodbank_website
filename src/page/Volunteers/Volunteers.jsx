@@ -18,7 +18,7 @@ const Volunteers = () => {
 
   return (
     <div className="min-h-screen">
-      <div className=" px-5 pt-10">
+      <div className=" lg:px-5 px-2 lg:pt-10 pt-5">
         <div className="flex justify-between">
           <div>
             {activeTab === "list" && (
@@ -53,15 +53,15 @@ const Volunteers = () => {
         </div>
       </div>
 
-      <div className="mt-10">
-        <div className="flex gap-4 rounded-lg p-[px] ">
+      <div className="lg:mt-10 mt-5  text-sm lg:text-base">
+        <div className="flex gap-4 rounded-lg p-2 ">
           <button
             onClick={() => setActiveTab("list")}
             className={`${
               activeTab === "list"
                 ? " border-b-2 border-blue-600"
                 : "bg-transparent"
-            } px-2 py-1`}
+            } lg:px-2 py-1`}
           >
             All Volunteers
           </button>
@@ -71,7 +71,7 @@ const Volunteers = () => {
               activeTab === "calendar"
                 ? "  border-b-2 border-blue-600"
                 : "bg-transparent"
-            } py-1  px-2`}
+            } py-1  lg:px-2`}
           >
             Driver Volunterrs
           </button>
@@ -82,7 +82,7 @@ const Volunteers = () => {
               activeTab === "driverGroup"
                 ? "  border-b-2 border-blue-600"
                 : "bg-transparent"
-            } py-1  px-2`}
+            } py-1  lg:px-2`}
           >
             Warehouse Volunteers
           </button>
@@ -92,7 +92,7 @@ const Volunteers = () => {
               activeTab === "group"
                 ? "  border-b-2 border-blue-600"
                 : "bg-transparent"
-            } py-1  px-2`}
+            } py-1  lg:px-2`}
           >
             Groups
           </button>

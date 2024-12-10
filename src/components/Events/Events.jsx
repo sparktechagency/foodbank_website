@@ -68,7 +68,6 @@ const Events = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
 
-    
     if (formErrors[name]) {
       setFormErrors({ ...formErrors, [name]: "" });
     }
@@ -149,13 +148,23 @@ const Events = () => {
   };
 
   return (
-    <div className="px-5 pt-10 min-h-screen">
+    <div className="lg:px-5 px-2 lg:pt-10 pt-5 min-h-screen">
       <div>
-        <h1 className="text-2xl font-bold">Events</h1>
+        <div className="flex justify-between">
+          <h1 className="text-2xl font-bold">Events</h1>
+          <div className="lg:hidden block">
+            <button
+              onClick={() => setModal2Open(true)}
+              className=" bg-[#234E6F] w-[100px] rounded-full py-2 text-white"
+            >
+              + Add Event
+            </button>
+          </div>
+        </div>
 
-        <div className="mt-5 lg:flex justify-between">
+        <div className="lg:mt-5 lg:flex justify-between">
           {/* Search Box */}
-          <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5">
+          <div className="flex items-center border-b border-gray-300 px-1 w-full lg:mr-5">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 text-gray-500"
@@ -167,7 +176,7 @@ const Events = () => {
             <input
               type="text"
               placeholder="Search Event"
-              className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
+              className="ml-2 flex-1 outline-none text-sm py-3 bg-white text-gray-700 placeholder-gray-400"
             />
           </div>
 
@@ -196,6 +205,7 @@ const Events = () => {
               </div>
 
               {/* Filters */}
+              <div className="flex justify-between gap-2 lg:mt-0 mt-3">
               <div>
                 <select className="border rounded py-2 bg-white" name="" id="">
                   <option value="upcoming event">Upcoming Event</option>
@@ -209,7 +219,8 @@ const Events = () => {
                   <option value="mitzvah sunday">Mitzvah Sunday</option>
                 </select>
               </div>
-              <div>
+              </div>
+              <div className="hidden lg:block">
                 <button
                   onClick={() => setModal2Open(true)}
                   className=" bg-[#234E6F] w-[100px] rounded-full py-2 text-white"
@@ -224,9 +235,9 @@ const Events = () => {
         {/* Dynamic Content Based on Tab */}
         <div className="mt-5">
           {activeTab === "list" && (
-            <div className=" rounded-lg ">
+            <div className=" rounded-lg overflow-x-auto">
               {/* Table View */}
-              <table className="min-w-full border-collapse  border border-gray-300">
+              <table className="lg:w-full w-[1000px] border-collapse  border border-gray-300">
                 <thead>
                   <tr className="bg-gray-100 ">
                     <th className=" px-4 py-2 text-left text-sm font-medium">
@@ -266,13 +277,12 @@ const Events = () => {
                       <td className="px-4 py-3 text-sm">
                         {event.volunteerSpots}
                       </td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.archive}
-                      </td>
+                      <td className="px-4 py-3 text-sm">{event.archive}</td>
                       <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                        
                         <details className="dropdown">
-                          <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none"><BiDotsVerticalRounded /></summary>
+                          <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
+                            <BiDotsVerticalRounded />
+                          </summary>
                           <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                             <li>
                               <a onClick={() => setModal2Open(true)}>Edit</a>
@@ -290,15 +300,15 @@ const Events = () => {
             </div>
           )}
           {activeTab === "calendar" && (
-            <div className="border rounded-lg p-5 bg-white">
+            <div className="border rounded-lg lg:p-5 bg-white">
               {/* Calendar View */}
-              <div className="bg-white rounded-lg p-5">
+              <div className="bg-white rounded-lg lg:p-5 p-1">
                 <Calendar
                   localizer={localizer}
                   events={myEventsList}
                   startAccessor="start"
                   endAccessor="end"
-                  style={{ height: 700 }}
+                  style={{ height: 500 }}
                 />
               </div>
             </div>
@@ -407,7 +417,9 @@ const Events = () => {
               <span className="font-semibold ">Default message</span>
               <input
                 className={`w-full border bg-white ${
-                  formErrors.message ? "border-red-500 bg-white" : "border-neutral-400"
+                  formErrors.message
+                    ? "border-red-500 bg-white"
+                    : "border-neutral-400"
                 } mt-1 py-2 rounded-md mb-3`}
                 type="text"
                 name="message"
@@ -502,7 +514,7 @@ const Events = () => {
             </div>
 
             {/* Delivery Drivers and Warehouse Volunteers sections */}
-            <div className="flex gap-3 mt-3">
+            <div className="lg:flex gap-3 mt-3">
               <label className="w-full" htmlFor="deliveryDrivers">
                 <span className="font-semibold">Delivery Drivers Needed</span>
                 <select
@@ -528,7 +540,7 @@ const Events = () => {
               </label>
 
               <label className="w-full" htmlFor="warehouseVolunteers">
-                <span className="font-semibold">
+                <span className="font-semibold ">
                   Warehouse Volunteers Needed
                 </span>
                 <select
@@ -536,7 +548,7 @@ const Events = () => {
                     formErrors.warehouseVolunteers
                       ? "border-red-500"
                       : "border-neutral-400"
-                  } rounded px-1 py-1`}
+                  } rounded px-1 py-1 `}
                   name="warehouseVolunteers"
                   id="warehouseVolunteers"
                   value={formData.warehouseVolunteers}
