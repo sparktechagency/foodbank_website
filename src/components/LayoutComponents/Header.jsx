@@ -1,7 +1,7 @@
 import { LuBell } from "react-icons/lu";
 import profilee from "../../../src/assets/header/profileLogo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaBars, FaRegHandPaper } from "react-icons/fa";
+import { FaBars, FaRegHandPaper, FaRegUser, FaRegUserCircle } from "react-icons/fa";
 
 import { useState } from "react";
 import { Drawer, Radio, Space } from "antd";
@@ -201,17 +201,38 @@ const Header = () => {
                 </div>
 
                 {/* Footer (Log Out) */}
-                <div className="custom-sidebar-footer absolute bottom-0  ">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full flex bg-white text-start rounded-md mb-8 text-black "
-                  >
-                    <span className="text-2xl">
-                      <IoIosLogIn />
-                    </span>
-                    <span className="ml-3">Log Out</span>
-                  </button>
-                </div>
+                <div className="custom-sidebar-footer absolute bottom-0 w-full lg:p-4">
+        <div className="dropdown dropdown-hover">
+          <div tabIndex={0} role="button" className="w-full flex  text-start  text-black lg:p-3 mb-5">
+          <span className="text-2xl">
+          <FaRegUserCircle />
+                </span>
+                <span className="ml-3">Asher Fahim</span>
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-white text-black z-[1]  w-52 p-2 -top-[95px] shadow"
+          >
+            <li>
+              <button
+                onClick={handleLogout}
+                
+              >
+                <span className="text-2xl">
+                  <IoIosLogIn />
+                </span>
+                <span className="ml-3">Log Out</span>
+              </button>
+            </li>
+            <li>
+              <Link to={'/profile'}><span className="text-2xl">
+              <FaRegUser />
+                </span>
+                <span className="ml-3">Profile</span></Link>
+            </li>
+          </ul>
+        </div>
+      </div>
               </div>
             </Drawer>
           </div>

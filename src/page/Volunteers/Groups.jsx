@@ -175,7 +175,7 @@ const Groups = () => {
                   key={index}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
-                  <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
+                  <Link to={'/volunteerDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
 
                   <td className="px-4 py-3 text-sm">{event.bags}</td>
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">

@@ -97,6 +97,7 @@ const DriverGroup = () => {
       phone: "01694349873",
       email: "foisal@gmail.com",
       clientDelivery: "None",
+      vip:"Yes",
       status: "Active",
       bags: "1",
     },
@@ -104,6 +105,7 @@ const DriverGroup = () => {
       clientName: "Jose Root",
       phone: "01693454373",
       email: "ssdf#gmail.com",
+      vip:"Yes",
       clientDelivery: "Mitzvah Sunday Week 1",
       status: "Inactive",
       bags: "6",
@@ -112,6 +114,7 @@ const DriverGroup = () => {
       clientName: "Julite Khanom",
       phone: "01694349873",
       email: "ddfosis@gmail.com",
+      vip:"Yes",
       clientDelivery: "Mitzvah Sunday Week 2",
       status: "Active",
       bags: "3",
@@ -176,7 +179,7 @@ const DriverGroup = () => {
       </div>
 
       <div className="lg:mx-5 mx-2 overflow-x-auto">
-        <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
+      <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 text-left text-sm font-medium">
@@ -186,15 +189,18 @@ const DriverGroup = () => {
                 Phone #
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Alternate Phone #
+                Email
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Vip</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                VIP
+              </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Volunteer Type
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Volunteer Grup
+                Volunteer Group
               </th>
+              
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
           </thead>
@@ -207,6 +213,7 @@ const DriverGroup = () => {
                 <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
                 <td className="px-4 py-3 text-sm">{event.phone}</td>
                 <td className="px-4 py-3 text-sm">{event.email}</td>
+                <td className="px-4 py-3 text-sm">{event.vip}</td>
                 <td className="px-4 py-3 text-sm ">
                   <span className="">
                     <span className=" gap-1 rounded-full  ">
@@ -222,7 +229,7 @@ const DriverGroup = () => {
                     </span>
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm flex">
+                <td className="px-4 py-3 text-sm">
                   <span className="flex">
                     <span className=" gap-1 rounded-full  flex">
                       <select
@@ -237,7 +244,7 @@ const DriverGroup = () => {
                     </span>
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm">{event.bags}</td>
+                
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   <details className="dropdown ">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">

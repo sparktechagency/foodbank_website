@@ -9,7 +9,7 @@ import user from "../../assets/routerImg/user.png";
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaChevronRight } from "react-icons/fa"; 
+import { FaChevronRight, FaRegUser, FaRegUserCircle } from "react-icons/fa";
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineBarChart } from "react-icons/md";
 import { FaRegHandPaper } from "react-icons/fa";
@@ -94,15 +94,13 @@ const items = [
 
 const SidBar = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
-  const [expandedKeys, setExpandedKeys] = useState([]); 
+  const [expandedKeys, setExpandedKeys] = useState([]);
   const location = useLocation();
-  const navigate = useNavigate(); 
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const currentPath = location.pathname;
 
-  
     const parentItem = items.find(
       (item) =>
         item.link === currentPath ||
@@ -111,7 +109,6 @@ const SidBar = () => {
     );
 
     if (parentItem) {
-
       setSelectedKey(
         parentItem.children
           ? parentItem.children.find((child) => child.link === currentPath)
@@ -125,19 +122,16 @@ const SidBar = () => {
     }
   }, [location, expandedKeys]);
 
-
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>
-      prev.includes(key)
-        ? prev.filter((item) => item !== key)
-        : [...prev, key]
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
     );
   };
 
   // Logout Function
   const handleLogout = () => {
-    localStorage.removeItem("token"); 
-    navigate("/login"); 
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -161,17 +155,16 @@ const SidBar = () => {
               }`}
               onClick={(e) => {
                 if (item.children) {
-                  e.preventDefault(); 
-                  onParentClick(item.key); 
+                  e.preventDefault();
+                  onParentClick(item.key);
                 } else {
-                  setSelectedKey(item.key); 
+                  setSelectedKey(item.key);
                 }
               }}
             >
               <p className="w-5 h-5 mr-3 mt-1">{item.icon}</p>
               <span className="block w-full text-">{item.label}</span>
 
-              
               {item.children && (
                 <FaChevronRight
                   className={`ml-auto transform transition-all duration-300 ${
@@ -181,7 +174,6 @@ const SidBar = () => {
               )}
             </Link>
 
-           
             {item.children && expandedKeys.includes(item.key) && (
               <div className="overflow-hidden bg-white -my-2 mx-5 mb-4 text-black transition-all duration-300">
                 {item.children.map((child) => (
@@ -194,8 +186,8 @@ const SidBar = () => {
                         : "hover:bg-gray-200"
                     }`}
                     onClick={() => {
-                      setSelectedKey(child.key); 
-                      setExpandedKeys([]); 
+                      setSelectedKey(child.key);
+                      setExpandedKeys([]);
                     }}
                   >
                     <span className="block w-full text-black">
@@ -211,13 +203,36 @@ const SidBar = () => {
 
       {/* Footer (Log Out) */}
       <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
-        <button
-          onClick={handleLogout} 
-          className="w-full flex bg-white text-start rounded-md text-black p-3"
-        >
-          <span className="text-2xl"><IoIosLogIn /></span>
-          <span className="ml-3">Log Out</span>
-        </button>
+        <div className="dropdown dropdown-hover">
+          <div tabIndex={0} role="button" className="w-full flex  text-start  text-black p-3">
+          <span className="text-2xl">
+          <FaRegUserCircle />
+                </span>
+                <span className="ml-3">Asher Fahim</span>
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu bg-white text-black z-[1]  w-52 p-2 -top-[90px] shadow"
+          >
+            <li>
+              <button
+                onClick={handleLogout}
+                
+              >
+                <span className="text-2xl">
+                  <IoIosLogIn />
+                </span>
+                <span className="ml-3">Log Out</span>
+              </button>
+            </li>
+            <li>
+              <Link to={'/profile'}><span className="text-2xl">
+              <FaRegUser />
+                </span>
+                <span className="ml-3">Profile</span></Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

@@ -327,12 +327,12 @@ const Clients = () => {
                       onClick={() => setModal2Open(true)}
                       className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
                     >
-                      + Add Event
+                      + Add Client
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="rounded-lg overflow-x-auto">
+              <div className=" overflow-x-auto">
                 {/* Table View */}
                 <table className="lg:w-full w-[1000px]  border-collapse border border-gray-300">
                   <thead>
@@ -470,7 +470,7 @@ const Clients = () => {
       </div>
 
       <Modal
-        title="Add Event"
+        title="Add Client"
         centered
         open={modal2Open}
         onCancel={() => {

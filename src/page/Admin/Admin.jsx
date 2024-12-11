@@ -74,7 +74,7 @@ const Admin = () => {
   return (
     <div>
       <div className="lg:px-5 px-2 lg:pt-10 pt-5">
-        <h1 className="text-2xl font-bold ">Volunteers</h1>
+        <h1 className="text-2xl font-bold ">User Role</h1>
       </div>
       <div>
         <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
@@ -105,7 +105,7 @@ const Admin = () => {
                 onClick={() => setModal2Open(true)}
                 className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
               >
-                +Add Volunteer
+                +Add Admin
               </button>
             </div>
           </div>
@@ -153,7 +153,7 @@ const Admin = () => {
         </div>
 
         <Modal
-          title="Add Event"
+          title="Add Admin"
           centered
           open={modal2Open}
           onCancel={() => {
@@ -171,7 +171,7 @@ const Admin = () => {
               onClick={handleSubmit}
               className="bg-[#234E6F] text-white rounded-full px-5 py-2"
             >
-              Save
+              Add
             </button>,
           ]}
         >
@@ -204,6 +204,36 @@ const Admin = () => {
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm">{errors.email}</p>
+                )}
+              </label>
+
+              <label htmlFor="number">
+                <span className="font-semibold">Contact Number</span>
+                <input
+                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                  type="number"
+                  name="number"
+                  id="number"
+                  value={formData.number}
+                  onChange={handleInputChange}
+                />
+                {errors.number && (
+                  <p className="text-red-500 text-sm">{errors.number}</p>
+                )}
+              </label>
+
+              <label htmlFor="adress">
+                <span className="font-semibold">Adress</span>
+                <input
+                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                  type="adress"
+                  name="adress"
+                  id="adress"
+                  value={formData.adress}
+                  onChange={handleInputChange}
+                />
+                {errors.adress && (
+                  <p className="text-red-500 text-sm">{errors.adress}</p>
                 )}
               </label>
 
