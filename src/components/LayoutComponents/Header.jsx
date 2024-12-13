@@ -185,7 +185,7 @@ const Header = () => {
                             onParentClick(item.key);
                           } else {
                             setSelectedKey(item.key);
-                            onClose(); // Cl tdraw whn a item is clicked
+                            onClose(); // Cl tdrw whn a item is clicked
                           }
                         }}
                       >
