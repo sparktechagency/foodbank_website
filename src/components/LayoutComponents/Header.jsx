@@ -185,7 +185,7 @@ const Header = () => {
                             onParentClick(item.key);
                           } else {
                             setSelectedKey(item.key);
-                            onClose(); // Clo the drawe when an item is clicked
+                            onClose(); // Clo the draw when an item is clicked
                           }
                         }}
                       >
