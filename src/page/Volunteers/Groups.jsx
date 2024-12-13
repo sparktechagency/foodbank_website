@@ -237,7 +237,7 @@ const Groups = () => {
       </div>
 
       <Modal
-        title="Add Event"
+        title="Edit Volunteers Group Details"
         centered
         open={modal2Open}
         onCancel={() => {
@@ -262,7 +262,7 @@ const Groups = () => {
       >
         <form>
           <label htmlFor="Holocaust">
-            <span className="font-semibold">Holocaust Survivor</span>
+            <span className="font-semibold">Volunteers Group name</span>
             <select
               className="w-full  border bg-white border-neutral-400 rounded-md py-2"
               name="Holocaust"
@@ -271,7 +271,7 @@ const Groups = () => {
               onChange={handleInputChange}
             >
               <option value="">Select</option>
-              <option value="1">1</option>
+              <option value="1">Primery Driver</option>
               <option value="2">2</option>
             </select>
             {errors.Holocaust && (
@@ -281,7 +281,7 @@ const Groups = () => {
 
           <div className="  mt-1">
             <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Delivery Drivers Needed</span>
+              <span className="font-semibold">Select Volunteers Type</span>
               <select
                 className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
                 name="deliveryDrivers"
@@ -290,8 +290,8 @@ const Groups = () => {
                 onChange={handleInputChange}
               >
                 <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="1">Driver Volunteers</option>
+                <option value="2">WareHouse Volunteers</option>
               </select>
               {errors.deliveryDrivers && (
                 <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
@@ -301,7 +301,7 @@ const Groups = () => {
 
           <div className="  mt-1">
             <span className="font-semibold">
-              Select Your Preferred Volunteer Role
+              Select Your Volunteer
             </span>
             <div className="relative mt-2">
               <div
