@@ -153,9 +153,9 @@ const ClientDetailsPage = () => {
         }}
 
         bodyStyle={{
-          maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
-          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
-           // আরামদায়ক প্যাডিং
+          maxHeight: "70vh", 
+          overflowY: "auto", 
+           
         }}
         
         

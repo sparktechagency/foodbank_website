@@ -62,6 +62,7 @@ const Events = () => {
     timeTo: "",
     deliveryDrivers: "",
     warehouseVolunteers: "",
+    volunteer:''
   });
 
   const handleInputChange = (e) => {
@@ -110,7 +111,10 @@ const Events = () => {
     }
 
     if (!formData.warehouseVolunteers.trim()) {
-      errors.warehouseVolunteers = "Warehouse Volunteers is required";
+      errors.warehouseVolunteers = " Volunteers is required";
+    }
+    if (!formData.volunteer.trim()) {
+      errors.volunteer = "Warehouse Volunteers is required";
     }
 
     return errors;
@@ -143,6 +147,7 @@ const Events = () => {
       timeTo: "",
       deliveryDrivers: "",
       warehouseVolunteers: "",
+      volunteer:''
     });
     setFormErrors({});
   };
@@ -214,7 +219,7 @@ const Events = () => {
               </div>
               <div>
                 <select className="border rounded py-2 bg-white" name="" id="">
-                  <option value="all events">All Events</option>
+                  <option value="all events">All Events Types</option>
                   <option value="holiday drive">Holiday Drive</option>
                   <option value="mitzvah sunday">Mitzvah Sunday</option>
                 </select>
@@ -331,6 +336,8 @@ const Events = () => {
             timeTo: "",
             deliveryDrivers: "",
             warehouseVolunteers: "",
+            message:'',
+            volunteer:'',
           });
           setFormErrors({});
         }}
@@ -414,7 +421,7 @@ const Events = () => {
             </label>
 
             <label htmlFor="message">
-              <span className="font-semibold ">Default message</span>
+              <span className="font-semibold ">Default message to Delivery Driver</span>
               <input
                 className={`w-full border bg-white ${
                   formErrors.message
@@ -434,6 +441,29 @@ const Events = () => {
                 </p>
               )}
             </label>
+
+            <label htmlFor="volunteer">
+              <span className="font-semibold ">Default message to Warehouse Volunteer</span>
+              <input
+                className={`w-full border bg-white ${
+                  formErrors.volunteer
+                    ? "border-red-500 bg-white"
+                    : "border-neutral-400"
+                } mt-1 py-2 rounded-md mb-3`}
+                type="text"
+                name="volunteer"
+                id="name"
+                value={formData.volunteer}
+                onChange={handleInputChange}
+                required
+              />
+              {formErrors.volunteer && (
+                <p className="text-red-500 text-sm -mt-2 mb-2">
+                  {formErrors.volunteer}
+                </p>
+              )}
+            </label>
+
 
             {/* Date & Time section with similar error handling */}
             <div className="border border-neutral-400 mt-3 rounded-md">

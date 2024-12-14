@@ -42,7 +42,10 @@ const ConfirmedVoluntrees = () => {
       <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Events</span>{" "}
-          <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
+          <IoIosArrowForward className="mt-1 " /> <span className="text-[#007AFF]">Mitzvah Sunday 10/28</span>
+          
+          <IoIosArrowForward className="mt-1 " /> Delivery Drivers : Volunteers With Response
+          
         </h1>
 
         <h1 className="text-2xl font-bold mt-3">Delivery Drivers: Confirmed Volunteers</h1>

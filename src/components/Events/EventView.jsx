@@ -69,7 +69,7 @@ const EventView = () => {
     <div className="min-h-screen">
       <div className="lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1">
-          <span className="text-[#007AFF]">Events</span>{" "}
+          <span className="text-[#007AFF]">Ellen Belfer</span>{" "}
           <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
         </h1>
 
@@ -98,7 +98,7 @@ const EventView = () => {
           <div className="lg:flex gap-3 mt-3 lg-mt-0">
             <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
-                <p>Total Assigned</p>
+                <p>Total Assigned : Ellen Befer</p>
                 <h1 className="text-xl font-semibold">15</h1>
               </div>
             </div>

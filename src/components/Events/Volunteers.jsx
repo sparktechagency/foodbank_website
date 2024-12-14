@@ -169,11 +169,11 @@ const Volunteers = () => {
               Event Name
             </th>
             <th className=" px-4 py-2 text-left text-sm font-medium">
-              Event Type
+              Volunteers Needed
             </th>
-            <th className=" px-4 py-2 text-left text-sm font-medium">Date</th>
+            <th className=" px-4 py-2 text-left text-sm font-medium">Confirmed Volunteers</th>
             <th className=" px-4 py-2 text-left text-sm font-medium">
-              Volunteer Spots Filled
+              Volunteer With No Response
             </th>
            
           </tr>
@@ -204,15 +204,15 @@ const Volunteers = () => {
           <div>
             <div className="grid grid-cols-2">
               <div>
-                <h1 className="font-semibold">Invite Clients</h1>
-                <p className="mt-2 mb-1">Client Groups</p>
+                <h1 className="font-semibold">Invite Driver Volunteers</h1>
+                <p className="mt-2 mb-1">Driver Volunteers Group</p>
               </div>
               
             </div>
           </div>
           <div className="hidden lg:block">
             <div className="grid grid-cols-2">
-              <p className="mt-8 mb-1 ml-2 ">Clients Added to Event</p>
+              <p className="mt-8 mb-1 ml-2 ">Drivers Volunteers Added to Event</p>
 
               <div className="flex items-center mt-4 w-full ">
                 <input
@@ -324,7 +324,7 @@ const Volunteers = () => {
               </svg>
               <input
                 type="text"
-                placeholder="Search Event"
+                placeholder="Search Driver Volunteers"
                 className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
               />
             </div>
