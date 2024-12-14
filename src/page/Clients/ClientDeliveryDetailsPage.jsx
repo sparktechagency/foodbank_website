@@ -111,7 +111,7 @@ const ClientDeliveryDetailsPage = () => {
           <IoIosArrowForward className="mt-1" /> Alena Armyeva
         </h1>
 
-        <h1 className="text-2xl font-bold mt-3">Clients</h1>
+        <h1 className="text-2xl font-bold mt-3">Sunday Mitzvah Wee one</h1>
       </div>
 
       <div className="lg:px-5 px-2">

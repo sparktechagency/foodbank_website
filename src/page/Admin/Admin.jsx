@@ -90,7 +90,7 @@ const Admin = () => {
             </svg>
             <input
               type="text"
-              placeholder="Search Event"
+              placeholder="Search Users"
               className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
             />
           </div>
@@ -116,13 +116,13 @@ const Admin = () => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="px-4 py-2 text-left text-sm font-medium">
-                  Iser Name
+                  User Name
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium">
                   Email
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium">
-                  User Creation
+                  User Creation Date
                 </th>
 
                 <th className="px-4 py-2 text-right text-sm font-medium">
@@ -178,7 +178,7 @@ const Admin = () => {
           <form>
             <div className="mt-4">
               <label htmlFor="name">
-                <span className="font-semibold">Admin Name</span>
+                <span className="font-semibold">First Name</span>
                 <input
                   className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                   type="name"
@@ -189,6 +189,20 @@ const Admin = () => {
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm">{errors.name}</p>
+                )}
+              </label>
+              <label htmlFor="adress">
+                <span className="font-semibold">Last Name</span>
+                <input
+                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                  type="adress"
+                  name="adress"
+                  id="adress"
+                  value={formData.adress}
+                  onChange={handleInputChange}
+                />
+                {errors.adress && (
+                  <p className="text-red-500 text-sm">{errors.adress}</p>
                 )}
               </label>
 
@@ -222,20 +236,7 @@ const Admin = () => {
                 )}
               </label>
 
-              <label htmlFor="adress">
-                <span className="font-semibold">Adress</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="adress"
-                  name="adress"
-                  id="adress"
-                  value={formData.adress}
-                  onChange={handleInputChange}
-                />
-                {errors.adress && (
-                  <p className="text-red-500 text-sm">{errors.adress}</p>
-                )}
-              </label>
+              
 
               <label htmlFor="password">
                 <span className="font-semibold">New Admin Password</span>

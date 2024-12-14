@@ -76,17 +76,17 @@ const Groups = () => {
   const eventData = [
     {
       clientName: "Alena Molin",
-
+      type:"Driver Volunteers",
       bags: "1",
     },
     {
       clientName: "Alena Molin",
-
+      type:"Driver Volunteers",
       bags: "1",
     },
     {
       clientName: "Alena Molin",
-
+      type:"Driver Volunteers",
       bags: "1",
     },
     
@@ -128,7 +128,7 @@ const Groups = () => {
           </svg>
           <input
             type="text"
-            placeholder="Search Event"
+            placeholder="Search Group"
             className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
           />
         </div>
@@ -150,7 +150,7 @@ const Groups = () => {
                 onClick={() => setModal2Open(true)}
                 className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
               >
-                +Add Volunteer
+                +Create Group
               </button>
             </div>
         </div>
@@ -161,7 +161,10 @@ const Groups = () => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Grup
+                  All Volunteer Groups
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-medium">
+                  Volunteer Group Type
                 </th>
                 <th className="px-4 py-2 text-left text-sm font-medium">
                   # of Volunteers
@@ -176,8 +179,9 @@ const Groups = () => {
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
                   <Link to={'/volunteerDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
-
+                  <td className="px-4 py-3 text-sm">{event.type}</td>
                   <td className="px-4 py-3 text-sm">{event.bags}</td>
+                  
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                     <details className="dropdown ">
                       <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
@@ -237,7 +241,7 @@ const Groups = () => {
       </div>
 
       <Modal
-        title="Edit Volunteers Group Details"
+        title="Create Volunteers Group"
         centered
         open={modal2Open}
         onCancel={() => {

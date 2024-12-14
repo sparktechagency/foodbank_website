@@ -14,8 +14,10 @@ const ClientDetailsPage = () => {
   const [formData, setFormData] = useState({
     first: "",
     last: "",
-    email: "",
+    Holocaust: "",
+    date: "",
     number: "",
+    alternateNumber: "",
     adress: "",
     apartment: "",
     city: "",
@@ -25,6 +27,10 @@ const ClientDetailsPage = () => {
     timeFrom: "",
     timeTo: "",
     deliveryDrivers: "",
+    household: "",
+    bags: "",
+    deitary: "",
+    deliveryIns: "",
     warehouseVolunteers: "",
   });
   const [errors, setErrors] = useState({});
@@ -39,9 +45,15 @@ const ClientDetailsPage = () => {
     let formErrors = {};
     if (!formData.first.trim()) formErrors.first = "Event first is required.";
     if (!formData.last.trim()) formErrors.last = "Event last is required.";
-    if (!formData.email.trim()) formErrors.email = "Event last is required.";
+    if (!formData.Holocaust.trim())
+      formErrors.Holocaust = "Holocaust is required.";
+
+    if (!formData.date.trim()) formErrors.date = "date is required.";
     if (!formData.number.trim())
       formErrors.number = "Event number is required.";
+    if (!formData.alternateNumber.trim())
+      formErrors.alternateNumber = "alternateNumber number is required.";
+
     if (!formData.adress.trim())
       formErrors.adress = "Event adress is required.";
     if (!formData.apartment.trim())
@@ -55,6 +67,19 @@ const ClientDetailsPage = () => {
     if (!formData.timeTo) formErrors.timeTo = "End time is required.";
     if (!formData.deliveryDrivers)
       formErrors.deliveryDrivers = "Delivery drivers count is required.";
+
+    if (!formData.household)
+      formErrors.household = "household count is required.";
+
+    if (!formData.deitary)
+      formErrors.deitary = "deitary Restrictions count is required.";
+
+    if (!formData.bags)
+      formErrors.bags = "bags Restrictions count is required.";
+
+    if (!formData.deliveryIns)
+      formErrors.deliveryIns = "Delivery Instruction count is required.";
+
     if (!formData.warehouseVolunteers)
       formErrors.warehouseVolunteers = "Volunteers count is required.";
 
@@ -71,8 +96,10 @@ const ClientDetailsPage = () => {
       setFormData({
         first: "",
         last: "",
-        email: "",
+        Holocaust: "",
+        date: "",
         number: "",
+        alternateNumber: "",
         adress: "",
         apartment: "",
         city: "",
@@ -82,6 +109,10 @@ const ClientDetailsPage = () => {
         timeFrom: "",
         timeTo: "",
         deliveryDrivers: "",
+        household: "",
+        bags: "",
+        deitary: "",
+        deliveryIns: "",
         warehouseVolunteers: "",
       });
     }
@@ -127,8 +158,7 @@ const ClientDetailsPage = () => {
 
 
 <Modal
-        title="Add Event"
-        className="bg-red-500"
+        title="Edit Client"
         centered
         open={modal2Open}
         onCancel={() => {
@@ -136,8 +166,9 @@ const ClientDetailsPage = () => {
           setFormData({
             first: "",
             last: "",
-            email: "",
+            Holocaust: "",
             number: "",
+            alternateNumber: "",
             adress: "",
             apartment: "",
             city: "",
@@ -147,17 +178,19 @@ const ClientDetailsPage = () => {
             timeFrom: "",
             timeTo: "",
             deliveryDrivers: "",
+            household: "",
+            bags: "",
+            deitary: "",
+            deliveryIns: "",
             warehouseVolunteers: "",
           });
           setErrors({});
         }}
-
         bodyStyle={{
-          maxHeight: "70vh", 
-          overflowY: "auto", 
-           
+          maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
+          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
+           // আরামদায়ক প্যাডিং
         }}
-        
         
         footer={[
           <button
@@ -206,27 +239,35 @@ const ClientDetailsPage = () => {
             <label htmlFor="Holocaust">
               <span className="font-semibold">Holocaust Survivor</span>
               <select
-                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
+                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
                 name="Holocaust"
                 id="Holocaust"
                 value={formData.Holocaust}
                 onChange={handleInputChange}
               >
                 <option value="">Select</option>
-                <option value="1">Yes</option>
-                <option value="2">No</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
               </select>
               {errors.Holocaust && (
                 <p className="text-red-500 text-sm">{errors.Holocaust}</p>
               )}
             </label>
 
-            <span className="font-semibold">Date of Birth</span>
-              <input className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1" type="date" name="" id="" />
-
-
-
-            
+            <label htmlFor="date">
+              <span className="font-semibold">Date of Birth</span>
+              <input
+                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+                type="date"
+                name="date"
+                id="date"
+                value={formData.date}
+                onChange={handleInputChange}
+              />
+              {errors.date && (
+                <p className="text-red-500 text-sm">{errors.date}</p>
+              )}
+            </label>
 
             <label htmlFor="number">
               <span className="font-semibold">Phone Number</span>
@@ -243,18 +284,18 @@ const ClientDetailsPage = () => {
               )}
             </label>
 
-            <label htmlFor="phonnumber">
+            <label htmlFor="alternateNumber">
               <span className="font-semibold">Alternate Phone Number</span>
               <input
                 className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
                 type="text"
-                name="phonnumber"
-                id="phonnumber"
-                value={formData.phonnumber}
+                name="alternateNumber"
+                id="alternateNumber"
+                value={formData.alternateNumber}
                 onChange={handleInputChange}
               />
-              {errors.phonnumber && (
-                <p className="text-red-500 text-sm">{errors.phonnumber}</p>
+              {errors.alternateNumber && (
+                <p className="text-red-500 text-sm">{errors.alternateNumber}</p>
               )}
             </label>
 
@@ -345,46 +386,79 @@ const ClientDetailsPage = () => {
             </label>
           </div>
 
-
           <div className="lg:flex gap-3 mt-3">
-              <label className="w-full" htmlFor="deliveryDrivers">
-                <span className="font-semibold">Number of People in Household</span>
-                <select
-                  className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
-                  name="deliveryDrivers"
-                  id="deliveryDrivers"
-                  
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </select>
-                
-              </label>
+            <label className="w-full" htmlFor="household">
+              <span className="font-semibold">
+                Number of People in Household
+              </span>
+              <select
+                className={`border border-neutral-400 w-full py-2 bg-white rounded px-1`}
+                name="household"
+                id="household"
+                value={formData.household}
+                onChange={handleInputChange}
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              {errors.state && (
+                <p className="text-red-500 text-sm">{errors.state}</p>
+              )}
+            </label>
 
-              <label className="w-full" htmlFor="warehouseVolunteers">
-                <span className="font-semibold">
-                  Number of Bags
-                </span>
-                <select
-                  className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
-                  name="warehouseVolunteers"
-                  id="warehouseVolunteers"
-                  
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                </select>
-                
-              </label>
-            </div>
+            <label className="w-full" htmlFor="bags">
+              <span className="font-semibold">Number of Bags</span>
+              <select
+                className={`border border-neutral-400 w-full bg-white rounded px-1 py-2`}
+                name="bags"
+                id="bags"
+                value={formData.bags}
+                onChange={handleInputChange}
+              >
+                <option value="">Select</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+              </select>
+              {errors.state && (
+                <p className="text-red-500 text-sm">{errors.state}</p>
+              )}
+            </label>
+          </div>
 
-          <div className="  mt-3">
+          <label htmlFor="deitary">
+            <span className="font-semibold">Deitary Restrictions</span>
+            <input
+              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+              type="text"
+              name="deitary"
+              id="deitary"
+              value={formData.deitary}
+              onChange={handleInputChange}
+            />
+            {errors.deitary && (
+              <p className="text-red-500 text-sm">{errors.deitary}</p>
+            )}
+          </label>
+
+          <label htmlFor="deliveryIns">
+            <span className="font-semibold">Delivery Instructions</span>
+            <input
+              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
+              type="text"
+              name="deliveryIns"
+              id="deliveryIns"
+              value={formData.deliveryIns}
+              onChange={handleInputChange}
+            />
+            {errors.deliveryIns && (
+              <p className="text-red-500 text-sm">{errors.deliveryIns}</p>
+            )}
+          </label>
+
+          <div className="  mt-1">
             <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Delivery Instructions.</span>
+              <span className="font-semibold">Delivery Drivers Needed</span>
               <select
                 className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
                 name="deliveryDrivers"
@@ -400,33 +474,9 @@ const ClientDetailsPage = () => {
                 <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
               )}
             </label>
-
-            <label htmlFor="warehouseVolunteers">
-              <span className="font-semibold">Client Delivery Group(optional)</span>
-              <select
-                className="w-full  border bg-white border-neutral-400 rounded-md py-2"
-                name="warehouseVolunteers"
-                id="warehouseVolunteers"
-                value={formData.warehouseVolunteers}
-                onChange={handleInputChange}
-              >
-                <option value="">Select</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-              </select>
-              {errors.warehouseVolunteers && (
-                <p className="text-red-500 text-sm">
-                  {errors.warehouseVolunteers}
-                </p>
-              )}
-            </label>
-
-            
           </div>
         </form>
       </Modal>
-
-
 
 
 
@@ -438,7 +488,7 @@ const ClientDetailsPage = () => {
           <IoIosArrowForward className="mt-1" /> Alena Armyeva
         </h1>
 
-        <h1 className="text-2xl font-bold mt-3">Clients</h1>
+        <h1 className="text-2xl font-bold mt-3">Alena Artmyeva</h1>
       </div>
 
       <div className="lg:px-5 px-2 pt-5 text-sm lg:text-base">

@@ -157,7 +157,7 @@ const DriverGroup = () => {
           </svg>
           <input
             type="text"
-            placeholder="Search Event"
+            placeholder="Search Volunteers"
             className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
           />
         </div>

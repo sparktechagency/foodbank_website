@@ -73,7 +73,7 @@ const Volunteers = () => {
                 : "bg-transparent"
             } py-1  lg:px-2`}
           >
-            Driver Volunterrs
+            Driver Volunteers
           </button>
 
           <button

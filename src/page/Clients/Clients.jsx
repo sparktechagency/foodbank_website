@@ -297,7 +297,7 @@ const Clients = () => {
                   </svg>
                   <input
                     type="text"
-                    placeholder="Search Event"
+                    placeholder="Search Clients"
                     className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"
                   />
                 </div>
