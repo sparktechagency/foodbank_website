@@ -2,17 +2,17 @@
 import { Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 
-import { useState } from "react";
+
 import Swal from "sweetalert2";
 import Logo from "../assets/header/Logo.png"
 const Login = () => {
-  const [ setLoading] = useState(false);
+  
   // const axiosUrl = UseAxios();
   // const navigate = useNavigate();
 
   const onFinish = async (values) => {
     console.log(values);
-    setLoading(true);
+   
     //   try {
     //     const response = await axiosUrl.post("/dashboard/login", values);
     //     if (response.status === 200) {

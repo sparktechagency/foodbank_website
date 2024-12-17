@@ -10,7 +10,7 @@ const Profile = () => {
   const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("1");
 
-  const [admin, isLoading, refetch] = UseAdminProfile();
+  const [admin] = UseAdminProfile();
   
 
   const [formData, setFormData] = useState({

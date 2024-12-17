@@ -2,16 +2,15 @@ import { Form, Input } from "antd";
 // import { useNavigate } from "react-router-dom";
 // import UseAxios from "../hook/UseAxios";
 // import Swal from "sweetalert2";
-import { useState } from "react";
+
 import Logo from "../assets/header/Logo.png"
 
 const ResetPass = () => {
   // const navigate = useNavigate();
   // const axiosUrl = UseAxios();
-  const [ setIsLoading] = useState(false);
-
+ 
   const onFinish = async (values) => {
-    setIsLoading(true);
+    
     console.log(values);
 
     // try {
