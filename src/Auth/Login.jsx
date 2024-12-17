@@ -1,7 +1,7 @@
 import { Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import Logo from "../assets/header/Logo.png";
 const Login = () => {
   // const axiosUrl = UseAxios();
@@ -49,16 +49,16 @@ const Login = () => {
     //   });
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  // const onFinishFailed = (errorInfo) => {
+  //   console.log("Failed:", errorInfo);
 
-    Swal.fire({
-      title: "Form Validation Failed",
-      text: "Please fill all required fields correctly.",
-      icon: "warning",
-      confirmButtonText: "OK",
-    });
-  };
+  //   Swal.fire({
+  //     title: "Form Validation Failed",
+  //     text: "Please fill all required fields correctly.",
+  //     icon: "warning",
+  //     confirmButtonText: "OK",
+  //   });
+  // };
 
   return (
     <div className="min-h-screen flex items-center  md:pt-0 px-4 justify-center ">
@@ -79,7 +79,7 @@ const Login = () => {
                   remember: true,
                 }}
                 onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
+               
                 autoComplete="off"
                 layout="vertical"
               >
