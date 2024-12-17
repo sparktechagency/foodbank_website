@@ -7,6 +7,7 @@ import {
   IoIosArrowForward,
 } from "react-icons/io";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AllVolunteers = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -47,6 +48,24 @@ const AllVolunteers = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: "" });
+  };
+
+  const handleDelete = (index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Logic to delete the user from the data
+        eventData.splice(index, 1);
+        Swal.fire("Deleted!", "The admin has been deleted.", "success");
+      }
+    });
   };
 
   const validateForm = () => {
@@ -293,7 +312,7 @@ const AllVolunteers = () => {
                         <a onClick={() => setModal2Open(true)}>Edit</a>
                       </li>
                       <li>
-                        <a>Delete</a>
+                        <a onClick={() => handleDelete(index)}>Delete</a>
                       </li>
                     </ul>
                   </details>

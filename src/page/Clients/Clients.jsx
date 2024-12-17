@@ -9,6 +9,7 @@ import {
 
 import { Link } from "react-router-dom";
 import ClientsDelivery from "../../components/clients/ClientsDelivery";
+import Swal from "sweetalert2";
 
 const Clients = () => {
   const [activeTab, setActiveTab] = useState("list");
@@ -230,6 +231,25 @@ const Clients = () => {
     },
   ];
 
+
+  const handleDelete = (index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Logic to delete the user from the data
+        eventData.splice(index, 1);
+        Swal.fire("Deleted!", "The admin has been deleted.", "success");
+      }
+    });
+  };
+
   const itemsPerPage = 10;
   const totalPages = Math.ceil(eventData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -408,7 +428,7 @@ const Clients = () => {
                                 <a onClick={() => setModal2Open(true)}>Edit</a>
                               </li>
                               <li>
-                                <a>Delete</a>
+                                <a onClick={() => handleDelete(index)}>Delete</a>
                               </li>
                             </ul>
                           </details>

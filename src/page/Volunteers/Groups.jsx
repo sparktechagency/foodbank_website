@@ -3,6 +3,7 @@ import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Groups = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -112,6 +113,26 @@ const Groups = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+
+
+  const handleDelete = (index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Logic to delete the user from the data
+        eventData.splice(index, 1);
+        Swal.fire("Deleted!", "The admin has been deleted.", "success");
+      }
+    });
+  };
   return (
     <div>
       <div>
@@ -192,7 +213,7 @@ const Groups = () => {
                           <a onClick={() => setModal2Open(true)}>Edit</a>
                         </li>
                         <li>
-                          <a>Delete</a>
+                          <a onClick={() => handleDelete(index)}>Delete</a>
                         </li>
                       </ul>
                     </details>
@@ -266,22 +287,19 @@ const Groups = () => {
       >
         <form>
           <label htmlFor="Holocaust">
-            <span className="font-semibold">Volunteers Group name</span>
-            <select
-              className="w-full  border bg-white border-neutral-400 rounded-md py-2"
-              name="Holocaust"
-              id="Holocaust"
-              value={formData.Holocaust}
-              onChange={handleInputChange}
-            >
-              <option value="">Select</option>
-              <option value="1">Primery Driver</option>
-              <option value="2">2</option>
-            </select>
-            {errors.Holocaust && (
-              <p className="text-red-500 text-sm">{errors.Holocaust}</p>
-            )}
-          </label>
+                <span className="font-semibold">Group name</span>
+                <input
+                  className="w-full border bg-white border-neutral-400 mt-1 mb-2 py-2 rounded-md mb-1"
+                  type="text"
+                  name="Holocaust"
+                  id="Holocaust"
+                  value={formData.Holocaust}
+                  onChange={handleInputChange}
+                />
+                {errors.Holocaust && (
+                  <p className="text-red-500 text-sm">{errors.Holocaust}</p>
+                )}
+              </label>
 
           <div className="  mt-1">
             <label htmlFor="deliveryDrivers">

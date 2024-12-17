@@ -1,7 +1,6 @@
 import { Modal } from "antd";
 import { useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import Swal from "sweetalert2";
 
 const Admin = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -34,6 +33,24 @@ const Admin = () => {
 
     setErrors(formErrors);
     return Object.keys(formErrors).length === 0;
+  };
+
+  const handleDelete = (index) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Logic to delete the user from the data
+        eventData.splice(index, 1);
+        Swal.fire("Deleted!", "The admin has been deleted.", "success");
+      }
+    });
   };
 
   const handleSubmit = (e) => {
@@ -143,7 +160,9 @@ const Admin = () => {
                   <td className="px-4 py-3 text-sm">{event.UserCreate}</td>
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                     <span className="text-red-500">
-                      <button>Delete</button>
+                      <button onClick={() => handleDelete(index)}>
+                        Delete
+                      </button>
                     </span>
                   </td>
                 </tr>
@@ -235,8 +254,6 @@ const Admin = () => {
                   <p className="text-red-500 text-sm">{errors.number}</p>
                 )}
               </label>
-
-              
 
               <label htmlFor="password">
                 <span className="font-semibold">New Admin Password</span>
