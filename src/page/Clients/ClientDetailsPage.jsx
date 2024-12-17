@@ -5,10 +5,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const ClientDetailsPage = () => {
-
-
-
-
   const [modal2Open, setModal2Open] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -118,11 +114,6 @@ const ClientDetailsPage = () => {
     }
   };
 
-
-
-
-
-
   const eventData = [
     {
       event: "September Holiday Drive 9/2",
@@ -155,9 +146,7 @@ const ClientDetailsPage = () => {
 
   return (
     <div className=" min-h-screen lg:px-5 px-2 lg:pt-10 pt-3">
-
-
-<Modal
+      <Modal
         title="Edit Client"
         centered
         open={modal2Open}
@@ -187,11 +176,10 @@ const ClientDetailsPage = () => {
           setErrors({});
         }}
         bodyStyle={{
-          maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
-          overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
-           // আরামদায়ক প্যাডিং
+          maxHeight: "70vh", 
+          overflowY: "auto", 
+          
         }}
-        
         footer={[
           <button
             key="save"
@@ -478,10 +466,6 @@ const ClientDetailsPage = () => {
         </form>
       </Modal>
 
-
-
-
-
       <div className="bg-[#FAFAFA] ">
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Clients</span>{" "}
@@ -518,14 +502,15 @@ const ClientDetailsPage = () => {
                   <p>983-344-5332</p>
                 </div>
               </div>
-              
             </div>
             <div>
-            <div>
-            <Link to={'/clients'}><button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
-              Archive
-            </button></Link>
-          </div>
+              <div>
+                <Link to={"/clients"}>
+                  <button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
+                    Archive
+                  </button>
+                </Link>
+              </div>
               <div className="mt-4">
                 <h1 className="font-semibold">Adress</h1>
                 <p>1460 NW 80th Ave, Apt 402, Margate, FL 33063</p>
@@ -534,12 +519,14 @@ const ClientDetailsPage = () => {
           </div>
 
           <div>
-            <button onClick={() => setModal2Open(true)} className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
+            <button
+              onClick={() => setModal2Open(true)}
+              className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]"
+            >
               Edit
             </button>
           </div>
         </div>
-        
 
         <div className="overflow-x-auto">
           <h1 className="text-md font-semibold mb-1 mt-8">Events</h1>
@@ -547,17 +534,13 @@ const ClientDetailsPage = () => {
             <thead>
               <tr className="bg-gray-100 ">
                 <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Event 
+                  Event
                 </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Driver
-                </th>
+                
                 <th className=" px-4 py-2 text-left text-sm font-medium">
                   Schedule Date
                 </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Confirmation
-                </th>
+                
                 <th className=" px-4 py-2 text-left text-sm font-medium">
                   Dietary Restrictions
                 </th>
@@ -567,7 +550,9 @@ const ClientDetailsPage = () => {
                 <th className=" px-4 py-2 text-left text-sm font-medium">
                   # of Bags
                 </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">Delivery Instructions</th>
+                <th className=" px-4 py-2 text-left text-sm font-medium">
+                  Delivery Instructions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -577,30 +562,23 @@ const ClientDetailsPage = () => {
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
                   <td className=" px-4 py-3 text-sm">
-                  <Link to={"/event/eventDetails"}><p className="text-[#007AFF] underline">{event.event}</p></Link>
+                    <Link to={"/event/eventDetails"}>
+                      <p className="text-[#007AFF] underline">{event.event}</p>
+                    </Link>
                   </td>
-                  <td className=" px-4 py-3 text-sm">{event.driver}</td>
+                  
                   <td className=" px-4 py-3 text-sm">{event.schedule}</td>
-                  <td className="px-4 py-3 text-sm flex">
-                    <p className="bg-[#F0F9F2] border border-[#81c9a6] rounded-full text-[#236847] py-1 px-3">
-                      {event.confirmation}
-                    </p>
-                  </td>
+                  
                   <td className="px-4 py-3 text-sm">{event.dietary}</td>
                   <td className="px-4 py-3 text-sm">{event.people}</td>
                   <td className="px-4 py-3 text-sm">{event.bags}</td>
                   <td className="px-4 py-3 text-sm"></td>
-                  
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
-
-             
-
-      
     </div>
   );
 };

@@ -31,7 +31,7 @@ const Volunteers = () => {
   const clientData = [
     {
       eventName: "September Holiday Drive 9/2",
-      event: "remove",
+      event: "Remove",
     },
     {
       eventName: "September Holiday Drive 9/2",
@@ -42,34 +42,34 @@ const Volunteers = () => {
   const addEventData = [
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
-      event: "Add to Event",
+      event: "Remove",
     },
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
-      event: "Add to Event",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
-      event: "Add to Event",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
-      event: "Add to Event",
+      event: "Remove",
     },
   ];
 
   const EventData = [
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
@@ -77,7 +77,7 @@ const Volunteers = () => {
     },
     {
       eventName: "max olis",
-      event: "remove",
+      event: "Remove",
     },
     {
       eventName: "darhan dilo",
@@ -166,7 +166,7 @@ const Volunteers = () => {
         <thead>
           <tr className="bg-gray-100 ">
             <th className=" px-4 py-2 text-left text-sm font-medium">
-              Event Name
+              Type
             </th>
             <th className=" px-4 py-2 text-left text-sm font-medium">
               Volunteers Needed

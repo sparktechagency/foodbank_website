@@ -17,7 +17,7 @@ import { CgNotes } from "react-icons/cg";
 const items = [
   {
     key: "events",
-    label: "events",
+    label: "Events",
     icon: <MdOutlineBarChart />,
     link: "/",
   },

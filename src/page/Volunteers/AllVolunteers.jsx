@@ -1,10 +1,35 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const AllVolunteers = () => {
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
+
+  const handleOptionChange = (event, rowIndex) => {
+    const { value, checked } = event.target;
+
+    setSelectedOptions((prev) => {
+      const updatedOptions = prev[rowIndex] || [];
+      return {
+        ...prev,
+        [rowIndex]: checked
+          ? [...updatedOptions, value]
+          : updatedOptions.filter((item) => item !== value),
+      };
+    });
+  };
+
+  const toggleDropdown = (index) => {
+    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
+  };
+
   const [modal2Open, setModal2Open] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -91,7 +116,7 @@ const AllVolunteers = () => {
       clientName: "Alena Molin",
       phone: "01694349873",
       email: "foisal@gmail.com",
-      vip:"Yes",
+      vip: "Yes",
       clientDelivery: "None",
       status: "Active",
       bags: "1",
@@ -100,7 +125,7 @@ const AllVolunteers = () => {
       clientName: "Jose Root",
       phone: "01693454373",
       email: "ssdf#gmail.com",
-      vip:"Yes",
+      vip: "Yes",
       clientDelivery: "Mitzvah Sunday Week 1",
       status: "Inactive",
       bags: "6",
@@ -109,7 +134,7 @@ const AllVolunteers = () => {
       clientName: "Julite Khanom",
       phone: "01694349873",
       email: "ddfosis@gmail.com",
-      vip:"Yes",
+      vip: "Yes",
       clientDelivery: "Mitzvah Sunday Week 2",
       status: "Active",
       bags: "3",
@@ -182,19 +207,15 @@ const AllVolunteers = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Phone #
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Email
-              </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                VIP
-              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Email</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">VIP</th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Volunteer Type
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Volunteer Group
               </th>
-              
+
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
           </thead>
@@ -204,7 +225,9 @@ const AllVolunteers = () => {
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
+                <Link to={"/clients/clientsDetails"}>
+                  <td className="px-4 py-3 text-sm">{event.clientName}</td>
+                </Link>
                 <td className="px-4 py-3 text-sm">{event.phone}</td>
                 <td className="px-4 py-3 text-sm">{event.email}</td>
                 <td className="px-4 py-3 text-sm">{event.vip}</td>
@@ -223,22 +246,43 @@ const AllVolunteers = () => {
                     </span>
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm">
-                  <span className="flex">
-                    <span className=" gap-1 rounded-full  flex">
-                      <select
-                        className="bg-[#EDEDED] px-2  p-1 rounded-full text-[#234E6F]"
-                        name="None"
-                        id=""
-                      >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
-                      </select>
+                {/* মাল্টিপল সিলেক্ট চেকবক্স */}
+                <td className="px-4 py-3 text-sm ">
+                  <div
+                    className="bg-[#EDEDED] w-[150px] h-[30px] px-2 py-1 rounded-full overflow-hidden  text-[#234E6F] cursor-pointer flex justify-between"
+                    onClick={() => toggleDropdown(index)}
+                  >
+                    {selectedOptions[index]?.join(", ") || "Select Options"}{" "}
+                    <span>
+                      <IoIosArrowDown />
                     </span>
-                  </span>
+                  </div>
+
+                  {activeDropdown === index && (
+                    <div className="fixed mt-2 w-48  bg-white border rounded shadow-lg z-50">
+                      {[
+                        "mitzvah Monday",
+                        "mitzvah Sunday",
+                        "mitzvah Sundy",
+                        "mitzva Sunday",
+                      ].map((option) => (
+                        <label
+                          key={option}
+                          className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            value={option}
+                            checked={selectedOptions[index]?.includes(option)}
+                            onChange={(e) => handleOptionChange(e, index)}
+                          />
+                          {option}
+                        </label>
+                      ))}
+                    </div>
+                  )}
                 </td>
-                
+
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   <details className="dropdown ">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">

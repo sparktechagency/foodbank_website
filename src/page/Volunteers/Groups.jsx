@@ -189,7 +189,7 @@ const Groups = () => {
                       </summary>
                       <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                         <li>
-                          <a>Edit</a>
+                          <a onClick={() => setModal2Open(true)}>Edit</a>
                         </li>
                         <li>
                           <a>Delete</a>

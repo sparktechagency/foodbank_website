@@ -3,6 +3,7 @@ import { CiLocationOn } from "react-icons/ci";
 import { useState } from "react";
 import Volunteers from "./Volunteers";
 import { Link } from "react-router-dom";
+import WhereHouseVolunteers from "./WhereHouseVolunteers";
 
 const EventClientDetailsPage = () => {
   const [activeTab, setActiveTab] = useState("list");
@@ -10,7 +11,7 @@ const EventClientDetailsPage = () => {
   const clientData = [
     {
       eventName: "September Holiday Drive 9/2",
-      event: "remove from Event",
+      event: "Remove from Event",
     },
     {
       eventName: "September Holiday Drive 9/2",
@@ -160,7 +161,7 @@ const EventClientDetailsPage = () => {
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
               <div className="rounded-xl shadow p-3 my-4 lg:my-0">
-                <h1>Non-holocaust Survivors</h1>
+                <h1>Non-Holocaust Survivors</h1>
                 <h1 className="text-2xl font-semibold mt-2">0</h1>
               </div>
               <div className="rounded-xl shadow p-3">
@@ -292,7 +293,7 @@ const EventClientDetailsPage = () => {
                 </svg>
                 <input
                   type="text"
-                  placeholder="Search Event"
+                  placeholder="Search Clients"
                   className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
                 />
               </div>
@@ -324,7 +325,7 @@ const EventClientDetailsPage = () => {
         {activeTab === "warehouse" && (
           <div className="">
             {/* Calendar View */}
-            <Volunteers></Volunteers>
+            <WhereHouseVolunteers></WhereHouseVolunteers>
           </div>
         )}
       </div>

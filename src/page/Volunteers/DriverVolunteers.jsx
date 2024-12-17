@@ -1,10 +1,31 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const DriverVolunteers = () => {
+
+  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState({});
+
+  const handleOptionChange = (event, rowIndex) => {
+    const { value, checked } = event.target;
+
+    setSelectedOptions((prev) => {
+      const updatedOptions = prev[rowIndex] || [];
+      return {
+        ...prev,
+        [rowIndex]: checked
+          ? [...updatedOptions, value]
+          : updatedOptions.filter((item) => item !== value),
+      };
+    });
+  };
+
+  const toggleDropdown = (index) => {
+    setActiveDropdown((prevIndex) => (prevIndex === index ? null : index));
+  };
 
   const [modal2Open, setModal2Open] = useState(false);
 
@@ -231,20 +252,40 @@ const DriverVolunteers = () => {
                     </span>
                   </span>
                 </td>
-                <td className="px-4 py-3 text-sm">
-                  <span className="flex">
-                    <span className=" gap-1 rounded-full  flex">
-                      <select
-                        className="bg-[#EDEDED] px-2  p-1 rounded-full text-[#234E6F]"
-                        name="None"
-                        id=""
-                      >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
-                      </select>
+                <td className="px-4 py-3 text-sm ">
+                  <div
+                    className="bg-[#EDEDED] w-[150px] h-[30px] px-2 py-1 rounded-full overflow-hidden  text-[#234E6F] cursor-pointer flex justify-between"
+                    onClick={() => toggleDropdown(index)}
+                  >
+                    {selectedOptions[index]?.join(", ") || "Select Options"}{" "}
+                    <span>
+                      <IoIosArrowDown />
                     </span>
-                  </span>
+                  </div>
+
+                  {activeDropdown === index && (
+                    <div className="fixed mt-2 w-48  bg-white border rounded shadow-lg z-50">
+                      {[
+                        "mitzvah Monday",
+                        "mitzvah Sunday",
+                        "mitzvah Sundy",
+                        "mitzva Sunday",
+                      ].map((option) => (
+                        <label
+                          key={option}
+                          className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                        >
+                          <input
+                            type="checkbox"
+                            value={option}
+                            checked={selectedOptions[index]?.includes(option)}
+                            onChange={(e) => handleOptionChange(e, index)}
+                          />
+                          {option}
+                        </label>
+                      ))}
+                    </div>
+                  )}
                 </td>
                 
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
