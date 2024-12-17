@@ -8,7 +8,7 @@ import Logo from "../assets/header/Logo.png"
 const ResetPass = () => {
   // const navigate = useNavigate();
   // const axiosUrl = UseAxios();
-  const [isLoading, setIsLoading] = useState(false);
+  const [ setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
     setIsLoading(true);

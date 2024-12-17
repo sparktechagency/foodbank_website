@@ -6,7 +6,7 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import Logo from "../assets/header/Logo.png"
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  const [ setLoading] = useState(false);
   // const axiosUrl = UseAxios();
   // const navigate = useNavigate();
 
