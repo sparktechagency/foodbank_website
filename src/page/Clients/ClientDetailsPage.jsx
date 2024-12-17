@@ -1,6 +1,6 @@
 import { Modal } from "antd";
-import React, { useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import  { useState } from "react";
+
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const ClientDetailsPage = () => {
     city: "",
     state: "",
     zipcode: "",
-    date: "",
+    
     timeFrom: "",
     timeTo: "",
     deliveryDrivers: "",
@@ -101,7 +101,7 @@ const ClientDetailsPage = () => {
         city: "",
         state: "",
         zipcode: "",
-        date: "",
+       
         timeFrom: "",
         timeTo: "",
         deliveryDrivers: "",

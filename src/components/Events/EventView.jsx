@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
-import { Link } from "react-router-dom";
+
 
 const EventView = () => {
   const initialEventData = [

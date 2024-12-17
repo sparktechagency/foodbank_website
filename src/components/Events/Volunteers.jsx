@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 const Volunteers = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [currentPage1, setCurrentPage1] = useState(1);
+ 
   const eventData = [
     {
       type: "September Holiday Drive 9/2",
@@ -66,32 +66,7 @@ const Volunteers = () => {
     },
   ];
 
-  const EventData = [
-    {
-      eventName: "max olis",
-      event: "Remove",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "max olis",
-      event: "Remove",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-  ];
+ 
 
   const searchEventData = [
     {
@@ -139,25 +114,13 @@ const Volunteers = () => {
     setCurrentPage(page);
   };
 
-  const itemsPerPage1 = 4;
-  const totalPages1 = Math.ceil(EventData.length / itemsPerPage1);
-  const startIndex1 = (currentPage1 - 1) * itemsPerPage1;
-  const endIndex1 = startIndex1 + itemsPerPage1;
-  const currentEvents1 = EventData.slice(startIndex1, endIndex1);
 
-  // Pagination handlers
-  const handlePreviousPage1 = () => {
-    setCurrentPage1((prevPage1) => Math.max(prevPage1 - 1, 1));
-  };
+  
 
-  const handleNextPage1 = () => {
-    setCurrentPage1((prevPage1) => Math.min(prevPage1 + 1, totalPages1));
-  };
 
-  const handlePageChange1 = (page1) => {
-    setCurrentPage1(page1);
-  };
 
+
+ 
   return (
     <div className="mt-5 ">
       <h2 className="text-xl font-semibold mb-2">Volunteers</h2>
@@ -233,8 +196,8 @@ const Volunteers = () => {
         </div>
         <div className="lg:grid grid-cols-2 gap-4">
           <div className="bg-white border px-4 py-2 rounded">
-            {clientData.map((item) => (
-              <div className="flex justify-between space-y-4">
+            {clientData.map((item,index) => (
+              <div key={index} className="flex justify-between space-y-4">
                 <h1 className="mt-2">{item.eventName}</h1>
                 <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
                   {item.event}
@@ -266,8 +229,8 @@ const Volunteers = () => {
 
           <div className="bg-white px-4 border py-2 rounded">
             <div>
-              {currentEvents.map((event) => (
-                <div className="flex justify-between space-y-4">
+              {currentEvents.map((event,index) => (
+                <div key={index} className="flex justify-between space-y-4">
                   <h1 className="mt-2">{event.eventName}</h1>
                   <button className="bg-blue-600 text-white px-3 rounded-full text-sm">
                     {event.event}
@@ -330,8 +293,8 @@ const Volunteers = () => {
             </div>
             <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
               <div className="">
-                {searchEventData.map((item) => (
-                  <div className="flex justify-between space-y-4">
+                {searchEventData.map((item,index) => (
+                  <div key={index} className="flex justify-between space-y-4">
                     <Link to={"/clients/clientsDetails"}>
                       <h1 className="mt-2">{item.eventName}</h1>
                     </Link>

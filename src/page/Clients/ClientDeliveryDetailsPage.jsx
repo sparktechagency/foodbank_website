@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+
 import {
   IoIosArrowBack,
-  IoIosArrowDown,
+
   IoIosArrowForward,
 } from "react-icons/io";
 import { Link } from "react-router-dom";

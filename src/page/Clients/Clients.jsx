@@ -3,10 +3,10 @@ import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
   IoIosArrowBack,
-  IoIosArrowDown,
+  
   IoIosArrowForward,
 } from "react-icons/io";
-import { MdAccessTime } from "react-icons/md";
+
 import { Link } from "react-router-dom";
 import ClientsDelivery from "../../components/clients/ClientsDelivery";
 
@@ -27,7 +27,7 @@ const Clients = () => {
     city: "",
     state: "",
     zipcode: "",
-    date: "",
+ 
     timeFrom: "",
     timeTo: "",
     deliveryDrivers: "",
@@ -109,7 +109,7 @@ const Clients = () => {
         city: "",
         state: "",
         zipcode: "",
-        date: "",
+       
         timeFrom: "",
         timeTo: "",
         deliveryDrivers: "",

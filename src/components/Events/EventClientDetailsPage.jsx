@@ -201,8 +201,8 @@ const EventClientDetailsPage = () => {
               </div>
               <div className="lg:grid grid-cols-2 gap-4">
                 <div className="bg-white border px-4 py-2 rounded">
-                  {clientData.map((item) => (
-                    <div className="flex justify-between space-y-4">
+                  {clientData.map((item,index) => (
+                    <div key={index} className="flex justify-between space-y-4">
                       <h1 className="mt-2">{item.eventName}</h1>
                       <div>
                         <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
@@ -236,8 +236,8 @@ const EventClientDetailsPage = () => {
 
                 <div className="bg-white px-4 border py-2 rounded">
                   <div>
-                    {currentEvents.map((event) => (
-                      <div className="flex justify-between space-y-4">
+                    {currentEvents.map((event,index) => (
+                      <div key={index} className="flex justify-between space-y-4">
                         <Link to={"/clients/clientsDetails"}>
                           <h1 className="mt-2">{event.eventName}</h1>
                         </Link>
@@ -299,8 +299,8 @@ const EventClientDetailsPage = () => {
               </div>
               <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
                 <div className="">
-                  {searchEventData.map((item) => (
-                    <div className="flex justify-between space-y-4">
+                  {searchEventData.map((item,index) => (
+                    <div key={index} className="flex justify-between space-y-4">
                       <Link to={"/clients/clientsDetails"}>
                         <h1 className="mt-2">{item.eventName}</h1>
                       </Link>
