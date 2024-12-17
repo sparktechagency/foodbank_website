@@ -262,7 +262,7 @@ const Groups = () => {
       </div>
 
       <Modal
-        title="Create Volunteers Group"
+        title="Create Group"
         centered
         open={modal2Open}
         onCancel={() => {
