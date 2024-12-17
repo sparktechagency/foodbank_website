@@ -1,25 +1,22 @@
-
 import { Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 
-
 import Swal from "sweetalert2";
-import Logo from "../assets/header/Logo.png"
+import Logo from "../assets/header/Logo.png";
 const Login = () => {
-  
   // const axiosUrl = UseAxios();
   // const navigate = useNavigate();
 
   const onFinish = async (values) => {
     console.log(values);
-   
+
     //   try {
     //     const response = await axiosUrl.post("/dashboard/login", values);
     //     if (response.status === 200) {
     //       localStorage.setItem("token", response.data.token);
 
     //       Swal.fire({
-    //         title: "Login Successful!",
+    //         title: "Logi Successful!",
     //         text: "Welcome back!",
     //         icon: "success",
     //         confirmButtonText: "OK"
@@ -62,18 +59,20 @@ const Login = () => {
       confirmButtonText: "OK",
     });
   };
-  
+
   return (
     <div className="min-h-screen flex items-center  md:pt-0 px-4 justify-center ">
       <div className="  w-full max-w-[1500px] m-auto">
         <div className=" ">
           <div className="md:flex md:justify-center">
             <div className="bg-white  md:w-[500px] md:px-16 px-5 py-16 rounded-lg shadow-lg ">
-              <div className="flex justify-center mb-4"><img src={Logo} alt="Logo" /></div>
+              <div className="flex justify-center mb-4">
+                <img src={Logo} alt="Logo" />
+              </div>
               <h2 className="text-xl font-bold mb-2 text-gray-800">
-              Sign in to your account
+                Sign in to your account
               </h2>
-              
+
               <Form
                 name="basic"
                 initialValues={{
@@ -143,7 +142,6 @@ const Login = () => {
               </Form>
             </div>
           </div>
-          
         </div>
       </div>
     </div>
