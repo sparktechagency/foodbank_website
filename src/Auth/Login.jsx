@@ -28,7 +28,7 @@ const Login = () => {
     //     console.error("Login failed:", error.response?.data?.message || error.message);
 
     //     Swal.fire({
-    //       title: "Login Failed",
+    //       title: "LogiFailed",
     //       text: error.response?.data?.message || "Login failed. Please try again.",
     //       icon: "error",
     //       confirmButtonText: "Try Again"
