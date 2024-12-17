@@ -2,7 +2,7 @@ import { Checkbox, Form, Input } from "antd";
 import { Link } from "react-router-dom";
 
 // import Swal from "sweetalert2";
-import Logo from "../assets/header/Logo.png";
+import Logo from "../assets/header/logo.png";
 const Login = () => {
   // const axiosUrl = UseAxios();
   // const navigate = useNavigate();

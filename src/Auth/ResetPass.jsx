@@ -3,7 +3,7 @@ import { Form, Input } from "antd";
 // import UseAxios from "../hook/UseAxios";
 // import Swal from "sweetalert2";
 
-import Logo from "../assets/header/Logo.png"
+import Logo from "../assets/header/logo.png"
 
 const ResetPass = () => {
   // const navigate = useNavigate();
