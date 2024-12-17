@@ -276,7 +276,7 @@ const DriverGroup = () => {
                 </td>
                 <td className="px-4 py-3 text-sm ">
                   <div
-                    className="bg-[#EDEDED] w-[150px] h-[30px] px-2 py-1 rounded-full overflow-hidden  text-[#234E6F] cursor-pointer flex justify-between"
+                    className="bg-[#EDEDED] w-[150px] h-[30px] pr-1 pl-3 py-2 rounded-full overflow-hidden  text-[#234E6F] cursor-pointer flex justify-between items-center"
                     onClick={() => toggleDropdown(index)}
                   >
                     {selectedOptions[index]?.join(", ") || "Select Options"}{" "}
