@@ -1,14 +1,14 @@
 import { useState } from "react";
 
-import { Link, useNavigate } from "react-router-dom";
-import UseAxios from "../hook/UseAxios";
+import { Link} from "react-router-dom";
+// import UseAxios from "../hook/UseAxios";
 
 import OTPInput from "react-otp-input";
 const Verify = () => {
   const [otp, setOtp] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
-  const axiosUrl = UseAxios();
+  // const [isLoading, setIsLoading] = useState(false);
+  // const navigate = useNavigate();
+  // const axiosUrl = UseAxios();
 
   const handleVerify = async () => {
     // const email = localStorage.getItem("email");
