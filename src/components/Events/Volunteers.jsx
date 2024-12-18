@@ -10,9 +10,9 @@ const Volunteers = () => {
     {
       type: "Driver Volunteers",
       volunteers: "20",
-      confirmed: "17",
+      confirmed: "15",
       
-      volunteersRespons: "54",
+      volunteersRespons: "10",
     },
   ];
 

@@ -9,10 +9,10 @@ const WhereHouseVolunteers = () => {
       const eventData = [
         {
           type: "Warehouse Volunteers",
-          volunteers: "14",
-          confirmed: "10",
+          volunteers: "20",
+          confirmed: "15",
           
-          volunteersRespons: "54",
+          volunteersRespons: "10",
         },
         
       ];
