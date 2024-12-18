@@ -8,24 +8,13 @@ const WhereHouseVolunteers = () => {
       
       const eventData = [
         {
-          type: "September Holiday Drive 9/2",
-          volunteers: "17",
-          confirmed: "34",
+          type: "Warehouse Volunteers",
+          volunteers: "14",
+          confirmed: "10",
           
           volunteersRespons: "54",
         },
-        {
-          type: "Mitzvah Sunday 10/14",
-          volunteers: "44",
-          confirmed: "34",
-          volunteersRespons: "54",
-        },
-        {
-          type: "Mitzvah Sunday 10/28",
-          volunteers: "5",
-          confirmed: "34",
-          volunteersRespons: "54",
-        },
+        
       ];
     
       const clientData = [
