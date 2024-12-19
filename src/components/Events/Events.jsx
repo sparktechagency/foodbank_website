@@ -50,9 +50,7 @@ const eventData = [
 const Events = () => {
   const [activeTab, setActiveTab] = useState("list");
   const [modal2Open, setModal2Open] = useState(false);
-
   const [formErrors, setFormErrors] = useState({});
-
   const [formData, setFormData] = useState({
     name: "",
     message: "",
@@ -242,6 +240,13 @@ const Events = () => {
                   <option value="all events">All Events Types</option>
                   <option value="holiday drive">Holiday Drive</option>
                   <option value="mitzvah sunday">Mitzvah Sunday</option>
+                </select>
+              </div>
+              <div>
+                <select className="border rounded py-2 bg-white" name="" id="">
+                  <option value="all events">Short By</option>
+                  <option value="holiday drive">Name</option>
+                  <option value="mitzvah sunday">Date</option>
                 </select>
               </div>
               </div>

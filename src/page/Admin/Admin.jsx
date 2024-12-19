@@ -118,6 +118,18 @@ const Admin = () => {
             {/* Filters */}
 
             <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
+                    </select>
+                  </div>
+
+            <div>
               <button
                 onClick={() => setModal2Open(true)}
                 className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"

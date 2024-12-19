@@ -155,6 +155,7 @@ const Groups = () => {
         </div>
 
         <div className=" mt-4 flex justify-between gap-3 ">
+          
         <div>
               <select className="border rounded py-2 bg-white" name="" id="">
                 <option value="all client">All Client</option>
@@ -165,6 +166,18 @@ const Groups = () => {
               </select>
             </div>
             {/* Filters */}
+
+            <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
+                    </select>
+                  </div>
 
             <div>
               <button

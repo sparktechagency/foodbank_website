@@ -89,14 +89,65 @@ const ClientsDelivery = () => {
 
   return (
     <div>
-      <div className="flex justify-end mb-5">
-        <button
-          onClick={() => setModalOpen(true)}
-          className="mt-4 bg-[#234E6F] rounded-full py-2 px-4 text-white"
-        >
-          Create Group
-        </button>
-      </div>
+      <div className="mt-2 mb-5 lg:flex justify-between">
+                {/* Search Box */}
+                <div className="flex items-center py-3 border-b border-gray-300 px-1 w-full mr-5">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-500"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
+                  </svg>
+                  <input
+                    type="text"
+                    placeholder="Search Clients"
+                    className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"
+                  />
+                </div>
+
+                <div className="flex justify-between mt-3 gap-3 ">
+                  {/* Tabs for List and Calendar View */}
+
+                  {/* Filters */}
+
+                  <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all client">All Client</option>
+                      <option value="Holocaust Survivors">
+                        Holocaust Survivors
+                      </option>
+                      <option value="Non- Holocaust Survivors">
+                        Non- Holocaust Survivors
+                      </option>
+                    </select>
+                  </div>
+                  <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
+                    </select>
+                  </div>
+                  <div className="">
+                    <button
+                      onClick={() => setModalOpen(true)}
+                      className="w-[160px] bg-[#234E6F] rounded-full py-2 text-white"
+                    >
+                      + Create Groupe
+                    </button>
+                  </div>
+                </div>
+              </div>
       <table className="min-w-full border-collapse  border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
@@ -154,11 +205,9 @@ const ClientsDelivery = () => {
           setFormErrors({});
         }}
         bodyStyle={{
-          maxHeight: "50vh", 
-          overflowY: "auto", 
-           
+          maxHeight: "50vh",
+          overflowY: "auto",
         }}
-       
         footer={[
           <button
             key="save"

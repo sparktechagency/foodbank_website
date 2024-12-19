@@ -200,10 +200,23 @@ const AllVolunteers = () => {
           />
         </div>
 
+        
+
         <div className=" mt-4 flex justify-end gap-3 ">
           {/* Tabs for List and Calendar View */}
 
           {/* Filters */}
+          <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
+                    </select>
+                  </div>
 
           <div>
             <button
@@ -258,14 +271,17 @@ const AllVolunteers = () => {
                         name="None"
                         id=""
                       >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
+                        <option value="mitzvah Monday">
+                          Driver Volunteers
+                        </option>
+                        <option value="mitzvah Sunday">
+                          Warehouse Volunteers
+                        </option>
                       </select>
                     </span>
                   </span>
                 </td>
-                {/* মাল্টিপল সিলেক্ট চেকবক্স */}
+
                 <td className="px-4 py-3 text-sm ">
                   <div
                     className="bg-[#EDEDED] w-[150px] h-[30px] pr-1 pl-3 py-2 rounded-full overflow-hidden  text-[#234E6F] cursor-pointer flex justify-between items-center"

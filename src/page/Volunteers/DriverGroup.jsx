@@ -213,6 +213,17 @@ const DriverGroup = () => {
           {/* Filters */}
 
           <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
+                    </select>
+                  </div>
+          <div>
             <button
               onClick={() => setModal2Open(true)}
               className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
@@ -267,9 +278,8 @@ const DriverGroup = () => {
                         name="None"
                         id=""
                       >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
+                         <option value="mitzvah Sunday">Warehouse Volunteers</option>
+                         <option value="mitzvah Monday">Driver Volunteers</option>
                       </select>
                     </span>
                   </span>

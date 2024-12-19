@@ -1,11 +1,7 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import {
-  IoIosArrowBack,
-  
-  IoIosArrowForward,
-} from "react-icons/io";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 import { Link } from "react-router-dom";
 import ClientsDelivery from "../../components/clients/ClientsDelivery";
@@ -28,7 +24,7 @@ const Clients = () => {
     city: "",
     state: "",
     zipcode: "",
- 
+
     timeFrom: "",
     timeTo: "",
     deliveryDrivers: "",
@@ -110,7 +106,7 @@ const Clients = () => {
         city: "",
         state: "",
         zipcode: "",
-       
+
         timeFrom: "",
         timeTo: "",
         deliveryDrivers: "",
@@ -231,7 +227,6 @@ const Clients = () => {
     },
   ];
 
-
   const handleDelete = (index) => {
     Swal.fire({
       title: "Are you sure?",
@@ -272,8 +267,6 @@ const Clients = () => {
     <div className="lg:px-5 px-2 lg:pt-10 pt-5 min-h-screen">
       <div className="">
         <h1 className="text-2xl font-bold">Clients</h1>
-
-      
       </div>
 
       <div className="lg:mt-10 mt-5">
@@ -340,6 +333,17 @@ const Clients = () => {
                       <option value="Non- Holocaust Survivors">
                         Non- Holocaust Survivors
                       </option>
+                    </select>
+                  </div>
+                  <div>
+                    <select
+                      className="border rounded py-2 bg-white"
+                      name=""
+                      id=""
+                    >
+                      <option value="all events">Short By</option>
+                      <option value="holiday drive">Name</option>
+                      <option value="mitzvah sunday">Date</option>
                     </select>
                   </div>
                   <div className="">
@@ -428,7 +432,9 @@ const Clients = () => {
                                 <a onClick={() => setModal2Open(true)}>Edit</a>
                               </li>
                               <li>
-                                <a onClick={() => handleDelete(index)}>Delete</a>
+                                <a onClick={() => handleDelete(index)}>
+                                  Delete
+                                </a>
                               </li>
                             </ul>
                           </details>
@@ -521,9 +527,8 @@ const Clients = () => {
         bodyStyle={{
           maxHeight: "70vh", // ভিউপোর্ট উচ্চতার ৯০% সীমা
           overflowY: "auto", // স্ক্রলবার দেখানোর জন্য
-           // আরামদায়ক প্যাডিং
+          // আরামদায়ক প্যাডিং
         }}
-        
         footer={[
           <button
             key="save"

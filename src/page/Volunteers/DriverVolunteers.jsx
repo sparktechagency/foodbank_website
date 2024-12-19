@@ -1,12 +1,15 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
+import {
+  IoIosArrowBack,
+  IoIosArrowDown,
+  IoIosArrowForward,
+} from "react-icons/io";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 
 const DriverVolunteers = () => {
-
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
 
@@ -32,12 +35,12 @@ const DriverVolunteers = () => {
 
   const [formData, setFormData] = useState({
     first: "",
-            last: "",
-            email:'',
-            Holocaust: "",
-            number: "",         
-            adress: "",
-            clients: [],
+    last: "",
+    email: "",
+    Holocaust: "",
+    number: "",
+    adress: "",
+    clients: [],
   });
   const [errors, setErrors] = useState({});
 
@@ -54,14 +57,12 @@ const DriverVolunteers = () => {
     if (!formData.Holocaust.trim())
       formErrors.Holocaust = "Holocaust is required.";
 
-   
     if (!formData.number.trim())
       formErrors.number = "Event number is required.";
-   
 
     if (!formData.adress.trim())
       formErrors.adress = "Event adress is required.";
-    
+
     if (formData.clients.length === 0) {
       formErrors.clients = "At least one client must be selected";
     }
@@ -95,24 +96,20 @@ const DriverVolunteers = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
-      
-    
       setModal2Open(false);
       setFormData({
         first: "",
-            last: "",
-            email:'',
-            Holocaust: "",
-            number: "",         
-            adress: "",
-            clients: [],
+        last: "",
+        email: "",
+        Holocaust: "",
+        number: "",
+        adress: "",
+        clients: [],
       });
-      
     }
     console.log("Form Data:", formData);
-    
   };
 
   const eventData = [
@@ -120,7 +117,7 @@ const DriverVolunteers = () => {
       clientName: "Alena Molin",
       phone: "01694349873",
       email: "foisal@gmail.com",
-      vip:"yes",
+      vip: "yes",
       clientDelivery: "None",
       status: "Active",
       bags: "1",
@@ -129,7 +126,7 @@ const DriverVolunteers = () => {
       clientName: "Jose Root",
       phone: "01693454373",
       email: "ssdf#gmail.com",
-      vip:"yes",
+      vip: "yes",
       clientDelivery: "Mitzvah Sunday Week 1",
       status: "Inactive",
       bags: "6",
@@ -138,14 +135,12 @@ const DriverVolunteers = () => {
       clientName: "Julite Khanom",
       phone: "01694349873",
       email: "ddfosis@gmail.com",
-      vip:"yes",
+      vip: "yes",
       clientDelivery: "Mitzvah Sunday Week 2",
       status: "Active",
       bags: "3",
     },
-    
   ];
-
 
   const handleDelete = (index) => {
     Swal.fire({
@@ -185,8 +180,8 @@ const DriverVolunteers = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-    return (
-      <div>
+  return (
+    <div>
       <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
         {/* Search Box */}
         <div className="flex items-center border-b py-3 border-gray-300 px-1 w-full mr-5">
@@ -211,6 +206,14 @@ const DriverVolunteers = () => {
           {/* Filters */}
 
           <div>
+            <select className="border rounded py-2 bg-white" name="" id="">
+              <option value="all events">Short By</option>
+              <option value="holiday drive">Name</option>
+              <option value="mitzvah sunday">Date</option>
+            </select>
+          </div>
+
+          <div>
             <button
               onClick={() => setModal2Open(true)}
               className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
@@ -222,7 +225,7 @@ const DriverVolunteers = () => {
       </div>
 
       <div className="lg:mx-5 mx-2 overflow-x-auto">
-      <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
+        <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
               <th className="px-4 py-2 text-left text-sm font-medium">
@@ -231,19 +234,15 @@ const DriverVolunteers = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Phone #
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Email
-              </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                VIP
-              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Email</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">VIP</th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Volunteer Type
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Volunteer Group
               </th>
-              
+
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
           </thead>
@@ -253,7 +252,9 @@ const DriverVolunteers = () => {
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <Link to={'/clients/clientsDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
+                <Link to={"/clients/clientsDetails"}>
+                  <td className="px-4 py-3 text-sm">{event.clientName}</td>
+                </Link>
                 <td className="px-4 py-3 text-sm">{event.phone}</td>
                 <td className="px-4 py-3 text-sm">{event.email}</td>
                 <td className="px-4 py-3 text-sm">{event.vip}</td>
@@ -265,9 +266,12 @@ const DriverVolunteers = () => {
                         name="None"
                         id=""
                       >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
+                        <option value="mitzvah Monday">
+                          Driver Volunteers
+                        </option>
+                        <option value="mitzvah Sunday">
+                          Warehouse Volunteers
+                        </option>
                       </select>
                     </span>
                   </span>
@@ -307,7 +311,7 @@ const DriverVolunteers = () => {
                     </div>
                   )}
                 </td>
-                
+
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   <details className="dropdown ">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
@@ -374,9 +378,9 @@ const DriverVolunteers = () => {
           setFormData({
             first: "",
             last: "",
-            email:'',
+            email: "",
             Holocaust: "",
-            number: "",         
+            number: "",
             adress: "",
             clients: [],
           });
@@ -491,9 +495,9 @@ const DriverVolunteers = () => {
           </label>
 
           <div className="  mt-1">
-            
-
-            <span className="font-semibold">Select Your Preferred Volunteer Role</span>
+            <span className="font-semibold">
+              Select Your Preferred Volunteer Role
+            </span>
             <div className="relative mt-2">
               <div
                 className="border border-gray-400 rounded p-2 cursor-pointer"
@@ -526,12 +530,11 @@ const DriverVolunteers = () => {
                 {errors.clients}
               </p>
             )}
-
           </div>
         </form>
       </Modal>
     </div>
-    );
+  );
 };
 
 export default DriverVolunteers;
