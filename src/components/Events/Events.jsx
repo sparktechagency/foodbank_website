@@ -76,7 +76,7 @@ const Events = () => {
   const validateForm = () => {
     const errors = {};
 
-    // Check each required field
+    // Check each required fiel
     if (!formData.name.trim()) {
       errors.name = "Event Name is required";
     }
