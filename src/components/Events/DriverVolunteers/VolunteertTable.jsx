@@ -1,20 +1,18 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import { InvitedWarehouseVolunteers } from "./WoriousVolunteers/InvitedWarehouseVolunteers";
-import { SearchWarehouseVolunteer } from "./WoriousVolunteers/SearchWarehouseVolunteer";
 
-const WhereHouseVolunteers = () => {
+export const VolunteertTable = () => {
   const eventData = [
     {
-      type: "Warehouse Volunteers",
+      type: "Driver Volunteers",
       volunteers: "20",
       confirmed: "15",
 
       volunteersRespons: "10",
     },
   ];
-
   return (
-    <div className="mt-5 ">
+    <div>
       <h2 className="text-xl font-semibold mb-2">Volunteers</h2>
       <div className="overflow-x-auto">
         <table className="min-w-full border-collapse overflow-x-auto border border-gray-300">
@@ -53,13 +51,6 @@ const WhereHouseVolunteers = () => {
           </tbody>
         </table>
       </div>
-
-      <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
-        <InvitedWarehouseVolunteers></InvitedWarehouseVolunteers>
-        <SearchWarehouseVolunteer></SearchWarehouseVolunteer>
-      </div>
     </div>
   );
 };
-
-export default WhereHouseVolunteers;

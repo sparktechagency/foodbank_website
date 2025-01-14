@@ -3,7 +3,6 @@ import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
 
-
 const EventView = () => {
   const initialEventData = [
     {
@@ -77,18 +76,18 @@ const EventView = () => {
           <div>
             <h1 className="text-2xl font-bold mt-3">Clients</h1>
             <div className="lg:flex lg:gap-5 mt-3 ">
-          <span className="flex">
-            <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
-            10/28/2024, 8:30AM - 11AM
-          </span>
-          <span className="hidden lg:block">|</span>
-          <span className="flex">
-            <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
-            The Cupboard
-          </span>
-          <span className="hidden lg:block">|</span>
-          <span>Mitzvah Day</span>
-        </div>
+              <span className="flex">
+                <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
+                10/28/2024, 8:30AM - 11AM
+              </span>
+              <span className="hidden lg:block">|</span>
+              <span className="flex">
+                <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
+                The Cupboard
+              </span>
+              <span className="hidden lg:block">|</span>
+              <span>Mitzvah Day</span>
+            </div>
             <div className="flex gap-5 mt-3">
               <span className="flex">Priority Sunday</span>
               <span>|</span>
@@ -128,7 +127,9 @@ const EventView = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Deliver Delivered to Client Before
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Address</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Address
+              </th>
               <th className="px-4 py-2 text-left text-sm font-medium">City</th>
               <th className="px-4 py-2 text-left text-sm font-medium">VIP</th>
               <th className="px-4 py-2 text-left text-sm font-medium">

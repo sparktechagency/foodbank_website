@@ -1,40 +1,11 @@
 import { Modal } from "antd";
 import { useState } from "react";
 import Swal from "sweetalert2";
+import { AddAdmin } from "./AddAdmin";
+
 
 const Admin = () => {
   const [modal2Open, setModal2Open] = useState(false);
-
-  const [formData, setFormData] = useState({
-    first: "",
-    last: "",
-    email: "",
-    Holocaust: "",
-    number: "",
-    adress: "",
-    clients: [],
-  });
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" });
-  };
-
-  const validateForm = () => {
-    let formErrors = {};
-    if (!formData.name.trim()) formErrors.name = "Event name is required.";
-
-    if (!formData.email.trim()) formErrors.email = "Event email is required.";
-
-    if (!formData.password.trim())
-      formErrors.password = "Event password is required.";
-
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
-
   const handleDelete = (index) => {
     Swal.fire({
       title: "Are you sure?",
@@ -46,26 +17,14 @@ const Admin = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Logic to delete the user from the data
+      
         eventData.splice(index, 1);
         Swal.fire("Deleted!", "The admin has been deleted.", "success");
       }
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      setModal2Open(false);
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-      });
-    }
-    console.log("Form Data:", formData);
-  };
+  
 
   const eventData = [
     {
@@ -183,107 +142,8 @@ const Admin = () => {
           </table>
         </div>
 
-        <Modal
-          title="Add Admin"
-          centered
-          open={modal2Open}
-          onCancel={() => {
-            setModal2Open(false);
-            setFormData({
-              name: "",
-              email: "",
-              password: "",
-            });
-            setErrors({});
-          }}
-          footer={[
-            <button
-              key="save"
-              onClick={handleSubmit}
-              className="bg-[#234E6F] text-white rounded-full px-5 py-2"
-            >
-              Add
-            </button>,
-          ]}
-        >
-          <form>
-            <div className="mt-4">
-              <label htmlFor="name">
-                <span className="font-semibold">First Name</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="name"
-                  name="name"
-                  id="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
-                />
-                {errors.name && (
-                  <p className="text-red-500 text-sm">{errors.name}</p>
-                )}
-              </label>
-              <label htmlFor="adress">
-                <span className="font-semibold">Last Name</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="adress"
-                  name="adress"
-                  id="adress"
-                  value={formData.adress}
-                  onChange={handleInputChange}
-                />
-                {errors.adress && (
-                  <p className="text-red-500 text-sm">{errors.adress}</p>
-                )}
-              </label>
+        <AddAdmin setModal2Open={setModal2Open} modal2Open={modal2Open}></AddAdmin>
 
-              <label htmlFor="email">
-                <span className="font-semibold">Admin Email</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="email"
-                  name="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                />
-                {errors.email && (
-                  <p className="text-red-500 text-sm">{errors.email}</p>
-                )}
-              </label>
-
-              <label htmlFor="number">
-                <span className="font-semibold">Contact Number</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="number"
-                  name="number"
-                  id="number"
-                  value={formData.number}
-                  onChange={handleInputChange}
-                />
-                {errors.number && (
-                  <p className="text-red-500 text-sm">{errors.number}</p>
-                )}
-              </label>
-
-              <label htmlFor="password">
-                <span className="font-semibold">New Admin Password</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                />
-                {errors.password && (
-                  <p className="text-red-500 text-sm">{errors.password}</p>
-                )}
-              </label>
-            </div>
-          </form>
-        </Modal>
       </div>
     </div>
   );

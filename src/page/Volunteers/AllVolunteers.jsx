@@ -1,4 +1,3 @@
-import { Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
@@ -8,6 +7,8 @@ import {
 } from "react-icons/io";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
+import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
 
 const AllVolunteers = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -32,23 +33,7 @@ const AllVolunteers = () => {
   };
 
   const [modal2Open, setModal2Open] = useState(false);
-
-  const [formData, setFormData] = useState({
-    first: "",
-    last: "",
-    email: "",
-    Holocaust: "",
-    number: "",
-    adress: "",
-    clients: [],
-  });
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" });
-  };
+  const [modal2Open1, setModal2Open1] = useState(false);
 
   const handleDelete = (index) => {
     Swal.fire({
@@ -61,73 +46,10 @@ const AllVolunteers = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Logic to delete the user from the data
         eventData.splice(index, 1);
         Swal.fire("Deleted!", "The admin has been deleted.", "success");
       }
     });
-  };
-
-  const validateForm = () => {
-    let formErrors = {};
-    if (!formData.first.trim()) formErrors.first = "Event first is required.";
-    if (!formData.last.trim()) formErrors.last = "Event last is required.";
-    if (!formData.Holocaust.trim())
-      formErrors.Holocaust = "Holocaust is required.";
-
-    if (!formData.number.trim())
-      formErrors.number = "Event number is required.";
-
-    if (!formData.adress.trim())
-      formErrors.adress = "Event adress is required.";
-
-    if (formData.clients.length === 0) {
-      formErrors.clients = "At least one client must be selected";
-    }
-    if (!formData.warehouseVolunteers)
-      formErrors.warehouseVolunteers = "Volunteers count is required.";
-
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
-  const availableClients = [
-    "Alena Artmyeva",
-    "John Doe",
-    "Jane Smith",
-    "Michael Johnson",
-  ];
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleCheckboxChange = (client) => {
-    if (formData.clients.includes(client)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: prevData.clients.filter((c) => c !== client),
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: [...prevData.clients, client],
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (validateForm()) {
-      setModal2Open(false);
-      setFormData({
-        first: "",
-        last: "",
-        email: "",
-        Holocaust: "",
-        number: "",
-        adress: "",
-        clients: [],
-      });
-    }
-    console.log("Form Data:", formData);
   };
 
   const eventData = [
@@ -161,29 +83,23 @@ const AllVolunteers = () => {
   ];
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const itemsPerPage = 10;
   const totalPages = Math.ceil(eventData.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentEvents = eventData.slice(startIndex, endIndex);
-
-  // Pagination handlers
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
   const handleNextPage = () => {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   };
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
   return (
     <div>
       <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
-        {/* Search Box */}
         <div className="flex items-center border-b py-3 border-gray-300 px-1 w-full mr-5">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -200,23 +116,14 @@ const AllVolunteers = () => {
           />
         </div>
 
-        
-
         <div className=" mt-4 flex justify-end gap-3 ">
-          {/* Tabs for List and Calendar View */}
-
-          {/* Filters */}
           <div>
-                    <select
-                      className="border rounded py-2 bg-white"
-                      name=""
-                      id=""
-                    >
-                      <option value="all events">Short By</option>
-                      <option value="holiday drive">Name</option>
-                      <option value="mitzvah sunday">Date</option>
-                    </select>
-                  </div>
+            <select className="border rounded py-2 bg-white" name="" id="">
+              <option value="all events">Short By</option>
+              <option value="holiday drive">Name</option>
+              <option value="mitzvah sunday">Date</option>
+            </select>
+          </div>
 
           <div>
             <button
@@ -325,7 +232,7 @@ const AllVolunteers = () => {
                     </summary>
                     <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                       <li>
-                        <a onClick={() => setModal2Open(true)}>Edit</a>
+                        <a onClick={() => setModal2Open1(true)}>Edit</a>
                       </li>
                       <li>
                         <a onClick={() => handleDelete(index)}>Delete</a>
@@ -374,173 +281,15 @@ const AllVolunteers = () => {
           </button>
         </div>
       </div>
-
-      <Modal
-        title="Add Volunteers"
-        centered
-        open={modal2Open}
-        onCancel={() => {
-          setModal2Open(false);
-          setFormData({
-            first: "",
-            last: "",
-            email: "",
-            Holocaust: "",
-            number: "",
-            adress: "",
-            clients: [],
-          });
-          setErrors({});
-        }}
-        footer={[
-          <button
-            key="save"
-            onClick={handleSubmit}
-            className="bg-[#234E6F] text-white rounded-full px-5 py-2"
-          >
-            Save
-          </button>,
-        ]}
-      >
-        <form>
-          <div className="mt-4">
-            <div className="flex gap-3">
-              <label htmlFor="first">
-                <span className="font-semibold">First Name</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="text"
-                  name="first"
-                  id="first"
-                  value={formData.first}
-                  onChange={handleInputChange}
-                />
-                {errors.first && (
-                  <p className="text-red-500 text-sm">{errors.first}</p>
-                )}
-              </label>
-
-              <label htmlFor="last">
-                <span className="font-semibold">Last Name</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                  type="text"
-                  name="last"
-                  id="last"
-                  value={formData.last}
-                  onChange={handleInputChange}
-                />
-                {errors.last && (
-                  <p className="text-red-500 text-sm">{errors.last}</p>
-                )}
-              </label>
-            </div>
-
-            <label htmlFor="email">
-              <span className="font-semibold">Email Address</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="email"
-                name="email"
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-sm">{errors.email}</p>
-              )}
-            </label>
-
-            <label htmlFor="number">
-              <span className="font-semibold">Phone Number</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="text"
-                name="number"
-                id="number"
-                value={formData.number}
-                onChange={handleInputChange}
-              />
-              {errors.number && (
-                <p className="text-red-500 text-sm">{errors.number}</p>
-              )}
-            </label>
-
-            <label htmlFor="adress">
-              <span className="font-semibold">Adress</span>
-              <input
-                className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-                type="text"
-                name="adress"
-                id="adress"
-                value={formData.adress}
-                onChange={handleInputChange}
-              />
-              {errors.adress && (
-                <p className="text-red-500 text-sm">{errors.adress}</p>
-              )}
-            </label>
-          </div>
-
-          <label htmlFor="Holocaust">
-            <span className="font-semibold">Is the Volunteer a Vip</span>
-            <select
-              className="w-full  border bg-white border-neutral-400 rounded-md py-2"
-              name="Holocaust"
-              id="Holocaust"
-              value={formData.Holocaust}
-              onChange={handleInputChange}
-            >
-              <option value="">Select</option>
-              <option value="1">Yes</option>
-              <option value="2">No</option>
-            </select>
-            {errors.Holocaust && (
-              <p className="text-red-500 text-sm">{errors.Holocaust}</p>
-            )}
-          </label>
-
-          <div className="  mt-1">
-            <span className="font-semibold">
-              Select Your Preferred Volunteer Role
-            </span>
-            <div className="relative mt-2">
-              <div
-                className="border border-gray-400 rounded p-2 cursor-pointer"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                {formData.clients.length > 0
-                  ? formData.clients.join(", ")
-                  : "Select Clients"}
-              </div>
-              {isDropdownOpen && (
-                <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
-                  {availableClients.map((client, index) => (
-                    <div key={index} className="flex items-center mb-2">
-                      <input
-                        type="checkbox"
-                        id={`client-${index}`}
-                        className="mr-2 accent-red-200 cursor-pointer"
-                        checked={formData.clients.includes(client)}
-                        onChange={() => handleCheckboxChange(client)}
-                      />
-                      <label htmlFor={`client-${index}`}>{client}</label>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            {errors.clients && (
-              <p className="text-red-500 text-sm -mt-2 mb-2">
-                {errors.clients}
-              </p>
-            )}
-          </div>
-        </form>
-      </Modal>
+      <AddAllvolunteerModal
+        setModal2Open={setModal2Open}
+        modal2Open={modal2Open}
+      ></AddAllvolunteerModal>
+      <EditAllVolunteerGroup
+        setModal2Open1={setModal2Open1}
+        modal2Open1={modal2Open1}
+      ></EditAllVolunteerGroup>
     </div>
   );
 };
-
 export default AllVolunteers;

@@ -37,52 +37,8 @@ const ClientDeliveryDetailsPage = () => {
       zipCode:"11234",
       bags: "1",
     },
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alernatePhone: "988-3434-323",
-      address:"10009 Brookfield Drive",
-      city:"Hallandele",
-      zipCode:"11234",
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alernatePhone: "988-3434-323",
-      address:"10009 Brookfield Drive",
-      city:"Hallandele",
-      zipCode:"11234",
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alernatePhone: "988-3434-323",
-      address:"10009 Brookfield Drive",
-      city:"Hallandele",
-      zipCode:"11234",
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alernatePhone: "988-3434-323",
-      address:"10009 Brookfield Drive",
-      city:"Hallandele",
-      zipCode:"11234",
-      bags: "1",
-    },
+   
 
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alernatePhone: "988-3434-323",
-      address:"10009 Brookfield Drive",
-      city:"Hallandele",
-      zipCode:"11234",
-      bags: "1",
-    },
   ];
 
   const itemsPerPage = 10;

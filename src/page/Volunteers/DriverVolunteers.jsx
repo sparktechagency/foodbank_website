@@ -8,11 +8,13 @@ import {
 } from "react-icons/io";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
+import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
 
 const DriverVolunteers = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState({});
-
+  const [modal2Open1, setModal2Open1] = useState(false);
   const handleOptionChange = (event, rowIndex) => {
     const { value, checked } = event.target;
 
@@ -319,7 +321,7 @@ const DriverVolunteers = () => {
                     </summary>
                     <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                       <li>
-                        <a onClick={() => setModal2Open(true)}>Edit</a>
+                        <a onClick={() => setModal2Open1(true)}>Edit</a>
                       </li>
                       <li>
                         <a onClick={() => handleDelete(index)}>Delete</a>
@@ -369,7 +371,7 @@ const DriverVolunteers = () => {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         title="Add Event"
         centered
         open={modal2Open}
@@ -532,7 +534,16 @@ const DriverVolunteers = () => {
             )}
           </div>
         </form>
-      </Modal>
+      </Modal> */}
+
+      <AddAllvolunteerModal
+        setModal2Open={setModal2Open}
+        modal2Open={modal2Open}
+      ></AddAllvolunteerModal>
+      <EditAllVolunteerGroup
+        setModal2Open1={setModal2Open1}
+        modal2Open1={modal2Open1}
+      ></EditAllVolunteerGroup>
     </div>
   );
 };
