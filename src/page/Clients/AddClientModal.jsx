@@ -1,13 +1,42 @@
-import { Modal, Form, Input, Select, Button } from 'antd';
-import React from 'react';
+import { Modal, Form, Input, Select, Button } from "antd";
+import React from "react";
+import { useClientAddMutation } from "../redux/api/clientApi";
 
 export const AddClientModal = ({ modal2Open, setModal2Open }) => {
   const [form] = Form.useForm();
 
-  const handleFinish = (values) => {
-    console.log("Form Data:", values);
-    setModal2Open(false);
-    form.resetFields();
+  const [addClient] = useClientAddMutation();
+
+  const handleFinish = async (values) => {
+    console.log(values)
+    const clientData = {
+      firstName: values.first,
+      lastName: values.last,
+      phoneNo: values.number,
+      alternativePhoneNo: values.alternateNumber,
+      address: values.address,
+      apartment: values.apartment,
+      city: values.city,
+      state: values.state,
+      zipCode: values.zipcode,
+      peopleHousehold: values.household,
+      dietaryRestrictions: values.dietary,
+      deliveryInstructions: values.deliveryIns,
+      clientDeliveryGroup: values.clientDeliveryGroup,
+      holocaustSurvivor: values.Holocaust,
+      dateOfBirth: values.date,
+      badgeNumber: values.bags,
+      status: "client",
+    };
+
+    try {
+      await addClient(clientData).unwrap();
+      console.log("Client added successfully", clientData);
+      setModal2Open(false);
+      form.resetFields();
+    } catch (error) {
+      console.error("Error adding client:", error);
+    }
   };
 
   return (
@@ -57,12 +86,9 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             <Form.Item
               name="Holocaust"
               label="Holocaust Survivor"
-              rules={[{ required: true, message: "Please select an option" }]}
+              rules={[{ required: true, message: "Holocaust is required" }]}
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter Holocaust" />
             </Form.Item>
 
             <Form.Item
@@ -81,25 +107,19 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item
-              name="alternateNumber"
-              label="Alternate Phone Number"
-            >
+            <Form.Item name="alternateNumber" label="Alternate Phone Number">
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 
             <Form.Item
-              name="adress"
+              name="address"
               label="Address"
               rules={[{ required: true, message: "Address is required" }]}
             >
               <Input placeholder="Enter Address" />
             </Form.Item>
 
-            <Form.Item
-              name="apartment"
-              label="Apartment, suite, etc."
-            >
+            <Form.Item name="apartment" label="Apartment, suite, etc.">
               <Input placeholder="Enter Apartment Details" />
             </Form.Item>
           </div>
@@ -110,30 +130,23 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               label="City"
               rules={[{ required: true, message: "City is required" }]}
             >
-              <Select placeholder="Select City">
-                <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-                <Select.Option value="tujbah day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter City Name" />
             </Form.Item>
+
             <Form.Item
               name="state"
               label="State"
               rules={[{ required: true, message: "State is required" }]}
             >
-              <Select placeholder="Select State">
-                <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-                <Select.Option value="tujbah day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter State Name" />
             </Form.Item>
+
             <Form.Item
               name="zipcode"
               label="Zipcode"
               rules={[{ required: true, message: "Zipcode is required" }]}
             >
-              <Select placeholder="Select Zipcode">
-                <Select.Option value="The Cupboard">The Cupboard</Select.Option>
-                <Select.Option value="Tujbah Day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter ZipCode Name" />
             </Form.Item>
           </div>
 
@@ -143,24 +156,19 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               label="Number of People in Household"
               rules={[{ required: true, message: "This field is required" }]}
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter household" />
             </Form.Item>
+
             <Form.Item
               name="bags"
               label="Number of Bags"
               rules={[{ required: true, message: "This field is required" }]}
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter bags" />
             </Form.Item>
           </div>
 
-          <Form.Item name="deitary" label="Dietary Restrictions">
+          <Form.Item name="dietary" label="Dietary Restrictions">
             <Input placeholder="Enter Dietary Restrictions" />
           </Form.Item>
 
@@ -168,14 +176,8 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 
-          <Form.Item
-            name="deliveryDrivers"
-            label="Delivery Drivers Needed"
-          >
-            <Select placeholder="Select">
-              <Select.Option value="1">1</Select.Option>
-              <Select.Option value="2">2</Select.Option>
-            </Select>
+          <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
+            <Input placeholder="Enter deliveryDrivers" />
           </Form.Item>
         </Form>
       </Modal>

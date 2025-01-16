@@ -29,7 +29,7 @@ export const EditClientDeliveryGroup = ({ modalOpen1, setModalOpen1 }) => {
       }));
     }
   };
-
+  
   const handleFinish = (values) => {
     console.log("Form Values:", { ...values, clients: formData.clients });
     setModalOpen1(false);

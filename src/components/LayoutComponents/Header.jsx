@@ -14,7 +14,7 @@ import { Drawer, Radio, Space } from "antd";
 import logo from "../../assets/header/logo.png";
 
 import { FaChevronRight } from "react-icons/fa";
-import UseAdminProfile from "../../hook/UseAdminProfile";
+
 import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineBarChart } from "react-icons/md";
 import { TbUsers } from "react-icons/tb";
@@ -102,9 +102,9 @@ const Header = () => {
   const [selectedKey, setSelectedKey] = useState("dashboard");
   const [expandedKeys, setExpandedKeys] = useState([]);
   const navigate = useNavigate();
-  const [admin] = UseAdminProfile();
+  
 
-  console.log(admin);
+  
 
   const onParentClick = (key) => {
     setExpandedKeys((prev) =>

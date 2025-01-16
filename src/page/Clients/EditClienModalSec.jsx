@@ -1,20 +1,70 @@
-import { Button, Form, Input, Modal, Select } from 'antd';
-import React from 'react'
+import { Button, Form, Input, Modal } from 'antd';
+import React, { useEffect } from 'react';
+import { useGetSingleDataQuery, useUpdateClientMutation } from '../redux/api/clientApi';
 
-export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
-    const [form] = Form.useForm();
+export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
+  const id = client?.id;
+  const [updateClient] = useUpdateClientMutation();
+  const [form] = Form.useForm();
+  const { data: singleData, isLoading } = useGetSingleDataQuery({ id }, { skip: !id });
 
-  const handleFinish = (values) => {
-    console.log("Form Data:", values);
-    setModal2Open1(false);
-    form.resetFields();
+  useEffect(() => {
+    if (singleData?.data) {
+      form.setFieldsValue({
+        first: singleData.data.firstName,
+        last: singleData.data.lastName,
+        number: singleData.data.phoneNo,
+        alternateNumber: singleData.data.alternativePhoneNo,
+        address: singleData.data.address,
+        apartment: singleData.data.apartment,
+        city: singleData.data.city,
+        state: singleData.data.state,
+        zipcode: singleData.data.zipCode,
+        household: singleData.data.peopleHousehold,
+        dietary: singleData.data.dietaryRestrictions,
+        deliveryIns: singleData.data.deliveryInstructions,
+        clientDeliveryGroup: singleData.data.clientDeliveryGroup,
+        Holocaust: singleData.data.holocaustSurvivor,
+        date: singleData.data.dateOfBirth,
+      });
+    }
+  }, [singleData, form]);
+
+  const handleFinish = async (values) => {
+    const updatedClient = {
+      firstName: values.first,
+      lastName: values.last,
+      phoneNo: values.number,
+      alternativePhoneNo: values.alternateNumber,
+      address: values.address,
+      apartment: values.apartment,
+      city: values.city,
+      state: values.state,
+      zipCode: values.zipcode,
+      peopleHousehold: values.household,
+      dietaryRestrictions: values.dietary,
+      deliveryInstructions: values.deliveryIns,
+      clientDeliveryGroup: values.clientDeliveryGroup,
+      holocaustSurvivor: values.Holocaust,
+      dateOfBirth: values.date,
+    };
+
+    try {
+      await updateClient({ id, data: updatedClient }).unwrap();
+      console.log("Client updated successfully", updatedClient);
+      setModal2Open1(false);
+      form.resetFields();
+    } catch (error) {
+      console.error("Error updating client:", error);
+    }
   };
+
   return (
     <div>
-        <Modal
-        title="Add Client"
+      <Modal
+        title="Edit Client"
         centered
-        open={modal2Open1}
+        open={isModalOpen}
         onCancel={() => {
           setModal2Open1(false);
           form.resetFields();
@@ -40,14 +90,14 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
               <Form.Item
                 name="first"
                 label="First Name"
-                rules={[{ required: true, message: "First Name is required" }]}
+   
               >
                 <Input placeholder="Enter First Name" />
               </Form.Item>
               <Form.Item
                 name="last"
                 label="Last Name"
-                rules={[{ required: true, message: "Last Name is required" }]}
+
               >
                 <Input placeholder="Enter Last Name" />
               </Form.Item>
@@ -56,18 +106,15 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
             <Form.Item
               name="Holocaust"
               label="Holocaust Survivor"
-              rules={[{ required: true, message: "Please select an option" }]}
+
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter Holocaust" />
             </Form.Item>
 
             <Form.Item
               name="date"
               label="Date of Birth"
-              rules={[{ required: true, message: "Date of Birth is required" }]}
+       
             >
               <Input type="date" />
             </Form.Item>
@@ -75,30 +122,24 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
             <Form.Item
               name="number"
               label="Phone Number"
-              rules={[{ required: true, message: "Phone Number is required" }]}
+            
             >
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item
-              name="alternateNumber"
-              label="Alternate Phone Number"
-            >
+            <Form.Item name="alternateNumber" label="Alternate Phone Number">
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 
             <Form.Item
-              name="adress"
+              name="address"
               label="Address"
-              rules={[{ required: true, message: "Address is required" }]}
+            
             >
               <Input placeholder="Enter Address" />
             </Form.Item>
 
-            <Form.Item
-              name="apartment"
-              label="Apartment, suite, etc."
-            >
+            <Form.Item name="apartment" label="Apartment, suite, etc.">
               <Input placeholder="Enter Apartment Details" />
             </Form.Item>
           </div>
@@ -107,32 +148,25 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
             <Form.Item
               name="city"
               label="City"
-              rules={[{ required: true, message: "City is required" }]}
+       
             >
-              <Select placeholder="Select City">
-                <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-                <Select.Option value="tujbah day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter City Name" />
             </Form.Item>
+
             <Form.Item
               name="state"
               label="State"
-              rules={[{ required: true, message: "State is required" }]}
+           
             >
-              <Select placeholder="Select State">
-                <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-                <Select.Option value="tujbah day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter State Name" />
             </Form.Item>
+
             <Form.Item
               name="zipcode"
               label="Zipcode"
-              rules={[{ required: true, message: "Zipcode is required" }]}
+            
             >
-              <Select placeholder="Select Zipcode">
-                <Select.Option value="The Cupboard">The Cupboard</Select.Option>
-                <Select.Option value="Tujbah Day">Tujbah Day</Select.Option>
-              </Select>
+              <Input placeholder="Enter ZipCode Name" />
             </Form.Item>
           </div>
 
@@ -140,26 +174,21 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
             <Form.Item
               name="household"
               label="Number of People in Household"
-              rules={[{ required: true, message: "This field is required" }]}
+   
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter household" />
             </Form.Item>
+
             <Form.Item
               name="bags"
               label="Number of Bags"
-              rules={[{ required: true, message: "This field is required" }]}
+            
             >
-              <Select placeholder="Select">
-                <Select.Option value="1">1</Select.Option>
-                <Select.Option value="2">2</Select.Option>
-              </Select>
+              <Input placeholder="Enter bags" />
             </Form.Item>
           </div>
 
-          <Form.Item name="deitary" label="Dietary Restrictions">
+          <Form.Item name="dietary" label="Dietary Restrictions">
             <Input placeholder="Enter Dietary Restrictions" />
           </Form.Item>
 
@@ -167,17 +196,11 @@ export const EditClienModalSec = ({modal2Open1, setModal2Open1}) => {
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 
-          <Form.Item
-            name="deliveryDrivers"
-            label="Delivery Drivers Needed"
-          >
-            <Select placeholder="Select">
-              <Select.Option value="1">1</Select.Option>
-              <Select.Option value="2">2</Select.Option>
-            </Select>
+          <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
+            <Input placeholder="Enter deliveryDrivers" />
           </Form.Item>
         </Form>
       </Modal>
     </div>
-  )
-}
+  );
+};

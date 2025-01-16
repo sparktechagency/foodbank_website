@@ -1,65 +1,29 @@
 import { Checkbox, Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-// import Swal from "sweetalert2";
 import Logo from "../assets/header/logo.png";
+import { useLoginAdminMutation } from "../page/redux/api/userApi";
 const Login = () => {
-  // const axiosUrl = UseAxios();
-  // const navigate = useNavigate();
-
+  const [ loginAdmin] = useLoginAdminMutation();
+const navigate = useNavigate()
   const onFinish = async (values) => {
-    console.log(values);
-
-    //   try {
-    //     const response = await axiosUrl.post("/dashboard/login", values);
-    //     if (response.status === 200) {
-    //       localStorage.setItem("token", response.data.token);
-
-    //       Swal.fire({
-    //         title: "Logi Successful!",
-    //         text: "Welcome back!",
-    //         icon: "success",
-    //         confirmButtonText: "OK"
-    //       });
-
-    //       navigate("/");
-    //     }
-    //   } catch (error) {
-    //     console.error("Login failed:", error.response?.data?.message || error.message);
-
-    //     Swal.fire({
-    //       title: "LogiFailed",
-    //       text: error.response?.data?.message || "Login failed. Please try again.",
-    //       icon: "error",
-    //       confirmButtonText: "Try Again"
-    //     });
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-
-    // const onFinishFailed = (errorInfo) => {
-    //   console.log("Failed:", errorInfo);
-
-    //   Swal.fire({
-    //     title: "Form Validation Failed",
-    //     text: "Please fill all required fields correctly.",
-    //     icon: "warning",
-    //     confirmButtonText: "OK"
-    //   });
+    try {
+      console.log("Form Values:", values);
+      const payload = await loginAdmin(values).unwrap();
+      console.log("API Response:", payload);
+      if (payload?.success === true) {
+        localStorage.setItem("accessToken", payload?.data?.accessToken);
+        navigate("/");
+      } else {
+        console.error("Login failed:", payload?.message);
+      }
+    } catch (error) {
+      console.error("Login Error:", error?.message || "Something went wrong");
+    } finally {
+      console.log("Login attempt finished.");
+    }
   };
-
-  // const onFinishFailed = (errorInfo) => {
-  //   console.log("Failed:", errorInfo);
-
-  //   Swal.fire({
-  //     title: "Form Validation Failed",
-  //     text: "Please fill all required fields correctly.",
-  //     icon: "warning",
-  //     confirmButtonText: "OK",
-  //   });
-  // };
-
+  
   return (
     <div className="min-h-screen flex items-center  md:pt-0 px-4 justify-center ">
       <div className="  w-full max-w-[1500px] m-auto">

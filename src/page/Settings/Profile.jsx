@@ -2,15 +2,14 @@
 import { useState } from "react";
 import { Avatar, Upload } from "antd";
 import { FaCamera } from "react-icons/fa";
-import UseAdminProfile from "../../hook/UseAdminProfile";
-// import UseAxios from "../../hook/UseAxios";
-// import Swal from "sweetalert2";
+
+
 const Profile = () => {
   
   const [profilePic, setProfilePic] = useState(null);
   const [activeTab, setActiveTab] = useState("1");
 
-  const [admin] = UseAdminProfile();
+
   
 
   const [formData, setFormData] = useState({

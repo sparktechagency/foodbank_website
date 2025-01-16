@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import { AddEventModal } from "./AddEventModal";
 import { Calender } from "./Calender";
 import { UpdateEvent } from "./UpdateEvent";
+import { useGetEventQuery } from "../../page/redux/api/eventApi";
 
 const eventData = [
   {
@@ -36,7 +37,8 @@ const eventData = [
 const Events = () => {
   const [activeTab, setActiveTab] = useState("list");
   const [modal2Open, setModal2Open] = useState(false);
-
+  const {data} = useGetEventQuery();
+  console.log(data)
   const handleDelete = (index) => {
     Swal.fire({
       title: "Are you sure?",

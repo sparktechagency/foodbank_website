@@ -5,37 +5,29 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AddClientModal } from "./AddClientModal";
 import { EditClienModalSec } from "./EditClienModalSec";
+import { useGetClientQuery } from "../redux/api/clientApi";
 
 export const ClientsSectionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [modal2Open, setModal2Open] = useState(false);
-  const [modal2Open1, setModal2Open1] = useState(false);
-  const eventData = [
-    {
-      clientName: "Alena Molin",
-      phone: "01694349873",
-      alternatePhone: "956-3445-343-3234",
-      holocaust: "yes",
-      clientDelivery: "None",
-
-      bags: "1",
-    },
-    {
-      clientName: "Jose Root",
-      phone: "01693454373",
-      alternatePhone: "956-3445-343-3234",
-      holocaust: "yes",
-      clientDelivery: "Mitzvah Sunday Week 1",
-
-      bags: "6",
-    },
-  ];
+  const [editModal, setEditModal] = useState({ isOpen: false, client: null });
+  const { data } = useGetClientQuery();
+  console.log(data)
+  const clientData = data?.data?.map((client) => ({
+    id: client._id,
+    clientName: `${client.firstName} ${client.lastName}`,
+    phoneNo: client.phoneNo,
+    alternativePhoneNo: client.alternativePhoneNo,
+    holocaustSurvivor: client.holocaustSurvivor,
+    badgeNumber: client.badgeNumber,
+    clientDeliveryGroups: client.meetings.map((meeting) => meeting.clientGroupName),
+  }));
 
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(eventData.length / itemsPerPage);
+  const totalPages = Math.ceil((clientData?.length || 0) / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentEvents = eventData.slice(startIndex, endIndex);
+  const currentClients = clientData?.slice(startIndex, endIndex) || [];
 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
@@ -48,6 +40,20 @@ export const ClientsSectionTable = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+
+  const handleEdit = (client) => {
+  console.log('client idc', client._id)
+  
+    console.log(client)
+  
+    setEditModal({
+      isOpen: true,
+      client, 
+    });
+  
+  };
+  
   return (
     <div>
       <div className="mt-2 mb-5 lg:flex justify-between">
@@ -68,25 +74,16 @@ export const ClientsSectionTable = () => {
           />
         </div>
 
-        <div className="flex justify-between mt-3 gap-3 ">
-          {/* Tabs for List and Calendar View */}
-
+        <div className="flex justify-between mt-3 gap-3">
           {/* Filters */}
-
           <div>
             <Select
               className="w-full h-[42px]"
               defaultValue="all client"
               options={[
                 { value: "all client", label: "All Client" },
-                {
-                  value: "Holocaust Survivors",
-                  label: "Holocaust Survivors",
-                },
-                {
-                  value: "Non- Holocaust Survivors",
-                  label: "Non- Holocaust Survivors",
-                },
+                { value: "Holocaust Survivors", label: "Holocaust Survivors" },
+                { value: "Non-Holocaust Survivors", label: "Non-Holocaust Survivors" },
               ]}
             />
           </div>
@@ -112,69 +109,47 @@ export const ClientsSectionTable = () => {
           </div>
         </div>
       </div>
-      <div className=" overflow-x-auto">
+      <div className="overflow-x-auto">
         {/* Table View */}
-        <table className="lg:w-full w-[1000px]  border-collapse border border-gray-300">
+        <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Client Name
-              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Client Name</th>
               <th className="px-4 py-2 text-left text-sm font-medium">Phone</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Alternate Phone #
-              </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Holocaust Survivor
-              </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
-                Client Delivery Group
-              </th>
-
-              <th className="px-4 py-2 text-left text-sm font-medium">Bags</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Alternate Phone #</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Holocaust Survivor</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Client Delivery Group</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">Badge Number</th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
           </thead>
           <tbody>
-            {currentEvents.map((event, index) => (
+            {currentClients.map((client, index) => (
               <tr
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={"/clients/clientsDetails"}>{event.clientName}</Link>
+                  <Link to="/clients/clientsDetails">{client.clientName}</Link>
                 </td>
-                <td className="px-4 py-3 text-sm">{event.phone}</td>
-                <td className="px-4 py-3 text-sm">{event.alternatePhone}</td>
-                <td className="px-4 py-3 text-sm">{event.holocaust}</td>
-                <td className="px-4 py-3 text-sm ">
-                  <span className="flex">
-                    <span className=" gap-1 rounded-full  flex">
-                      <select
-                        className="bg-[#EDEDED] px-2  p-1 rounded-full text-[#234E6F]"
-                        name="None"
-                        id=""
-                      >
-                        <option value="None">None</option>
-                        <option value="mitzvah Monday">mitzvah Monday</option>
-                        <option value="mitzvah Sunday">mitzvah Sunday</option>
-                      </select>
-                    </span>
-                  </span>
+                <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
+                <td className="px-4 py-3 text-sm">{client.alternativePhoneNo}</td>
+                <td className="px-4 py-3 text-sm">{client.holocaustSurvivor}</td>
+                <td className="px-4 py-3 text-sm">
+                  {client.clientDeliveryGroups.join(", ") || "None"}
                 </td>
-
-                <td className="px-4 py-3 text-sm">{event.bags}</td>
+                <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                  <details className="dropdown ">
+                  <details className="dropdown">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
                       <BiDotsVerticalRounded />
                     </summary>
                     <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
                       <li>
-                        <a onClick={() => setModal2Open1(true)}>Edit</a>
+                        <a onClick={() => handleEdit(client)}>Edit</a>
                       </li>
                       <li>
-                        <a onClick={() => handleDelete(index)}>Delete</a>
+                        <a onClick={() => console.log("Delete", index)}>Delete</a>
                       </li>
                     </ul>
                   </details>
@@ -186,8 +161,7 @@ export const ClientsSectionTable = () => {
         {/* Pagination Controls */}
         <div className="flex justify-between items-center mt-4 px-4">
           <span className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(endIndex, eventData.length)}{" "}
-            of {eventData.length} items
+            Showing {startIndex + 1} to {Math.min(endIndex, clientData?.length || 0)} of {clientData?.length || 0} items
           </span>
           <div className="flex gap-2">
             <button
@@ -225,8 +199,9 @@ export const ClientsSectionTable = () => {
         modal2Open={modal2Open}
       ></AddClientModal>
       <EditClienModalSec
-        setModal2Open1={setModal2Open1}
-        modal2Open1={modal2Open1}
+      isModalOpen={editModal.isOpen}
+        setModal2Open1={setEditModal}
+        client={editModal.client} 
       ></EditClienModalSec>
     </div>
   );

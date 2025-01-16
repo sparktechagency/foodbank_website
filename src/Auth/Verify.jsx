@@ -1,54 +1,15 @@
 import { useState } from "react";
 
 import { Link} from "react-router-dom";
-// import UseAxios from "../hook/UseAxios";
+
 
 import OTPInput from "react-otp-input";
 const Verify = () => {
   const [otp, setOtp] = useState("");
-  // const [isLoading, setIsLoading] = useState(false);
-  // const navigate = useNavigate();
-  // const axiosUrl = UseAxios();
+  
 
   const handleVerify = async () => {
-    // const email = localStorage.getItem("email");
-    // if (!email) {
-    //   Swal.fire({
-    //     title: "No email found!",
-    //     text: "Please try again.",
-    //     icon: "error",
-    //     confirmButtonText: "OK"
-    //   });
-    //   return;
-    // }
-    // setIsLoading(true);
-    // try {
-    //   const response = await axiosUrl.post("/auth/recover-password", {
-    //     email: email,
-    //     verificationOTP: otp,
-    //   });
-    //   console.log(response.data);
-    //   if (response.data) {
-    //     localStorage.setItem("recoveryToken", response.data.recoveryToken);
-    //     Swal.fire({
-    //       title: "OTP Verified!",
-    //       text: "You can now reset your password.",
-    //       icon: "success",
-    //       confirmButtonText: "Proceed"
-    //     });
-    //     navigate("/reset");
-    //   }
-    // } catch (error) {
-    //   console.error("Error:", error);
-    //   Swal.fire({
-    //     title: "Invalid OTP",
-    //     text: "Please try again.",
-    //     icon: "error",
-    //     confirmButtonText: "Try Again"
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    
   };
 
   return (
