@@ -23,6 +23,7 @@ import EventView from "../components/Events/EventView";
 import Admin from "../page/Admin/Admin";
 import Profile from "../page/Settings/Profile";
 import VolunteerGroupDetails from "../page/Volunteers/VolunteerGroupDetails";
+import { Success } from "../page/sucess/Success";
 
 
 
@@ -80,7 +81,8 @@ export const router = createBrowserRouter([
       {
         path:"/volunteerDetails",
         element:<VolunteerGroupDetails></VolunteerGroupDetails>
-      }
+      },
+      
     ],
   },
 
@@ -100,4 +102,8 @@ export const router = createBrowserRouter([
     path: "/reset",
     element: <ResetPass></ResetPass>,
   },
+  {
+    path:"/successfull",
+    element:<Success></Success>
+  }
 ]);
