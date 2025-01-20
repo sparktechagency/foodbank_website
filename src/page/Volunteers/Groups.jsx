@@ -51,7 +51,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
     });
   };
 
-  // 
+  
 
   const handleDelete = (id) => {
     Modal.confirm({
