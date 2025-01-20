@@ -51,7 +51,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
     });
   };
 
-  // aklsdfkjashdfkjhsdafkj
+  // aklsdfkjashdfkjhsdafk
 
 
   const handleDelete = (id) => {
