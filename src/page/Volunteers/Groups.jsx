@@ -51,7 +51,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
     });
   };
 
-  // akls
+  // akl
 
   const handleDelete = (id) => {
     Modal.confirm({
