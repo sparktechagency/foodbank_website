@@ -1,28 +1,53 @@
-import { Modal, Select } from "antd";
+import { message, Modal, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AddModalClientDeliveriGroup } from "./AddModalClientDeliveriGroup";
 import { EditClientDeliveryGroup } from "./EditClientDeliveryGroup";
-
-const eventData = [
-  {
-    eventName: "September Holiday Drive 9/2",
-    eventType: "10",
-  },
-  {
-    eventName: "Mitzvah Sunday 10/14",
-    eventType: "44",
-  },
-  {
-    eventName: "Mitzvah Sunday 10/28",
-    eventType: "15",
-  },
-];
+import { useDeleteClientGroupMutation, useGetClientGroupQuery } from "../../page/redux/api/clientApi";
 
 const ClientsDelivery = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalOpen1, setModalOpen1] = useState(false);
+  const [editModal, setEditModal] = useState({ isOpen: false, id: null });
+  const { data: clientGroup, isLoading, error } = useGetClientGroupQuery();
+  const [deleteClientGroup] = useDeleteClientGroupMutation()
+  
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Failed to load client groups.</p>;
+  }
+
+  const handleEdit = (group) => {
+    console.log(group)
+    setEditModal({
+      isOpen: true,
+      group, 
+    });
+  };
+
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this volunteer?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          const response = await deleteClientGroup(id).unwrap();
+          message.success(response.message );
+        } catch (error) {
+          console.error("Error deleting volunteer:", error);
+          message.error(error.data?.message );
+        }
+      },
+    });
+  };
+  
+
   return (
     <div>
       <div className="mt-2 mb-5 lg:flex justify-between">
@@ -44,10 +69,7 @@ const ClientsDelivery = () => {
         </div>
 
         <div className="flex justify-between mt-3 gap-3 ">
-          {/* Tabs for List and Calendar View */}
-
           {/* Filters */}
-
           <div>
             <Select
               className="w-full h-[42px]"
@@ -77,17 +99,18 @@ const ClientsDelivery = () => {
             />
           </div>
 
-          <div className="">
+          <div>
             <button
               onClick={() => setModalOpen(true)}
               className="w-[160px] bg-[#234E6F] rounded-full py-2 text-white"
             >
-              + Create Groupe
+              + Create Group
             </button>
           </div>
         </div>
       </div>
-      <table className="min-w-full border-collapse  border border-gray-300">
+
+      <table className="min-w-full border-collapse border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
             <th className="px-4 py-2 text-left text-sm font-medium">
@@ -100,17 +123,17 @@ const ClientsDelivery = () => {
           </tr>
         </thead>
         <tbody>
-          {eventData.map((event, index) => (
+          {clientGroup?.data?.map((group) => (
             <tr
-              key={index}
-              className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+              key={group._id}
+              className={`${group._id % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
               <td className="px-4 py-3 text-sm">
-                <Link to={"/clients/ClientDeliveryDetailsPage"}>
-                  {event.eventName}
+                <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
+                  {group.clientGroupName}
                 </Link>
               </td>
-              <td className="px-4 py-3 text-sm">{event.eventType}</td>
+              <td className="px-4 py-3 text-sm">{group.clients.length}</td>
               <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                 <details className="dropdown">
                   <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
@@ -118,10 +141,10 @@ const ClientsDelivery = () => {
                   </summary>
                   <ul className="menu dropdown-content bg-white text-black rounded z-30 right-0 w-44 p-2 shadow">
                     <li>
-                      <a onClick={() => setModalOpen1(true)}>Edit</a>
+                      <a onClick={() => handleEdit(group)}>Edit</a>
                     </li>
                     <li>
-                      <a>Delete</a>
+                      <a onClick={() => handleDelete(group.id)}>Delete</a>
                     </li>
                   </ul>
                 </details>
@@ -134,11 +157,12 @@ const ClientsDelivery = () => {
       <AddModalClientDeliveriGroup
         setModalOpen={setModalOpen}
         modalOpen={modalOpen}
-      ></AddModalClientDeliveriGroup>
+      />
       <EditClientDeliveryGroup
-        setModalOpen1={setModalOpen1}
-        modalOpen1={modalOpen1}
-      ></EditClientDeliveryGroup>
+        isModalOpen={editModal.isOpen}
+        setEditModal={setEditModal}
+        group={editModal.group} 
+      />
     </div>
   );
 };

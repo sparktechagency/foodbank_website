@@ -1,40 +1,50 @@
-import { Modal, Form, Input, Button, Checkbox } from 'antd';
-import React, { useState } from 'react';
+import { Modal, Form, Input, Button, Select, message } from "antd";
+import React, { useState } from "react";
+import { useClientGroupAddMutation, useGetClientQuery } from "../../page/redux/api/clientApi";
 
 export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
-  const availableClients = [
-    "Alena Artmyeva",
-    "John Doe",
-    "Jane Smith",
-    "Michael Johnson",
-  ];
+  const { data: clientData } = useGetClientQuery();
+  const [addClientGroup] = useClientGroupAddMutation();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     name: "",
-    clients: [],
+    clients: [], // Array of selected client IDs
   });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleCheckboxChange = (client) => {
-    if (formData.clients.includes(client)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: prevData.clients.filter((c) => c !== client),
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: [...prevData.clients, client],
-      }));
-    }
+  // Transform API data into options suitable for the Select component
+  const clientOptions = clientData?.data?.map((client) => ({
+    label: `${client.firstName} ${client.lastName}`,
+    value: client._id, // Use client ID as the value
+  })) || [];
+
+  const handleClientChange = (selectedClientIds) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      clients: selectedClientIds,
+    }));
+    console.log("Selected Client IDs:", selectedClientIds);
   };
 
-  const handleFinish = (values) => {
-    console.log("Form Values:", { ...values, clients: formData.clients });
-    setModalOpen(false);
-    form.resetFields();
-    setFormData({ name: "", clients: [] });
+  const handleFinish = async (values) => {
+    const postData = {
+      clientGroupName: values.name, // Form field for group name
+      clients: formData.clients, // Selected client IDs
+    };
+
+    try {
+      const response = await addClientGroup(postData).unwrap();
+      message.success(response?.message || "Client group created successfully!");
+      console.log("POST Response:", response);
+
+      // Reset form and state after successful POST
+      setModalOpen(false);
+      form.resetFields();
+      setFormData({ name: "", clients: [] });
+    } catch (error) {
+      message.error(error?.data?.message || "Failed to create client group.");
+      console.error("POST Error:", error);
+    }
   };
 
   return (
@@ -72,29 +82,19 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
             <Input placeholder="Enter Client Group Name" />
           </Form.Item>
 
-          <Form.Item label="Add Clients">
-            <div
-              className="border border-gray-300 rounded p-1 px-3 cursor-pointer"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              {formData.clients.length > 0
-                ? formData.clients.join(", ")
-                : "Select Clients"}
-            </div>
-            {isDropdownOpen && (
-              <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
-                {availableClients.map((client, index) => (
-                  <div key={index} className="flex items-center mb-2">
-                    <Checkbox
-                      checked={formData.clients.includes(client)}
-                      onChange={() => handleCheckboxChange(client)}
-                    >
-                      {client}
-                    </Checkbox>
-                  </div>
-                ))}
-              </div>
-            )}
+          <Form.Item
+            name="clients"
+            label="Add Clients"
+            rules={[{ required: true, message: "Please select at least one client" }]}
+          >
+            <Select
+              mode="multiple"
+              placeholder="Select Clients"
+              options={clientOptions}
+              onChange={handleClientChange}
+              style={{ width: "100%" }}
+              value={formData.clients}
+            />
           </Form.Item>
         </Form>
       </Modal>

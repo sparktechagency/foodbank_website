@@ -1,66 +1,50 @@
-import { Modal, Form, Input, Select, Button } from "antd";
-import { useEffect } from "react";
-import { useUpdateVolunteersMutation } from "../redux/api/volunteerApi";
+import { Modal, Form, Input, Select, Button, message } from "antd";
+import { useState } from "react";
+import { useClientAddMutation } from "../redux/api/clientApi";
 
-export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) => {
+export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
+  const [volunteerAdd] = useClientAddMutation(); // API mutation for adding a volunteer
   const [form] = Form.useForm();
-  const [updateVolunteers] = useUpdateVolunteersMutation();
-
-  // Set default values when client data is available
-  useEffect(() => {
-    if (client) {
-      form.setFieldsValue({
-        first: client.firstName,
-        last: client.lastName,
-        email: client.email,
-        number: client.phoneNo,
-        adress: client.address,
-        Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
-        volunteerRole:
-          client.volunteerRole === "driver"
-            ? "1"
-            : client.volunteerRole === "warehouse"
-            ? "2"
-            : "3", // Map volunteerRole to dropdown values
-      });
-    }
-  }, [client, form]);
 
   const handleFinish = async (values) => {
+    // Construct payload
     const data = {
       firstName: values.first,
       lastName: values.last,
       email: values.email,
       phoneNo: values.number,
       address: values.adress,
-      volunteerType: values.Holocaust === "1", 
+      volunteerType: values.Holocaust , 
       volunteerRole:
         values.volunteerRole === "1"
           ? "driver"
           : values.volunteerRole === "2"
           ? "warehouse"
-          : "both", // Map dropdown values to backend roles
+          : "both", 
+      status: "warehouse", 
     };
 
-    console.log("Payload to Update:", data);
+    console.log("Payload being sent:", data);
 
     try {
-      const response = await updateVolunteers({ id: client._id, data }).unwrap();
-      console.log("Update Success:", response);
-      setModal2Open1(false);
+      const response = await volunteerAdd(data).unwrap();
+      console.log("API Response:", response);
+      message.success(response.message );
+      setModal2Open(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error Updating Volunteer:", error);
+      console.error("Error adding volunteer:", error);
+      message.error(error.data?.message);
     }
   };
 
   return (
     <Modal
-      title="Edit Volunteers"
+      title="Add Volunteers"
       centered
-      open={isModalOpen}
+      open={modal2Open}
       onCancel={() => {
-        setModal2Open1(false);
+        setModal2Open(false);
         form.resetFields();
       }}
       footer={[
@@ -94,10 +78,7 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
         <Form.Item
           name="email"
           label="Email Address"
-          rules={[
-            { required: true, message: "Email Address is required" },
-            { type: "email", message: "Enter a valid email address" },
-          ]}
+          rules={[{ required: true, message: "Email Address is required" }]}
         >
           <Input placeholder="Enter Email Address" />
         </Form.Item>
@@ -105,10 +86,7 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
         <Form.Item
           name="number"
           label="Phone Number"
-          rules={[
-            { required: true, message: "Phone Number is required" },
-            { pattern: /^\d+$/, message: "Enter a valid phone number" },
-          ]}
+          rules={[{ required: true, message: "Phone Number is required" }]}
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>
@@ -127,8 +105,8 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
           rules={[{ required: true, message: "Please select an option" }]}
         >
           <Select placeholder="Select">
-            <Select.Option value="1">Yes</Select.Option>
-            <Select.Option value="2">No</Select.Option>
+            <Select.Option value="yes">Yes</Select.Option>
+            <Select.Option value="no">No</Select.Option>
           </Select>
         </Form.Item>
 

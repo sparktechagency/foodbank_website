@@ -1,16 +1,17 @@
-import { Select } from "antd";
+import { message, Modal, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AddClientModal } from "./AddClientModal";
 import { EditClienModalSec } from "./EditClienModalSec";
-import { useGetClientQuery } from "../redux/api/clientApi";
+import { useDeleteClientMutation, useGetClientQuery } from "../redux/api/clientApi";
 
 export const ClientsSectionTable = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
+  const [deleteClient] = useDeleteClientMutation()
   const { data } = useGetClientQuery();
   console.log(data)
   const clientData = data?.data?.map((client) => ({
@@ -52,6 +53,25 @@ export const ClientsSectionTable = () => {
       client, 
     });
   
+  };
+
+  const handleDelete = (id) => {
+    console.log(id)
+    Modal.confirm({
+      title: "Are you sure you want to delete this volunteer?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          const response = await deleteClient(id).unwrap();
+          message.success(response.message );
+        } catch (error) {
+          console.error("Error deleting volunteer:", error);
+          message.error(error.data?.message );
+        }
+      },
+    });
   };
   
   return (
@@ -149,7 +169,7 @@ export const ClientsSectionTable = () => {
                         <a onClick={() => handleEdit(client)}>Edit</a>
                       </li>
                       <li>
-                        <a onClick={() => console.log("Delete", index)}>Delete</a>
+                        <a onClick={() => handleDelete(client.id)}>Delete</a>
                       </li>
                     </ul>
                   </details>

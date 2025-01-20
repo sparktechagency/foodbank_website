@@ -1,40 +1,54 @@
-import { Modal, Form, Input, Button, Checkbox } from 'antd';
-import React, { useState } from 'react';
+import { Modal, Form, Input, Button, Select, message } from "antd";
+import React, { useState, useEffect } from "react";
+import { useUpdateClientGroupMutation } from "../../page/redux/api/clientApi";
 
-export const EditClientDeliveryGroup = ({ modalOpen1, setModalOpen1 }) => {
-  const availableClients = [
-    "Alena Artmyeva",
-    "John Doe",
-    "Jane Smith",
-    "Michael Johnson",
-  ];
-
+export const EditClientDeliveryGroup = ({
+  isModalOpen,
+  setEditModal,
+  group,
+}) => {
   const [form] = Form.useForm();
-  const [formData, setFormData] = useState({
-    name: "",
-    clients: [],
-  });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleCheckboxChange = (client) => {
-    if (formData.clients.includes(client)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: prevData.clients.filter((c) => c !== client),
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: [...prevData.clients, client],
-      }));
+  const [updateClientGroup] = useUpdateClientGroupMutation();
+  const [formData, setFormData] = useState({
+    name: group?.clientGroupName || "",
+    clients: group?.clients || [],
+  });
+
+  useEffect(() => {
+    if (isModalOpen && group) {
+      setFormData({
+        name: group?.clientGroupName,
+        clients: group?.clients,
+      });
+      form.setFieldsValue({
+        name: group?.clientGroupName,
+      });
     }
-  };
-  
+  }, [isModalOpen, group, form]);
+
   const handleFinish = (values) => {
-    console.log("Form Values:", { ...values, clients: formData.clients });
-    setModalOpen1(false);
-    form.resetFields();
-    setFormData({ name: "", clients: [] });
+    console.log(values);
+    const res = group?.clients.map((client) => client._id);
+    console.log(res);
+    const data = {
+      clientGroupName: values?.name,
+      clients: res,
+    };
+
+    console.log(group?._id);
+
+    updateClientGroup({ id: group?._id, data })
+      .unwrap()
+      .then((response) => {
+        console.log(response);
+        message.success(response?.message);
+        setEditModal({ isOpen: false, id: null });
+      })
+      .catch((error) => {
+        console.error("Error updating client group:", error);
+        message.error(error?.data?.message || "Failed to update client group");
+      });
   };
 
   return (
@@ -42,16 +56,8 @@ export const EditClientDeliveryGroup = ({ modalOpen1, setModalOpen1 }) => {
       <Modal
         title="Edit Client Group"
         centered
-        open={modalOpen1}
-        onCancel={() => {
-          setModalOpen1(false);
-          form.resetFields();
-          setFormData({ name: "", clients: [] });
-        }}
-        bodyStyle={{
-          maxHeight: "50vh",
-          overflowY: "auto",
-        }}
+        open={isModalOpen}
+        onCancel={() => setEditModal({ isOpen: false, id: null })}
         footer={[
           <Button
             key="save"
@@ -67,34 +73,35 @@ export const EditClientDeliveryGroup = ({ modalOpen1, setModalOpen1 }) => {
           <Form.Item
             name="name"
             label="Client Group Name"
-            rules={[{ required: true, message: "Client Group Name is required" }]}
+            rules={[
+              { required: true, message: "Client Group Name is required" },
+            ]}
           >
-            <Input placeholder="Enter Client Group Name" />
+            <Input
+              placeholder="Enter Client Group Name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, name: e.target.value }))
+              }
+            />
           </Form.Item>
 
-          <Form.Item label="Add Clients">
-            <div
-              className="border border-gray-300 rounded p-1 px-3 cursor-pointer"
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            >
-              {formData.clients.length > 0
-                ? formData.clients.join(", ")
-                : "Select Clients"}
-            </div>
-            {isDropdownOpen && (
-              <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
-                {availableClients.map((client, index) => (
-                  <div key={index} className="flex items-center mb-2">
-                    <Checkbox
-                      checked={formData.clients.includes(client)}
-                      onChange={() => handleCheckboxChange(client)}
-                    >
-                      {client}
-                    </Checkbox>
-                  </div>
-                ))}
-              </div>
-            )}
+          <Form.Item label="Clients in Group">
+            <Select
+              mode="multiple"
+              disabled
+              style={{
+                width: "100%",
+              }}
+              placeholder="Select Clients"
+              value={formData.clients.map(
+                (client) => `${client.firstName} ${client.lastName}`
+              )} // Display client names
+              options={formData.clients.map((client) => ({
+                label: `${client.firstName} ${client.lastName}`,
+                value: client._id,
+              }))}
+            />
           </Form.Item>
         </Form>
       </Modal>

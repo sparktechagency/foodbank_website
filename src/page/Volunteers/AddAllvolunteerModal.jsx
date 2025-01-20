@@ -1,44 +1,41 @@
-import { Modal, Form, Input, Select, Button, Checkbox } from "antd";
+import { Modal, Form, Input, Select, Button, message } from "antd";
 import { useState } from "react";
+import { useClientAddMutation } from "../redux/api/clientApi";
 
 export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
+  const [volunteerAdd] = useClientAddMutation(); // API mutation for adding a volunteer
   const [form] = Form.useForm();
-  const availableClients = [
-    "Alena Artmyeva",
-    "John Doe",
-    "Jane Smith",
-    "Michael Johnson",
-  ];
-  const [formData, setFormData] = useState({
-    first: "",
-    last: "",
-    email: "",
-    Holocaust: "",
-    number: "",
-    adress: "",
-    clients: [],
-  });
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const handleCheckboxChange = (client) => {
-    if (formData.clients.includes(client)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: prevData.clients.filter((c) => c !== client),
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: [...prevData.clients, client],
-      }));
+  const handleFinish = async (values) => {
+    // Construct payload
+    const data = {
+      firstName: values.first,
+      lastName: values.last,
+      email: values.email,
+      phoneNo: values.number,
+      address: values.adress,
+      volunteerType: values.Holocaust , 
+      volunteerRole:
+        values.volunteerRole === "1"
+          ? "driver"
+          : values.volunteerRole === "2"
+          ? "warehouse"
+          : "both", 
+      status: "warehouse", 
+    };
+
+    console.log("Payload being sent:", data);
+
+    try {
+      const response = await volunteerAdd(data).unwrap();
+      console.log("API Response:", response);
+      message.success(response.message );
+      setModal2Open(false);
+      form.resetFields();
+    } catch (error) {
+      console.error("Error adding volunteer:", error);
+      message.error(error.data?.message);
     }
-  };
-
-  const handleFinish = (values) => {
-    console.log("Form Values:", { ...values, clients: formData.clients });
-    setModal2Open(false);
-    form.resetFields();
-    setFormData({ first: "", last: "", email: "", Holocaust: "", number: "", adress: "", clients: [] });
   };
 
   return (
@@ -49,7 +46,6 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
       onCancel={() => {
         setModal2Open(false);
         form.resetFields();
-        setFormData({ first: "", last: "", email: "", Holocaust: "", number: "", adress: "", clients: [] });
       }}
       footer={[
         <Button
@@ -109,34 +105,21 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
           rules={[{ required: true, message: "Please select an option" }]}
         >
           <Select placeholder="Select">
-            <Select.Option value="1">Yes</Select.Option>
-            <Select.Option value="2">No</Select.Option>
+            <Select.Option value="yes">Yes</Select.Option>
+            <Select.Option value="no">No</Select.Option>
           </Select>
         </Form.Item>
 
-        <Form.Item label="Select Your Preferred Volunteer Role">
-          <div
-            className="border border-gray-300 rounded p-1 px-3 cursor-pointer"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            {formData.clients.length > 0
-              ? formData.clients.join(", ")
-              : "Select Clients"}
-          </div>
-          {isDropdownOpen && (
-            <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
-              {availableClients.map((client, index) => (
-                <div key={index} className="flex items-center mb-2">
-                  <Checkbox
-                    checked={formData.clients.includes(client)}
-                    onChange={() => handleCheckboxChange(client)}
-                  >
-                    {client}
-                  </Checkbox>
-                </div>
-              ))}
-            </div>
-          )}
+        <Form.Item
+          name="volunteerRole"
+          label="Select Your Preferred Volunteer Role"
+          rules={[{ required: true, message: "Please select Role" }]}
+        >
+          <Select placeholder="Select">
+            <Select.Option value="1">Driver</Select.Option>
+            <Select.Option value="2">Warehouse</Select.Option>
+            <Select.Option value="3">Both</Select.Option>
+          </Select>
         </Form.Item>
       </Form>
     </Modal>

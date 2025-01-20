@@ -1,10 +1,10 @@
 import { Modal, Form, Input, Select, Button } from "antd";
 import { useEffect } from "react";
-import { useUpdateVolunteersMutation } from "../redux/api/volunteerApi";
+import { useUpdateDriverMutation, useUpdateVolunteersMutation, useUpdateWarehouseMutation } from "../redux/api/volunteerApi";
 
-export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) => {
+export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
   const [form] = Form.useForm();
-  const [updateVolunteers] = useUpdateVolunteersMutation();
+  const [updateVolunteers] = useUpdateWarehouseMutation();
 
   // Set default values when client data is available
   useEffect(() => {

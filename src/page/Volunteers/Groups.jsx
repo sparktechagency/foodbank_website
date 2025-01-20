@@ -1,107 +1,36 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
+import { AddGroupModal } from "./AddGroupModal";
+import { EditGroupModal } from "./EditGroupModal";
+import { useGetVolunteersGroupQuery } from "../redux/api/volunteerApi";
+import { useDeleteVolunteersGroupMutation } from "../redux/api/clientApi";
 
 const Groups = () => {
   const [modal2Open, setModal2Open] = useState(false);
-
-  const [formData, setFormData] = useState({
-    Holocaust: "",
-    timeTo: "",
-    deliveryDrivers: "",
-    clients: [],
-  });
-  const [errors, setErrors] = useState({});
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    setErrors({ ...errors, [name]: "" });
-  };
-
-  const validateForm = () => {
-    let formErrors = {};
-
-    if (!formData.Holocaust.trim())
-      formErrors.Holocaust = "Holocaust is required.";
-
-    if (!formData.timeTo) formErrors.timeTo = "End time is required.";
-    if (!formData.deliveryDrivers)
-      formErrors.deliveryDrivers = "Delivery drivers count is required.";
-    if (formData.clients.length === 0) {
-      formErrors.clients = "At least one client must be selected";
-    }
-    setErrors(formErrors);
-    return Object.keys(formErrors).length === 0;
-  };
-
-  const availableClients = [
-    "Alena Artmyeva",
-    "John Doe",
-    "Jane Smith",
-    "Michael Johnson",
-  ];
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const handleCheckboxChange = (client) => {
-    if (formData.clients.includes(client)) {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: prevData.clients.filter((c) => c !== client),
-      }));
-    } else {
-      setFormData((prevData) => ({
-        ...prevData,
-        clients: [...prevData.clients, client],
-      }));
-    }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      console.log("Form Data:", formData);
-
-      setModal2Open(false);
-      setFormData({
-        Holocaust: "",
-        clients: [],
-        timeTo: "",
-        deliveryDrivers: "",
-      });
-    }
-  };
-
-  const eventData = [
-    {
-      clientName: "Alena Molin",
-      type:"Driver Volunteers",
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-      type:"Driver Volunteers",
-      bags: "1",
-    },
-    {
-      clientName: "Alena Molin",
-      type:"Driver Volunteers",
-      bags: "1",
-    },
-    
-  ];
-
+  const [editModal, setEditModal] = useState({ isOpen: false, group: null });
+  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery();
+const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
+  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
-
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(eventData.length / itemsPerPage);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Failed to fetch data. Please try again.</div>;
+  }
+
+  // Slice Data for Pagination
+  const totalGroups = volunteerGroup?.data || [];
+  const totalPages = Math.ceil(totalGroups.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentEvents = eventData.slice(startIndex, endIndex);
-
-  // Pagination handlers
+  const currentGroups = totalGroups.slice(startIndex, endIndex);
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -114,28 +43,35 @@ const Groups = () => {
     setCurrentPage(page);
   };
 
-
-
-  const handleDelete = (index) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Logic to delete the user from the data
-        eventData.splice(index, 1);
-        Swal.fire("Deleted!", "The admin has been deleted.", "success");
-      }
+  const handleEdit = (group) => {
+    console.log("Editing Group:", group);
+    setEditModal({
+      isOpen: true,
+      group,
     });
   };
+
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this volunteer?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          const response = await deleteVolunteerGroup(id).unwrap();
+          message.success(response.message );
+        } catch (error) {
+          console.error("Error deleting volunteer:", error);
+          message.error(error.data?.message );
+        }
+      },
+    });
+  };
+
   return (
     <div>
-      <div>
       <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
         {/* Search Box */}
         <div className="flex items-center border-b py-3 border-gray-300 px-1 w-full mr-5">
@@ -154,225 +90,121 @@ const Groups = () => {
           />
         </div>
 
-        <div className=" mt-4 flex justify-between gap-3 ">
-          
-        <div>
-              <select className="border rounded py-2 bg-white" name="" id="">
-                <option value="all client">All Client</option>
-                <option value="Holocaust Survivors">Holocaust Survivors</option>
-                <option value="Non- Holocaust Survivors">
-                  Non- Holocaust Survivors
-                </option>
-              </select>
-            </div>
-            {/* Filters */}
-
-            <div>
-                    <select
-                      className="border rounded py-2 bg-white"
-                      name=""
-                      id=""
-                    >
-                      <option value="all events">Short By</option>
-                      <option value="holiday drive">Name</option>
-                      <option value="mitzvah sunday">Date</option>
-                    </select>
-                  </div>
-
-            <div>
-              <button
-                onClick={() => setModal2Open(true)}
-                className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
-              >
-                +Create Group
-              </button>
-            </div>
-        </div>
-      </div>
-
-        <div className="lg:mx-5 mx-2">
-          <table className="min-w-full border-collapse border border-gray-300">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="px-4 py-2 text-left text-sm font-medium">
-                  All Volunteer Groups
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium">
-                  Volunteer Group Type
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium">
-                  # of Volunteers
-                </th>
-                <th className="px-4 py-2 text-left text-sm font-medium"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentEvents.map((event, index) => (
-                <tr
-                  key={index}
-                  className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-                >
-                  <Link to={'/volunteerDetails'}><td className="px-4 py-3 text-sm">{event.clientName}</td></Link>
-                  <td className="px-4 py-3 text-sm">{event.type}</td>
-                  <td className="px-4 py-3 text-sm">{event.bags}</td>
-                  
-                  <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                    <details className="dropdown ">
-                      <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
-                        <BiDotsVerticalRounded />
-                      </summary>
-                      <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
-                        <li>
-                          <a onClick={() => setModal2Open(true)}>Edit</a>
-                        </li>
-                        <li>
-                          <a onClick={() => handleDelete(index)}>Delete</a>
-                        </li>
-                      </ul>
-                    </details>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="flex justify-between items-center mt-4 px-4">
-          <span className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(endIndex, eventData.length)}{" "}
-            of {eventData.length} items
-          </span>
-          <div className="flex gap-2">
+        <div className="mt-4 flex justify-between gap-3">
+          <div>
             <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setModal2Open(true)}
+              className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
             >
-              <IoIosArrowBack />
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-3 py-1 rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <IoIosArrowForward />
+              +Create Group
             </button>
           </div>
         </div>
       </div>
 
-      <Modal
-        title="Create Group"
-        centered
-        open={modal2Open}
-        onCancel={() => {
-          setModal2Open(false);
-          setFormData({
-            Holocaust: "",
-            timeTo: "",
-            deliveryDrivers: "",
-            clients: [],
-          });
-          setErrors({});
-        }}
-        footer={[
-          <button
-            key="save"
-            onClick={handleSubmit}
-            className="bg-[#234E6F] text-white rounded-full px-5 py-2"
-          >
-            Save
-          </button>,
-        ]}
-      >
-        <form>
-          <label htmlFor="Holocaust">
-                <span className="font-semibold">Group name</span>
-                <input
-                  className="w-full border bg-white border-neutral-400 mt-1 mb-2 py-2 rounded-md mb-1"
-                  type="text"
-                  name="Holocaust"
-                  id="Holocaust"
-                  value={formData.Holocaust}
-                  onChange={handleInputChange}
-                />
-                {errors.Holocaust && (
-                  <p className="text-red-500 text-sm">{errors.Holocaust}</p>
-                )}
-              </label>
-
-          <div className="  mt-1">
-            <label htmlFor="deliveryDrivers">
-              <span className="font-semibold">Select Volunteers Type</span>
-              <select
-                className="w-full border mb-2 bg-white border-neutral-400 rounded-md py-2"
-                name="deliveryDrivers"
-                id="deliveryDrivers"
-                value={formData.deliveryDrivers}
-                onChange={handleInputChange}
-              >
-                <option value="">Select</option>
-                <option value="1">Driver Volunteers</option>
-                <option value="2">WareHouse Volunteers</option>
-              </select>
-              {errors.deliveryDrivers && (
-                <p className="text-red-500 text-sm">{errors.deliveryDrivers}</p>
-              )}
-            </label>
-          </div>
-
-          <div className="  mt-1">
-            <span className="font-semibold">
-              Select Your Volunteer
-            </span>
-            <div className="relative mt-2">
-              <div
-                className="border border-gray-400 rounded p-2 cursor-pointer"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                {formData.clients.length > 0
-                  ? formData.clients.join(", ")
-                  : "Select Clients"}
-              </div>
-              {isDropdownOpen && (
-                <div className="bg-white border border-gray-300 rounded mt-1 w-full p-2">
-                  {availableClients.map((client, index) => (
-                    <div key={index} className="flex items-center mb-2">
-                      <input
-                        type="checkbox"
-                        id={`client-${index}`}
-                        className="mr-2 accent-red-200 cursor-pointer"
-                        checked={formData.clients.includes(client)}
-                        onChange={() => handleCheckboxChange(client)}
-                      />
-                      <label htmlFor={`client-${index}`}>{client}</label>
+      <div className="lg:mx-5 mx-2">
+        <table className="min-w-full border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Volunteer Group Name
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Volunteer Type
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                # of Volunteers
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentGroups.map((group) => (
+              <tr key={group._id} className="bg-white">
+                <td className="px-4 py-3 text-sm">
+                  <Link to={`/group/details/${group._id}`}>
+                    {group.volunteerGroupName}
+                  </Link>
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {group.volunteerType === "warehouse"
+                    ? "Warehouse Volunteer"
+                    : "Driver Volunteer"}
+                </td>
+                <td className="px-4 py-3 text-sm">{group.volunteers.length}</td>
+                <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
+                  <div className="dropdown">
+                    <button className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
+                      <BiDotsVerticalRounded />
+                    </button>
+                    <div className="dropdown-content bg-white text-black rounded shadow z-[1] right-0 w-44 p-2">
+                      <button
+                        className="text-sm w-full text-left"
+                        onClick={() => handleEdit(group)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="text-sm w-full text-left"
+                        onClick={() => handleDelete(group._id)}
+                      >
+                        Delete
+                      </button>
                     </div>
-                  ))}
-                </div>
-              )}
-            </div>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-            {errors.clients && (
-              <p className="text-red-500 text-sm -mt-2 mb-2">
-                {errors.clients}
-              </p>
-            )}
-          </div>
-        </form>
-      </Modal>
+      <div className="flex justify-between items-center mt-4 px-4">
+        <span className="text-sm text-gray-700">
+          Showing {startIndex + 1} to {Math.min(endIndex, totalGroups.length)} of{" "}
+          {totalGroups.length} items
+        </span>
+        <div className="flex gap-2">
+          <button
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <IoIosArrowBack />
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              className={`px-3 py-1 rounded-md ${
+                currentPage === page
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <IoIosArrowForward />
+          </button>
+        </div>
+      </div>
+
+      <AddGroupModal
+        setModal2Open={setModal2Open}
+        modal2Open={modal2Open}
+      />
+
+      <EditGroupModal
+        isModalOpen={editModal.isOpen}
+        setModal2Open1={setEditModal}
+        group={editModal.group}
+      />
     </div>
   );
 };
