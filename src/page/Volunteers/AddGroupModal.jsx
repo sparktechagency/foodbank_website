@@ -52,7 +52,7 @@ console.log(clientOptions)
       console.error("API Error:", error);
     }
   };
-//
+
   return (
     <Modal
       title="Create New Volunteer Group"
