@@ -1,18 +1,37 @@
-import { Modal, Form, Input, Select, DatePicker, Button } from "antd";
-import React, { useState } from "react";
+import { Modal, Form, Input, Select, DatePicker, Button, TimePicker, message } from "antd";
+import React from "react";
 import { MdAccessTime } from "react-icons/md";
+import { useEventAddMutation } from "../../page/redux/api/eventApi";
 
 export const AddEventModal = ({ modal2Open, setModal2Open }) => {
   const [form] = Form.useForm();
+  const [eventAdd, { isLoading }] = useEventAddMutation();
 
-  const handleFinish = (values) => {
-    console.log("Form Data:", values);
+  const handleFinish = async (values) => {
+    // Prepare the data to match the API requirements
+    const data = {
+      eventName: values.name,
+      eventType: values.type,
+      location: values.location,
+      messageDeliveryDriver: values.message,
+      messageWarehouseVolunteer: values.volunteer,
+      dayOfEvent: values.date.format("YYYY-MM-DD"),
+      startOfEvent: values.timeFrom.format("h:mm A"),
+      endOfEvent: values.timeTo.format("h:mm A"),
+      deliveryNeeded: parseInt(values.deliveryDrivers),
+      warehouseNeeded: parseInt(values.warehouseVolunteers),
+    };
+    console.log(data)
 
-    // Reset form fields
-    form.resetFields();
-
-    // Close modal
-    setModal2Open(false);
+    try {
+      const response = await eventAdd(data).unwrap();
+      message.success(response.message || "Event added successfully!");
+      form.resetFields();
+      setModal2Open(false);
+    } catch (error) {
+      message.error(error.data?.message || "Failed to add event. Please try again.");
+      console.error("API Error:", error);
+    }
   };
 
   const handleCancel = () => {
@@ -36,9 +55,9 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           name: "",
           type: "",
           location: "",
-          date: "",
-          timeFrom: "",
-          timeTo: "",
+          date: null,
+          timeFrom: null,
+          timeTo: null,
           deliveryDrivers: "",
           warehouseVolunteers: "",
           message: "",
@@ -59,8 +78,8 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           rules={[{ required: true, message: "Event Type is required" }]}
         >
           <Select placeholder="Select Event Type">
-            <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-            <Select.Option value="tujbah day">Tujbah Day</Select.Option>
+            <Select.Option value="birthday">Birth Day</Select.Option>
+            <Select.Option value="wed">Wed</Select.Option>
           </Select>
         </Form.Item>
 
@@ -69,10 +88,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           label="Location"
           rules={[{ required: true, message: "Location is required" }]}
         >
-          <Select placeholder="Select Location">
-            <Select.Option value="The Cupboard">The Cupboard</Select.Option>
-            <Select.Option value="Tujbah Day">Tujbah Day</Select.Option>
-          </Select>
+          <Input placeholder="Enter Location" />
         </Form.Item>
 
         <Form.Item
@@ -91,7 +107,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           <Input placeholder="Enter default message" />
         </Form.Item>
 
-        <div className="border rounded-md border-neutral-400 p-3">
+        <div className="border rounded-md border-neutral-400 p-3 mb-3">
           <h1 className="flex items-center font-semibold border-b pb-2">
             <MdAccessTime className="text-lg mr-2" /> Date & Time
           </h1>
@@ -109,10 +125,12 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
             label="From"
             rules={[{ required: true, message: "Start Time is required" }]}
           >
-            <Select placeholder="Select Time">
-              <Select.Option value="morning">Morning</Select.Option>
-              <Select.Option value="afternoon">Afternoon</Select.Option>
-            </Select>
+            <TimePicker
+              use12Hours
+              format="h:mm A"
+              placeholder="Select Time"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -120,10 +138,12 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
             label="To"
             rules={[{ required: true, message: "End Time is required" }]}
           >
-            <Select placeholder="Select Time">
-              <Select.Option value="evening">Evening</Select.Option>
-              <Select.Option value="night">Night</Select.Option>
-            </Select>
+            <TimePicker
+              use12Hours
+              format="h:mm A"
+              placeholder="Select Time"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
         </div>
 
@@ -132,10 +152,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           label="Delivery Drivers Needed"
           rules={[{ required: true, message: "This field is required" }]}
         >
-          <Select placeholder="Select number of drivers">
-            <Select.Option value="1">1</Select.Option>
-            <Select.Option value="2">2</Select.Option>
-          </Select>
+          <Input placeholder="Enter number of drivers" />
         </Form.Item>
 
         <Form.Item
@@ -143,10 +160,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           label="Warehouse Volunteers Needed"
           rules={[{ required: true, message: "This field is required" }]}
         >
-          <Select placeholder="Select number of volunteers">
-            <Select.Option value="1">1</Select.Option>
-            <Select.Option value="2">2</Select.Option>
-          </Select>
+          <Input placeholder="Enter number of warehouse volunteers" />
         </Form.Item>
 
         <Form.Item>
@@ -154,6 +168,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
             type="primary"
             htmlType="submit"
             className="w-full bg-[#234E6F] text-white rounded-full"
+            loading={isLoading}
           >
             Save
           </Button>

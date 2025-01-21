@@ -12,7 +12,7 @@ const useApi = baseApi.injectEndpoints({
             method: "POST",
             body: data,
           };
-        },
+        },invalidatesTags: ['updateProfile']
       }),
     
     getEvent: builder.query({
@@ -24,10 +24,31 @@ const useApi = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }), 
+
+    updateEvent: builder.mutation({
+      query: ({ id, data}) => ({
+        url: `/events/update/${id}`, 
+        method: "PATCH",
+        body:  data ,
+      }),
+      invalidatesTags: ["updateProfile"],
+    }),
+
+    deleteEvent: builder.mutation({
+      query: (id) => {
+        return {
+          url: `/events/delete/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
   }),
 });
 
 export const {
   useEventAddMutation,
-  useGetEventQuery
+  useGetEventQuery,
+  useUpdateEventMutation,
+  useDeleteEventMutation
 } = useApi;

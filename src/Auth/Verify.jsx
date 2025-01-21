@@ -1,17 +1,32 @@
 import { useState } from "react";
 
-import { Link} from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 
 
 import OTPInput from "react-otp-input";
+import { useVerifyOtpMutation } from "../page/redux/api/userApi";
 const Verify = () => {
   const [otp, setOtp] = useState("");
+  const [verifyOtp] = useVerifyOtpMutation({});
   
+  const navigate = useNavigate();
 
   const handleVerify = async () => {
-    
-  };
+    const data = {
+      email: localStorage.getItem("email"),
+      otp: otp,
+    };
 
+    console.log(data);
+    try {
+      const response = await verifyOtp(data).unwrap();
+      console.log(response);
+      alert("Success");
+      navigate("/reset");
+    } catch (error) {
+      console.error(error?.data?.message);
+    }
+  };
   return (
     <div className="items-center justify-center px-4 flex min-h-screen ">
       <div className="">
@@ -38,14 +53,14 @@ const Verify = () => {
               )}
             />
           </div>
-          <Link to={"/reset"}>
+          
             <button
               onClick={handleVerify}
               className="w-full py-2 bg-[#234E6F] text-white rounded-md mb-4"
             >
               Verify Code
             </button>
-          </Link>
+       
           <span className="flex justify-center">
             You have not received the email?{" "}
             <span className="text-blue-500">Resend</span>

@@ -2,13 +2,31 @@ import { Form, Input } from "antd";
 
 
 import Logo from "../assets/header/logo.png"
+import { useNavigate } from "react-router-dom";
+import { useResetPasswordMutation } from "../page/redux/api/userApi";
+import { useState } from "react";
 
 const ResetPass = () => {
- 
- 
+  const [isLoading, setIsLoading] = useState(false);
+  const [resetPassword] = useResetPasswordMutation();
+  const navigate = useNavigate();
   const onFinish = async (values) => {
-    console.log(values)
-  
+    setIsLoading(true);
+    console.log(values);
+    
+    const data = {
+      email: localStorage.getItem("email"),
+      resetPassword: values?.password,
+    };
+    console.log(data)
+    resetPassword(data)
+      .unwrap()
+      .then((payload) => {
+        console.log(payload?.message);
+       
+        navigate("/login");
+      })
+      .catch((error) => console.error(error?.data?.message));
   };
 
   const onFinishFailed = (errorInfo) => {

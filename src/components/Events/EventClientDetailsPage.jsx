@@ -84,14 +84,14 @@ const EventClientDetailsPage = () => {
 
         {activeTab === "calendar" && (
           <div className="">
-            {/* Calendar View */}
+ 
             <Volunteers></Volunteers>
           </div>
         )}
 
         {activeTab === "warehouse" && (
           <div className="">
-            {/* Calendar View */}
+       
             <WhereHouseVolunteers></WhereHouseVolunteers>
           </div>
         )}

@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Modal, Select } from "antd";
+import { message, Modal, Select } from "antd";
 import { MdAccessTime } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AddEventModal } from "./AddEventModal";
 import { Calender } from "./Calender";
 import { UpdateEvent } from "./UpdateEvent";
-import { useGetEventQuery } from "../../page/redux/api/eventApi";
+import { useDeleteEventMutation, useGetEventQuery } from "../../page/redux/api/eventApi";
 
 const eventData = [
   {
@@ -16,45 +16,66 @@ const eventData = [
     eventType: "Holiday Drive",
     date: "9/2/24",
     volunteerSpots: "13/25",
-    archive: "Yes",
+   
   },
   {
     eventName: "Mitzvah Sunday 10/14",
     eventType: "Mitzvah Day",
     date: "10/14/24",
     volunteerSpots: "25/25",
-    archive: "Yes",
+    
   },
   {
     eventName: "Mitzvah Sunday 10/28",
     eventType: "Mitzvah Day",
     date: "10/28/24",
     volunteerSpots: "11/25",
-    archive: "Yes",
+ 
   },
 ];
 
 const Events = () => {
+  const [editModal, setEditModal] = useState({ isOpen: false, group: null });
   const [activeTab, setActiveTab] = useState("list");
   const [modal2Open, setModal2Open] = useState(false);
-  const {data} = useGetEventQuery();
-  console.log(data)
-  const handleDelete = (index) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        eventData.splice(index, 1);
-        Swal.fire("Deleted!", "The admin has been deleted.", "success");
-      }
+  const { data, isLoading } = useGetEventQuery();
+  console.log(data);
+  const [deleteEvent] = useDeleteEventMutation()
+
+  // Fallback for loading or empty data
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (!data?.data?.length) {
+    return <p>No events found.</p>;
+  }
+  const handleEdit = (group) => {
+    console.log("Editing Group:", group);
+    setEditModal({
+      isOpen: true,
+      group,
     });
   };
+
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this volunteer?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          const response = await deleteEvent(id).unwrap();
+          message.success(response.message );
+        } catch (error) {
+          console.error("Error deleting volunteer:", error);
+          message.error(error.data?.message );
+        }
+      },
+    });
+  };
+
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -181,48 +202,50 @@ const Events = () => {
                     <th className="px-4 py-2 text-sm font-medium text-left ">
                       Volunteer Spots Filled
                     </th>
-                    <th className="px-4 py-2 text-sm font-medium text-left ">
-                      Archive
-                    </th>
+                   
                     <th className="px-4 py-2 text-sm font-medium text-left "></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {eventData.map((event, index) => (
-                    <tr
-                      key={index}
-                      className={`${
-                        index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                      }`}
-                    >
-                      <td className="px-4 py-3 text-sm ">
-                        <Link to={"/event/eventDetails"}>
-                          {event.eventName}
-                        </Link>
-                      </td>
-                      <td className="px-4 py-3 text-sm ">{event.eventType}</td>
-                      <td className="px-4 py-3 text-sm ">{event.date}</td>
-                      <td className="px-4 py-3 text-sm">
-                        {event.volunteerSpots}
-                      </td>
-                      <td className="px-4 py-3 text-sm">{event.archive}</td>
-                      <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
-                        <details className="dropdown">
-                          <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
-                            <BiDotsVerticalRounded />
-                          </summary>
-                          <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
-                            <li>
-                              <a onClick={() => setModal2Open(true)}>Edit</a>
-                            </li>
-                            <li>
-                              <a onClick={() => handleDelete(index)}>Delete</a>
-                            </li>
-                          </ul>
-                        </details>
-                      </td>
-                    </tr>
-                  ))}
+                  {data.data.map((event, index) => {
+                    const totalSpotsFilled =
+                      event.warehouse.length + event.driver.length;
+                      const warehouseNeeded = event.warehouseNeeded; // Example fixed value for warehouseNeeded
+                    return (
+                      <tr
+                        key={event._id}
+                        className={`${
+                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                        }`}
+                      >
+                        <td className="px-4 py-3 text-sm ">
+                          <Link to={"/event/eventDetails"}>{event.eventName}</Link>
+                        </td>
+                        <td className="px-4 py-3 text-sm ">{event.eventType}</td>
+                        <td className="px-4 py-3 text-sm ">
+                          {new Date(event.dayOfEvent).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-3 text-sm">
+                          {totalSpotsFilled}/{warehouseNeeded}
+                        </td>
+                        <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
+                          <details className="dropdown">
+                            <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
+                              <BiDotsVerticalRounded />
+                            </summary>
+                            <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                              <li>
+                                <a onClick={() => handleEdit(event)}>Edit</a>
+                              </li>
+                              <li>
+                                <a onClick={() => handleDelete(event._id)}>Delete</a>
+                              </li>
+                            </ul>
+                          </details>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
@@ -236,8 +259,9 @@ const Events = () => {
         setModal2Open={setModal2Open}
       ></AddEventModal>
       <UpdateEvent
-        modal2Open={modal2Open}
-        setModal2Open={setModal2Open}
+       isModalOpen={editModal.isOpen}
+       setModal2Open1={setEditModal}
+       event={editModal.group}
       ></UpdateEvent>
     </div>
   );

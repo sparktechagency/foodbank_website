@@ -2,28 +2,29 @@ import { Modal, Form, Input, Select, Button, message } from "antd";
 import React, { useState } from "react";
 import {
   useAddVolunteerGroupMutation,
-  useGetVolunteersGroupQuery,
+  useGetAllVolunteerQuery,
+  useGetDriverWarehouseQuery,
+
 } from "../redux/api/volunteerApi";
 
 export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
   const [addVolunteerGroup, { isLoading: isSubmitting }] = useAddVolunteerGroupMutation();
-  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery();
-
+  const { data: allVolunteer, isLoading, error } = useGetDriverWarehouseQuery();
+console.log(allVolunteer)
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     name: "",
     clients: [],
   });
 
-  // Prepare client options based on the fetched data
+  
   const clientOptions =
-    volunteerGroup?.data?.flatMap((group) =>
-      group.volunteers.map((volunteer) => ({
-        label: `${volunteer.firstName} ${volunteer.lastName}`,
-        value: volunteer._id,
-      }))
-    ) || [];
-
+  allVolunteer?.data?.data?.map((volunteer) => ({
+    label: `${volunteer.firstName} ${volunteer.lastName}`,
+    value: volunteer._id,
+  })) || [];
+  
+console.log(clientOptions)
   const handleClientChange = (selectedClientIds) => {
     setFormData((prevData) => ({
       ...prevData,

@@ -3,16 +3,17 @@ import { useState } from "react";
 
 import { IoIosArrowForward } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
-import { EditModalClient } from "./EditModalClient";
-import { ClientDetailsSection } from "./ClientDetailsSection";
-import { useGetSingleDataQuery } from "../redux/api/clientApi";
-import { EditClienModalSec } from "./EditClienModalSec";
 
-const ClientDetailsPage = () => {
+import { ClientDetailsSection } from "../Clients/ClientDetailsSection";
+
+import { useGetSingleVolunteerQuery } from "../redux/api/volunteerApi";
+import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
+
+const VolunteerDetailsPage = () => {
   // const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, group: null });
   const { id } = useParams();
-  const { data: singleClientData } = useGetSingleDataQuery(
+  const { data: singleClientData } = useGetSingleVolunteerQuery(
     { id },
     { refetchOnMountOrArgChange: true }
   );
@@ -34,11 +35,11 @@ const ClientDetailsPage = () => {
         setModal2Open1={setEditModal}
         client={editModal.client}
       ></EditModalClient> */}
-      <EditClienModalSec
+      <EditAllVolunteerGroup
             isModalOpen={editModal.isOpen}
-              setModal2Open1={setEditModal}
-              client={editModal.client} 
-            ></EditClienModalSec>
+            setModal2Open1={setEditModal}
+            client={editModal.client}
+          />
 
       <div className="bg-[#FAFAFA]">
         <h1 className="flex gap-1">
@@ -109,4 +110,4 @@ const ClientDetailsPage = () => {
   );
 };
 
-export default ClientDetailsPage;
+export default VolunteerDetailsPage;

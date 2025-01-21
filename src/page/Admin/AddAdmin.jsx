@@ -1,6 +1,23 @@
-import { Modal } from "antd";
+import { Modal, Form, Input, Button, message } from "antd";
+import { useAddUserMutation } from "../redux/api/userApi";
 
 export const AddAdmin = ({ modal2Open, setModal2Open }) => {
+  const [form] = Form.useForm();
+  const [addUser, { isLoading }] = useAddUserMutation();
+
+  const handleFinish = async (values) => {
+    try {
+      const response = await addUser(values).unwrap();
+      message.success("Admin added successfully!");
+      console.log("Response:", response);
+      setModal2Open(false);
+      form.resetFields();
+    } catch (error) {
+      message.error("Failed to add admin. Please try again.");
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <Modal
       title="Add Admin"
@@ -8,68 +25,75 @@ export const AddAdmin = ({ modal2Open, setModal2Open }) => {
       open={modal2Open}
       onCancel={() => {
         setModal2Open(false);
+        form.resetFields();
       }}
       footer={[
-        <button
+        <Button
           key="save"
-          className="bg-[#234E6F] text-white rounded-full px-5 py-2"
+          type="primary"
+          onClick={() => form.submit()}
+          loading={isLoading}
+          className="rounded-full"
         >
           Add
-        </button>,
+        </Button>,
       ]}
     >
-      <form>
-        <div className="mt-4">
-          <label htmlFor="name">
-            <span className="font-semibold">First Name</span>
-            <input
-              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-              type="name"
-              name="name"
-              id="name"
-            />
-          </label>
-          <label htmlFor="adress">
-            <span className="font-semibold">Last Name</span>
-            <input
-              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-              type="adress"
-              name="adress"
-              id="adress"
-            />
-          </label>
+      <Form
+        form={form}
+        layout="vertical"
+        onFinish={handleFinish}
+        autoComplete="off"
+      >
+        <Form.Item
+          name="firstName"
+          label="First Name"
+          rules={[{ required: true, message: "First Name is required" }]}
+        >
+          <Input placeholder="Enter First Name" />
+        </Form.Item>
 
-          <label htmlFor="email">
-            <span className="font-semibold">Admin Email</span>
-            <input
-              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-              type="email"
-              name="email"
-              id="email"
-            />
-          </label>
+        <Form.Item
+          name="lastName"
+          label="Last Name"
+          rules={[{ required: true, message: "Last Name is required" }]}
+        >
+          <Input placeholder="Enter Last Name" />
+        </Form.Item>
 
-          <label htmlFor="number">
-            <span className="font-semibold">Contact Number</span>
-            <input
-              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-              type="number"
-              name="number"
-              id="number"
-            />
-          </label>
+        <Form.Item
+          name="email"
+          label="Admin Email"
+          rules={[
+            { required: true, message: "Email is required" },
+            { type: "email", message: "Invalid email address" },
+          ]}
+        >
+          <Input placeholder="Enter Admin Email" />
+        </Form.Item>
 
-          <label htmlFor="password">
-            <span className="font-semibold">New Admin Password</span>
-            <input
-              className="w-full border bg-white border-neutral-400 mt-1 py-2 rounded-md mb-1"
-              type="password"
-              name="password"
-              id="password"
-            />
-          </label>
-        </div>
-      </form>
+        <Form.Item
+          name="contactNo"
+          label="Contact Number"
+          rules={[
+            { required: true, message: "Contact Number is required" },
+            { pattern: /^\d+$/, message: "Contact Number must be numeric" },
+          ]}
+        >
+          <Input placeholder="Enter Contact Number" />
+        </Form.Item>
+
+        <Form.Item
+          name="password"
+          label="New Admin Password"
+          rules={[
+            { required: true, message: "Password is required" },
+            { min: 6, message: "Password must be at least 6 characters" },
+          ]}
+        >
+          <Input.Password placeholder="Enter Password" />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 };

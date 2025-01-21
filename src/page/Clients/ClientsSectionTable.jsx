@@ -150,7 +150,7 @@ export const ClientsSectionTable = () => {
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to="/clients/clientsDetails">{client.clientName}</Link>
+                  <Link to={`/clients/clientsDetails/${client.id}`}>{client.clientName}</Link>
                 </td>
                 <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
                 <td className="px-4 py-3 text-sm">{client.alternativePhoneNo}</td>

@@ -1,30 +1,76 @@
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  DatePicker,
+  Button,
+  TimePicker,
+  message,
+} from "antd";
+import React, { useEffect } from "react";
+import { MdAccessTime } from "react-icons/md";
+import { useUpdateEventMutation } from "../../page/redux/api/eventApi";
+import dayjs from "dayjs";
 
-import { Modal, Form, Input, Select, DatePicker, Button } from 'antd';
-import React, { useState } from 'react';
-import { MdAccessTime } from 'react-icons/md';
-export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
-    const [form] = Form.useForm();
+export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
+  const [form] = Form.useForm();
+  const [updateEvent, { isLoading }] = useUpdateEventMutation();
 
-  const handleFinish = (values) => {
-    console.log("Form Data:", values);
+  // Set default values whenever the modal opens or the `event` changes
+  useEffect(() => {
+    if (event) {
+      form.setFieldsValue({
+        name: event.eventName || "",
+        type: event.eventType || "",
+        location: event.location || "",
+        date: event.dayOfEvent ? dayjs(event.dayOfEvent) : null,
+        timeFrom: event.startOfEvent ? dayjs(event.startOfEvent, "h:mm A") : null,
+        timeTo: event.endOfEvent ? dayjs(event.endOfEvent, "h:mm A") : null,
+        deliveryDrivers: event.deliveryNeeded?.toString() || "",
+        warehouseVolunteers: event.warehouseNeeded?.toString() || "",
+        message: event.messageDeliveryDriver || "",
+        volunteer: event.messageWarehouseVolunteer || "",
+      });
+    }
+  }, [event, isModalOpen]);
 
-    // Reset form fields
-    form.resetFields();
+  const handleFinish = async (values) => {
+    // Prepare the data for updating the event
+    const data = {
+      eventName: values.name,
+      eventType: values.type,
+      location: values.location,
+      messageDeliveryDriver: values.message,
+      messageWarehouseVolunteer: values.volunteer,
+      dayOfEvent: values.date.format("YYYY-MM-DD"),
+      startOfEvent: values.timeFrom.format("h:mm A"),
+      endOfEvent: values.timeTo.format("h:mm A"),
+      deliveryNeeded: parseInt(values.deliveryDrivers),
+      warehouseNeeded: parseInt(values.warehouseVolunteers),
+    };
 
-    // Close modal
-    setModal2Open(false);
+    try {
+      const response = await updateEvent({ id: event._id, data }).unwrap();
+      message.success(response.message || "Event updated successfully!");
+      form.resetFields();
+      setModal2Open1(false);
+    } catch (error) {
+      message.error(error.data?.message || "Failed to update event. Please try again.");
+      console.error("API Error:", error);
+    }
   };
 
   const handleCancel = () => {
     form.resetFields();
-    setModal2Open(false);
+    setModal2Open1(false);
   };
+
   return (
-    <div>
-        <Modal
-      title="Update"
+    <Modal
+      title="Update Event"
       centered
-      open={modal2Open}
+      open={isModalOpen}
       onCancel={handleCancel}
       footer={null}
     >
@@ -32,18 +78,6 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
         form={form}
         layout="vertical"
         onFinish={handleFinish}
-        initialValues={{
-          name: '',
-          type: '',
-          location: '',
-          date: '',
-          timeFrom: '',
-          timeTo: '',
-          deliveryDrivers: '',
-          warehouseVolunteers: '',
-          message: '',
-          volunteer: '',
-        }}
       >
         <Form.Item
           name="name"
@@ -59,8 +93,8 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
           rules={[{ required: true, message: "Event Type is required" }]}
         >
           <Select placeholder="Select Event Type">
-            <Select.Option value="mitzvah day">Mitzvah Day</Select.Option>
-            <Select.Option value="tujbah day">Tujbah Day</Select.Option>
+            <Select.Option value="birthday">Birth Day</Select.Option>
+            <Select.Option value="wed">Wed</Select.Option>
           </Select>
         </Form.Item>
 
@@ -69,10 +103,7 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
           label="Location"
           rules={[{ required: true, message: "Location is required" }]}
         >
-          <Select placeholder="Select Location">
-            <Select.Option value="The Cupboard">The Cupboard</Select.Option>
-            <Select.Option value="Tujbah Day">Tujbah Day</Select.Option>
-          </Select>
+          <Input placeholder="Enter Location" />
         </Form.Item>
 
         <Form.Item
@@ -91,7 +122,7 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
           <Input placeholder="Enter default message" />
         </Form.Item>
 
-        <div className="border rounded-md border-neutral-400 p-3">
+        <div className="border rounded-md border-neutral-400 p-3 mb-3">
           <h1 className="flex items-center font-semibold border-b pb-2">
             <MdAccessTime className="text-lg mr-2" /> Date & Time
           </h1>
@@ -109,10 +140,12 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
             label="From"
             rules={[{ required: true, message: "Start Time is required" }]}
           >
-            <Select placeholder="Select Time">
-              <Select.Option value="morning">Morning</Select.Option>
-              <Select.Option value="afternoon">Afternoon</Select.Option>
-            </Select>
+            <TimePicker
+              use12Hours
+              format="h:mm A"
+              placeholder="Select Time"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
 
           <Form.Item
@@ -120,10 +153,12 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
             label="To"
             rules={[{ required: true, message: "End Time is required" }]}
           >
-            <Select placeholder="Select Time">
-              <Select.Option value="evening">Evening</Select.Option>
-              <Select.Option value="night">Night</Select.Option>
-            </Select>
+            <TimePicker
+              use12Hours
+              format="h:mm A"
+              placeholder="Select Time"
+              style={{ width: "100%" }}
+            />
           </Form.Item>
         </div>
 
@@ -132,10 +167,7 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
           label="Delivery Drivers Needed"
           rules={[{ required: true, message: "This field is required" }]}
         >
-          <Select placeholder="Select number of drivers">
-            <Select.Option value="1">1</Select.Option>
-            <Select.Option value="2">2</Select.Option>
-          </Select>
+          <Input placeholder="Enter number of drivers" />
         </Form.Item>
 
         <Form.Item
@@ -143,10 +175,7 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
           label="Warehouse Volunteers Needed"
           rules={[{ required: true, message: "This field is required" }]}
         >
-          <Select placeholder="Select number of volunteers">
-            <Select.Option value="1">1</Select.Option>
-            <Select.Option value="2">2</Select.Option>
-          </Select>
+          <Input placeholder="Enter number of warehouse volunteers" />
         </Form.Item>
 
         <Form.Item>
@@ -154,12 +183,12 @@ export const UpdateEvent = ({ modal2Open, setModal2Open }) => {
             type="primary"
             htmlType="submit"
             className="w-full bg-[#234E6F] text-white rounded-full"
+            loading={isLoading}
           >
             Save
           </Button>
         </Form.Item>
       </Form>
     </Modal>
-    </div>
-  )
-}
+  );
+};

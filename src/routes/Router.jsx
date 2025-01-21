@@ -24,6 +24,8 @@ import Admin from "../page/Admin/Admin";
 import Profile from "../page/Settings/Profile";
 import VolunteerGroupDetails from "../page/Volunteers/VolunteerGroupDetails";
 import { Success } from "../page/sucess/Success";
+import VolunteerDetailsPage from "../page/Volunteers/VolunteerDetailsPage";
+import DriverDetailsPage from "../page/Volunteers/DriverDetailsPage";
 
 
 
@@ -61,7 +63,7 @@ export const router = createBrowserRouter([
         element: <ClientDeliveryDetailsPage></ClientDeliveryDetailsPage>
       },
       {
-        path: "/clients/clientsDetails",
+        path: "/clients/clientsDetails/:id",
         element: <ClientDetailsPage></ClientDetailsPage>,
       },
 
@@ -69,6 +71,15 @@ export const router = createBrowserRouter([
         path: "/volunteers",
         element: <Volunteers></Volunteers>
       },
+      {
+        path: "/volunteers/details/:id",
+        element: <VolunteerDetailsPage></VolunteerDetailsPage>
+      },
+      {
+        path: "/drivers/details/:id",
+        element: <DriverDetailsPage></DriverDetailsPage>
+      },
+      
       
       {
         path: "/admin",
@@ -79,7 +90,7 @@ export const router = createBrowserRouter([
         element:<Profile></Profile>
       },
       {
-        path:"/volunteerDetails",
+        path:"/group/details/:id",
         element:<VolunteerGroupDetails></VolunteerGroupDetails>
       },
       

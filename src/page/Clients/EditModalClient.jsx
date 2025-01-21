@@ -1,11 +1,12 @@
 import { Modal, Form, Input, Select, Button } from "antd";
 
-export const EditModalClient = ({ modal2Open, setModal2Open }) => {
+export const EditModalClient = ({ isModalOpen, client, setModal2Open1 }) => {
   const [form] = Form.useForm();
+  console.log(client)
 
   const handleFinish = (values) => {
     console.log("Form Values:", values);
-    setModal2Open(false);
+    setModal2Open1(false);
   };
 
   return (
@@ -13,9 +14,9 @@ export const EditModalClient = ({ modal2Open, setModal2Open }) => {
       <Modal
         title="Edit Client"
         centered
-        open={modal2Open}
+        open={isModalOpen}
         onCancel={() => {
-          setModal2Open(false);
+          setModal2Open1(false);
         }}
         bodyStyle={{
           maxHeight: "70vh",

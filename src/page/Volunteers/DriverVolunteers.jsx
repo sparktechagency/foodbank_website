@@ -139,7 +139,7 @@ const DriverVolunteers = () => {
               className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
               <td className="px-4 py-3 text-sm">
-                <Link to={`/volunteers/details/${volunteer._id}`}>
+                <Link to={`/drivers/details/${volunteer._id}`}>
                   {volunteer.firstName} {volunteer.lastName}
                 </Link>
               </td>

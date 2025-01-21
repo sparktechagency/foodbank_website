@@ -1,56 +1,46 @@
-import { Modal } from "antd";
+import { message, Modal } from "antd";
 import { useState } from "react";
-import Swal from "sweetalert2";
 import { AddAdmin } from "./AddAdmin";
-
+import { useDeleteUserMutation, useGetAllUserQuery } from "../redux/api/userApi";
 
 const Admin = () => {
   const [modal2Open, setModal2Open] = useState(false);
-  const handleDelete = (index) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-      
-        eventData.splice(index, 1);
-        Swal.fire("Deleted!", "The admin has been deleted.", "success");
-      }
+  const { data: allUser, isLoading } = useGetAllUserQuery();
+  const [deleteUser] = useDeleteUserMutation();
+  console.log(allUser);
+
+  // Handle user delete
+  const handleDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this user?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk: async () => {
+        try {
+          const response = await deleteUser(id).unwrap();
+          message.success(response.message);
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          message.error(error.data?.message || "Failed to delete user.");
+        }
+      },
     });
   };
 
-  
+  // Fallback for loading or empty data
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
-  const eventData = [
-    {
-      UserName: "Alena Molin",
-
-      email: "foisal@gmail.com",
-      UserCreate: "06/24/2024",
-    },
-    {
-      UserName: "Alena Molin",
-
-      email: "foisal@gmail.com",
-      UserCreate: "06/24/2024",
-    },
-    {
-      UserName: "Alena Molin",
-
-      email: "foisal@gmail.com",
-      UserCreate: "06/24/2024",
-    },
-  ];
+  if (!allUser?.data?.length) {
+    return <p>No users found.</p>;
+  }
 
   return (
     <div>
       <div className="lg:px-5 px-2 lg:pt-10 pt-5">
-        <h1 className="text-2xl font-bold ">User Role</h1>
+        <h1 className="text-2xl font-bold">User Role</h1>
       </div>
       <div>
         <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
@@ -71,22 +61,14 @@ const Admin = () => {
             />
           </div>
 
-          <div className="flex justify-end mt-3 gap-3 ">
-            {/* Tabs for List and Calendar View */}
-
-            {/* Filters */}
-
+          <div className="flex justify-end mt-3 gap-3">
             <div>
-                    <select
-                      className="border rounded py-2 bg-white"
-                      name=""
-                      id=""
-                    >
-                      <option value="all events">Short By</option>
-                      <option value="holiday drive">Name</option>
-                      <option value="mitzvah sunday">Date</option>
-                    </select>
-                  </div>
+              <select className="border rounded py-2 bg-white" name="" id="">
+                <option value="all events">Sort By</option>
+                <option value="name">Name</option>
+                <option value="date">Date</option>
+              </select>
+            </div>
 
             <div>
               <button
@@ -112,29 +94,40 @@ const Admin = () => {
                 <th className="px-4 py-2 text-left text-sm font-medium">
                   User Creation Date
                 </th>
-
                 <th className="px-4 py-2 text-right text-sm font-medium">
                   Action
                 </th>
               </tr>
             </thead>
             <tbody>
-              {eventData.map((event, index) => (
+              {allUser.data.map((user, index) => (
                 <tr
-                  key={index}
+                  key={user._id}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
-                  <td className="px-4 py-3 text-sm">{event.UserName}</td>
-
-                  <td className="px-4 py-3 text-sm">{event.email}</td>
-
-                  <td className="px-4 py-3 text-sm">{event.UserCreate}</td>
+                  <td className="px-4 py-3 text-sm">
+                    {user.firstName} {user.lastName}
+                  </td>
+                  <td className="px-4 py-3 text-sm">{user.email}</td>
+                  <td className="px-4 py-3 text-sm">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </td>
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                    <span className="text-red-500">
-                      <button onClick={() => handleDelete(index)}>
+                    {user.role === "super_admin" ? (
+                      <button
+                        className="text-blue-500 bg-transparent border border-blue-500 rounded px-3 py-1"
+                        disabled
+                      >
+                        Admin
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        className="text-red-500 bg-transparent border border-red-500 rounded px-3 py-1"
+                      >
                         Delete
                       </button>
-                    </span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -142,8 +135,10 @@ const Admin = () => {
           </table>
         </div>
 
-        <AddAdmin setModal2Open={setModal2Open} modal2Open={modal2Open}></AddAdmin>
-
+        <AddAdmin
+          setModal2Open={setModal2Open}
+          modal2Open={modal2Open}
+        ></AddAdmin>
       </div>
     </div>
   );

@@ -25,6 +25,16 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }), 
 
+    getDriverWarehouse: builder.query({
+      query: () => {
+        return {
+          url: "/volunteers/driver-warehouse",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
     getDriver: builder.query({
       query: () => {
         return {
@@ -60,6 +70,26 @@ const useApi = baseApi.injectEndpoints({
       query: ({id}) => {
         return {
           url: `/volunteers/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getSingleGroupVolunteer: builder.query({
+      query: ({id}) => {
+        return {
+          url: `/volunteer-group/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getSingleDriver: builder.query({
+      query: ({id}) => {
+        return {
+          url: `/driver/${id}`,
           method: "GET",
         };
       },
@@ -115,6 +145,9 @@ export const {
   useUpdateDriverMutation,
   useUpdateWarehouseMutation,
   useGetVolunteersGroupQuery,
-  useUpdateVolunteerGroupMutation
+  useUpdateVolunteerGroupMutation,
+  useGetSingleDriverQuery,
+  useGetSingleGroupVolunteerQuery,
+  useGetDriverWarehouseQuery
   
 } = useApi;
