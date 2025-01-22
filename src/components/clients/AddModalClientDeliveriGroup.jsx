@@ -1,22 +1,23 @@
 import { Modal, Form, Input, Button, Select, message } from "antd";
 import React, { useState } from "react";
-import { useClientGroupAddMutation, useGetClientQuery } from "../../page/redux/api/clientApi";
+import { useClientGroupAddMutation, useGetGroupClientQuery } from "../../page/redux/api/clientApi";
 
 export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
-  const { data: clientData } = useGetClientQuery();
+  const { data: clientData } = useGetGroupClientQuery();
+  console.log(clientData)
   const [addClientGroup] = useClientGroupAddMutation();
 
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     name: "",
-    clients: [], // Array of selected client IDs
+    clients: [],
   });
 
-  // Transform API data into options suitable for the Select component
   const clientOptions = clientData?.data?.map((client) => ({
     label: `${client.firstName} ${client.lastName}`,
-    value: client._id, // Use client ID as the value
+    value: client._id, 
   })) || [];
+  console.log(clientOptions)
 
   const handleClientChange = (selectedClientIds) => {
     setFormData((prevData) => ({
@@ -28,8 +29,8 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
 
   const handleFinish = async (values) => {
     const postData = {
-      clientGroupName: values.name, // Form field for group name
-      clients: formData.clients, // Selected client IDs
+      clientGroupName: values.name,
+      clients: formData.clients, 
     };
 
     try {
@@ -37,7 +38,7 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
       message.success(response?.message || "Client group created successfully!");
       console.log("POST Response:", response);
 
-      // Reset form and state after successful POST
+      
       setModalOpen(false);
       form.resetFields();
       setFormData({ name: "", clients: [] });

@@ -8,11 +8,12 @@ import { EditClienModalSec } from "./EditClienModalSec";
 import { useDeleteClientMutation, useGetClientQuery } from "../redux/api/clientApi";
 
 export const ClientsSectionTable = () => {
+  const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
   const [deleteClient] = useDeleteClientMutation()
-  const { data } = useGetClientQuery();
+  const { data } = useGetClientQuery({searchTerm});
   console.log(data)
   const clientData = data?.data?.map((client) => ({
     id: client._id,
@@ -88,6 +89,7 @@ export const ClientsSectionTable = () => {
             <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
           </svg>
           <input
+          onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Clients"
             className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"

@@ -5,6 +5,16 @@ import { baseApi } from "./baseApi";
 const useApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getClient: builder.query({
+      query: ({searchTerm,sortBy}) => {
+        return {
+          url: `/client?searchTerm=${searchTerm}&sortBy=${sortBy}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getGroupClient: builder.query({
       query: () => {
         return {
           url: "/client",
@@ -159,5 +169,6 @@ useDeleteWarehouseMutation,
 useDeleteVolunteersMutation,
 useDeleteVolunteersGroupMutation,
 useDeleteClientMutation,
-useDeleteClientGroupMutation
+useDeleteClientGroupMutation,
+useGetGroupClientQuery
 } = useApi;
