@@ -1,33 +1,37 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  useGetAllGroupClientEventQuery,
+  useUpdateAddEventGroupMutation,
+} from "../../page/redux/api/eventApi";
+import { message } from "antd";
 
-export const SearchClientGroups = () => {
-  const searchEventGroup = [
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-  ];
+export const SearchClientGroups = ({ eventId }) => {
+  const { data: clientGroup, isLoading, isError } = useGetAllGroupClientEventQuery();
+  const [updateAddEventGroup, { isLoading: isMutating, isError: isMutationError }] =
+    useUpdateAddEventGroupMutation();
+    const event = eventId._id
+
+  if (isLoading) return <p>Loading...</p>;
+  if (isError || !clientGroup?.data) return <p>Error loading client groups.</p>;
+
+  const handleAddGroup = async (groupId) => {
+    const data = {
+      groupId,
+      eventId: event,
+      types: "client",
+    };
+
+    try {
+      const response = await updateAddEventGroup({ data }).unwrap();
+      console.log("Group successfully added to event:", response);
+      message.success(response.message)
+    } catch (error) {
+   
+      console.log("Error adding group to event:", error);
+      message.error(error?.data?.message)
+    }
+  };
 
   return (
     <div>
@@ -47,19 +51,26 @@ export const SearchClientGroups = () => {
         />
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
-        <div className="">
-          {searchEventGroup.map((item, index) => (
-            <div key={index} className="flex justify-between space-y-4">
-              <Link to={"/clients/clientsDetails"}>
-                <h1 className="mt-2">{item.eventName}</h1>
+        <div>
+          {clientGroup?.data?.map((group) => (
+            <div key={group._id} className="flex justify-between items-center space-y-4">
+              <Link to={`/clients/groupDetails/${group._id}`}>
+                <h1 className="mt-2">{group.groupName}</h1>
               </Link>
-              <button className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
-                {item.event}
+              <button
+                onClick={() => handleAddGroup(group._id)}
+                className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
+                disabled={isMutating}
+              >
+                {isMutating ? "Adding..." : "Add to Event"}
               </button>
             </div>
           ))}
         </div>
       </div>
+      {isMutationError && (
+        <p className="text-red-500 mt-4">An error occurred while adding the group.</p>
+      )}
     </div>
   );
 };

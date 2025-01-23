@@ -8,7 +8,7 @@ const useApi = baseApi.injectEndpoints({
     addVolunteerGroup: builder.mutation({
         query: (data) => {
           return {
-            url: "/volunteer-group/create-volunteer-group",
+            url: "/client-group/create-client-group",
             method: "POST",
             body: data,
           };
@@ -58,13 +58,12 @@ const useApi = baseApi.injectEndpoints({
     getVolunteersGroup: builder.query({
       query: () => {
         return {
-          url: "/volunteer-group",
+          url: "/client-group/driver-client",
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
     }),
-    
     
     getSingleVolunteer: builder.query({
       query: ({id}) => {
@@ -125,7 +124,7 @@ const useApi = baseApi.injectEndpoints({
 
     updateVolunteerGroup: builder.mutation({
       query: ({ id, data}) => ({
-        url: `/volunteer-group/${id}`, 
+        url: `/client-group/${id}`, 
         method: "PATCH",
         body:  data ,
       }),

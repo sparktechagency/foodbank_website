@@ -1,8 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { SearchClientGroups } from "./SearchClientGroups";
+import { useAddClientGroupMutation, useDeleteEventClientGroupMutation, useGetGroupClientQuery } from "../../page/redux/api/clientApi";
 
-export const SearchClient = () => {
+export const SearchClient = ({eventId}) => {
+
+  const {data:clientData} = useGetGroupClientQuery()
+  const[updateClientGroup] = useAddClientGroupMutation()
+  
+  console.log('client data',clientData)
   const searchEventData = [
     {
       eventName: "max olis",
@@ -56,10 +62,34 @@ export const SearchClient = () => {
       event: "Add to Event",
     },
   ];
+
+  const handleAddGroup = async (client) => {
+    console.log(client.email)
+    const id = eventId._id
+    console.log(id)
+    const data = {
+      userId: client._id,
+      email: client.email,
+      type: "client",
+    };
+ console.log(data)
+    try {
+      const response = await updateClientGroup({ data ,id}).unwrap();
+      console.log("Group successfully added to event:", response);
+      alert("Group added to the event successfully!");
+    } catch (error) {
+      console.error("Error adding group to event:", error);
+      alert("Failed to add group to the event. Please try again.");
+    }
+  };
+
+
+  
+
   return (
     <div>
-      <div className="grid grid-cols-2 gap-4">
-        <SearchClientGroups></SearchClientGroups>
+      <div className="">
+        
 
         <div>
           <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
@@ -79,13 +109,13 @@ export const SearchClient = () => {
           </div>
           <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
             <div className="">
-              {searchEventData.map((item, index) => (
+              {clientData?.data?.map((item, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link to={"/clients/clientsDetails"}>
-                    <h1 className="mt-2">{item.eventName}</h1>
+                    <h1 className="mt-2">{item.firstName}{item.lastName}</h1>
                   </Link>
-                  <button className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
-                    {item.event}
+                  <button onClick={() => handleAddGroup(item)} className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
+                    Add Client
                   </button>
                 </div>
               ))}

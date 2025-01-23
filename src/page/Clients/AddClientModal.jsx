@@ -13,6 +13,7 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
       firstName: values.first,
       lastName: values.last,
       phoneNo: values.number,
+      email: values.email,
       alternativePhoneNo: values.alternateNumber,
       address: values.address,
       apartment: values.apartment,
@@ -90,6 +91,14 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             >
               <Input placeholder="Enter Holocaust" />
             </Form.Item>
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[{ required: true, message: "Holocaust is required" }]}
+            >
+              <Input placeholder="Enter Email" />
+            </Form.Item>
+
 
             <Form.Item
               name="date"

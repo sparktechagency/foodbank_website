@@ -39,7 +39,7 @@ const Events = () => {
   const [activeTab, setActiveTab] = useState("list");
   const [modal2Open, setModal2Open] = useState(false);
   const { data, isLoading } = useGetEventQuery();
-  console.log(data);
+  console.log(data?.data?.data);
   const [deleteEvent] = useDeleteEventMutation()
 
   // Fallback for loading or empty data
@@ -47,9 +47,9 @@ const Events = () => {
     return <p>Loading...</p>;
   }
 
-  if (!data?.data?.length) {
-    return <p>No events found.</p>;
-  }
+  // if (!data?.data?.length) {
+  //   return <p>No events found.</p>;
+  // }
   const handleEdit = (group) => {
     console.log("Editing Group:", group);
     setEditModal({
@@ -207,7 +207,7 @@ const Events = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.data.map((event, index) => {
+                  {data?.data?.data?.map((event, index) => {
                     const totalSpotsFilled =
                       event.warehouse.length + event.driver.length;
                       const warehouseNeeded = event.warehouseNeeded; // Example fixed value for warehouseNeeded
@@ -219,7 +219,7 @@ const Events = () => {
                         }`}
                       >
                         <td className="px-4 py-3 text-sm ">
-                          <Link to={"/event/eventDetails"}>{event.eventName}</Link>
+                          <Link to={`/event/eventDetails/${event._id}`}>{event.eventName}</Link>
                         </td>
                         <td className="px-4 py-3 text-sm ">{event.eventType}</td>
                         <td className="px-4 py-3 text-sm ">

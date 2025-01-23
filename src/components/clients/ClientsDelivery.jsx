@@ -130,7 +130,7 @@ const ClientsDelivery = () => {
             >
               <td className="px-4 py-3 text-sm">
                 <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
-                  {group.clientGroupName}
+                  {group.groupName}
                 </Link>
               </td>
               <td className="px-4 py-3 text-sm">{group.clients.length}</td>

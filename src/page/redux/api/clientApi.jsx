@@ -27,7 +27,7 @@ const useApi = baseApi.injectEndpoints({
     getClientGroup: builder.query({
       query: () => {
         return {
-          url: "/client-group/",
+          url: "/client-group/?types=client",
           method: "GET",
         };
       },
@@ -125,7 +125,7 @@ const useApi = baseApi.injectEndpoints({
     deleteVolunteersGroup: builder.mutation({
       query: (id) => {
         return {
-          url: `/volunteer-group/${id}`,
+          url: `/client-group/${id}`,
           method: "DELETE",
         };
       },
@@ -151,6 +151,30 @@ const useApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
+
+    addClientGroup: builder.mutation({
+      query: ({data,id}) => ({
+        
+        url: `/events/add-clients/?eventId=${id}`, 
+        method: "PATCH",
+        body:  data ,
+        
+      }),
+      invalidatesTags: ["updateProfile"],
+    }),
+
+    deleteEventClientGroup: builder.mutation({
+      query: ({data, id}) => {
+        console.log("==============================",data, id)
+        return {
+          url: `/events/remove-clients/?eventId=${id}`,
+          method: "PATCH",
+          body:data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
   }),
 });
 
@@ -170,5 +194,7 @@ useDeleteVolunteersMutation,
 useDeleteVolunteersGroupMutation,
 useDeleteClientMutation,
 useDeleteClientGroupMutation,
-useGetGroupClientQuery
+useGetGroupClientQuery,
+useAddClientGroupMutation,
+useDeleteEventClientGroupMutation
 } = useApi;

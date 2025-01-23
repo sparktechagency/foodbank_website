@@ -1,9 +1,18 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { useDeleteEventGroupMutation } from "../../page/redux/api/eventApi";
+import { message } from "antd";
+import { useDeleteEventClientGroupMutation } from "../../page/redux/api/clientApi";
 
-export const InviteClient = () => {
+export const InviteClient = ({event}) => {
+
+  console.log('event' , event)
+
+  console.log('event',event?.groups)
   const [currentPage, setCurrentPage] = useState(1);
+  const [removeEventGroup] = useDeleteEventGroupMutation();
+  const [deleteEventClient] = useDeleteEventClientGroupMutation()
   const clientData = [
     {
       eventName: "September Holiday Drive 9/2",
@@ -59,6 +68,42 @@ export const InviteClient = () => {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  const handleRemoveGroup = async (groupId) => {
+    const data = {
+      groupId,
+      eventId: event?._id,
+      types: "client",
+    };
+    // console.log('console',data)
+    try {
+      const response = await removeEventGroup(data).unwrap();
+      console.log("Group successfully added to event:", response);
+      message.success(response.message)
+    } catch (error) {
+      console.error("Error adding group to event:", error);
+      alert("Failed to add group to the event. Please try again.");
+    }
+  };
+
+
+  const handleRemoveEventGroup = async (email) => {
+    console.log(email)
+    const data = {
+      email,
+      type: "client",
+    };
+    console.log('console',data)
+    try {
+      const response = await deleteEventClient({id: event?._id, data}).unwrap();
+      console.log("Group successfully added to event:", response);
+      message.success(response.message)
+    } catch (error) {
+      console.error("Error adding group to event:", error);
+      alert("Failed to add group to the event. Please try again.");
+    }
+  };
+  const groups = event?.groups && event?.groups?.filter((data)=>  data?.type === "client")
   return (
     <div>
       <div className="grid grid-cols-2">
@@ -92,12 +137,12 @@ export const InviteClient = () => {
 
       <div className="lg:grid grid-cols-2 gap-4">
         <div className="bg-white border px-4 py-2 rounded">
-          {clientData.map((item, index) => (
+          {groups.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <h1 className="mt-2">{item.eventName}</h1>
+              <h1 className="mt-2">{item.gid.groupName}</h1>
               <div>
-                <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
-                  {item.event}
+                <button onClick={() => handleRemoveGroup(item.gid._id)} className="bg-blue-600  text-white px-3 rounded-full text-sm">
+                  Removed
                 </button>
               </div>
             </div>
@@ -127,13 +172,13 @@ export const InviteClient = () => {
 
         <div className="bg-white px-4 border py-2 rounded">
           <div>
-            {currentEvents.map((event, index) => (
+            {event?.client && event?.client?.map((ev, index) => (
               <div key={index} className="flex justify-between space-y-4">
                 <Link to={"/clients/clientsDetails"}>
-                  <h1 className="mt-2">{event.eventName}</h1>
+                  <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
                 </Link>
-                <button className="bg-blue-600 text-white px-3 rounded-full text-sm">
-                  {event.event}
+                <button onClick={() => handleRemoveEventGroup(ev.userId.email)} className="bg-blue-600 text-white px-3 rounded-full text-sm">
+                  Remove
                 </button>
               </div>
             ))}

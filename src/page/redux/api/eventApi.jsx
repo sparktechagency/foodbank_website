@@ -25,9 +25,38 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }), 
 
+    getAllGroupClientEvent: builder.query({
+      query: () => {
+        return {
+          url: "/client-group/?types=client",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
+    getSingleEventGroup: builder.query({
+      query: ({id}) => {
+        return {
+          url: `/events/get/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
     updateEvent: builder.mutation({
       query: ({ id, data}) => ({
         url: `/events/update/${id}`, 
+        method: "PATCH",
+        body:  data ,
+      }),
+      invalidatesTags: ["updateProfile"],
+    }),
+
+    updateAddEventGroup: builder.mutation({
+      query: ({data}) => ({
+        url: "/events/add-groups", 
         method: "PATCH",
         body:  data ,
       }),
@@ -43,6 +72,19 @@ const useApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
+
+    deleteEventGroup: builder.mutation({
+      query: (data) => {
+        console.log("==============================", data)
+        return {
+          url: "/events/remove-groups",
+          method: "PATCH",
+          body:data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
   }),
 });
 
@@ -50,5 +92,9 @@ export const {
   useEventAddMutation,
   useGetEventQuery,
   useUpdateEventMutation,
-  useDeleteEventMutation
+  useDeleteEventMutation,
+  useGetAllGroupClientEventQuery,
+  useGetSingleEventGroupQuery,
+  useUpdateAddEventGroupMutation,
+  useDeleteEventGroupMutation
 } = useApi;

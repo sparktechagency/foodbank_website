@@ -29,7 +29,8 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
 
   const handleFinish = async (values) => {
     const postData = {
-      clientGroupName: values.name,
+      types:'client',
+      groupName: values.name,
       clients: formData.clients, 
     };
 

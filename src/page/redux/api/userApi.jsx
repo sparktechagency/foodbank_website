@@ -33,6 +33,16 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }),
 
+    getSuperAdmin: builder.query({
+      query: () => {
+        return {
+          url: "/user/super-admin",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
     addUser: builder.mutation({
       query: (data) => {
         return {
@@ -82,43 +92,26 @@ const useApi = baseApi.injectEndpoints({
       },
     }),
     updateProfile: builder.mutation({
-      query: (data) => {
+      query: ({id,data}) => {
         return {
-          url: "/admin/edit-profile",
+          url: `/user/${id}`,
           method: "PATCH",
           body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
     }),
+
     changePassword: builder.mutation({
       query: (data) => {
         return {
           url: "/auth/change-password",
-          method: "PUT",
+          method: "POST",
           body: data,
         };
       },
     }),
-    getHostUser: builder.query({
-      query: ({ user, page, search }) => {
-        return {
-          url: `/dashboard/get-all-user?role=${user}&page=${page}&searchTerm=${search}`,
-          method: "GET",
-        };
-
-      },
-      providesTags: ["host"],
-    }),
-
-    blockUserHost: builder.mutation({
-      query: (data) => ({
-        url: `/dashboard/block-unblock-user`,
-        method: "PATCH",
-        body: data,
-      }),
-      invalidatesTags: ["host"], 
-    }),
+   
   }),
 });
 
@@ -130,8 +123,7 @@ export const {
   useResetPasswordMutation,
   useUpdateProfileMutation,
   useChangePasswordMutation,
-  useGetHostUserQuery,
-  useBlockUserHostMutation,
+  useGetSuperAdminQuery,
   useGetAllUserQuery,
   useDeleteUserMutation,
   useAddUserMutation

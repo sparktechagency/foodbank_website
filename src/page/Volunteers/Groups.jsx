@@ -122,15 +122,15 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
               <tr key={group._id} className="bg-white">
                 <td className="px-4 py-3 text-sm">
                   <Link to={`/group/details/${group._id}`}>
-                    {group.volunteerGroupName}
+                    {group?.groupName}
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {group.volunteerType === "warehouse"
+                  {group.types === "warehouse"
                     ? "Warehouse Volunteer"
                     : "Driver Volunteer"}
                 </td>
-                <td className="px-4 py-3 text-sm">{group.volunteers.length}</td>
+                <td className="px-4 py-3 text-sm">{group.clients?.length}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   <div className="dropdown">
                     <button className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">

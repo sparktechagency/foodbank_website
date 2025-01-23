@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useUpdateVolunteerGroupMutation } from "../redux/api/volunteerApi";
 
 export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
-  console.log(group)
+  console.log(group?.types)
   const [form] = Form.useForm();
   const [updateVolunteerGroup, { isLoading: isSubmitting }] =
     useUpdateVolunteerGroupMutation();
@@ -11,25 +11,25 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
   // Pre-fill form values when the modal opens
   useEffect(() => {
     if (group) {
-      console.log(group)
+      console.log('-----------------',group)
       form.setFieldsValue({
-        groupName: group.volunteerGroupName,
-        volunteerType: group.volunteerType,
-        clients: group.volunteers?.map((volunteer) => volunteer._id),
+        groupName: group.groupName,
+        types: group?.types,
+        clients: group.clients?.map((volunteer) => volunteer._id),
       });
     }
   }, [group, form]);
 
   const handleFinish = async (values) => {
-    const res = group?.volunteers.map((client) => client._id);
+    const res = group?.clients.map((client) => client._id);
     console.log(res);
     const data = {
-      volunteerGroupName: values.groupName,
-      volunteerType: values.volunteerType,
-      volunteers:res
+      groupName: values.groupName,
+      types: values.types,
+      clients:res
     };
     
-    console.log(data)
+    console.log('=========================',data)
 
     try {
       const response = await updateVolunteerGroup({ id: group?._id, data }).unwrap();
@@ -77,7 +77,7 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
         </Form.Item>
 
         <Form.Item
-          name="volunteerType"
+          name="types"
           label="Select Volunteer Type"
           rules={[{ required: true, message: "Please select a Volunteer Type" }]}
         >
@@ -93,7 +93,7 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
         >
           <Select
             mode="multiple"
-            options={group?.volunteers?.map((volunteer) => ({
+            options={group?.clients?.map((volunteer) => ({
               label: `${volunteer.firstName} ${volunteer.lastName}`,
               value: volunteer._id,
             }))}

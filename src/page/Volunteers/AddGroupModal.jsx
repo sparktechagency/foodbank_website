@@ -35,9 +35,9 @@ console.log(clientOptions)
 
   const handleFinish = async (values) => {
     const data = {
-      volunteerGroupName: values.groupName,
-      volunteerType: values.volunteerType,
-      volunteers: formData.clients,
+      groupName: values.groupName,
+      types: values.volunteerType,
+      clients: formData.clients,
     };
 
     try {

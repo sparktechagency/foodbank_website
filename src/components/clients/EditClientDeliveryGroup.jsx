@@ -18,11 +18,11 @@ export const EditClientDeliveryGroup = ({
   useEffect(() => {
     if (isModalOpen && group) {
       setFormData({
-        name: group?.clientGroupName,
+        name: group?.groupName,
         clients: group?.clients,
       });
       form.setFieldsValue({
-        name: group?.clientGroupName,
+        name: group?.groupName,
       });
     }
   }, [isModalOpen, group, form]);
@@ -32,7 +32,7 @@ export const EditClientDeliveryGroup = ({
     const res = group?.clients.map((client) => client._id);
     console.log(res);
     const data = {
-      clientGroupName: values?.name,
+      groupName: values?.name,
       clients: res,
     };
 
