@@ -25,10 +25,61 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }), 
 
+    updateSuccess: builder.query({
+      query: ({eventId,userId,type}) => {
+        return {
+          url: `/events/accept-request?eventId=${eventId}&userId=${userId}&type=${type}`,
+          method: "PATCH",
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }), 
+
+    updateCancel: builder.query({
+      query: ({eventId,userId,type}) => {
+        return {
+          url: `/events/cancel-request?eventId=${eventId}&userId=${userId}&type=${type}`,
+          method: "PATCH",
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }), 
+
+    getConfirmedDriver: builder.query({
+      query: ({eventId, types, accept}) => {
+        return {
+          url: `/events/get-events-driver?eventId=${eventId}&types=${types}&accept=${accept}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
+
     getAllGroupClientEvent: builder.query({
       query: () => {
         return {
           url: "/client-group/?types=client",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
+    getAllGroupWarehouseEvent: builder.query({
+      query: () => {
+        return {
+          url: "/client-group/?types=warehouse",
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
+    getAllGroupDriverVolunteer: builder.query({
+      query: () => {
+        return {
+          url: "/client-group/?types=driver",
           method: "GET",
         };
       },
@@ -96,5 +147,10 @@ export const {
   useGetAllGroupClientEventQuery,
   useGetSingleEventGroupQuery,
   useUpdateAddEventGroupMutation,
-  useDeleteEventGroupMutation
+  useDeleteEventGroupMutation,
+  useGetAllGroupDriverVolunteerQuery,
+  useGetAllGroupWarehouseEventQuery,
+  useGetConfirmedDriverQuery,
+  useUpdateSuccessQuery,
+  useUpdateCancelQuery
 } = useApi;

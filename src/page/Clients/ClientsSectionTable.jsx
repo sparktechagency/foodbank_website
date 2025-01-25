@@ -156,7 +156,7 @@ export const ClientsSectionTable = () => {
                 </td>
                 <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
                 <td className="px-4 py-3 text-sm">{client.alternativePhoneNo}</td>
-                <td className="px-4 py-3 text-sm">{client.holocaustSurvivor}</td>
+                <td className="px-4 py-3 text-sm">{client.holocaustSurvivor === true ? 'Yes': "No"}</td>
                 <td className="px-4 py-3 text-sm">
                   {client.clientDeliveryGroups.join(", ") || "None"}
                 </td>

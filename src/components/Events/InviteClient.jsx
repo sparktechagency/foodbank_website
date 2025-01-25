@@ -174,9 +174,9 @@ export const InviteClient = ({event}) => {
           <div>
             {event?.client && event?.client?.map((ev, index) => (
               <div key={index} className="flex justify-between space-y-4">
-                <Link to={"/clients/clientsDetails"}>
+                <Link to={`/clients/clientsDetails/${ev._id}`}>
                   <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
-                </Link>
+                  </Link>
                 <button onClick={() => handleRemoveEventGroup(ev.userId.email)} className="bg-blue-600 text-white px-3 rounded-full text-sm">
                   Remove
                 </button>

@@ -34,12 +34,8 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
       phoneNo: values.number,
       address: values.adress,
       volunteerType: values.Holocaust === "1", 
-      volunteerRole:
-        values.volunteerRole === "1"
-          ? "driver"
-          : values.volunteerRole === "2"
-          ? "warehouse"
-          : "both", // Map dropdown values to backend roles
+      volunteerRole:'driver',
+        
     };
 
     console.log("Payload to Update:", data);
@@ -107,7 +103,7 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
           label="Phone Number"
           rules={[
             { required: true, message: "Phone Number is required" },
-            { pattern: /^\d+$/, message: "Enter a valid phone number" },
+           
           ]}
         >
           <Input placeholder="Enter Phone Number" />
@@ -132,7 +128,7 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
           </Select>
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="volunteerRole"
           label="Select Your Preferred Volunteer Role"
           rules={[{ required: true, message: "Please select Role" }]}
@@ -142,7 +138,7 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
             <Select.Option value="2">Warehouse</Select.Option>
             <Select.Option value="3">Both</Select.Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Modal>
   );

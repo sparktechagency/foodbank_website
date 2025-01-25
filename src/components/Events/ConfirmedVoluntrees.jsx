@@ -1,9 +1,16 @@
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useGetConfirmedDriverQuery } from "../../page/redux/api/eventApi";
 
 const ConfirmedVoluntrees = () => {
+   const { id } = useParams();
+  const {data:confirmedDriver} = useGetConfirmedDriverQuery({ eventId:id ,types : 'driver', accept:'yes'},
+    { refetchOnMountOrArgChange: true });
+
+  console.log(confirmedDriver)
+  const result = confirmedDriver?.data?.data;
   const eventData = [
     {
       valunteerName: "Ellen Beffer",
@@ -22,7 +29,6 @@ const ConfirmedVoluntrees = () => {
 
       driver: "No",
       assigned: "Yes",
-
       clients: "view",
     },
     {
@@ -111,26 +117,36 @@ const ConfirmedVoluntrees = () => {
             </tr>
           </thead>
           <tbody>
-            {eventData.map((event, index) => (
-              <tr
-                key={index}
-                className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-              >
-                <td className=" px-4 py-3 text-sm">{event.valunteerName}</td>
-                <td className=" px-4 py-3 text-sm">{event.volunteerType}</td>
-                <td className=" px-4 py-3 text-sm">{event.deliveryLocation}</td>
+          {result &&
+                result.map((event, index) => (
+                  <tr
+                    key={index}
+                    className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                  >
+                    <td className=" px-4 py-3 text-sm">
+                      {event?.userId?.firstName} {event?.userId?.lastName}
+                    </td>
+                    <td className="px-4 py-3 text-sm">
+                      {event?.userId?.status
+                        ? event.userId.status.charAt(0).toUpperCase() +
+                          event.userId.status.slice(1)
+                        : ""}
+                    </td>
+                    <td className=" px-4 py-3 text-sm">
+                      {event?.userId?.address}
+                    </td>
 
-                <td className="px-4 py-3 text-sm">{event.driver}</td>
-                <td className="px-4 py-3 text-sm">{event.assigned}</td>
-                <td className="px-4 py-3 text-sm">
-                  <Link to={"/event/eventView"}>
-                    <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
-                      {event.clients}
-                    </span>
-                  </Link>
-                </td>
-              </tr>
-            ))}
+                    <td className="px-4 py-3 text-sm">{event?.userId?.volunteerType === true?'Yes':"No"}</td>
+                    <td className="px-4 py-3 text-sm">Working...</td>
+                    <td className="px-4 py-3 text-sm">
+                      <Link to={`/event/eventView/${event?.userId?._id}`}>
+                        <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
+                          View
+                        </span>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>

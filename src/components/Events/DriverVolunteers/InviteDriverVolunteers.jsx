@@ -1,8 +1,21 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { useDeleteEventGroupMutation } from "../../../page/redux/api/eventApi";
+import { message } from "antd";
+import { useDeleteEventClientGroupMutation } from "../../../page/redux/api/clientApi";
+import { Link } from "react-router-dom";
 
-export const InviteDriverVolunteers = () => {
+export const InviteDriverVolunteers = ({ event }) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [removeEventGroup] = useDeleteEventGroupMutation();
+  const [deleteEventClient] = useDeleteEventClientGroupMutation();
+
+  console.log('event----', event)
+
+  const groups =
+    event?.groups && event?.groups?.filter((data) => data?.type === "driver");
+
+    
   const clientData = [
     {
       eventName: "September Holiday Drive 9/2",
@@ -40,6 +53,41 @@ export const InviteDriverVolunteers = () => {
       event: "Remove",
     },
   ];
+
+  const handleRemoveGroup = async (groupId) => {
+    const data = {
+      groupId,
+      eventId: event?._id,
+      types: "driver",
+    };
+    // console.log('console',data)
+    try {
+      const response = await removeEventGroup(data).unwrap();
+      console.log("Group successfully added to event:", response);
+      message.success(response.message);
+    } catch (error) {
+      console.error("Error adding group to event:", error);
+      alert("Failed to add group to the event. Please try again.");
+    }
+  };
+
+
+  const handleRemoveEventGroup = async (email) => {
+    console.log(email)
+    const data = {
+      email,
+      type: "driver",
+    };
+    console.log('console',data)
+    try {
+      const response = await deleteEventClient({id: event?._id, data}).unwrap();
+      console.log("Group successfully added to event:", response);
+      message.success(response.message)
+    } catch (error) {
+      console.error("Error adding group to event:", error);
+      alert("Failed to add group to the event. Please try again.");
+    }
+  };
 
   const itemsPerPage = 4;
   const totalPages = Math.ceil(addEventData.length / itemsPerPage);
@@ -93,12 +141,17 @@ export const InviteDriverVolunteers = () => {
       </div>
       <div className="lg:grid grid-cols-2 gap-4">
         <div className="bg-white border px-4 py-2 rounded">
-          {clientData.map((item, index) => (
+          {groups.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <h1 className="mt-2">{item.eventName}</h1>
-              <button className="bg-blue-600  text-white px-3 rounded-full text-sm">
-                {item.event}
-              </button>
+              <h1 className="mt-2">{item.gid.groupName}</h1>
+              <div>
+                <button
+                  onClick={() => handleRemoveGroup(item.gid._id)}
+                  className="bg-blue-600  text-white px-3 rounded-full text-sm"
+                >
+                  Removed
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -126,14 +179,23 @@ export const InviteDriverVolunteers = () => {
 
         <div className="bg-white px-4 border py-2 rounded">
           <div>
-            {currentEvents.map((event, index) => (
-              <div key={index} className="flex justify-between space-y-4">
-                <h1 className="mt-2">{event.eventName}</h1>
-                <button className="bg-blue-600 text-white px-3 rounded-full text-sm">
-                  {event.event}
-                </button>
-              </div>
-            ))}
+          {event?.driver &&
+  event?.driver
+    .filter((ev) => ev.accept === false) // Filter the array to include only ev.accept === false
+    .map((ev, index) => (
+      <div key={index} className="flex justify-between space-y-4">
+        <Link to={"/clients/clientsDetails"}>
+          <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
+        </Link>
+        <button
+          onClick={() => handleRemoveEventGroup(ev?.email)}
+          className="bg-blue-600 text-white px-3 rounded-full text-sm"
+        >
+          Remove
+        </button>
+      </div>
+    ))}
+
           </div>
           <div className="flex justify-end items-center mt-4 border-t ">
             <div className="flex gap-2 mt-2">

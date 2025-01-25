@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export const VolunteertTable = () => {
+export const VolunteertTable =  ({event}) => {
+  console.log('ddd' , event)
   const eventData = [
     {
       type: "Driver Volunteers",
@@ -11,6 +12,8 @@ export const VolunteertTable = () => {
       volunteersRespons: "10",
     },
   ];
+  const acceptDriver =  event?.driver?.filter((data)=> data.accept===true)
+  const pendingDriver =  event?.driver?.filter((data)=> data.accept===false)
   return (
     <div>
       <h2 className="text-xl font-semibold mb-2">Volunteers</h2>
@@ -30,24 +33,22 @@ export const VolunteertTable = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {eventData.map((event, index) => (
+          <tbody> 
               <tr
-                key={index}
-                className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+                
+                // className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <td className=" px-4 py-3 text-sm">{event.type}</td>
-                <td className=" px-4 py-3 text-sm">{event.volunteers}</td>
+                <td className=" px-4 py-3 text-sm">{event.eventType}</td>
+                <td className=" px-4 py-3 text-sm">{event.deliveryNeeded}</td>
                 <td className=" px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-                  <Link to={"/event/confirmedVolunteers"}>
-                    {event.confirmed}
+                  <Link to={`/event/confirmedVolunteers/${event._id}`}>
+                    {acceptDriver?.length}
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-                  {event.volunteersRespons}
+                <Link to={`/event/pending-Driver/${event._id}`}>{pendingDriver?.length}    </Link>
                 </td>
-              </tr>
-            ))}
+              </tr> 
           </tbody>
         </table>
       </div>

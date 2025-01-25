@@ -1,7 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useUpdateSuccessQuery } from "../redux/api/eventApi";
 
 export const Success = () => {
+  const{eventId, type, userId} = useParams()
+  const {data:success} = useUpdateSuccessQuery({ eventId, type, userId},
+              { refetchOnMountOrArgChange: true });
+
+  console.log('success=======',success)
+
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-white relative overflow-hidden">
       {/* Background confetti */}

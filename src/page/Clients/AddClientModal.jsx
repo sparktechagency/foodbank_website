@@ -8,7 +8,7 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
   const [addClient] = useClientAddMutation();
 
   const handleFinish = async (values) => {
-    console.log(values)
+    console.log(values);
     const clientData = {
       firstName: values.first,
       lastName: values.last,
@@ -24,7 +24,8 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
       dietaryRestrictions: values.dietary,
       deliveryInstructions: values.deliveryIns,
       clientDeliveryGroup: values.clientDeliveryGroup,
-      holocaustSurvivor: values.Holocaust,
+      holocaustSurvivor: Boolean(values.holocaust),
+
       dateOfBirth: values.date,
       badgeNumber: values.bags,
       status: "client",
@@ -85,12 +86,18 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             </div>
 
             <Form.Item
-              name="Holocaust"
-              label="Holocaust Survivor"
-              rules={[{ required: true, message: "Holocaust is required" }]}
+              name="holocaust"
+              label="Holocaust"
+              rules={[{ required: true, message: "Event Type is required" }]}
             >
-              <Input placeholder="Enter Holocaust" />
-            </Form.Item>
+              <Select placeholder="Select Event Type">
+                <Select.Option value={true}>Yes</Select.Option>{" "}
+                {/* Boolean true */}
+                <Select.Option value={false}>No</Select.Option>{" "}
+                {/* Boolean false */}
+              </Select>
+            </Form.Item> 
+
             <Form.Item
               name="email"
               label="Email"
@@ -98,7 +105,6 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             >
               <Input placeholder="Enter Email" />
             </Form.Item>
-
 
             <Form.Item
               name="date"

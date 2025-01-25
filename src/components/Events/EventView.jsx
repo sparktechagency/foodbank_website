@@ -2,8 +2,12 @@ import { useState } from "react";
 
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
+import { useParams } from "react-router-dom";
+import { useGetConfirmedDriverQuery } from "../../page/redux/api/eventApi";
 
 const EventView = () => {
+ 
+      
   const initialEventData = [
     {
       valunteerName: "Vallery Grovovsky",

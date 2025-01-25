@@ -26,6 +26,10 @@ import VolunteerGroupDetails from "../page/Volunteers/VolunteerGroupDetails";
 import { Success } from "../page/sucess/Success";
 import VolunteerDetailsPage from "../page/Volunteers/VolunteerDetailsPage";
 import DriverDetailsPage from "../page/Volunteers/DriverDetailsPage";
+import { PendingDetails } from "../components/Events/PendingDetails";
+import { ConfirmedWarehouse } from "../components/Events/ConfirmedWarehouse";
+import { PendingWarehouse } from "../components/Events/PendingWarehouse";
+import { Cancel } from "../page/sucess/Cancel";
 
 
 
@@ -47,11 +51,23 @@ export const router = createBrowserRouter([
         element: <EventClientDetailsPage></EventClientDetailsPage>
       },
       {
-        path: "/event/confirmedVolunteers",
+        path: "/event/confirmedVolunteers/:id",
         element: <ConfirmedVoluntrees></ConfirmedVoluntrees>
       },
       {
-        path: "/event/eventView",
+        path: "/event/confirmedWarehouse/:id",
+        element: <ConfirmedWarehouse></ConfirmedWarehouse>
+      },
+      {
+        path: "/event/pending-Driver/:id",
+        element: <PendingDetails></PendingDetails>
+      },
+      {
+        path: "/event/pending-Warehouse/:id",
+        element: <PendingWarehouse></PendingWarehouse>
+      },
+      {
+        path: "/event/eventView/:id",
         element: <EventView></EventView>
       },
       {
@@ -114,7 +130,12 @@ export const router = createBrowserRouter([
     element: <ResetPass></ResetPass>,
   },
   {
-    path:"/successfull",
+    path:"/accept-request/event/:eventId/user/:userId/type/:type",
     element:<Success></Success>
+  },
+  {
+    path:"/cancel-request/event/:eventId/user/:userId/type/:type",
+    element:<Cancel></Cancel>
   }
+
 ]);

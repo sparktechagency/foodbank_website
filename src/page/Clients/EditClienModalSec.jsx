@@ -1,12 +1,18 @@
-import { Button, Form, Input, Modal } from 'antd';
-import React, { useEffect } from 'react';
-import { useGetSingleDataQuery, useUpdateClientMutation } from '../redux/api/clientApi';
+import { Button, Form, Input, Modal, Select } from "antd";
+import React, { useEffect } from "react";
+import {
+  useGetSingleDataQuery,
+  useUpdateClientMutation,
+} from "../redux/api/clientApi";
 
 export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   const id = client?.id;
   const [updateClient] = useUpdateClientMutation();
   const [form] = Form.useForm();
-  const { data: singleData, isLoading } = useGetSingleDataQuery({ id }, { skip: !id });
+  const { data: singleData, isLoading } = useGetSingleDataQuery(
+    { id },
+    { skip: !id }
+  );
 
   useEffect(() => {
     if (singleData?.data) {
@@ -31,7 +37,8 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   }, [singleData, form]);
 
   const handleFinish = async (values) => {
-    const updatedClient = {
+    console.log("values-------", values);
+    const updatedClien = {
       firstName: values.first,
       lastName: values.last,
       phoneNo: values.number,
@@ -45,13 +52,14 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       dietaryRestrictions: values.dietary,
       deliveryInstructions: values.deliveryIns,
       clientDeliveryGroup: values.clientDeliveryGroup,
-      holocaustSurvivor: values.Holocaust,
+      holocaustSurvivor: Boolean(values.holocaust),
       dateOfBirth: values.date,
     };
+    console.log(updatedClien);
 
     try {
-      await updateClient({ id, data: updatedClient }).unwrap();
-      console.log("Client updated successfully", updatedClient);
+      await updateClient({ id, data: updatedClien }).unwrap();
+      console.log("Client updated successfully", updatedClien);
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
@@ -87,43 +95,32 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
         <Form form={form} layout="vertical" onFinish={handleFinish}>
           <div className="mt-4">
             <div className="flex gap-3">
-              <Form.Item
-                name="first"
-                label="First Name"
-   
-              >
+              <Form.Item name="first" label="First Name">
                 <Input placeholder="Enter First Name" />
               </Form.Item>
-              <Form.Item
-                name="last"
-                label="Last Name"
-
-              >
+              <Form.Item name="last" label="Last Name">
                 <Input placeholder="Enter Last Name" />
               </Form.Item>
             </div>
 
             <Form.Item
-              name="Holocaust"
-              label="Holocaust Survivor"
-
+              name="holocaust"
+              label="Holocaust"
+              rules={[{ required: true, message: "Event Type is required" }]}
             >
-              <Input placeholder="Enter Holocaust" />
+              <Select placeholder="Select Event Type">
+                <Select.Option value={true}>Yes</Select.Option>{" "}
+                {/* Boolean true */}
+                <Select.Option value={false}>No</Select.Option>{" "}
+                {/* Boolean false */}
+              </Select>
             </Form.Item>
 
-            <Form.Item
-              name="date"
-              label="Date of Birth"
-       
-            >
+            <Form.Item name="date" label="Date of Birth">
               <Input type="date" />
             </Form.Item>
 
-            <Form.Item
-              name="number"
-              label="Phone Number"
-            
-            >
+            <Form.Item name="number" label="Phone Number">
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
@@ -131,11 +128,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 
-            <Form.Item
-              name="address"
-              label="Address"
-            
-            >
+            <Form.Item name="address" label="Address">
               <Input placeholder="Enter Address" />
             </Form.Item>
 
@@ -145,45 +138,25 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
           </div>
 
           <div className="flex gap-3">
-            <Form.Item
-              name="city"
-              label="City"
-       
-            >
+            <Form.Item name="city" label="City">
               <Input placeholder="Enter City Name" />
             </Form.Item>
 
-            <Form.Item
-              name="state"
-              label="State"
-           
-            >
+            <Form.Item name="state" label="State">
               <Input placeholder="Enter State Name" />
             </Form.Item>
 
-            <Form.Item
-              name="zipcode"
-              label="Zipcode"
-            
-            >
+            <Form.Item name="zipcode" label="Zipcode">
               <Input placeholder="Enter ZipCode Name" />
             </Form.Item>
           </div>
 
           <div className="lg:flex gap-3 mt-3">
-            <Form.Item
-              name="household"
-              label="Number of People in Household"
-   
-            >
+            <Form.Item name="household" label="Number of People in Household">
               <Input placeholder="Enter household" />
             </Form.Item>
 
-            <Form.Item
-              name="bags"
-              label="Number of Bags"
-            
-            >
+            <Form.Item name="bags" label="Number of Bags">
               <Input placeholder="Enter bags" />
             </Form.Item>
           </div>

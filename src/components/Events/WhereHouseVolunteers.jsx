@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { InvitedWarehouseVolunteers } from "./WoriousVolunteers/InvitedWarehouseVolunteers";
 import { SearchWarehouseVolunteer } from "./WoriousVolunteers/SearchWarehouseVolunteer";
 
-const WhereHouseVolunteers = () => {
+const WhereHouseVolunteers = ({event}) => {
   const eventData = [
     {
       type: "Warehouse Volunteers",
@@ -13,6 +13,8 @@ const WhereHouseVolunteers = () => {
     },
   ];
 
+  const acceptDriver = event?.warehouse?.filter((data) => data.accept === true);
+  const pendingDriver = event?.warehouse?.filter((data) => data.accept === false);
   return (
     <div className="mt-5 ">
       <h2 className="text-xl font-semibold mb-2">Volunteers</h2>
@@ -33,30 +35,23 @@ const WhereHouseVolunteers = () => {
             </tr>
           </thead>
           <tbody>
-            {eventData.map((event, index) => (
-              <tr
-                key={index}
-                className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
-              >
-                <td className=" px-4 py-3 text-sm">{event.type}</td>
-                <td className=" px-4 py-3 text-sm">{event.volunteers}</td>
-                <td className=" px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-                  <Link to={"/event/confirmedVolunteers"}>
-                    {event.confirmed}
-                  </Link>
-                </td>
-                <td className="px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-                  {event.volunteersRespons}
-                </td>
-              </tr>
-            ))}
+            <tr
+
+            // className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+            >
+              <td className=" px-4 py-3 text-sm">{event.eventType}</td>
+              <td className=" px-4 py-3 text-sm">{event.warehouseNeeded}</td>
+              <td className=" px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
+              <Link to={`/event/confirmedWarehouse/${event._id}`}>
+                  {acceptDriver?.length}
+                </Link>
+              </td>
+              <td className="px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
+              <Link to={`/event/pending-Warehouse/${event._id}`}>{pendingDriver?.length}    </Link>
+              </td>
+            </tr>
           </tbody>
         </table>
-      </div>
-
-      <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
-        <InvitedWarehouseVolunteers></InvitedWarehouseVolunteers>
-        <SearchWarehouseVolunteer></SearchWarehouseVolunteer>
       </div>
     </div>
   );

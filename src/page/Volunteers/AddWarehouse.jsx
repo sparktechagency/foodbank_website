@@ -15,12 +15,7 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
       phoneNo: values.number,
       address: values.adress,
       volunteerType: values.Holocaust , 
-      volunteerRole:
-        values.volunteerRole === "1"
-          ? "driver"
-          : values.volunteerRole === "2"
-          ? "warehouse"
-          : "both", 
+      volunteerRole:"warehouse",
       status: "warehouse", 
     };
 
@@ -110,7 +105,7 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
           </Select>
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           name="volunteerRole"
           label="Select Your Preferred Volunteer Role"
           rules={[{ required: true, message: "Please select Role" }]}
@@ -120,7 +115,7 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
             <Select.Option value="2">Warehouse</Select.Option>
             <Select.Option value="3">Both</Select.Option>
           </Select>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Modal>
   );

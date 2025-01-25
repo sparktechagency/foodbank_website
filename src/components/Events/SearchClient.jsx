@@ -72,7 +72,7 @@ export const SearchClient = ({eventId}) => {
       email: client.email,
       type: "client",
     };
- console.log(data)
+    console.log(data)
     try {
       const response = await updateClientGroup({ data ,id}).unwrap();
       console.log("Group successfully added to event:", response);
@@ -89,8 +89,6 @@ export const SearchClient = ({eventId}) => {
   return (
     <div>
       <div className="">
-        
-
         <div>
           <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
             <svg
@@ -111,8 +109,8 @@ export const SearchClient = ({eventId}) => {
             <div className="">
               {clientData?.data?.map((item, index) => (
                 <div key={index} className="flex justify-between space-y-4">
-                  <Link to={"/clients/clientsDetails"}>
-                    <h1 className="mt-2">{item.firstName}{item.lastName}</h1>
+                  <Link to={`/clients/clientsDetails/${item.id}`}>
+                    <h1 className="mt-2">{item.firstName}&nbsp;{item.lastName}</h1>
                   </Link>
                   <button onClick={() => handleAddGroup(item)} className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm">
                     Add Client
