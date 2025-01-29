@@ -1,4 +1,4 @@
-import { message, Modal } from "antd";
+import { message, Modal, Pagination, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -11,11 +11,17 @@ import { useDeleteVolunteersGroupMutation } from "../redux/api/clientApi";
 const Groups = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, group: null });
-  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery();
-const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
-  // Pagination
+  const [searchTerm, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const [types, setSortDriver] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery({types,sortOrder:sortOrder,searchTerm:searchTerm});
+ console.log(volunteerGroup)
+const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
+  // Pagination
+  const volunteers = volunteerGroup?.data
+
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -68,6 +74,15 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
       },
     });
   };
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+
+  const handleEventChange = (value) => {
+    console.log("Selected Value:", value); // Debugging log
+    setSortDriver(value); // Update state with selected value
+  };
 
   return (
     <div>
@@ -83,6 +98,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
             <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
           </svg>
           <input
+           onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Group"
             className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
@@ -90,6 +106,28 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
         </div>
 
         <div className="mt-4 flex justify-between gap-3">
+        <div>
+            <Select
+              className="w-full h-[42px]"
+              placeholder="All Group"
+              onChange={handleEventChange} // Updates holocaustSurvivor state
+              options={[
+                { value: 'driver', label: "Driver Volunteer Group" },
+                { value: 'warehouse', label: "Warehouse Volunteer group" },
+              ]}
+            />
+          </div>
+          <div>
+            <Select
+              className="w-full h-[42px]"
+              placeholder="Short By"
+              onChange={handleShortChange}
+              options={[
+                { value: "asc", label: "Short By" },
+                { value: "desc", label: "Date" },
+              ]}
+            />
+          </div>
           <div>
             <button
               onClick={() => setModal2Open(true)}
@@ -118,7 +156,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
             </tr>
           </thead>
           <tbody>
-            {currentGroups.map((group) => (
+            {volunteers.map((group) => (
               <tr key={group._id} className="bg-white">
                 <td className="px-4 py-3 text-sm">
                   <Link to={`/group/details/${group._id}`}>
@@ -158,41 +196,18 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 px-4">
-        <span className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(endIndex, totalGroups.length)} of{" "}
-          {totalGroups.length} items
-        </span>
-        <div className="flex gap-2">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <IoIosArrowBack />
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <IoIosArrowForward />
-          </button>
-        </div>
+      <div className="mt-4 flex justify-end">
+        <Pagination
+          current={currentPage}
+          pageSize={itemsPerPage}
+          total={volunteerGroup?.meta?.total || 0}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+        
       </div>
+
+      
 
       <AddGroupModal
         setModal2Open={setModal2Open}

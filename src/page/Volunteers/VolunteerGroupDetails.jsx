@@ -11,8 +11,9 @@ const VolunteerGroupDetails = () => {
     { id },
     { refetchOnMountOrArgChange: true }
   );
+  console.log(singleGroupData)
 
-  const volunteers = singleGroupData?.data?.volunteers || [];
+  const volunteers = singleGroupData?.data?.result?.clients || [];
   console.log(volunteers);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -66,14 +67,14 @@ const VolunteerGroupDetails = () => {
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.firstName} {volunteer.lastName}
+                  <Link to={`/volunteers/details/${volunteer._id}`}>{volunteer.firstName} {volunteer.lastName}</Link>
                 </td>
                 <td className="px-4 py-3 text-sm">{volunteer.phoneNo}</td>
                 <td className="px-4 py-3 text-sm">{volunteer.email}</td>
                 <td className="px-4 py-3 text-sm">
                   {volunteer.volunteerType ? "Yes" : "No"}
                 </td>
-                <td className="px-4 py-3 text-sm">{singleGroupData?.data?.volunteerType}</td>
+                <td className="px-4 py-3 text-sm">{volunteer?.volunteerRole}</td>
               </tr>
             ))}
           </tbody>

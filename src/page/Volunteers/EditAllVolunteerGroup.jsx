@@ -1,11 +1,11 @@
-import { Modal, Form, Input, Select, Button } from "antd";
+import { Modal, Form, Input, Select, Button, message } from "antd";
 import { useEffect } from "react";
 import { useUpdateVolunteersMutation } from "../redux/api/volunteerApi";
 
 export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) => {
   const [form] = Form.useForm();
   const [updateVolunteers] = useUpdateVolunteersMutation();
-
+console.log(client)
   // Set default values when client data is available
   useEffect(() => {
     if (client) {
@@ -14,7 +14,9 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
         last: client.lastName,
         email: client.email,
         number: client.phoneNo,
+       
         adress: client.address,
+        alternativePhoneNo: client.alternativePhoneNo,
         Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
         volunteerRole:
           client.volunteerRole === "driver"
@@ -33,24 +35,32 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
       email: values.email,
       phoneNo: values.number,
       address: values.adress,
+      alternativePhoneNo: values.alternativePhoneNo,
       volunteerType: values.Holocaust === "1", 
       volunteerRole:
         values.volunteerRole === "1"
           ? "driver"
           : values.volunteerRole === "2"
           ? "warehouse"
-          : "both", // Map dropdown values to backend roles
+          : "both",
+          status:
+          values.volunteerRole === "1"
+            ? "driver"
+            : values.volunteerRole === "2"
+            && "warehouse",  // Map dropdown values to backend roles
     };
 
     console.log("Payload to Update:", data);
 
     try {
       const response = await updateVolunteers({ id: client._id, data }).unwrap();
+      message.success(response.message)
       console.log("Update Success:", response);
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
       console.error("Error Updating Volunteer:", error);
+      message.error(error?.data?.message)
     }
   };
 
@@ -107,7 +117,16 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
           label="Phone Number"
           rules={[
             { required: true, message: "Phone Number is required" },
-            { pattern: /^\d+$/, message: "Enter a valid phone number" },
+        
+          ]}
+        >
+          <Input placeholder="Enter Phone Number" />
+        </Form.Item>
+        <Form.Item
+          name="alternativePhoneNo" label="Alternate Phone Number"
+          rules={[
+            { required: true, message: "Phone Number is required" },
+        
           ]}
         >
           <Input placeholder="Enter Phone Number" />
@@ -140,7 +159,7 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
           <Select placeholder="Select">
             <Select.Option value="1">Driver</Select.Option>
             <Select.Option value="2">Warehouse</Select.Option>
-            <Select.Option value="3">Both</Select.Option>
+            {/* <Select.Option value="3">Both</Select.Option> */}
           </Select>
         </Form.Item>
       </Form>

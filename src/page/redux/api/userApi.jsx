@@ -24,9 +24,9 @@ const useApi = baseApi.injectEndpoints({
     }),
 
     getAllUser: builder.query({
-      query: () => {
+      query: ({searchTerm,sortOrder}) => {
         return {
-          url: "/user",
+          url: `/user?searchTerm=${searchTerm}&sortOrder=${sortOrder}`,
           method: "GET",
         };
       },

@@ -13,6 +13,7 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
       lastName: values.last,
       email: values.email,
       phoneNo: values.number,
+      alternativePhoneNo: values.alternativePhoneNo,
       address: values.adress,
       volunteerType: values.Holocaust , 
       volunteerRole:"warehouse",
@@ -82,6 +83,16 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
           name="number"
           label="Phone Number"
           rules={[{ required: true, message: "Phone Number is required" }]}
+        >
+          <Input placeholder="Enter Phone Number" />
+        </Form.Item>
+
+        <Form.Item
+          name="alternativePhoneNo" label="Alternate Phone Number"
+          rules={[
+            { required: true, message: "Phone Number is required" },
+        
+          ]}
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>

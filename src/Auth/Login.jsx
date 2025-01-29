@@ -1,4 +1,4 @@
-import { Checkbox, Form, Input } from "antd";
+import { Checkbox, Form, Input, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
 import Logo from "../assets/header/logo.png";
@@ -13,12 +13,13 @@ const navigate = useNavigate()
       console.log("API Response:", payload);
       if (payload?.success === true) {
         localStorage.setItem("accessToken", payload?.data?.accessToken);
+        message.success('success')
         navigate("/");
       } else {
         console.error("Login failed:", payload?.message);
       }
     } catch (error) {
-      console.error("Login Error:", error?.message || "Something went wrong");
+      message.error(error.message)
     } finally {
       console.log("Login attempt finished.");
     }

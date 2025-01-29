@@ -16,9 +16,10 @@ const useApi = baseApi.injectEndpoints({
       }),
     
     getEvent: builder.query({
-      query: () => {
+      query: ({filterType,searchQuery,eventType,sortOrder,page,limit}) => {
+        console.log(page,limit)
         return {
-          url: "/events/get-all",
+          url: `/events/get-all?filterType=${filterType}&searchQuery=${searchQuery}&eventType=${eventType}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
           method: "GET",
         };
       },
@@ -57,9 +58,10 @@ const useApi = baseApi.injectEndpoints({
 
 
     getAllGroupClientEvent: builder.query({
-      query: () => {
+      query: ({searchTerm}) => {
+        console.log('search',searchTerm)
         return {
-          url: "/client-group/?types=client",
+          url: `/client-group/?types=client&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
@@ -67,9 +69,9 @@ const useApi = baseApi.injectEndpoints({
     }), 
 
     getAllGroupWarehouseEvent: builder.query({
-      query: () => {
+      query: ({searchTerm}) => {
         return {
-          url: "/client-group/?types=warehouse",
+          url: `/client-group/?types=warehouse&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
@@ -77,9 +79,9 @@ const useApi = baseApi.injectEndpoints({
     }), 
 
     getAllGroupDriverVolunteer: builder.query({
-      query: () => {
+      query: ({searchTerm}) => {
         return {
-          url: "/client-group/?types=driver",
+          url: `/client-group/?types=driver&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },

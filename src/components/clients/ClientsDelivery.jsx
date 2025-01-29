@@ -1,24 +1,31 @@
-import { message, Modal, Select } from "antd";
+import { message, Modal, Pagination, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AddModalClientDeliveriGroup } from "./AddModalClientDeliveriGroup";
 import { EditClientDeliveryGroup } from "./EditClientDeliveryGroup";
 import { useDeleteClientGroupMutation, useGetClientGroupQuery } from "../../page/redux/api/clientApi";
+import { Loading } from "../../Basic/Loading";
 
 const ClientsDelivery = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, id: null });
-  const { data: clientGroup, isLoading, error } = useGetClientGroupQuery();
+  const [searchTerm, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const { data: clientGroup, isLoading, error } = useGetClientGroupQuery({searchTerm, sortOrder:sortOrder});
+    
   const [deleteClientGroup] = useDeleteClientGroupMutation()
   
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Failed to load client groups.</p>;
-  }
+ if (isLoading) {
+     return <p><Loading></Loading></p>;
+   }
+ 
+   if (error) {
+     return <p>Failed to load client groups.</p>;
+   }
+ 
 
   const handleEdit = (group) => {
     console.log(group)
@@ -47,7 +54,15 @@ const ClientsDelivery = () => {
     });
   };
   
+  const handleShortChange = (value) => {
+    console.log(value)
+    setSortOrder(value); // Update the selected filter type
+  };
 
+  const handlePageChange = (page) => {
+    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+    setCurrentPage(page);
+  };
   return (
     <div>
       <div className="mt-2 mb-5 lg:flex justify-between">
@@ -62,6 +77,7 @@ const ClientsDelivery = () => {
             <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
           </svg>
           <input
+          onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Clients"
             className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"
@@ -70,31 +86,15 @@ const ClientsDelivery = () => {
 
         <div className="flex justify-between mt-3 gap-3 ">
           {/* Filters */}
+          
           <div>
-            <Select
+          <Select
               className="w-full h-[42px]"
-              defaultValue="all client"
+              placeholder='Short By'
+              onChange={handleShortChange}
               options={[
-                { value: "all client", label: "All Client" },
-                {
-                  value: "Holocaust Survivors",
-                  label: "Holocaust Survivors",
-                },
-                {
-                  value: "Non- Holocaust Survivors",
-                  label: "Non- Holocaust Survivors",
-                },
-              ]}
-            />
-          </div>
-          <div>
-            <Select
-              className="w-full h-[42px]"
-              defaultValue="all events"
-              options={[
-                { value: "all events", label: "Short By" },
-                { value: "holiday drive", label: "Name" },
-                { value: "mitzvah sunday", label: "Date" },
+                { value: "asc", label: "Short By" },
+                { value: "desc", label: "Date" },
               ]}
             />
           </div>
@@ -153,6 +153,8 @@ const ClientsDelivery = () => {
           ))}
         </tbody>
       </table>
+
+     
 
       <AddModalClientDeliveriGroup
         setModalOpen={setModalOpen}

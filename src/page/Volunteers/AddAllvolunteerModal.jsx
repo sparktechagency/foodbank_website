@@ -13,15 +13,20 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
       lastName: values.last,
       email: values.email,
       phoneNo: values.number,
+      alternativePhoneNo: values.alternateNumber,
       address: values.adress,
       volunteerType: values.Holocaust , 
       volunteerRole:
         values.volunteerRole === "1"
           ? "driver"
           : values.volunteerRole === "2"
-          ? "warehouse"
-          : "both", 
-      status: "warehouse", 
+          && "warehouse",
+          // : "both"
+          status:
+          values.volunteerRole === "1"
+            ? "driver"
+            : values.volunteerRole === "2"
+            && "warehouse", 
     };
 
     console.log("Payload being sent:", data);
@@ -90,6 +95,9 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>
+        <Form.Item name="alternateNumber" label="Alternate Phone Number">
+              <Input placeholder="Enter Alternate Phone Number" />
+            </Form.Item>
 
         <Form.Item
           name="adress"
@@ -118,7 +126,7 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
           <Select placeholder="Select">
             <Select.Option value="1">Driver</Select.Option>
             <Select.Option value="2">Warehouse</Select.Option>
-            <Select.Option value="3">Both</Select.Option>
+            {/* <Select.Option value="3">Both</Select.Option> */}
           </Select>
         </Form.Item>
       </Form>

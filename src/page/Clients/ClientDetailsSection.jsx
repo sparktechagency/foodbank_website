@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 
-export const ClientDetailsSection = () => {
+export const ClientDetailsSection = ({ singleClientData }) => {
+  console.log('ddddddd',singleClientData)
+  const event = singleClientData?.data?.events;
+  console.log(event);
   const eventData = [
     {
       event: "September Holiday Drive 9/2",
@@ -38,7 +41,7 @@ export const ClientDetailsSection = () => {
           <thead>
             <tr className="bg-gray-100 ">
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                Event
+                Event Name
               </th>
 
               <th className=" px-4 py-2 text-left text-sm font-medium">
@@ -46,37 +49,35 @@ export const ClientDetailsSection = () => {
               </th>
 
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                Dietary Restrictions
+                End Date
               </th>
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                # of People
+                Event Type
               </th>
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                # of Bags
-              </th>
-              <th className=" px-4 py-2 text-left text-sm font-medium">
-                Delivery Instructions
+                Location
               </th>
             </tr>
           </thead>
           <tbody>
-            {eventData.map((event, index) => (
+            {event?.map((eventItem, index) => (
               <tr
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <td className=" px-4 py-3 text-sm">
-                  <Link to={"/event/eventDetails"}>
-                    <p className="text-[#007AFF] underline">{event.event}</p>
+                <td className="px-4 py-3 text-sm">
+                  <Link to={`/event/eventDetails/${eventItem._id}`}>
+                    <p className="text-[#007AFF] underline">
+                      {eventItem.eventName}
+                    </p>
                   </Link>
                 </td>
-
-                <td className=" px-4 py-3 text-sm">{event.schedule}</td>
-
-                <td className="px-4 py-3 text-sm">{event.dietary}</td>
-                <td className="px-4 py-3 text-sm">{event.people}</td>
-                <td className="px-4 py-3 text-sm">{event.bags}</td>
-                <td className="px-4 py-3 text-sm"></td>
+                <td className="px-4 py-3 text-sm">
+                  {new Date(eventItem.dayOfEvent).toLocaleDateString()}
+                </td>
+                <td className="px-4 py-3 text-sm">{eventItem.endOfEvent}</td>
+                <td className="px-4 py-3 text-sm">{eventItem.eventType}</td>
+                <td className="px-4 py-3 text-sm">{eventItem.location}</td>
               </tr>
             ))}
           </tbody>

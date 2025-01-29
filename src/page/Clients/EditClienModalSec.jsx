@@ -7,6 +7,7 @@ import {
 
 export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   const id = client?.id;
+  console.log(client)
   const [updateClient] = useUpdateClientMutation();
   const [form] = Form.useForm();
   const { data: singleData, isLoading } = useGetSingleDataQuery(
@@ -15,23 +16,24 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   );
 
   useEffect(() => {
-    if (singleData?.data) {
+    if (singleData?.data?.filterClient) {
       form.setFieldsValue({
-        first: singleData.data.firstName,
-        last: singleData.data.lastName,
-        number: singleData.data.phoneNo,
-        alternateNumber: singleData.data.alternativePhoneNo,
-        address: singleData.data.address,
-        apartment: singleData.data.apartment,
-        city: singleData.data.city,
-        state: singleData.data.state,
-        zipcode: singleData.data.zipCode,
-        household: singleData.data.peopleHousehold,
-        dietary: singleData.data.dietaryRestrictions,
-        deliveryIns: singleData.data.deliveryInstructions,
-        clientDeliveryGroup: singleData.data.clientDeliveryGroup,
-        Holocaust: singleData.data.holocaustSurvivor,
-        date: singleData.data.dateOfBirth,
+        first: singleData.data?.filterClient?.firstName,
+        last: singleData.data?.filterClient?.lastName,
+        number: singleData.data?.filterClient?.phoneNo,
+        alternateNumber: singleData.data?.filterClient?.alternativePhoneNo,
+        address: singleData.data?.filterClient?.address,
+        apartment: singleData.data?.filterClient?.apartment,
+        city: singleData.data?.filterClient?.city,
+        state: singleData.data?.filterClient?.state,
+        zipcode: singleData.data?.filterClient?.zipCode,
+        badgeNumber: singleData.data?.filterClient?.badgeNumber,
+        household: singleData.data?.filterClient?.peopleHousehold,
+        dietary: singleData.data?.filterClient?.dietaryRestrictions,
+        deliveryIns: singleData.data?.filterClient?.deliveryInstructions,
+        clientDeliveryGroup: singleData.data?.filterClient?.clientDeliveryGroup,
+        Holocaust: singleData.data?.filterClient?.holocaustSurvivor ? true : false, 
+        date: singleData.data?.filterClient?.dateOfBirth,
       });
     }
   }, [singleData, form]);
@@ -48,11 +50,12 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       city: values.city,
       state: values.state,
       zipCode: values.zipcode,
+      badgeNumber: values.badgeNumber,
       peopleHousehold: values.household,
       dietaryRestrictions: values.dietary,
       deliveryInstructions: values.deliveryIns,
       clientDeliveryGroup: values.clientDeliveryGroup,
-      holocaustSurvivor: Boolean(values.holocaust),
+      holocaustSurvivor: Boolean(values.Holocaust),
       dateOfBirth: values.date,
     };
     console.log(updatedClien);
@@ -75,7 +78,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
         open={isModalOpen}
         onCancel={() => {
           setModal2Open1(false);
-          form.resetFields();
+         
         }}
         bodyStyle={{
           maxHeight: "70vh",
@@ -98,13 +101,14 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
               <Form.Item name="first" label="First Name">
                 <Input placeholder="Enter First Name" />
               </Form.Item>
+
               <Form.Item name="last" label="Last Name">
                 <Input placeholder="Enter Last Name" />
               </Form.Item>
             </div>
 
             <Form.Item
-              name="holocaust"
+              name="Holocaust"
               label="Holocaust"
               rules={[{ required: true, message: "Event Type is required" }]}
             >
@@ -156,7 +160,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
               <Input placeholder="Enter household" />
             </Form.Item>
 
-            <Form.Item name="bags" label="Number of Bags">
+            <Form.Item name="badgeNumber" label="Number of Bags">
               <Input placeholder="Enter bags" />
             </Form.Item>
           </div>

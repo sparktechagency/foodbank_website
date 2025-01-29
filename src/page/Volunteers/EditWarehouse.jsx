@@ -14,6 +14,7 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
         last: client.lastName,
         email: client.email,
         number: client.phoneNo,
+        alternativePhoneNo: client.alternativePhoneNo,
         adress: client.address,
         Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
         volunteerRole:
@@ -32,6 +33,7 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
       lastName: values.last,
       email: values.email,
       phoneNo: values.number,
+      alternativePhoneNo: values.alternativePhoneNo,
       address: values.adress,
       volunteerType: values.Holocaust === "1", 
       volunteerRole:"warehouse"
@@ -100,6 +102,16 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
         <Form.Item
           name="number"
           label="Phone Number"
+          rules={[
+            { required: true, message: "Phone Number is required" },
+        
+          ]}
+        >
+          <Input placeholder="Enter Phone Number" />
+        </Form.Item>
+
+        <Form.Item
+          name="alternativePhoneNo" label="Alternate Phone Number"
           rules={[
             { required: true, message: "Phone Number is required" },
         

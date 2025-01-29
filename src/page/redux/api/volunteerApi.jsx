@@ -16,9 +16,9 @@ const useApi = baseApi.injectEndpoints({
       }),
     
     getAllVolunteer: builder.query({
-      query: () => {
+      query: ({searchTerm , sortOrder, page, limit}) => {
         return {
-          url: "/volunteers",
+          url: `/volunteers?searchTerm=${searchTerm}&sortOrder=${sortOrder}&page=${page}&limit${limit}`,
           method: "GET",
         };
       },
@@ -35,10 +35,20 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }), 
 
-    getDriver: builder.query({
-      query: () => {
+    getAllDriverVolunteer: builder.query({
+      query: ({searchTerm}) => {
         return {
-          url: "/driver",
+          url: `/driver?searchTerm=${searchTerm}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }), 
+
+    getDriver: builder.query({
+      query: ({searchTerm,sortOrder,page,limit}) => {
+        return {
+          url: `/driver?searchTerm=${searchTerm}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
           method: "GET",
         };
       },
@@ -46,9 +56,19 @@ const useApi = baseApi.injectEndpoints({
     }), 
 
     getWarehouse: builder.query({
-      query: () => {
+      query: ({searchTerm,sortOrder,page,limit}) => {
         return {
-          url: "/warehouse",
+          url: `/warehouse?searchTerm=${searchTerm}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getWarehouseEvent: builder.query({
+      query: ({searchTerm}) => {
+        return {
+          url: `/warehouse?searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
@@ -56,9 +76,10 @@ const useApi = baseApi.injectEndpoints({
     }),
 
     getVolunteersGroup: builder.query({
-      query: () => {
+      query: ({types,sortOrder,searchTerm}) => {
         return {
-          url: "/client-group/driver-client",
+          // url: `/client-group/driver-modify-client?volunteerType=${types}&searchTerm=${searchTerm}&sortOrder=${sortOrder}&page=${page}&page=${limit}`,
+          url: `/client-group/driver-modify-client?volunteerType=${types}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
@@ -97,6 +118,7 @@ const useApi = baseApi.injectEndpoints({
 
     updateVolunteers: builder.mutation({
       query: ({ id, data}) => ({
+        
         url: `/volunteers/${id}`, 
         method: "PATCH",
         body:  data ,
@@ -147,6 +169,7 @@ export const {
   useUpdateVolunteerGroupMutation,
   useGetSingleDriverQuery,
   useGetSingleGroupVolunteerQuery,
-  useGetDriverWarehouseQuery
-  
+  useGetDriverWarehouseQuery,
+  useGetAllDriverVolunteerQuery,
+  useGetWarehouseEventQuery
 } = useApi;

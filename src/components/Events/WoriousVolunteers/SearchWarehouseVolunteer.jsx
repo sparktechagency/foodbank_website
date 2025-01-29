@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   useAddClientGroupMutation,
   useGetGroupClientQuery,
 } from "../../../page/redux/api/clientApi";
-import { useGetWarehouseQuery } from "../../../page/redux/api/volunteerApi";
+import { useGetWarehouseEventQuery, useGetWarehouseQuery } from "../../../page/redux/api/volunteerApi";
+import { message, Spin } from "antd";
 
 export const SearchWarehouseVolunteer = ({eventId}) => {
   console.log("warehouise,", eventId)
-  const { data: clientData } = useGetWarehouseQuery();
+  const [loadingStates, setLoadingStates] = useState({});
+  const [searchTerm, setSearch] = useState("");
+  const { data: clientData } = useGetWarehouseEventQuery({searchTerm});
   const [updateClientGroup] = useAddClientGroupMutation();
   const searchEventData = [
     {
@@ -47,14 +50,17 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
       type: "warehouse",
     };
     console.log(data)
+    setLoadingStates((prev) => ({ ...prev, [client._id]: true }));
     try {
       const response = await updateClientGroup({ data ,id}).unwrap();
       console.log("Group successfully added to event:", response);
-      alert("Group added to the event successfully!");
+      message.success(response.message);
+     
     } catch (error) {
       console.error("Error adding group to event:", error);
-      alert("Failed to add group to the event. Please try again.");
+      message.error(error?.data?.message);
     }
+    setLoadingStates((prev) => ({ ...prev, [client._id]: false }));
   };
 
 
@@ -70,6 +76,7 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
           <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
         </svg>
         <input
+        onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search Warehouse Volunteers"
           className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
@@ -79,7 +86,7 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
         <div className="">
           {clientData?.data?.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <Link to={"/clients/clientsDetails"}>
+              <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">
                   {item.firstName}&nbsp;
                   {item.lastName}
@@ -88,8 +95,13 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
               <button
                 onClick={() => handleAddGroup(item)}
                 className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm"
+                disabled={loadingStates[item._id]}
               >
-                Add Client
+                {loadingStates[item._id] ? ( // Show loading spinner if loading
+                  <Spin size="small" />
+                ) : (
+                  "Add Client"
+                )}
               </button>
             </div>
           ))}

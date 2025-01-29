@@ -14,14 +14,15 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
         last: client.lastName,
         email: client.email,
         number: client.phoneNo,
+        alternativePhoneNo: client.alternativePhoneNo,
         adress: client.address,
-        Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
+        Holocaust: client.volunteerType ? "1" : "2", 
         volunteerRole:
           client.volunteerRole === "driver"
             ? "1"
             : client.volunteerRole === "warehouse"
             ? "2"
-            : "3", // Map volunteerRole to dropdown values
+            : "3", 
       });
     }
   }, [client, form]);
@@ -32,6 +33,7 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
       lastName: values.last,
       email: values.email,
       phoneNo: values.number,
+      alternativePhoneNo: values.alternativePhoneNo,
       address: values.adress,
       volunteerType: values.Holocaust === "1", 
       volunteerRole:'driver',
@@ -104,6 +106,16 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
           rules={[
             { required: true, message: "Phone Number is required" },
            
+          ]}
+        >
+          <Input placeholder="Enter Phone Number" />
+        </Form.Item>
+
+        <Form.Item
+          name="alternativePhoneNo" label="Alternate Phone Number"
+          rules={[
+            { required: true, message: "Phone Number is required" },
+        
           ]}
         >
           <Input placeholder="Enter Phone Number" />

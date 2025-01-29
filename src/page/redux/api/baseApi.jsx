@@ -22,4 +22,4 @@ export const baseApi = createApi({
   endpoints: () => ({}),
 });
 
-export const imageUrl = "http://10.0.60.45:7000";
+export const imageUrl = "http://10.0.60.118:7000";

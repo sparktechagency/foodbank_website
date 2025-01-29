@@ -17,7 +17,8 @@ const ClientDetailsPage = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const client = singleClientData?.data;
+  
+  const client = singleClientData?.data?.filterClient;
 
   const handleEdit = (client) => {
     console.log("Editing Group:", client);
@@ -80,13 +81,7 @@ const ClientDetailsPage = () => {
               </div>
             </div>
             <div>
-              <div>
-                <Link to={"/clients"}>
-                  <button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
-                    Archive
-                  </button>
-                </Link>
-              </div>
+              
               <div className="mt-4">
                 <h1 className="font-semibold">Address</h1>
                 <p>{client?.address}</p>
@@ -103,7 +98,7 @@ const ClientDetailsPage = () => {
             </button>
           </div>
         </div>
-        <ClientDetailsSection></ClientDetailsSection>
+        <ClientDetailsSection singleClientData={singleClientData}></ClientDetailsSection>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import {
   IoIosArrowForward,
 } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { Dropdown, Menu, message, Modal } from "antd";
+import { Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { useGetWarehouseQuery } from "../redux/api/volunteerApi";
 import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
 import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
@@ -17,13 +17,17 @@ import { AddWarehouse } from "./AddWarehouse";
 import { EditWarehouse } from "./EditWarehouse";
 
 const DriverGroup = () => {
-  const { data: allVolunteerData, isLoading, error } = useGetWarehouseQuery();
+  const [searchTerm, setSearch] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const { data: allVolunteerData, isLoading, error } = useGetWarehouseQuery({searchTerm,sortOrder:sortOrder, page: currentPage,
+    limit: itemsPerPage,});
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
   const [deleteDriver] = useDeleteWarehouseMutation()
   // Pagination
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const volunteers = allVolunteerData?.data
   const totalPages = allVolunteerData
     ? Math.ceil(allVolunteerData.data.length / itemsPerPage)
     : 1;
@@ -56,6 +60,7 @@ const DriverGroup = () => {
     setCurrentPage(page);
   };
 
+
   const handleEdit = (volunteer) => {
     console.log("Editing Volunteer:", volunteer); // Log the volunteer details
     setEditModal({
@@ -81,6 +86,12 @@ const DriverGroup = () => {
       },
     });
   };
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+
+
 
   return (
     <div>
@@ -95,6 +106,7 @@ const DriverGroup = () => {
           <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
         </svg>
         <input
+         onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search Volunteers"
           className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
@@ -102,6 +114,17 @@ const DriverGroup = () => {
       </div>
 
       <div className="mt-4 flex justify-end gap-3">
+      <div>
+            <Select
+              className="w-full h-[42px]"
+              placeholder="Short By"
+              onChange={handleShortChange}
+              options={[
+                { value: "asc", label: "Short By" },
+                { value: "desc", label: "Date" },
+              ]}
+            />
+          </div>
         <div>
           <button
             onClick={() => setModal2Open(true)}
@@ -135,7 +158,7 @@ const DriverGroup = () => {
           </tr>
         </thead>
         <tbody>
-          {paginatedVolunteers.map((volunteer, index) => (
+          {volunteers.map((volunteer, index) => (
             <tr
               key={volunteer._id}
               className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
@@ -151,7 +174,7 @@ const DriverGroup = () => {
                 {volunteer.volunteerType ? "Yes" : "No"}
               </td>
               <td className="px-4 py-3 text-sm">
-                {volunteer.volunteerType
+                {volunteer.volunteerRole === 'driver'
                   ? "Driver Volunteer"
                   : "Warehouse Volunteer"}
               </td>
@@ -205,42 +228,17 @@ const DriverGroup = () => {
       </table>
     </div>
 
-    <div className="flex justify-between items-center mt-4 px-4">
-      <span className="text-sm text-gray-700">
-        Showing {startIndex + 1} to{" "}
-        {Math.min(endIndex, allVolunteerData?.data.length || 0)} of{" "}
-        {allVolunteerData?.data.length || 0} items
-      </span>
-      <div className="flex gap-2">
-        <button
-          onClick={handlePreviousPage}
-          disabled={currentPage === 1}
-          className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <IoIosArrowBack />
-        </button>
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`px-3 py-1 rounded-md ${
-              currentPage === page
-                ? "bg-blue-500 text-white"
-                : "bg-gray-200 text-gray-700"
-            }`}
-          >
-            {page}
-          </button>
-        ))}
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <IoIosArrowForward />
-        </button>
+    <div className="mt-4 flex justify-end">
+        <Pagination
+          current={currentPage}
+          pageSize={itemsPerPage}
+          total={allVolunteerData?.meta?.total || 0}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+        
       </div>
-    </div>
+   
 
     <AddWarehouse
       setModal2Open={setModal2Open}

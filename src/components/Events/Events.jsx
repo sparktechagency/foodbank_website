@@ -1,55 +1,52 @@
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { message, Modal, Select } from "antd";
+import { message, Modal, Pagination, Select } from "antd";
 import { MdAccessTime } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AddEventModal } from "./AddEventModal";
 import { Calender } from "./Calender";
 import { UpdateEvent } from "./UpdateEvent";
-import { useDeleteEventMutation, useGetEventQuery } from "../../page/redux/api/eventApi";
-
-const eventData = [
-  {
-    eventName: "September Holiday Drive 9/2",
-    eventType: "Holiday Drive",
-    date: "9/2/24",
-    volunteerSpots: "13/25",
-   
-  },
-  {
-    eventName: "Mitzvah Sunday 10/14",
-    eventType: "Mitzvah Day",
-    date: "10/14/24",
-    volunteerSpots: "25/25",
-    
-  },
-  {
-    eventName: "Mitzvah Sunday 10/28",
-    eventType: "Mitzvah Day",
-    date: "10/28/24",
-    volunteerSpots: "11/25",
- 
-  },
-];
+import {
+  useDeleteEventMutation,
+  useGetEventQuery,
+} from "../../page/redux/api/eventApi";
+import { NoData } from "../../Basic/NoData";
+import { Loading } from "../../Basic/Loading";
 
 const Events = () => {
+  const [searchQuery, setSearch] = useState("");
+  const [filterType, setFilterType] = useState(null);
+  const [eventType, setEventType] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
   const [editModal, setEditModal] = useState({ isOpen: false, group: null });
   const [activeTab, setActiveTab] = useState("list");
   const [modal2Open, setModal2Open] = useState(false);
-  const { data, isLoading } = useGetEventQuery();
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const { data, isLoading } = useGetEventQuery({
+    filterType,
+    searchQuery: searchQuery,
+    eventType: eventType,
+    sortOrder: sortOrder,
+    page: currentPage,
+    limit: pageSize,
+  });
+  console.log("Current Page:", currentPage, "API Data:", data);
+
   console.log(data?.data?.data);
-  const [deleteEvent] = useDeleteEventMutation()
+  const [deleteEvent] = useDeleteEventMutation();
 
   // Fallback for loading or empty data
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <p>
+        <Loading></Loading>
+      </p>
+    );
   }
 
-  // if (!data?.data?.length) {
-  //   return <p>No events found.</p>;
-  // }
   const handleEdit = (group) => {
     console.log("Editing Group:", group);
     setEditModal({
@@ -67,15 +64,32 @@ const Events = () => {
       onOk: async () => {
         try {
           const response = await deleteEvent(id).unwrap();
-          message.success(response.message );
+          message.success(response.message);
         } catch (error) {
           console.error("Error deleting volunteer:", error);
-          message.error(error.data?.message );
+          message.error(error.data?.message);
         }
       },
     });
   };
 
+  const handleYearChange = (value) => {
+    setFilterType(value); // Update the selected filter type
+  };
+
+  const handleEventChange = (value) => {
+    console.log(value);
+    setEventType(value); // Update the selected filter type
+  };
+
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+  const handlePageChange = (page) => {
+    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+    setCurrentPage(page);
+  };
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -103,6 +117,7 @@ const Events = () => {
               <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
             </svg>
             <input
+              onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Search Event"
               className="flex-1 py-3 ml-2 text-sm text-gray-700 placeholder-gray-400 bg-white outline-none"
@@ -138,32 +153,34 @@ const Events = () => {
                 <div>
                   <Select
                     className="w-full h-[43px]"
-                    defaultValue="upcoming event"
+                    placeholder="Select filterType" // Placeholder text
+                    onChange={handleYearChange} // Pass the value directly
                     options={[
-                      { value: "upcoming event", label: "Upcoming Event" },
-                      { value: "past events", label: "Past Events" },
+                      { value: "today", label: "Today" },
+                      { value: "upcoming", label: "Upcoming" },
+                      { value: "previous", label: "Previous" },
                     ]}
                   />
                 </div>
                 <div>
                   <Select
                     className="w-full h-[43px]"
-                    defaultValue="all events"
+                    placeholder="Select EventType"
+                    onChange={handleEventChange}
                     options={[
-                      { value: "all events", label: "All Events Types" },
-                      { value: "holiday drive", label: "Holiday Drive" },
-                      { value: "mitzvah sunday", label: "Mitzvah Sunday" },
+                      { value: "birthday", label: "Birthday" },
+                      { value: "wed", label: "Wed" },
                     ]}
                   />
                 </div>
                 <div>
                   <Select
                     className="w-full h-[43px]"
-                    defaultValue="all events"
+                    placeholder="Short By"
+                    onChange={handleShortChange}
                     options={[
-                      { value: "all events", label: "Short By" },
-                      { value: "name", label: "Name" },
-                      { value: "date", label: "Date" },
+                      { value: "asc", label: "Short By" },
+                      { value: "desc", label: "Date" },
                     ]}
                   />
                 </div>
@@ -202,54 +219,81 @@ const Events = () => {
                     <th className="px-4 py-2 text-sm font-medium text-left ">
                       Volunteer Spots Filled
                     </th>
-                   
+
                     <th className="px-4 py-2 text-sm font-medium text-left "></th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data?.data?.data?.map((event, index) => {
-                    const totalSpotsFilled =
-                      event.warehouse.length + event.driver.length;
+                  {data?.data?.data?.length > 0 ? (
+                    data.data.data.map((event, index) => {
+                      const totalSpotsFilled =
+                        event.warehouse.length + event.driver.length;
                       const warehouseNeeded = event.warehouseNeeded; // Example fixed value for warehouseNeeded
-                    return (
-                      <tr
-                        key={event._id}
-                        className={`${
-                          index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                        }`}
+
+                      return (
+                        <tr
+                          key={event._id}
+                          className={`${
+                            index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                          }`}
+                        >
+                          <td className="px-4 py-3 text-sm ">
+                            <Link to={`/event/eventDetails/${event._id}`}>
+                              {event.eventName}
+                            </Link>
+                          </td>
+                          <td className="px-4 py-3 text-sm ">
+                            {event.eventType}
+                          </td>
+                          <td className="px-4 py-3 text-sm ">
+                            {new Date(event.dayOfEvent).toLocaleDateString()}
+                          </td>
+                          <td className="px-4 py-3 text-sm">
+                            {totalSpotsFilled}/{warehouseNeeded}
+                          </td>
+                          <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
+                            <details className="dropdown">
+                              <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
+                                <BiDotsVerticalRounded />
+                              </summary>
+                              <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                                <li>
+                                  <a onClick={() => handleEdit(event)}>Edit</a>
+                                </li>
+                                <li>
+                                  <a onClick={() => handleDelete(event._id)}>
+                                    Delete
+                                  </a>
+                                </li>
+                              </ul>
+                            </details>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="5"
+                        className="text-center py-4 text-gray-500"
                       >
-                        <td className="px-4 py-3 text-sm ">
-                          <Link to={`/event/eventDetails/${event._id}`}>{event.eventName}</Link>
-                        </td>
-                        <td className="px-4 py-3 text-sm ">{event.eventType}</td>
-                        <td className="px-4 py-3 text-sm ">
-                          {new Date(event.dayOfEvent).toLocaleDateString()}
-                        </td>
-                        <td className="px-4 py-3 text-sm">
-                          {totalSpotsFilled}/{warehouseNeeded}
-                        </td>
-                        <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
-                          <details className="dropdown">
-                            <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
-                              <BiDotsVerticalRounded />
-                            </summary>
-                            <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
-                              <li>
-                                <a onClick={() => handleEdit(event)}>Edit</a>
-                              </li>
-                              <li>
-                                <a onClick={() => handleDelete(event._id)}>Delete</a>
-                              </li>
-                            </ul>
-                          </details>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                        <NoData></NoData>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
           )}
+          <div className="mt-4 flex justify-end">
+            <Pagination
+              current={currentPage}
+              pageSize={pageSize}
+              total={data?.data?.meta?.totalCount || 0} // Updated to use meta.totalCount
+              onChange={handlePageChange}
+              showSizeChanger={false}
+            />
+          </div>
           {activeTab === "calendar" && <Calender></Calender>}
         </div>
       </div>
@@ -259,9 +303,9 @@ const Events = () => {
         setModal2Open={setModal2Open}
       ></AddEventModal>
       <UpdateEvent
-       isModalOpen={editModal.isOpen}
-       setModal2Open1={setEditModal}
-       event={editModal.group}
+        isModalOpen={editModal.isOpen}
+        setModal2Open1={setEditModal}
+        event={editModal.group}
       ></UpdateEvent>
     </div>
   );

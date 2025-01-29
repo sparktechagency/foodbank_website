@@ -1,11 +1,13 @@
-import { message, Modal } from "antd";
+import { message, Modal, Select } from "antd";
 import { useState } from "react";
 import { AddAdmin } from "./AddAdmin";
 import { useDeleteUserMutation, useGetAllUserQuery } from "../redux/api/userApi";
 
 const Admin = () => {
   const [modal2Open, setModal2Open] = useState(false);
-  const { data: allUser, isLoading } = useGetAllUserQuery();
+  const [sortOrder, setSortOrder] = useState("");
+  const [searchTerm, setSearch] = useState("");
+  const { data: allUser, isLoading } = useGetAllUserQuery({searchTerm, sortOrder:sortOrder});
   const [deleteUser] = useDeleteUserMutation();
   console.log(allUser);
 
@@ -33,9 +35,14 @@ const Admin = () => {
     return <p>Loading...</p>;
   }
 
-  if (!allUser?.data?.length) {
-    return <p>No users found.</p>;
-  }
+  // if (!allUser?.data?.length) {
+  //   return <p>No users found.</p>;
+  // }
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+
 
   return (
     <div>
@@ -55,6 +62,7 @@ const Admin = () => {
               <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
             </svg>
             <input
+            onChange={(e) => setSearch(e.target.value)}
               type="text"
               placeholder="Search Users"
               className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
@@ -63,11 +71,15 @@ const Admin = () => {
 
           <div className="flex justify-end mt-3 gap-3">
             <div>
-              <select className="border rounded py-2 bg-white" name="" id="">
-                <option value="all events">Sort By</option>
-                <option value="name">Name</option>
-                <option value="date">Date</option>
-              </select>
+            <Select
+              className="w-full h-[42px]"
+              placeholder="Short By"
+              onChange={handleShortChange}
+              options={[
+                { value: "asc", label: "Short By" },
+                { value: "desc", label: "Date" },
+              ]}
+            />
             </div>
 
             <div>
@@ -100,7 +112,7 @@ const Admin = () => {
               </tr>
             </thead>
             <tbody>
-              {allUser.data.map((user, index) => (
+              {allUser?.data?.map((user, index) => (
                 <tr
                   key={user._id}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}

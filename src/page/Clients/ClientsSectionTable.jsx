@@ -1,20 +1,37 @@
-import { message, Modal, Select } from "antd";
+import { message, Modal, Select, Pagination } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AddClientModal } from "./AddClientModal";
 import { EditClienModalSec } from "./EditClienModalSec";
-import { useDeleteClientMutation, useGetClientQuery } from "../redux/api/clientApi";
+import {
+  useDeleteClientMutation,
+  useGetClientQuery,
+} from "../redux/api/clientApi";
+import { Loading } from "../../Basic/Loading";
 
 export const ClientsSectionTable = () => {
   const [searchTerm, setSearch] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
+
   const [modal2Open, setModal2Open] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 5;
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
-  const [deleteClient] = useDeleteClientMutation()
-  const { data } = useGetClientQuery({searchTerm});
-  console.log(data)
+  const itemsPerPage = 10;
+  const [holocaustSurvivor, setHolocaustSurvivor] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
+  const { data,  isLoading, error } = useGetClientQuery({
+    searchTerm,
+    holocaustSurvivor,
+    sortOrder,
+    page: currentPage,
+    limit: pageSize,
+  });
+  console.log("Current Page:", currentPage, "API Data:", data);
+  console.log(data);
+
+  const [deleteClient] = useDeleteClientMutation();
+
   const clientData = data?.data?.map((client) => ({
     id: client._id,
     clientName: `${client.firstName} ${client.lastName}`,
@@ -22,59 +39,65 @@ export const ClientsSectionTable = () => {
     alternativePhoneNo: client.alternativePhoneNo,
     holocaustSurvivor: client.holocaustSurvivor,
     badgeNumber: client.badgeNumber,
-    clientDeliveryGroups: client.meetings.map((meeting) => meeting.clientGroupName),
+    clientDeliveryGroups: client.meetings.map(
+      (meeting) => meeting.clientGroupName
+    ),
   }));
+  console.log(clientData)
 
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil((clientData?.length || 0) / itemsPerPage);
+  const totalClients = clientData?.length || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentClients = clientData?.slice(startIndex, endIndex) || [];
+  const currentClients =
+    clientData?.slice(startIndex, startIndex + itemsPerPage) || [];
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  const handleEdit = (client) => {
+    console.log(client);
+    setEditModal({
+      isOpen: true,
+      client,
+    });
   };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-
   const handlePageChange = (page) => {
+    console.log("Page Changed to:", page); // Debug to confirm `page` is received
     setCurrentPage(page);
   };
 
-
-  const handleEdit = (client) => {
-  console.log('client idc', client._id)
-  
-    console.log(client)
-  
-    setEditModal({
-      isOpen: true,
-      client, 
-    });
-  
-  };
-
   const handleDelete = (id) => {
-    console.log(id)
     Modal.confirm({
-      title: "Are you sure you want to delete this volunteer?",
+      title: "Are you sure you want to delete this client?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
       onOk: async () => {
         try {
           const response = await deleteClient(id).unwrap();
-          message.success(response.message );
+          message.success(response.message);
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
-          message.error(error.data?.message );
+          message.error(error.data?.message);
         }
       },
     });
   };
-  
+
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+
+  const handleEventChange = (value) => {
+    console.log("Selected Value:", value); // Debugging log
+    setHolocaustSurvivor(value); // Update state with selected value
+  };
+
+  if (isLoading) {
+    return <p><Loading></Loading></p>;
+  }
+
+  if (error) {
+    return <p>Failed to load client groups.</p>;
+  }
+
+
   return (
     <div>
       <div className="mt-2 mb-5 lg:flex justify-between">
@@ -89,7 +112,7 @@ export const ClientsSectionTable = () => {
             <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
           </svg>
           <input
-          onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => setSearch(e.target.value)}
             type="text"
             placeholder="Search Clients"
             className="ml-2 flex-1 outline-none bg-white text-sm text-gray-700 placeholder-gray-400"
@@ -101,22 +124,22 @@ export const ClientsSectionTable = () => {
           <div>
             <Select
               className="w-full h-[42px]"
-              defaultValue="all client"
+              placeholder="All Clients"
+              onChange={handleEventChange} // Updates holocaustSurvivor state
               options={[
-                { value: "all client", label: "All Client" },
-                { value: "Holocaust Survivors", label: "Holocaust Survivors" },
-                { value: "Non-Holocaust Survivors", label: "Non-Holocaust Survivors" },
+                { value: true, label: "Holocaust Survivors" },
+                { value: false, label: "Non-Holocaust Survivors" },
               ]}
             />
           </div>
           <div>
             <Select
               className="w-full h-[42px]"
-              defaultValue="all events"
+              placeholder="Short By"
+              onChange={handleShortChange}
               options={[
-                { value: "all events", label: "Short By" },
-                { value: "holiday drive", label: "Name" },
-                { value: "mitzvah sunday", label: "Date" },
+                { value: "asc", label: "Short By" },
+                { value: "desc", label: "Date" },
               ]}
             />
           </div>
@@ -136,29 +159,45 @@ export const ClientsSectionTable = () => {
         <table className="lg:w-full w-[1000px] border-collapse border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
-              <th className="px-4 py-2 text-left text-sm font-medium">Client Name</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Client Name
+              </th>
               <th className="px-4 py-2 text-left text-sm font-medium">Phone</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Alternate Phone #</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Holocaust Survivor</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Client Delivery Group</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">Badge Number</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Alternate Phone #
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Holocaust Survivor
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Client Delivery Group
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Badge Number
+              </th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
           </thead>
           <tbody>
-            {currentClients.map((client, index) => (
+            {data?.data?.map((client, index) => (
               <tr
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/clients/clientsDetails/${client.id}`}>{client.clientName}</Link>
+                  <Link to={`/clients/clientsDetails/${client.id}`}>
+                  {client.firstName} {client.lastName}
+                  </Link>
                 </td>
                 <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
-                <td className="px-4 py-3 text-sm">{client.alternativePhoneNo}</td>
-                <td className="px-4 py-3 text-sm">{client.holocaustSurvivor === true ? 'Yes': "No"}</td>
                 <td className="px-4 py-3 text-sm">
-                  {client.clientDeliveryGroups.join(", ") || "None"}
+                  {client.alternativePhoneNo}
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {client.holocaustSurvivor ? "Yes" : "No"}
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {client.clientDeliveryGroup }
                 </td>
                 <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
@@ -180,40 +219,16 @@ export const ClientsSectionTable = () => {
             ))}
           </tbody>
         </table>
-        {/* Pagination Controls */}
-        <div className="flex justify-between items-center mt-4 px-4">
-          <span className="text-sm text-gray-700">
-            Showing {startIndex + 1} to {Math.min(endIndex, clientData?.length || 0)} of {clientData?.length || 0} items
-          </span>
-          <div className="flex gap-2">
-            <button
-              onClick={handlePreviousPage}
-              disabled={currentPage === 1}
-              className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <IoIosArrowBack />
-            </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`px-3 py-1 rounded-md ${
-                  currentPage === page
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-200 text-gray-700"
-                }`}
-              >
-                {page}
-              </button>
-            ))}
-            <button
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <IoIosArrowForward />
-            </button>
-          </div>
+        {/* Ant Design Pagination */}
+        <div className="mt-4 flex justify-end">
+        <Pagination
+          current={currentPage}
+          pageSize={pageSize}
+          total={data?.meta?.total || 0}
+          onChange={handlePageChange}
+          showSizeChanger={false}
+        />
+          ;
         </div>
       </div>
       <AddClientModal
@@ -221,9 +236,9 @@ export const ClientsSectionTable = () => {
         modal2Open={modal2Open}
       ></AddClientModal>
       <EditClienModalSec
-      isModalOpen={editModal.isOpen}
+        isModalOpen={editModal.isOpen}
         setModal2Open1={setEditModal}
-        client={editModal.client} 
+        client={editModal.client}
       ></EditClienModalSec>
     </div>
   );

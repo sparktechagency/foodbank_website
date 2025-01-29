@@ -17,8 +17,8 @@ const VolunteerDetailsPage = () => {
     { id },
     { refetchOnMountOrArgChange: true }
   );
-
-  const client = singleClientData?.data;
+console.log(singleClientData)
+  const client = singleClientData?.data?.result;
 
   const handleEdit = (client) => {
     console.log("Editing Group:", client);
@@ -81,13 +81,7 @@ const VolunteerDetailsPage = () => {
               </div>
             </div>
             <div>
-              <div>
-                <Link to={"/clients"}>
-                  <button className="border border-[#234E6F] px-4 py-1 rounded-full text-[#234E6F]">
-                    Archive
-                  </button>
-                </Link>
-              </div>
+              
               <div className="mt-4">
                 <h1 className="font-semibold">Address</h1>
                 <p>{client?.address}</p>

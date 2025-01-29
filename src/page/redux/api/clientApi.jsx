@@ -5,19 +5,32 @@ import { baseApi } from "./baseApi";
 const useApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getClient: builder.query({
-      query: ({searchTerm,sortBy}) => {
+      
+      query: ({searchTerm,holocaustSurvivor,sortOrder,page,limit}) => {
+        
         return {
-          url: `/client?searchTerm=${searchTerm}&sortBy=${sortBy}`,
+          url: `/client?searchTerm=${searchTerm}&holocaustSurvivor=${holocaustSurvivor}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+  
+    getGroupClient: builder.query({
+      query: ({searchTerm}) => {
+        console.log(searchTerm)
+        return {
+          url: `/client?searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
     }),
 
-    getGroupClient: builder.query({
+    getGroupModalClient: builder.query({
       query: () => {
         return {
-          url: "/client",
+          url: `/client`,
           method: "GET",
         };
       },
@@ -25,9 +38,9 @@ const useApi = baseApi.injectEndpoints({
     }),
 
     getClientGroup: builder.query({
-      query: () => {
+      query: ({searchTerm,sortOrder}) => {
         return {
-          url: "/client-group/?types=client",
+          url: `/client-group/?types=client&searchTerm=${searchTerm}&sortOrder=${sortOrder}`,
           method: "GET",
         };
       },
@@ -76,6 +89,17 @@ const useApi = baseApi.injectEndpoints({
       query: ({id}) => {
         return {
           url: `/client/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getSingleGroupClientData: builder.query({
+      query: ({id,searchTerm,page, limit}) => {
+        
+        return {
+          url: `/client-group/${id}?searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
           method: "GET",
         };
       },
@@ -196,5 +220,7 @@ useDeleteClientMutation,
 useDeleteClientGroupMutation,
 useGetGroupClientQuery,
 useAddClientGroupMutation,
-useDeleteEventClientGroupMutation
+useDeleteEventClientGroupMutation,
+useGetSingleGroupClientDataQuery,
+useGetGroupModalClientQuery
 } = useApi;

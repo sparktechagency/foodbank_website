@@ -45,7 +45,7 @@ const Profile = () => {
       data.append("role", adminProfile?.data?.role);
       data.append("status", adminProfile?.data?.status);
       if (image) {
-        data.append("profilePicture", image);
+        data.append("file", image);
       }
       const jsonObject = {};
       data.forEach((value, key) => {

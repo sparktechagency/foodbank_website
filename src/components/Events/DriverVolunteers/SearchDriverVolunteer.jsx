@@ -1,56 +1,38 @@
-import React from "react";
+import React, { useState } from "react"; // Import useState
 import { Link } from "react-router-dom";
-import { useAddClientGroupMutation} from "../../../page/redux/api/clientApi";
-import { message } from "antd";
-import { useGetDriverQuery } from "../../../page/redux/api/volunteerApi";
+import { useAddClientGroupMutation } from "../../../page/redux/api/clientApi";
+import { message, Spin } from "antd"; // Import Spin for loading indicator
+import { useGetAllDriverVolunteerQuery, useGetDriverQuery } from "../../../page/redux/api/volunteerApi";
 
 export const SearchDriverVolunteer = ({ eventId }) => {
-  const { data: clientData } = useGetDriverQuery();
-  const[updateClientGroup] = useAddClientGroupMutation()
-  const searchEventData = [
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-  ];
+  const [searchTerm, setSearch] = useState("");
+  const { data: clientData } = useGetAllDriverVolunteerQuery({searchTerm});
+  const [updateClientGroup] = useAddClientGroupMutation();
+
+  // Track loading state for each "Add Client" button
+  const [loadingStates, setLoadingStates] = useState({});
 
   const handleAddGroup = async (client) => {
-    console.log(client.email)
-    const id = eventId._id
-    console.log(id)
+    // Set loading state for this specific client
+    setLoadingStates((prev) => ({ ...prev, [client._id]: true }));
+
+    const id = eventId._id;
     const data = {
       userId: client._id,
       email: client.email,
       type: "driver",
     };
-    console.log(data)
+
     try {
-      const response = await updateClientGroup({ data ,id}).unwrap();
-      console.log("Group successfully added to event:", response);
-      message.success("Group added to the event successfully!");
+      const response = await updateClientGroup({ data, id }).unwrap();
+      console.log("Client successfully added to event:", response);
+      message.success(response.message);
     } catch (error) {
-      console.error("Error adding group to event:", error);
-      alert("Failed to add group to the event. Please try again.");
+      console.error("Error adding client to event:", error);
+      message.error(error?.data?.message);
+    } finally {
+      // Reset loading state for this specific client
+      setLoadingStates((prev) => ({ ...prev, [client._id]: false }));
     }
   };
 
@@ -66,6 +48,7 @@ export const SearchDriverVolunteer = ({ eventId }) => {
           <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
         </svg>
         <input
+        onChange={(e) => setSearch(e.target.value)}
           type="text"
           placeholder="Search Driver Volunteers"
           className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
@@ -75,16 +58,21 @@ export const SearchDriverVolunteer = ({ eventId }) => {
         <div className="">
           {clientData?.data?.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <Link to={"/clients/clientsDetails"}>
+              <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">
                   {item.firstName}&#160;{item.lastName}
                 </h1>
               </Link>
               <button
                 onClick={() => handleAddGroup(item)}
-                className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm"
+                className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
+                disabled={loadingStates[item._id]} // Disable button while loading
               >
-                Add Client
+                {loadingStates[item._id] ? ( // Show loading spinner if loading
+                  <Spin size="small" />
+                ) : (
+                  "Add Client"
+                )}
               </button>
             </div>
           ))}

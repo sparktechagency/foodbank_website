@@ -75,7 +75,7 @@ export const router = createBrowserRouter([
         element: <Clients></Clients>
       },
       {
-        path: "/clients/ClientDeliveryDetailsPage",
+        path: "/clients/ClientDeliveryDetailsPage/:id",
         element: <ClientDeliveryDetailsPage></ClientDeliveryDetailsPage>
       },
       {
