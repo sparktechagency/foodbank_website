@@ -13,7 +13,7 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
   // Track loading states for "Remove Group" buttons
   const [removeGroupLoading, setRemoveGroupLoading] = useState({});
 
-  // Track loading states for "Remove Volunteer" buttons
+  // Track loading states for "Remove Volunteer" button
   const [removeVolunteerLoading, setRemoveVolunteerLoading] = useState({});
 
   const groups = event?.groups?.filter((data) => data?.type === "warehouse") || [];
