@@ -6,8 +6,9 @@ import { message, Pagination, Spin } from "antd"; // Import Spin for loading ind
 import { useDeleteEventClientGroupMutation } from "../../page/redux/api/clientApi";
 
 export const InviteClient = ({ event }) => {
-  console.log(event)
-  const [currentPage, setCurrentPage] = useState(1);
+  console.log(event);
+  const [groupPage, setGroupPage] = useState(1);
+  const [clientPage, setClientPage] = useState(1);
   const [removeEventGroup] = useDeleteEventGroupMutation();
   const [deleteEventClient] = useDeleteEventClientGroupMutation();
 
@@ -17,38 +18,21 @@ export const InviteClient = ({ event }) => {
   // Track loading states for "Remove Client" buttons
   const [removeClientLoading, setRemoveClientLoading] = useState({});
 
-  const itemsPerPage = 4;
-  const addEventData = [
-    // Your static data here
-  ];
-  const totalPages = Math.ceil(addEventData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentEvents = addEventData.slice(startIndex, endIndex);
+  const itemsPerPage = 5; 
 
   // Pagination handlers
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  const handleGroupPageChange = (page) => {
+    setGroupPage(page);
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+  const handleClientPageChange = (page) => {
+    setClientPage(page);
   };
 
   // Handle removing a group
   const handleRemoveGroup = async (groupId) => {
-    setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: true })); // Set loading for this group
-
-    const data = {
-      groupId,
-      eventId: event?._id,
-      types: "client",
-    };
-
+    setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: true }));
+    const data = { groupId, eventId: event?._id, types: "client" };
     try {
       const response = await removeEventGroup(data).unwrap();
       console.log("Group successfully removed from event:", response);
@@ -57,19 +41,14 @@ export const InviteClient = ({ event }) => {
       console.error("Error removing group from event:", error);
       message.error("Failed to remove group from the event.");
     } finally {
-      setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: false })); // Reset loading for this group
+      setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: false }));
     }
   };
 
   // Handle removing a client
   const handleRemoveEventGroup = async (email) => {
-    setRemoveClientLoading((prev) => ({ ...prev, [email]: true })); // Set loading for this client
-
-    const data = {
-      email,
-      type: "client",
-    };
-
+    setRemoveClientLoading((prev) => ({ ...prev, [email]: true }));
+    const data = { email, type: "client" };
     try {
       const response = await deleteEventClient({ id: event?._id, data }).unwrap();
       console.log("Client successfully removed from event:", response);
@@ -78,12 +57,16 @@ export const InviteClient = ({ event }) => {
       console.error("Error removing client from event:", error);
       message.error("Failed to remove client from the event.");
     } finally {
-      setRemoveClientLoading((prev) => ({ ...prev, [email]: false })); // Reset loading for this client
+      setRemoveClientLoading((prev) => ({ ...prev, [email]: false }));
     }
   };
 
-  const groups = event?.groups?.filter((data) => data?.type === "client");
-  console.log(groups)
+  const groups = event?.groups?.filter((data) => data?.type === "client") || [];
+  const clients = event?.client || [];
+
+  // Slice data for pagination
+  const paginatedGroups = groups.slice((groupPage - 1) * itemsPerPage, groupPage * itemsPerPage);
+  const paginatedClients = clients.slice((clientPage - 1) * itemsPerPage, clientPage * itemsPerPage);
 
   return (
     <div>
@@ -92,116 +75,62 @@ export const InviteClient = ({ event }) => {
           <h1 className="font-semibold">Invite Clients</h1>
           <p className="mt-2 mb-1">Client Groups</p>
         </div>
-        <div>
-          <div className="hidden lg:block">
-            <div className="grid grid-cols-2">
-              <p className="mt-8 mb-1 ml-2">Clients Added to Event</p>
-              <div className="flex items-center mt-4 w-full">
-                <input
-                  type="text"
-                  className="flex-1 outline-none text-sm bg-[#F6F7F9] text-gray-700 placeholder-gray-400"
-                />
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-gray-500"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
-                </svg>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       <div className="lg:grid grid-cols-2 gap-4">
         {/* Client Groups Section */}
-        <div className="bg-white border px-4 py-2 rounded">
-          {groups.map((item, index) => (
-            <div key={index} className="flex justify-between space-y-4">
-             <Link to={`/clients/ClientDeliveryDetailsPage/${item.gid._id}`}> <h1 className="mt-2">{item.gid.groupName}</h1></Link>
-              <div>
+        <div>
+          <div className="bg-white border px-4 py-2 rounded">
+            {paginatedGroups.map((item, index) => (
+              <div key={index} className="flex justify-between space-y-4">
+                <Link to={`/clients/ClientDeliveryDetailsPage/${item.gid._id}`}>
+                  <h1 className="mt-2">{item.gid.groupName}</h1>
+                </Link>
                 <button
                   onClick={() => handleRemoveGroup(item.gid._id)}
                   className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                  disabled={removeGroupLoading[item.gid._id]} // Disable button while loading
+                  disabled={removeGroupLoading[item.gid._id]}
                 >
-                  {removeGroupLoading[item.gid._id] ? ( // Show loading spinner if loading
-                    <Spin size="small" />
-                  ) : (
-                    "Remove"
-                  )}
+                  {removeGroupLoading[item.gid._id] ? <Spin size="small" /> : "Remove"}
                 </button>
               </div>
+            ))}
+            <div className="mt-4 flex justify-end">
+              <Pagination
+                current={groupPage}
+                pageSize={itemsPerPage}
+                total={groups.length}
+                onChange={handleGroupPageChange}
+                showSizeChanger={false}
+              />
             </div>
-          ))}
+          </div>
         </div>
 
         {/* Clients Added to Event Section */}
         <div className="bg-white px-4 border py-2 rounded">
-          <div>
-            {event?.client?.map((ev, index) => (
-              <div key={index} className="flex justify-between space-y-4">
-                <Link to={`/clients/clientsDetails/${ev?.userId?.id}`}>
-                  <h1 className="mt-2">
-                    {ev?.userId?.firstName} {ev?.userId?.lastName}
-                  </h1>
-                </Link>
-                <button
-                  onClick={() => handleRemoveEventGroup(ev.userId.email)}
-                  className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                  disabled={removeClientLoading[ev.userId.email]} // Disable button while loading
-                >
-                  {removeClientLoading[ev.userId.email] ? ( // Show loading spinner if loading
-                    <Spin className="text-white" size="small" />
-                  ) : (
-                    "Remove"
-                  )}
-                </button>
-              </div>
-            ))}
-          </div>
-          <div className="mt-4 flex justify-end">
-        <Pagination
-          current={currentPage}
-          pageSize={itemsPerPage}
-          total={event?.meta?.total || 0}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
-        
-      </div>
-          <div className="flex justify-end items-center mt-4 border-t">
-            <div className="flex gap-2 mt-2">
+          {paginatedClients.map((ev, index) => (
+            <div key={index} className="flex justify-between space-y-4">
+              <Link to={`/clients/clientsDetails/${ev?.userId?.id}`}>
+                <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
+              </Link>
               <button
-                onClick={handlePreviousPage}
-                disabled={currentPage === 1}
-                className="disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={() => handleRemoveEventGroup(ev.userId.email)}
+                className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
+                disabled={removeClientLoading[ev.userId.email]}
               >
-                <IoIosArrowBack />
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 rounded-md ${
-                    currentPage === page
-                      ? "bg-gray-200 text-gray-700"
-                      : "text-black"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-              <button
-                onClick={handleNextPage}
-                disabled={currentPage === totalPages}
-                className="disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <IoIosArrowForward />
+                {removeClientLoading[ev.userId.email] ? <Spin className="text-white" size="small" /> : "Remove"}
               </button>
             </div>
+          ))}
+          <div className="mt-4 flex justify-end">
+            <Pagination
+              current={clientPage}
+              pageSize={itemsPerPage}
+              total={clients.length}
+              onChange={handleClientPageChange}
+              showSizeChanger={false}
+            />
           </div>
         </div>
       </div>
