@@ -283,9 +283,7 @@ const Events = () => {
                   )}
                 </tbody>
               </table>
-            </div>
-          )}
-          <div className="mt-4 flex justify-end">
+              <div className="mt-4 flex justify-end">
             <Pagination
               current={currentPage}
               pageSize={pageSize}
@@ -294,7 +292,11 @@ const Events = () => {
               showSizeChanger={false}
             />
           </div>
-          {activeTab === "calendar" && <Calender></Calender>}
+            </div>
+            
+          )}
+          
+          {activeTab === "calendar" && <Calender event={data?.data?.data}></Calender>}
         </div>
       </div>
 
