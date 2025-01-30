@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "http://10.0.60.118:7000/api/v1",
+  baseUrl: "http://24.199.120.27:5000/api/v1",
   prepareHeaders: (headers) => {
     const token = localStorage.getItem("accessToken");
     console.log(token);
@@ -22,4 +22,4 @@ export const baseApi = createApi({
   endpoints: () => ({}),
 });
 
-export const imageUrl = "http://10.0.60.118:7000";
+export const imageUrl = "http://24.199.120.27:5000";
