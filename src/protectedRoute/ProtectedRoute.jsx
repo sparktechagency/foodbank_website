@@ -1,17 +1,56 @@
+
+// import { Navigate, useLocation } from "react-router-dom";
+// import { useGetAdminQuery } from "../redux/Api/AdminApi";
+// import { Skeleton } from "antd";
+
+// const ProtectedRoute = ({children}) => {
+//   const location = useLocation();
+//   const accessToken = localStorage.getItem("accessToken"); // Check accessToken from storage
+
+//   if (!accessToken) {
+//     return <Navigate to={"/login"} state={{ from: location }} />;
+//   }
+//   const { data: getUserInfo, isLoading: adminLoading } = useGetAdminQuery();
+
+//   if (isLoading || isFetching) {
+//     return (
+//       <div className="flex items-center justify-center">
+//         <Skeleton active />
+//       </div>
+//     );
+//   }
+
+//   if (isError || !getUserInfo?.data?.length) {
+//     return <Navigate to={"/login"} state={{ from: location }} />;
+//   }
+
+//   const admin = getUserInfo.data.find((users) => users.user.role === "superAdmin");
+
+//     return <Navigate to={"/login"} state={{ from: location }} />;
+//   }
+
+//   return children;
+// };
+
+// export default ProtectedRoute;
+
+
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { Skeleton } from "antd";
-import { useGetAllAdminQuery } from "../redux/Api/adminApi";
+
+import { useGetSuperAdminQuery } from "../page/redux/api/userApi";
 
 const ProtectedRoute = ({ children }) => {
   const location = useLocation();
-  const accessToken = localStorage.getItem("accessToken"); // Check accessToken from storage
+  const accessToken = localStorage.getItem("accessToken");
 
   if (!accessToken) {
-    return <Navigate to={"/auth/login"} state={{ from: location }} />;
+    return <Navigate to={"/login"} state={{ from: location }} />;
   }
 
-  const { data: getUserInfo, isError, isLoading, isFetching } = useGetAllAdminQuery();
+  const { data: getUserInfo, isError, isLoading, isFetching } = useGetSuperAdminQuery();
+  console.log(getUserInfo)
 
   if (isLoading || isFetching) {
     return (
@@ -21,17 +60,18 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  if (isError || !getUserInfo?.data?.length) {
-    return <Navigate to={"/auth/login"} state={{ from: location }} />;
+  if (isError || !getUserInfo?.data) {
+    return <Navigate to={"/login"} state={{ from: location }} />;
   }
 
-  const admin = getUserInfo.data.find((user) => user.auth.role === "ADMIN");
+  const admin = getUserInfo?.data;
 
-  if (!admin || !admin.auth.email) {
-    return <Navigate to={"/auth/login"} state={{ from: location }} />;
+  if (!admin || admin.role !== "admin") {
+    return <Navigate to={"/login"} state={{ from: location }} />;
   }
 
   return children;
 };
 
 export default ProtectedRoute;
+

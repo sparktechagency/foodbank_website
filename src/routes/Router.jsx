@@ -30,6 +30,7 @@ import { PendingDetails } from "../components/Events/PendingDetails";
 import { ConfirmedWarehouse } from "../components/Events/ConfirmedWarehouse";
 import { PendingWarehouse } from "../components/Events/PendingWarehouse";
 import { Cancel } from "../page/sucess/Cancel";
+import ProtectedRoute from "../protectedRoute/ProtectedRoute";
 
 
 
@@ -38,7 +39,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
      
-        <DashboardLayout></DashboardLayout>
+        <ProtectedRoute><DashboardLayout></DashboardLayout></ProtectedRoute>
       
     ),
     children: [
