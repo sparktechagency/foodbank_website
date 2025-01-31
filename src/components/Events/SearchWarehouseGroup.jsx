@@ -98,11 +98,11 @@ export const SearchWarehouseGroup = ({ eventId }) => {
               key={group._id}
               className="flex justify-between items-center space-y-4"
             >
-              <Link to={`/volunteers/details/${group?._id}`}>
+              <Link to={`/group/details/${group?._id}`}>
                 <h1 className="mt-2">{group?.groupName}</h1>
               </Link>
               <button
-                onClick={() => handleAddGroup(group._id)}
+                onClick={() => handleAddGroup(group?._id)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
                 disabled={loadingStates[group?._id]}
               >

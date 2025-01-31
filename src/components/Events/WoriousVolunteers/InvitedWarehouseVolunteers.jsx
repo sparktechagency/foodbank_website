@@ -101,7 +101,7 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
         <div className="bg-white px-4 border py-2 rounded">
           {paginatedVolunteers.map((ev, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <Link to={"/clients/clientsDetails"}>
+              <Link to={`/clients/clientsDetails/${ev?.userId?._id}`}>
                 <h1 className="mt-2">
                   {ev?.userId?.firstName} {ev?.userId?.lastName}
                 </h1>
