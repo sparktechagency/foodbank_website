@@ -25,7 +25,9 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
         type: event.eventType || "",
         location: event.location || "",
         date: event.dayOfEvent ? dayjs(event.dayOfEvent) : null,
-        timeFrom: event.startOfEvent ? dayjs(event.startOfEvent, "h:mm A") : null,
+        timeFrom: event.startOfEvent
+          ? dayjs(event.startOfEvent, "h:mm A")
+          : null,
         timeTo: event.endOfEvent ? dayjs(event.endOfEvent, "h:mm A") : null,
         deliveryDrivers: event.deliveryNeeded?.toString() || "",
         warehouseVolunteers: event.warehouseNeeded?.toString() || "",
@@ -56,7 +58,9 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
       form.resetFields();
       setModal2Open1(false);
     } catch (error) {
-      message.error(error.data?.message || "Failed to update event. Please try again.");
+      message.error(
+        error.data?.message || "Failed to update event. Please try again."
+      );
       console.error("API Error:", error);
     }
   };
@@ -74,11 +78,7 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
       onCancel={handleCancel}
       footer={null}
     >
-      <Form
-        form={form}
-        layout="vertical"
-        onFinish={handleFinish}
-      >
+      <Form form={form} layout="vertical" onFinish={handleFinish}>
         <Form.Item
           name="name"
           label="Event Name"
@@ -93,8 +93,11 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
           rules={[{ required: true, message: "Event Type is required" }]}
         >
           <Select placeholder="Select Event Type">
-            <Select.Option value="birthday">Birth Day</Select.Option>
-            <Select.Option value="wed">Wed</Select.Option>
+            <Select.Option value="MitzvahSunday">Mitzvah Sunday</Select.Option>
+            <Select.Option value="HolidayDrive">Holiday Drive</Select.Option>
+            <Select.Option value="PersonalShopper">
+              Personal Shopper
+            </Select.Option>
           </Select>
         </Form.Item>
 
@@ -127,13 +130,12 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
             <MdAccessTime className="text-lg mr-2" /> Date & Time
           </h1>
           <Form.Item
-  name="date"
-  label="On"
-  rules={[{ required: true, message: "Date is required" }]}
->
-  <DatePicker className="w-full" format="MM-DD-YYYY" />
-</Form.Item>
-
+            name="date"
+            label="On"
+            rules={[{ required: true, message: "Date is required" }]}
+          >
+            <DatePicker className="w-full" format="MM-DD-YYYY" />
+          </Form.Item>
 
           <Form.Item
             name="timeFrom"

@@ -78,8 +78,9 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           rules={[{ required: true, message: "Event Type is required" }]}
         >
           <Select placeholder="Select Event Type">
-            <Select.Option value="birthday">Birth Day</Select.Option>
-            <Select.Option value="wed">Wed</Select.Option>
+            <Select.Option value="MitzvahSunday">Mitzvah Sunday</Select.Option>
+            <Select.Option value="HolidayDrive">Holiday Drive</Select.Option>
+            <Select.Option value="PersonalShopper">Personal Shopper</Select.Option>
           </Select>
         </Form.Item>
 

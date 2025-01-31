@@ -1,7 +1,15 @@
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Button, Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
+import {
+  Button,
+  Dropdown,
+  Menu,
+  message,
+  Modal,
+  Pagination,
+  Select,
+} from "antd";
 import { MdAccessTime } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -91,18 +99,16 @@ const Events = () => {
     setCurrentPage(page);
   };
 
-
-  const menu = (
-    <Menu>
-      <Menu.Item key="edit" onClick={() => handleEdit(event)}>
-        Edit
-      </Menu.Item>
-      <Menu.Item key="delete" onClick={() => handleDelete(event._id)}>
-        Delete
-      </Menu.Item>
-    </Menu>
-  );
-
+  // const menu = (
+  //   <Menu>
+  //     <Menu.Item key="edit" onClick={() => handleEdit(event)}>
+  //       Edit
+  //     </Menu.Item>
+  //     <Menu.Item key="delete" onClick={() => handleDelete(event._id)}>
+  //       Delete
+  //     </Menu.Item>
+  //   </Menu>
+  // );
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -181,8 +187,9 @@ const Events = () => {
                     placeholder="Select EventType"
                     onChange={handleEventChange}
                     options={[
-                      { value: "birthday", label: "Birthday" },
-                      { value: "wed", label: "Wed" },
+                      { value: "MitzvahSunday", label: "Mitzvah Sunday" },
+                      { value: "HolidayDrive", label: "Holiday Drive" },
+                      { value: "PersonalShopper", label: "Personal Shopper" },
                     ]}
                   />
                 </div>
@@ -256,7 +263,7 @@ const Events = () => {
                             </Link>
                           </td>
                           <td className="px-4 py-3 text-sm ">
-                            {event.eventType}
+                            {event.eventType==='MitzvahSunday'&& 'Mitzvah Sunday' || event.eventType==='PersonalShopper'&& 'Personal Shopper' || event.eventType==='HolidayDrive'&& 'Holiday Drive' }
                           </td>
                           <td className="px-4 py-3 text-sm ">
                             {new Date(event.dayOfEvent).toLocaleDateString()}
@@ -264,13 +271,28 @@ const Events = () => {
                           <td className="px-4 py-3 text-sm">
                             {totalSpotsFilled}/{warehouseNeeded}
                           </td>
-                          <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
-      <Dropdown overlay={menu} trigger={["click"]}>
-        <Button type="text" className="-my-3">
-          <BiDotsVerticalRounded />
-        </Button>
-      </Dropdown>
-    </td>
+                          {/* <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
+                            <Dropdown overlay={menu} trigger={["click"]}>
+                              <Button type="text" className="-my-3">
+                                <BiDotsVerticalRounded />
+                              </Button>
+                            </Dropdown>
+                          </td> */}
+                          <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
+                  <details className="dropdown">
+                    <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
+                      <BiDotsVerticalRounded />
+                    </summary>
+                    <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                      <li>
+                        <a onClick={() => handleEdit(event)}>Edit</a>
+                      </li>
+                      <li>
+                        <a onClick={() => handleDelete(event._id)}>Delete</a>
+                      </li>
+                    </ul>
+                  </details>
+                </td>
                         </tr>
                       );
                     })
@@ -287,19 +309,20 @@ const Events = () => {
                 </tbody>
               </table>
               <div className="mt-4 flex justify-end">
-            <Pagination
-              current={currentPage}
-              pageSize={pageSize}
-              total={data?.data?.meta?.totalCount || 0} // Updated to use meta.totalCount
-              onChange={handlePageChange}
-              showSizeChanger={false}
-            />
-          </div>
+                <Pagination
+                  current={currentPage}
+                  pageSize={pageSize}
+                  total={data?.data?.meta?.totalCount || 0} // Updated to use meta.totalCount
+                  onChange={handlePageChange}
+                  showSizeChanger={false}
+                />
+              </div>
             </div>
-            
           )}
-          
-          {activeTab === "calendar" && <Calender event={data?.data?.data}></Calender>}
+
+          {activeTab === "calendar" && (
+            <Calender event={data?.data?.data}></Calender>
+          )}
         </div>
       </div>
 

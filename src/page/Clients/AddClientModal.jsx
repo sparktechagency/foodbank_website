@@ -191,9 +191,9 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 
-          <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
+          {/* <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
             <Input placeholder="Enter deliveryDrivers" />
-          </Form.Item>
+          </Form.Item> */}
 
        
         </Form>
