@@ -126,14 +126,14 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
           <h1 className="flex items-center font-semibold border-b pb-2">
             <MdAccessTime className="text-lg mr-2" /> Date & Time
           </h1>
-
           <Form.Item
-            name="date"
-            label="On"
-            rules={[{ required: true, message: "Date is required" }]}
-          >
-            <DatePicker className="w-full" />
-          </Form.Item>
+  name="date"
+  label="On"
+  rules={[{ required: true, message: "Date is required" }]}
+>
+  <DatePicker className="w-full" format="MM-DD-YYYY" />
+</Form.Item>
+
 
           <Form.Item
             name="timeFrom"

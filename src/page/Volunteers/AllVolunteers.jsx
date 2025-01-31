@@ -115,6 +115,7 @@ const AllVolunteers = () => {
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Short By" },
+                { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
               ]}
             />
@@ -180,7 +181,7 @@ const AllVolunteers = () => {
                         <Menu
                           items={volunteer.meetings.map((meeting) => ({
                             key: meeting._id,
-                            label: meeting.clientGroupName,
+                            label: meeting.groupName,
                           }))}
                         />
                       }

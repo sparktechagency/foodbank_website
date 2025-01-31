@@ -26,9 +26,9 @@ const useApi = baseApi.injectEndpoints({
     }), 
 
     getDriverWarehouse: builder.query({
-      query: () => {
+      query: ({limit}) => {
         return {
-          url: "/volunteers/driver-warehouse",
+          url: `/volunteers/driver-warehouse?limit=${limit}`,
           method: "GET",
         };
       },
@@ -76,10 +76,11 @@ const useApi = baseApi.injectEndpoints({
     }),
 
     getVolunteersGroup: builder.query({
-      query: ({types,sortOrder,searchTerm}) => {
+      query: ({types,sortOrder,searchTerm,page,limit}) => {
+        console.log(limit)
         return {
           // url: `/client-group/driver-modify-client?volunteerType=${types}&searchTerm=${searchTerm}&sortOrder=${sortOrder}&page=${page}&page=${limit}`,
-          url: `/client-group/driver-modify-client?volunteerType=${types}&sortOrder=${sortOrder}&searchTerm=${searchTerm}`,
+          url: `/client-group/driver-modify-client?volunteerType=${types}&sortOrder=${sortOrder}&searchTerm=${searchTerm}&page=${page}&limit=${limit}`,
           method: "GET",
         };
       },

@@ -54,7 +54,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       peopleHousehold: values.household,
       dietaryRestrictions: values.dietary,
       deliveryInstructions: values.deliveryIns,
-      clientDeliveryGroup: values.clientDeliveryGroup,
+      
       holocaustSurvivor: Boolean(values.Holocaust),
       dateOfBirth: values.date,
     };
@@ -173,9 +173,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 
-          <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
-            <Input placeholder="Enter deliveryDrivers" />
-          </Form.Item>
+         
         </Form>
       </Modal>
     </div>

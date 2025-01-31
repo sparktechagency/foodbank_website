@@ -15,6 +15,18 @@ const useApi = baseApi.injectEndpoints({
       },
       providesTags: ["updateProfile"],
     }),
+
+    getAddClients: builder.query({
+      
+      query: () => {
+        
+        return {
+          url: `/client/all`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
   
     getGroupClient: builder.query({
       query: ({searchTerm}) => {
@@ -41,6 +53,26 @@ const useApi = baseApi.injectEndpoints({
       query: ({searchTerm,sortOrder}) => {
         return {
           url: `/client-group/?types=client&searchTerm=${searchTerm}&sortOrder=${sortOrder}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getallClientGroups: builder.query({
+      query: ({searchTerm,sortOrder}) => {
+        return {
+          url: `/client-group/all/?types=client&searchTerm=${searchTerm}&sortOrder=${sortOrder}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    getAddClientsGroup: builder.query({
+      query: () => {
+        return {
+          url: `/client-group/?types=client`,
           method: "GET",
         };
       },
@@ -222,5 +254,8 @@ useGetGroupClientQuery,
 useAddClientGroupMutation,
 useDeleteEventClientGroupMutation,
 useGetSingleGroupClientDataQuery,
-useGetGroupModalClientQuery
+useGetGroupModalClientQuery,
+useGetAddClientsGroupQuery,
+useGetAddClientsQuery,
+useGetallClientGroupsQuery
 } = useApi;

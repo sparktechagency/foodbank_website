@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { message, Modal, Pagination, Select } from "antd";
+import { Button, Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { MdAccessTime } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -90,6 +90,19 @@ const Events = () => {
     console.log("Page Changed to:", page); // Debug to confirm `page` is received
     setCurrentPage(page);
   };
+
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="edit" onClick={() => handleEdit(event)}>
+        Edit
+      </Menu.Item>
+      <Menu.Item key="delete" onClick={() => handleDelete(event._id)}>
+        Delete
+      </Menu.Item>
+    </Menu>
+  );
+
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -252,22 +265,12 @@ const Events = () => {
                             {totalSpotsFilled}/{warehouseNeeded}
                           </td>
                           <td className="flex justify-end px-4 py-3 text-sm text-gray-500">
-                            <details className="dropdown">
-                              <summary className="btn m-1 -my-3 bg-[#ffffff00] shadow-none hover:bg-[#ffffff00] border-none">
-                                <BiDotsVerticalRounded />
-                              </summary>
-                              <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
-                                <li>
-                                  <a onClick={() => handleEdit(event)}>Edit</a>
-                                </li>
-                                <li>
-                                  <a onClick={() => handleDelete(event._id)}>
-                                    Delete
-                                  </a>
-                                </li>
-                              </ul>
-                            </details>
-                          </td>
+      <Dropdown overlay={menu} trigger={["click"]}>
+        <Button type="text" className="-my-3">
+          <BiDotsVerticalRounded />
+        </Button>
+      </Dropdown>
+    </td>
                         </tr>
                       );
                     })

@@ -1,4 +1,4 @@
-import { message, Modal, Select, Pagination } from "antd";
+import { message, Modal, Select, Pagination, Dropdown, Menu } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -9,6 +9,7 @@ import {
   useGetClientQuery,
 } from "../redux/api/clientApi";
 import { Loading } from "../../Basic/Loading";
+import { IoIosArrowDown } from "react-icons/io";
 
 export const ClientsSectionTable = () => {
   const [searchTerm, setSearch] = useState("");
@@ -139,7 +140,10 @@ export const ClientsSectionTable = () => {
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Short By" },
+                { value: 'name', label: "Name" },
+                
                 { value: "desc", label: "Date" },
+                
               ]}
             />
           </div>
@@ -173,7 +177,7 @@ export const ClientsSectionTable = () => {
                 Client Delivery Group
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Badge Number
+                Number Of Badge
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
@@ -197,7 +201,26 @@ export const ClientsSectionTable = () => {
                   {client.holocaustSurvivor ? "Yes" : "No"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {client.clientDeliveryGroup }
+                  {client.meetings.length > 0 ? (
+                    <Dropdown
+                      overlay={
+                        <Menu
+                          items={client.meetings.map((meeting) => ({
+                            key: meeting._id,
+                            label: meeting.groupName,
+                          }))}
+                        />
+                      }
+                      trigger={["click"]}
+                    >
+                      <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
+                        {client.meetings.length} Meeting(s){" "}
+                        <IoIosArrowDown />
+                      </div>
+                    </Dropdown>
+                  ) : (
+                    "No Meetings"
+                  )}
                 </td>
                 <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">

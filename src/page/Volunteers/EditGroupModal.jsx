@@ -1,12 +1,21 @@
 import { Modal, Form, Input, Select, Button, message } from "antd";
 import { useEffect } from "react";
-import { useUpdateVolunteerGroupMutation } from "../redux/api/volunteerApi";
+import { useGetDriverWarehouseQuery, useUpdateVolunteerGroupMutation } from "../redux/api/volunteerApi";
 
 export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
   console.log(group?.types)
-  const [form] = Form.useForm();
+  const [form] = Form.useForm(); 
   const [updateVolunteerGroup, { isLoading: isSubmitting }] =
     useUpdateVolunteerGroupMutation();
+const { data: allVolunteer, isLoading, error } = useGetDriverWarehouseQuery({limit:5000});
+
+const clientOptions =
+  allVolunteer?.data?.data?.map((volunteer) => ({
+    label: `${volunteer.firstName} ${volunteer.lastName}`,
+    value: volunteer._id,
+  })) || [];
+  console.log(clientOptions)
+
 
   // Pre-fill form values when the modal opens
   useEffect(() => {
@@ -26,7 +35,10 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
     const data = {
       groupName: values.groupName,
       types: values.types,
-      clients:res
+      clients:values.clients,
+      
+
+      
     };
     
     console.log('=========================',data)
@@ -87,20 +99,16 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
           </Select>
         </Form.Item>
 
-        <Form.Item
-          name="clients"
-          label="Volunteers Name"
-        >
-          <Select
-            mode="multiple"
-            options={group?.clients?.map((volunteer) => ({
-              label: `${volunteer.firstName} ${volunteer.lastName}`,
-              value: volunteer._id,
-            }))}
-            style={{ width: "100%" }}
-            disabled
-          />
-        </Form.Item>
+        <Form.Item name="clients" label="Volunteers Name">
+  <Select
+    mode="multiple"
+    options={clientOptions} // Use all fetched volunteers as options
+    defaultValue={group?.clients?.map((volunteer) => volunteer._id)} // Set existing clients as default
+    style={{ width: "100%" }}
+    placeholder="Select Volunteers"
+  />
+</Form.Item>
+
       </Form>
     </Modal>
   );

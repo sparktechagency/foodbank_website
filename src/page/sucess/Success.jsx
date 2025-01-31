@@ -37,11 +37,8 @@ export const Success = () => {
             </svg>
           </div>
         </div>
-        <h1 className="text-2xl font-bold mb-2">Payment succeeded!</h1>
-        <p className="text-gray-600 mb-6">
-          Thank you for processing your most recent payment. Your premium
-          subscription will expire on <b>June 2, 2024</b>.
-        </p>
+        <h1 className="text-2xl font-bold mb-2">Request Accepted Successfully!</h1>
+        
         <Link to={'/'}><button className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800">
           Your dashboard
         </button></Link>

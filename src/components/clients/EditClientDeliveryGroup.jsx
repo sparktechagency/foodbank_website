@@ -1,47 +1,44 @@
 import { Modal, Form, Input, Button, Select, message } from "antd";
 import React, { useState, useEffect } from "react";
-import { useUpdateClientGroupMutation } from "../../page/redux/api/clientApi";
+import { useGetAddClientsQuery, useUpdateClientGroupMutation } from "../../page/redux/api/clientApi";
 
-export const EditClientDeliveryGroup = ({
-  isModalOpen,
-  setEditModal,
-  group,
-}) => {
+export const EditClientDeliveryGroup = ({ isModalOpen, setEditModal, group }) => {
   const [form] = Form.useForm();
+  const { data: clients } = useGetAddClientsQuery();
+console.log('all',clients)
+  // Generate options for Select dropdown
+  const clientOptions =
+    clients?.data?.map((volunteer) => ({
+      label: `${volunteer.firstName} ${volunteer.lastName}`,
+      value: volunteer._id,
+    })) || [];
+
+  console.log("Client Options:", clientOptions);
 
   const [updateClientGroup] = useUpdateClientGroupMutation();
-  const [formData, setFormData] = useState({
-    name: group?.clientGroupName || "",
-    clients: group?.clients || [],
-  });
 
   useEffect(() => {
     if (isModalOpen && group) {
-      setFormData({
-        name: group?.groupName,
-        clients: group?.clients,
-      });
       form.setFieldsValue({
         name: group?.groupName,
+        clients: group?.clients?.map((client) => client._id), // Set existing clients
       });
     }
   }, [isModalOpen, group, form]);
 
   const handleFinish = (values) => {
-    console.log(values);
-    const res = group?.clients.map((client) => client._id);
-    console.log(res);
+    console.log("Form Values:", values);
     const data = {
       groupName: values?.name,
-      clients: res,
+      clients: values?.clients, // Selected clients' IDs
     };
 
-    console.log(group?._id);
+    console.log("Updating Group ID:", group?._id);
 
     updateClientGroup({ id: group?._id, data })
       .unwrap()
       .then((response) => {
-        console.log(response);
+        console.log("Response:", response);
         message.success(response?.message);
         setEditModal({ isOpen: false, id: null });
       })
@@ -52,59 +49,35 @@ export const EditClientDeliveryGroup = ({
   };
 
   return (
-    <div>
-      <Modal
-        title="Edit Client Group"
-        centered
-        open={isModalOpen}
-        onCancel={() => setEditModal({ isOpen: false, id: null })}
-        footer={[
-          <Button
-            key="save"
-            type="primary"
-            className="rounded-full"
-            onClick={() => form.submit()}
-          >
-            Save
-          </Button>,
-        ]}
-      >
-        <Form form={form} layout="vertical" onFinish={handleFinish}>
-          <Form.Item
-            name="name"
-            label="Client Group Name"
-            rules={[
-              { required: true, message: "Client Group Name is required" },
-            ]}
-          >
-            <Input
-              placeholder="Enter Client Group Name"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, name: e.target.value }))
-              }
-            />
-          </Form.Item>
+    <Modal
+      title="Edit Client Group"
+      centered
+      open={isModalOpen}
+      onCancel={() => setEditModal({ isOpen: false, id: null })}
+      footer={[
+        <Button key="save" type="primary" className="rounded-full" onClick={() => form.submit()}>
+          Save
+        </Button>,
+      ]}
+    >
+      <Form form={form} layout="vertical" onFinish={handleFinish}>
+        <Form.Item
+          name="name"
+          label="Client Group Name"
+          rules={[{ required: true, message: "Client Group Name is required" }]}
+        >
+          <Input placeholder="Enter Client Group Name" />
+        </Form.Item>
 
-          <Form.Item label="Clients in Group">
-            <Select
-              mode="multiple"
-              disabled
-              style={{
-                width: "100%",
-              }}
-              placeholder="Select Clients"
-              value={formData.clients.map(
-                (client) => `${client.firstName} ${client.lastName}`
-              )} // Display client names
-              options={formData.clients.map((client) => ({
-                label: `${client.firstName} ${client.lastName}`,
-                value: client._id,
-              }))}
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
-    </div>
+        <Form.Item name="clients" label="Volunteers Name">
+          <Select
+            mode="multiple"
+            options={clientOptions} // Show all available volunteers
+            style={{ width: "100%" }}
+            placeholder="Select Volunteers"
+          />
+        </Form.Item>
+      </Form>
+    </Modal>
   );
 };

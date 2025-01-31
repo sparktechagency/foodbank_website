@@ -1,9 +1,9 @@
 import { Modal, Form, Input, Button, Select, message } from "antd";
 import React, { useState } from "react";
-import { useClientGroupAddMutation, useGetGroupClientQuery, useGetGroupModalClientQuery } from "../../page/redux/api/clientApi";
+import { useClientGroupAddMutation, useGetAddClientsQuery, useGetGroupClientQuery, useGetGroupModalClientQuery } from "../../page/redux/api/clientApi";
 
 export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
-  const { data: clientData } = useGetGroupModalClientQuery();
+  const { data: clientData } = useGetAddClientsQuery();
   console.log(clientData)
   const [addClientGroup] = useClientGroupAddMutation();
 

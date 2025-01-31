@@ -121,6 +121,7 @@ const DriverGroup = () => {
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Short By" },
+                { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
               ]}
             />

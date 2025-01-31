@@ -194,6 +194,8 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
           <Form.Item name="clientDeliveryGroup" label="Delivery Drivers Group">
             <Input placeholder="Enter deliveryDrivers" />
           </Form.Item>
+
+       
         </Form>
       </Modal>
     </div>

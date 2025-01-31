@@ -4,7 +4,7 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { AddModalClientDeliveriGroup } from "./AddModalClientDeliveriGroup";
 import { EditClientDeliveryGroup } from "./EditClientDeliveryGroup";
-import { useDeleteClientGroupMutation, useGetClientGroupQuery } from "../../page/redux/api/clientApi";
+import { useDeleteClientGroupMutation, useGetallClientGroupsQuery, useGetClientGroupQuery } from "../../page/redux/api/clientApi";
 import { Loading } from "../../Basic/Loading";
 
 const ClientsDelivery = () => {
@@ -14,8 +14,8 @@ const ClientsDelivery = () => {
   const [sortOrder, setSortOrder] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const { data: clientGroup, isLoading, error } = useGetClientGroupQuery({searchTerm, sortOrder:sortOrder});
-    
+  const { data: clientGroup, isLoading, error } = useGetallClientGroupsQuery({searchTerm, sortOrder:sortOrder});
+    console.log('dddddddddddddd',clientGroup)
   const [deleteClientGroup] = useDeleteClientGroupMutation()
   
  if (isLoading) {
@@ -94,6 +94,7 @@ const ClientsDelivery = () => {
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Short By" },
+                { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
               ]}
             />
@@ -146,7 +147,7 @@ const ClientsDelivery = () => {
                     <li>
                       <a onClick={() => handleDelete(group.id)}>Delete</a>
                     </li>
-                  </ul>
+                  </ul> 
                 </details>
               </td>
             </tr>

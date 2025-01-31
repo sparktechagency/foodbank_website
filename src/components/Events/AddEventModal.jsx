@@ -113,12 +113,13 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           </h1>
 
           <Form.Item
-            name="date"
-            label="On"
-            rules={[{ required: true, message: "Date is required" }]}
-          >
-            <DatePicker className="w-full" />
-          </Form.Item>
+  name="date"
+  label="On"
+  rules={[{ required: true, message: "Date is required" }]}
+>
+  <DatePicker className="w-full" format="MM-DD-YYYY" />
+</Form.Item>
+
 
           <Form.Item
             name="timeFrom"

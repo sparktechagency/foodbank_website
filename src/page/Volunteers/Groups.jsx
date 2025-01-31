@@ -13,15 +13,18 @@ const Groups = () => {
   const [editModal, setEditModal] = useState({ isOpen: false, group: null });
   const [searchTerm, setSearch] = useState("");
   const [sortOrder, setSortOrder] = useState("");
+  
   const [types, setSortDriver] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  console.log(currentPage)
   const itemsPerPage = 10;
-  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery({types,sortOrder:sortOrder,searchTerm:searchTerm});
+  const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery({types,sortOrder:sortOrder,searchTerm:searchTerm,page: currentPage,
+    limit: itemsPerPage,});
  console.log(volunteerGroup)
 const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
   // Pagination
   const volunteers = volunteerGroup?.data
-
+console.log(volunteerGroup?.meta?.total )
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -31,20 +34,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
     return <div>Failed to fetch data. Please try again.</div>;
   }
 
-  // Slice Data for Pagination
-  const totalGroups = volunteerGroup?.data || [];
-  const totalPages = Math.ceil(totalGroups.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentGroups = totalGroups.slice(startIndex, endIndex);
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-
+ 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -124,6 +114,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Short By" },
+                { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
               ]}
             />
