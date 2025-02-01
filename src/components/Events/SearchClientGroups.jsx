@@ -5,6 +5,9 @@ import {
   useUpdateAddEventGroupMutation,
 } from "../../page/redux/api/eventApi";
 import { message, Spin } from "antd"; // Import Spin for loading indicator
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
+import { NoData } from "../../Basic/NoData";
 
 export const SearchClientGroups = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
@@ -15,8 +18,8 @@ export const SearchClientGroups = ({ eventId }) => {
   // Track loading state for each group
   const [loadingStates, setLoadingStates] = useState({});
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError || !clientGroup?.data) return <p>Error loading client groups.</p>;
+  if (isLoading) return <div className="flex justify-center items-center"><Spin size="small" /></div>
+  if (isError || !clientGroup?.data) return <div><ServerError></ServerError></div>;
 
   const handleAddGroup = async (groupId) => {
     // Set loading state for this specific group
@@ -61,7 +64,8 @@ export const SearchClientGroups = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
-          {clientGroup?.data?.map((group) => (
+        {clientGroup?.data?.length > 0 ? (
+          clientGroup.data.map((group) => (
             <div key={group._id} className="flex justify-between items-center space-y-4">
               <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
                 <h1 className="mt-2">{group.groupName}</h1>
@@ -69,16 +73,17 @@ export const SearchClientGroups = ({ eventId }) => {
               <button
                 onClick={() => handleAddGroup(group._id)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
-                disabled={loadingStates[group._id]} // Disable only this button
+                disabled={loadingStates[group._id]}
               >
-                {loadingStates[group._id] ? ( // Show loading spinner only for this button
-                  <Spin size="small" />
-                ) : (
-                  "Add to Event"
-                )}
+                {loadingStates[group._id] ? <Spin size="small" /> : "Add to Event"}
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <p className=" py-2  flex justify-center">
+                <NoData ></NoData>
+              </p>
+        )}
         </div>
       </div>
     </div>

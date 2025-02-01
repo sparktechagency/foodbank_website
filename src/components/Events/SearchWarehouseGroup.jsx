@@ -5,6 +5,9 @@ import {
   useUpdateAddEventGroupMutation,
 } from "../../page/redux/api/eventApi";
 import { message, Spin } from "antd";
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
+import { NoData } from "../../Basic/NoData";
 
 export const SearchWarehouseGroup = ({ eventId }) => {
   const [loadingStates, setLoadingStates] = useState({});
@@ -23,8 +26,8 @@ export const SearchWarehouseGroup = ({ eventId }) => {
 
   const event = eventId._id
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError || !clientGroup?.data) return <p>Error loading client groups.</p>;
+  if (isLoading) return <Loading></Loading>
+  if (isError || !clientGroup?.data) return <div><ServerError></ServerError></div>;
  
   const handleAddGroup = async (groupId) => {
     const data = {
@@ -46,32 +49,7 @@ export const SearchWarehouseGroup = ({ eventId }) => {
     }
   };
 
-  const searchEventData = [
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-  ];
+  
 
   return (
     <div>
@@ -93,7 +71,8 @@ export const SearchWarehouseGroup = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
-          {clientGroup?.data?.map((group) => (
+        {clientGroup?.data?.length > 0 ? (
+          clientGroup.data.map((group) => (
             <div
               key={group._id}
               className="flex justify-between items-center space-y-4"
@@ -106,14 +85,13 @@ export const SearchWarehouseGroup = ({ eventId }) => {
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
                 disabled={loadingStates[group?._id]}
               >
-           {loadingStates[group._id] ? ( // Show loading spinner if loading
-                  <Spin size="small" />
-                ) : (
-                  "Add to Event"
-                )}
+                {loadingStates[group._id] ? <Spin size="small" /> : "Add to Event"}
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className=" py-2"><NoData></NoData></div>
+        )}
         </div>
       </div>
       {isMutationError && (

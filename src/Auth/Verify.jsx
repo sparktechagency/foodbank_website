@@ -5,6 +5,7 @@ import { Link, useNavigate} from "react-router-dom";
 
 import OTPInput from "react-otp-input";
 import { useVerifyOtpMutation } from "../page/redux/api/userApi";
+import { message } from "antd";
 const Verify = () => {
   const [otp, setOtp] = useState("");
   const [verifyOtp] = useVerifyOtpMutation({});
@@ -21,10 +22,10 @@ const Verify = () => {
     try {
       const response = await verifyOtp(data).unwrap();
       console.log(response);
-      alert("Success");
+      message.success("Success Otp");
       navigate("/reset");
     } catch (error) {
-      console.error(error?.data?.message);
+      message.error(error?.data?.message);
     }
   };
   return (

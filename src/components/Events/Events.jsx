@@ -263,7 +263,12 @@ const Events = () => {
                             </Link>
                           </td>
                           <td className="px-4 py-3 text-sm ">
-                            {event.eventType==='MitzvahSunday'&& 'Mitzvah Sunday' || event.eventType==='PersonalShopper'&& 'Personal Shopper' || event.eventType==='HolidayDrive'&& 'Holiday Drive' }
+                            {(event.eventType === "MitzvahSunday" &&
+                              "Mitzvah Sunday") ||
+                              (event.eventType === "PersonalShopper" &&
+                                "Personal Shopper") ||
+                              (event.eventType === "HolidayDrive" &&
+                                "Holiday Drive")}
                           </td>
                           <td className="px-4 py-3 text-sm ">
                             {new Date(event.dayOfEvent).toLocaleDateString()}
@@ -279,20 +284,45 @@ const Events = () => {
                             </Dropdown>
                           </td> */}
                           <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                  <details className="dropdown">
-                    <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
-                      <BiDotsVerticalRounded />
-                    </summary>
-                    <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
-                      <li>
-                        <a onClick={() => handleEdit(event)}>Edit</a>
-                      </li>
-                      <li>
-                        <a onClick={() => handleDelete(event._id)}>Delete</a>
-                      </li>
-                    </ul>
-                  </details>
-                </td>
+                            {/* <details className="dropdown">
+                              <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
+                                <BiDotsVerticalRounded />
+                              </summary>
+                              <ul className="menu dropdown-content bg-white text-black rounded z-[1] right-0 w-44 p-2 shadow">
+                                <li>
+                                  <a onClick={() => handleEdit(event)}>Edit</a>
+                                </li>
+                                <li>
+                                  <a onClick={() => handleDelete(event._id)}>
+                                    Delete
+                                  </a>
+                                </li>
+                              </ul>
+                            </details> */}
+
+                            <Dropdown
+                              overlay={
+                                <Menu
+                                  items={[
+                                    {
+                                      key: "1",
+                                      label: "Edit",
+                                      onClick: () => handleEdit(event),
+                                    },
+                                    {
+                                      key: "2",
+                                      label: "Delete",
+                                      onClick: () =>
+                                        handleDelete(event._id),
+                                    },
+                                  ]}
+                                />
+                              }
+                              trigger={["click"]}
+                            >
+                              <BiDotsVerticalRounded className="cursor-pointer" />
+                            </Dropdown>
+                          </td>
                         </tr>
                       );
                     })

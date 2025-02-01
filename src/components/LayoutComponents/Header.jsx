@@ -19,6 +19,7 @@ import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineBarChart } from "react-icons/md";
 import { TbUsers } from "react-icons/tb";
 import { CgNotes } from "react-icons/cg";
+import { logout } from "../../page/redux/features/auth/authSlice";
 
 const items = [
   {
@@ -126,9 +127,10 @@ const Header = () => {
     setPlacement(e.target.value);
   };
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    dispatch(logout())
     navigate("/login");
   };
+
   return (
     <div className="bg-[#f7f7f7] text-black py-3">
       <div className="flex justify-between">

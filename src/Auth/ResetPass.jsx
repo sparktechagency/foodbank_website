@@ -1,4 +1,4 @@
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 
 
 import Logo from "../assets/header/logo.png"
@@ -22,11 +22,11 @@ const ResetPass = () => {
     resetPassword(data)
       .unwrap()
       .then((payload) => {
-        console.log(payload?.message);
+        message.success(payload?.message);
        
         navigate("/login");
       })
-      .catch((error) => console.error(error?.data?.message));
+      .catch((error) => message.error(error?.data?.message));
   };
 
   const onFinishFailed = (errorInfo) => {

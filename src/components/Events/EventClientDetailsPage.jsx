@@ -16,6 +16,8 @@ import { SearchDriverVolunteersGroup } from "./SearchDriverVolunteersGroup";
 import { InvitedWarehouseVolunteers } from "./WoriousVolunteers/InvitedWarehouseVolunteers";
 import { SearchWarehouseVolunteer } from "./WoriousVolunteers/SearchWarehouseVolunteer";
 import { SearchWarehouseGroup } from "./SearchWarehouseGroup";
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
 
 const EventClientDetailsPage = () => {
   const { id } = useParams();
@@ -43,8 +45,8 @@ const EventClientDetailsPage = () => {
       ? `${event.startOfEvent} - ${event.endOfEvent}`
       : "Unknown Time";
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading event details.</p>;
+  if (isLoading) return <Loading></Loading>
+  if (isError) return <div><ServerError></ServerError></div>;
 
   return (
     <div className="min-h-screen">
@@ -114,7 +116,7 @@ const EventClientDetailsPage = () => {
             <HolocaustCardSection event={singleClientData} />
             <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
               <InviteClient event={event} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="lg:grid grid-cols-2 gap-4">
                 <SearchClientGroups eventId={event}></SearchClientGroups>
                 <SearchClient eventId={event} />
               </div>
@@ -129,7 +131,7 @@ const EventClientDetailsPage = () => {
 
               <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
                 <InviteDriverVolunteers event={event}></InviteDriverVolunteers>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="lg:grid grid-cols-2 gap-4">
                   <SearchDriverVolunteersGroup
                     eventId={event}
                   ></SearchDriverVolunteersGroup>
@@ -148,7 +150,7 @@ const EventClientDetailsPage = () => {
 
             <div className="bg-[#F6F7F9] rounded my-5 lg:p-5 p-2">
               <InvitedWarehouseVolunteers event={event}></InvitedWarehouseVolunteers>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="lg:grid grid-cols-2 gap-4">
                 <SearchWarehouseGroup eventId={event}></SearchWarehouseGroup>
                 <SearchWarehouseVolunteer eventId={event}></SearchWarehouseVolunteer>
               </div>

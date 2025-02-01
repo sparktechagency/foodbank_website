@@ -10,6 +10,7 @@ import {
 } from "../redux/api/clientApi";
 import { Loading } from "../../Basic/Loading";
 import { IoIosArrowDown } from "react-icons/io";
+import { ServerError } from "../../Basic/ServerError";
 
 export const ClientsSectionTable = () => {
   const [searchTerm, setSearch] = useState("");
@@ -95,7 +96,7 @@ export const ClientsSectionTable = () => {
   }
 
   if (error) {
-    return <p>Failed to load client groups.</p>;
+    return <div><ServerError></ServerError></div>;
   }
 
 
@@ -224,7 +225,7 @@ export const ClientsSectionTable = () => {
                 </td>
                 <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                  <details className="dropdown">
+                  {/* <details className="dropdown">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
                       <BiDotsVerticalRounded />
                     </summary>
@@ -236,7 +237,29 @@ export const ClientsSectionTable = () => {
                         <a onClick={() => handleDelete(client.id)}>Delete</a>
                       </li>
                     </ul>
-                  </details>
+                  </details> */}
+
+<Dropdown
+                    overlay={
+                      <Menu
+                        items={[
+                          {
+                            key: "1",
+                            label: "Edit",
+                            onClick: () => handleEdit(client),
+                          },
+                          {
+                            key: "2",
+                            label: "Delete",
+                            onClick: () => handleDelete(client._id),
+                          },
+                        ]}
+                      />
+                    }
+                    trigger={["click"]}
+                  >
+                    <BiDotsVerticalRounded className="cursor-pointer" />
+                  </Dropdown>
                 </td>
               </tr>
             ))}

@@ -1,4 +1,4 @@
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/header/logo.png";
 import { useForgotPasswordMutation } from "../page/redux/api/userApi";
@@ -12,11 +12,11 @@ const ForgetPass = () => {
     forgotPassword(values)
       .unwrap()
       .then((payload) => {
-        alert("success");
+        message.success("check Your Email");
         navigate("/verify");
         localStorage.setItem("email", values?.email);
       })
-      .catch((error) => console.error(error?.data?.message));
+      .catch((error) => message.error(error?.data?.message));
   };
 
   return (

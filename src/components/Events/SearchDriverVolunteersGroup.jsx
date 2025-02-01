@@ -5,6 +5,9 @@ import {
   useUpdateAddEventGroupMutation,
 } from "../../page/redux/api/eventApi";
 import { message, Spin } from "antd"; // Import Spin for loading indicator
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
+import { NoData } from "../../Basic/NoData";
 
 export const SearchDriverVolunteersGroup = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
@@ -17,8 +20,8 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
   // Track loading state for each "Add to Event" button
   const [loadingStates, setLoadingStates] = useState({});
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError || !driverData?.data) return <p>Error loading driver groups.</p>;
+  if (isLoading) return <Loading></Loading>
+  if (isError || !driverData?.data) return <div><ServerError></ServerError></div>;
 
   const handleAddGroup = async (groupId) => {
     // Set loading state for this specific group
@@ -63,7 +66,8 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
-          {driverData?.data?.map((group) => (
+        {driverData?.data?.length > 0 ? (
+          driverData.data.map((group) => (
             <div key={group._id} className="flex justify-between items-center space-y-4">
               <Link to={`/group/details/${group._id}`}>
                 <h1 className="mt-2">{group.groupName}</h1>
@@ -71,16 +75,15 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
               <button
                 onClick={() => handleAddGroup(group._id)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
-                disabled={loadingStates[group._id]} // Disable button while loading
+                disabled={loadingStates[group._id]} 
               >
-                {loadingStates[group._id] ? ( // Show loading spinner if loading
-                  <Spin size="small" />
-                ) : (
-                  "Add to Event"
-                )}
+                {loadingStates[group._id] ? <Spin size="small" /> : "Add to Event"}
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className=" py-2"><NoData></NoData></div>
+        )}
         </div>
       </div>
       {isMutationError && (

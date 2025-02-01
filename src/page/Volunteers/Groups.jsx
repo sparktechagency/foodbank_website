@@ -7,6 +7,8 @@ import { AddGroupModal } from "./AddGroupModal";
 import { EditGroupModal } from "./EditGroupModal";
 import { useGetVolunteersGroupQuery } from "../redux/api/volunteerApi";
 import { useDeleteVolunteersGroupMutation } from "../redux/api/clientApi";
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
 
 const Groups = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -27,11 +29,11 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
 console.log(volunteerGroup?.meta?.total )
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Loading></Loading></div>;
   }
 
   if (error) {
-    return <div>Failed to fetch data. Please try again.</div>;
+    return <div><ServerError></ServerError></div>;
   }
 
  

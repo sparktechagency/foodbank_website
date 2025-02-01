@@ -2,6 +2,7 @@ import { message, Modal, Select } from "antd";
 import { useState } from "react";
 import { AddAdmin } from "./AddAdmin";
 import { useDeleteUserMutation, useGetAllUserQuery } from "../redux/api/userApi";
+import { Loading } from "../../Basic/Loading";
 
 const Admin = () => {
   const [modal2Open, setModal2Open] = useState(false);
@@ -32,7 +33,7 @@ const Admin = () => {
 
   // Fallback for loading or empty data
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading></Loading>
   }
 
   // if (!allUser?.data?.length) {

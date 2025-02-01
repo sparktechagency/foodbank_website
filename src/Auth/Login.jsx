@@ -23,7 +23,7 @@ const Login = () => {
         // localStorage.setItem("accessToken", payload?.data?.accessToken);
         dispatch(setToken(payload?.data?.accessToken))
         message.success("Login successful!");
-        navigate("/"); // Ensures proper redirection
+        navigate("/");
       } else {
         message.error(payload?.message || "Login failed!");
       }

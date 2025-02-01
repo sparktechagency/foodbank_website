@@ -15,6 +15,8 @@ import { EditDriver } from "./EditDriver";
 import { useDeleteWarehouseMutation } from "../redux/api/clientApi";
 import { AddWarehouse } from "./AddWarehouse";
 import { EditWarehouse } from "./EditWarehouse";
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
 
 const DriverGroup = () => {
   const [searchTerm, setSearch] = useState("");
@@ -36,11 +38,11 @@ const DriverGroup = () => {
 
   
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Loading></Loading></div>;
   }
 
   if (error) {
-    return <div>Failed to fetch data. Please try again.</div>;
+    return <div><ServerError></ServerError></div>;
   }
 
   

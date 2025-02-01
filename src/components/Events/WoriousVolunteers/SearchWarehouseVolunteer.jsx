@@ -6,6 +6,7 @@ import {
 } from "../../../page/redux/api/clientApi";
 import { useGetWarehouseEventQuery, useGetWarehouseQuery } from "../../../page/redux/api/volunteerApi";
 import { message, Spin } from "antd";
+import { NoData } from "../../../Basic/NoData";
 
 export const SearchWarehouseVolunteer = ({eventId}) => {
   console.log("warehouise,", eventId)
@@ -13,32 +14,7 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
   const [searchTerm, setSearch] = useState("");
   const { data: clientData } = useGetWarehouseEventQuery({searchTerm});
   const [updateClientGroup] = useAddClientGroupMutation();
-  const searchEventData = [
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "max olis",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-    {
-      eventName: "darhan dilo",
-      event: "Add to Event",
-    },
-  ];
+  
 
   const handleAddGroup = async (client) => {
     console.log(client.email)
@@ -84,7 +60,8 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div className="">
-          {clientData?.data?.map((item, index) => (
+        {clientData?.data?.length > 0 ? (
+          clientData.data.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
               <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">
@@ -94,17 +71,16 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
               </Link>
               <button
                 onClick={() => handleAddGroup(item)}
-                className="border border-blue-900  text-blue-900 px-3 rounded-full text-sm"
+                className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
                 disabled={loadingStates[item._id]}
               >
-                {loadingStates[item._id] ? ( // Show loading spinner if loading
-                  <Spin size="small" />
-                ) : (
-                  "Add Client"
-                )}
+                {loadingStates[item._id] ? <Spin size="small" /> : "Add Client"}
               </button>
             </div>
-          ))}
+          ))
+        ) : (
+          <div className=" py-2"><NoData></NoData></div>
+        )}
         </div>
       </div>
     </div>

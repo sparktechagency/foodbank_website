@@ -11,6 +11,8 @@ import { useGetAllVolunteerQuery } from "../redux/api/volunteerApi";
 import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
 import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
 import { useDeleteVolunteersMutation } from "../redux/api/clientApi";
+import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
 
 const AllVolunteers = () => {
   const [searchTerm, setSearch] = useState("");
@@ -37,11 +39,11 @@ const AllVolunteers = () => {
 
   // Error and Loading States
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div><Loading></Loading></div>;
   }
 
   if (error) {
-    return <div>Failed to fetch data. Please try again.</div>;
+    return <div><ServerError></ServerError></div>;
   }
 
   // Slice Data for Pagination

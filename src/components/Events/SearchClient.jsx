@@ -7,6 +7,7 @@ import {
   useGetGroupClientQuery,
 } from "../../page/redux/api/clientApi";
 import { message, Spin } from "antd"; // Import Spin for loading indicator
+import { NoData } from "../../Basic/NoData";
 
 export const SearchClient = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
@@ -62,26 +63,26 @@ export const SearchClient = ({ eventId }) => {
           </div>
           <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
             <div className="">
-              {clientData?.data?.map((item, index) => (
-                <div key={index} className="flex justify-between space-y-4">
-                  <Link to={`/clients/clientsDetails/${item.id}`}>
-                    <h1 className="mt-2">
-                      {item.firstName}&nbsp;{item.lastName}
-                    </h1>
-                  </Link>
-                  <button
-                    onClick={() => handleAddGroup(item)}
-                    className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
-                    disabled={loadingStates[item._id]} // Disable button while loading
-                  >
-                    {loadingStates[item._id] ? ( // Show loading spinner if loading
-                      <Spin size="small" />
-                    ) : (
-                      "Add Client"
-                    )}
-                  </button>
-                </div>
-              ))}
+            {clientData?.data?.length > 0 ? (
+          clientData.data.map((item) => (
+            <div key={item._id} className="flex justify-between space-y-4">
+              <Link to={`/clients/clientsDetails/${item.id}`}>
+                <h1 className="mt-2">{item.firstName} {item.lastName}</h1>
+              </Link>
+              <button
+                onClick={() => handleAddGroup(item)}
+                className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
+                disabled={loadingStates[item._id]}
+              >
+                {loadingStates[item._id] ? <Spin size="small" /> : "Add Client"}
+              </button>
+            </div>
+          ))
+        ) : (
+          <p className=" py-2  ">
+                <NoData ></NoData>
+              </p>
+        )}
             </div>
           </div>
         </div>

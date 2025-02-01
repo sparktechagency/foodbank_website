@@ -1,4 +1,4 @@
-import { message, Modal, Pagination, Select } from "antd";
+import { Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { AddModalClientDeliveriGroup } from "./AddModalClientDeliveriGroup";
 import { EditClientDeliveryGroup } from "./EditClientDeliveryGroup";
 import { useDeleteClientGroupMutation, useGetallClientGroupsQuery, useGetClientGroupQuery } from "../../page/redux/api/clientApi";
 import { Loading } from "../../Basic/Loading";
+import { ServerError } from "../../Basic/ServerError";
 
 const ClientsDelivery = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -23,7 +24,7 @@ const ClientsDelivery = () => {
    }
  
    if (error) {
-     return <p>Failed to load client groups.</p>;
+     return <div><ServerError></ServerError></div>;
    }
  
 
@@ -136,7 +137,7 @@ const ClientsDelivery = () => {
               </td>
               <td className="px-4 py-3 text-sm">{group.clients.length}</td>
               <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                <details className="dropdown">
+                {/* <details className="dropdown">
                   <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
                     <BiDotsVerticalRounded />
                   </summary>
@@ -148,7 +149,28 @@ const ClientsDelivery = () => {
                       <a onClick={() => handleDelete(group.id)}>Delete</a>
                     </li>
                   </ul> 
-                </details>
+                </details> */}
+                <Dropdown
+                    overlay={
+                      <Menu
+                        items={[
+                          {
+                            key: "1",
+                            label: "Edit",
+                            onClick: () => handleEdit(group),
+                          },
+                          {
+                            key: "2",
+                            label: "Delete",
+                            onClick: () => handleDelete(group._id),
+                          },
+                        ]}
+                      />
+                    }
+                    trigger={["click"]}
+                  >
+                    <BiDotsVerticalRounded className="cursor-pointer" />
+                  </Dropdown>
               </td>
             </tr>
           ))}
