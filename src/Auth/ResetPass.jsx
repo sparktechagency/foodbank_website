@@ -59,7 +59,7 @@ const ResetPass = () => {
                   { required: true, message: "Please set your password!" },
                   {
                     min: 8,
-                    max: 10,
+                    max: 20,
                     message: "Password must be 8-10 characters long!",
                   },
                 ]}

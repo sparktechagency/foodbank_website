@@ -10,6 +10,8 @@ import { IoIosLogIn } from "react-icons/io";
 import { MdOutlineBarChart } from "react-icons/md";
 import { FaRegHandPaper } from "react-icons/fa";
 import { CgNotes } from "react-icons/cg";
+import { useDispatch } from "react-redux";
+import { logout } from "../../page/redux/features/auth/authSlice";
 const items = [
   {
     key: "events",
@@ -93,6 +95,7 @@ const SidBar = () => {
   const [expandedKeys, setExpandedKeys] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -126,7 +129,7 @@ const SidBar = () => {
 
   // Logout Function
   const handleLogout = () => {
-    localStorage.removeItem("accessToken");
+    dispatch(logout())
     navigate("/login");
   };
 
