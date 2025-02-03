@@ -148,8 +148,8 @@ export const ConfirmedWarehouse = () => {
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {event?.userId?.status
-                      ? event?.userId.status.charAt(0).toUpperCase() +
-                        event?.userId.status.slice(1)
+                      ? event?.userId?.status.charAt(0).toUpperCase() +
+                        event?.userId?.status.slice(1)
                       : ""}
                   </td>
                   <td className=" px-4 py-3 text-sm">
@@ -161,7 +161,7 @@ export const ConfirmedWarehouse = () => {
                   </td>
                   {/* <td className="px-4 py-3 text-sm">Working...</td> */}
                   <td className="px-4 py-3 text-sm">
-                    <Link to={`/event/eventView/${id}/volunteer/${event?.userId._id}`}>
+                    <Link to={`/event/eventView/${id}/volunteer/${event?.userId?._id}`}>
                       <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
                         View
                       </span>

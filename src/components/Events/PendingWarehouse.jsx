@@ -152,8 +152,8 @@ const time =
                     </td>
                     <td className="px-4 py-3 text-sm">
                       {event?.userId?.status
-                        ? event.userId.status.charAt(0).toUpperCase() +
-                          event.userId.status.slice(1)
+                        ? event.userId?.status.charAt(0).toUpperCase() +
+                          event.userId?.status.slice(1)
                         : ""}
                     </td>
                     <td className=" px-4 py-3 text-sm">

@@ -28,41 +28,11 @@ const ConfirmedVoluntrees = () => {
       ? `${event.startOfEvent} - ${event.endOfEvent}`
       : "Unknown Time";
 
-  console.log(confirmedDriver)
+ 
   const result = confirmedDriver?.data?.data;
+console.log(confirmedDriver)
 
-  const eventData = [
-    {
-      valunteerName: "Ellen Beffer",
-      volunteerType: "Driver",
-      deliveryLocation: "Hallandale",
-
-      driver: "No",
-      assigned: "Yes",
-
-      clients: "view",
-    },
-    {
-      valunteerName: "Ellen Beffer",
-      volunteerType: "Driver",
-      deliveryLocation: "Hallandale",
-
-      driver: "No",
-      assigned: "Yes",
-      clients: "view",
-    },
-    {
-      valunteerName: "Ellen Beffer",
-      volunteerType: "Driver",
-      deliveryLocation: "Hallandale",
-
-      driver: "No",
-      assigned: "Yes",
-
-      clients: "view",
-    },
-  ];
-
+ 
   return (
     <div className="min-h-screen">
       <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
@@ -157,7 +127,7 @@ const ConfirmedVoluntrees = () => {
                     <td className="px-4 py-3 text-sm">{event?.userId?.volunteerType === true?'Yes':"No"}</td>
                     {/* <td className="px-4 py-3 text-sm">Working...</td> */}
                     <td className="px-4 py-3 text-sm">
-                      <Link to={`/event/eventView/${id}/volunteer/${event.userId._id}`}>
+                      <Link to={`/event/eventView/${id}/volunteer/${event?.userId?._id}`}>
                         <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
                           View
                         </span>
