@@ -77,7 +77,7 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
                 disabled={loadingStates[group._id]} 
               >
-                {loadingStates[group._id] ? <Spin size="small" /> : "Add to Event"}
+                {loadingStates[group._id] ? <Spin size="small" /> : "Add Groups"}
               </button>
             </div>
           ))

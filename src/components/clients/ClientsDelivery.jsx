@@ -137,19 +137,7 @@ const ClientsDelivery = () => {
               </td>
               <td className="px-4 py-3 text-sm">{group.clients.length}</td>
               <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                {/* <details className="dropdown">
-                  <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
-                    <BiDotsVerticalRounded />
-                  </summary>
-                  <ul className="menu dropdown-content bg-white text-black rounded z-30 right-0 w-44 p-2 shadow">
-                    <li>
-                      <a onClick={() => handleEdit(group)}>Edit</a>
-                    </li>
-                    <li>
-                      <a onClick={() => handleDelete(group.id)}>Delete</a>
-                    </li>
-                  </ul> 
-                </details> */}
+               
                 <Dropdown
                     overlay={
                       <Menu

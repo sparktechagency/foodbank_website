@@ -39,9 +39,7 @@ export const Success = () => {
         </div>
         <h1 className="text-2xl font-bold mb-2">Request Accepted Successfully!</h1>
         
-        <Link to={'/'}><button className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800">
-          Your dashboard
-        </button></Link>
+     
       </div>
     </div>
   );

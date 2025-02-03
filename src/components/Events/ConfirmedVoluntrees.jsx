@@ -2,15 +2,35 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { Link, useParams } from "react-router-dom";
-import { useGetConfirmedDriverQuery } from "../../page/redux/api/eventApi";
+import { useGetConfirmedDriverQuery, useGetSingleEventGroupQuery } from "../../page/redux/api/eventApi";
 
 const ConfirmedVoluntrees = () => {
    const { id } = useParams();
   const {data:confirmedDriver} = useGetConfirmedDriverQuery({ eventId:id ,types : 'driver', accept:'yes'},
     { refetchOnMountOrArgChange: true });
 
+
+    const {
+      data: singleClientData,
+      isLoading,
+      isError,
+    } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
+  
+    console.log(singleClientData)
+
+    const event = singleClientData?.data?.event;
+
+    const dayOfEvent = event?.dayOfEvent
+    ? new Date(event.dayOfEvent).toLocaleDateString()
+    : "Unknown Date";
+  const time =
+    event?.startOfEvent && event?.endOfEvent
+      ? `${event.startOfEvent} - ${event.endOfEvent}`
+      : "Unknown Time";
+
   console.log(confirmedDriver)
   const result = confirmedDriver?.data?.data;
+
   const eventData = [
     {
       valunteerName: "Ellen Beffer",
@@ -49,27 +69,25 @@ const ConfirmedVoluntrees = () => {
         <h1 className="flex gap-1 ">
           <span className="text-[#007AFF]">Events</span>{" "}
           <IoIosArrowForward className="mt-1 " />{" "}
-          <span className="text-[#007AFF]">Mitzvah Sunday 10/28</span>
-          <IoIosArrowForward className="mt-1 " /> Delivery Drivers : Volunteers
+          <span className="text-[#007AFF]">{event?.eventName}</span>
+          <IoIosArrowForward className="mt-1 " /> Warehouse : Volunteers
           With Response
         </h1>
 
-        <h1 className="text-2xl font-bold mt-3">
-          Delivery Drivers: Confirmed Volunteers
-        </h1>
+        <h1 className="text-2xl font-bold mt-3">{event?.eventName}</h1>
 
         <div className="lg:flex lg:gap-5 mt-3 ">
           <span className="flex">
             <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
-            10/28/2024, 8:30AM - 11AM
+            {dayOfEvent}, {time}
           </span>
           <span className="hidden lg:block">|</span>
           <span className="flex">
             <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
-            The Cupboard
+            {event?.location}
           </span>
           <span className="hidden lg:block">|</span>
-          <span>Mitzvah Day</span>
+          <span>{event?.eventType?.replace(/([a-z])([A-Z])/g, "$1 $2")}</span>
         </div>
       </div>
 
@@ -108,9 +126,9 @@ const ConfirmedVoluntrees = () => {
               <th className=" px-4 py-2 text-left text-sm font-medium">
                 Vip Driver
               </th>
-              <th className=" px-4 py-2 text-left text-sm font-medium">
+              {/* <th className=" px-4 py-2 text-left text-sm font-medium">
                 Assigned
-              </th>
+              </th> */}
               <th className=" px-4 py-2 text-left text-sm font-medium">
                 Clients
               </th>
@@ -137,9 +155,9 @@ const ConfirmedVoluntrees = () => {
                     </td>
 
                     <td className="px-4 py-3 text-sm">{event?.userId?.volunteerType === true?'Yes':"No"}</td>
-                    <td className="px-4 py-3 text-sm">Working...</td>
+                    {/* <td className="px-4 py-3 text-sm">Working...</td> */}
                     <td className="px-4 py-3 text-sm">
-                      <Link to={`/event/eventView/${event?.userId?._id}`}>
+                      <Link to={`/event/eventView/${id}/volunteer/${event.userId._id}`}>
                         <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
                           View
                         </span>

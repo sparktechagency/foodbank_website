@@ -3,120 +3,119 @@ import { useState } from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import { useGetConfirmedDriverQuery } from "../../page/redux/api/eventApi";
+import {
+  useGetSingleEventGroupQuery,
+  useGetSingleVolunteerAssignedQuery,
+  useUpdateAssignedMutation,
+} from "../../page/redux/api/eventApi";
+import { CloudLightning } from "lucide-react";
 
 const EventView = () => {
+  const { eventId, volunteerId } = useParams();
+  console.log(volunteerId);
+
+  const {
+    data: singleClientData,
+    isLoading,
+    isError,
+  } = useGetSingleEventGroupQuery(
+    { id: eventId },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const { data: singleVolunteerData } = useGetSingleVolunteerAssignedQuery(
+    { id: volunteerId },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const [updateAssigned] = useUpdateAssignedMutation()
+
+  
+
+  const volunteer = singleVolunteerData?.data;
+  console.log(volunteer);
+
+  console.log(singleClientData);
+  const client = singleClientData?.data?.event?.client;
+  const assignedDate = client&&client.filter((c)=> c.assigned===true)
+  console.log(assignedDate)
+  const event = singleClientData?.data?.event;
+  console.log(event);
+  const totalSpotsFilled = event?.warehouse.length + event?.driver.length;
+  const warehouseNeeded = event?.warehouseNeeded;
+
+  const dayOfEvent = event?.dayOfEvent
+    ? new Date(event.dayOfEvent).toLocaleDateString()
+    : "Unknown Date";
+  const time =
+    event?.startOfEvent && event?.endOfEvent
+      ? `${event.startOfEvent} - ${event.endOfEvent}`
+      : "Unknown Time";
+
  
-      
-  const initialEventData = [
-    {
-      valunteerName: "Vallery Grovovsky",
-      deliveryLocation: "Yes",
-      carSize: "400 Lesile Drive",
-      time: "Hallandale",
-      driver: "Yes",
-      assigned: 6,
-      clients: "Assign",
-    },
-    {
-      valunteerName: "John Doe",
-      deliveryLocation: "No",
-      carSize: "123 Main Street",
-      time: "Miami",
-      driver: "No",
-      assigned: 4,
-      clients: "Assign",
-    },
-    {
-      valunteerName: "Jane Smith",
-      deliveryLocation: "Yes",
-      carSize: "789 Elm Street",
-      time: "Fort Lauderdale",
-      driver: "Yes",
-      assigned: 5,
-      clients: "Assign",
-    },
-  ];
 
-  const [eventData, setEventData] = useState(initialEventData);
-  const [currentPage, setCurrentPage] = useState(1);
 
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(eventData.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentEvents = eventData.slice(startIndex, endIndex);
-
-  // Pagination handlers
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   // Toggle assign button functionality
   const toggleAssign = (index) => {
-    const updatedEventData = [...eventData];
-    updatedEventData[index].clients =
-      updatedEventData[index].clients === "Assign" ? "Assigned" : "Assign";
-    setEventData(updatedEventData);
+    console.log(index);
+    console.log(index?.userId?._id);
+    const data = {
+      eventId:eventId,
+      volunteerId:volunteerId,
+      clientId:index?.userId?._id,
+    }
+    updateAssigned(data)
   };
 
   return (
     <div className="min-h-screen">
       <div className="lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1">
-          <span className="text-[#007AFF]">Ellen Belfer</span>{" "}
-          <IoIosArrowForward className="mt-1" /> Mitzvah Sunday 10/28
+          <span className="text-[#007AFF]">{event?.eventName}</span>{" "}
+          <IoIosArrowForward className="mt-1" /> {volunteer?.firstName}{" "}
+          {volunteer?.lastName} {totalSpotsFilled}/{warehouseNeeded}
         </h1>
 
         <div className="lg:flex justify-between">
           <div>
-            <h1 className="text-2xl font-bold mt-3">Clients</h1>
+            <h1 className="text-2xl font-bold mt-3">{event?.eventName}</h1>
             <div className="lg:flex lg:gap-5 mt-3 ">
               <span className="flex">
                 <IoIosTimer className="lg:text-xl text-sm mt-[3px] mr-1" />
-                10/28/2024, 8:30AM - 11AM
+                {dayOfEvent}, {time}
               </span>
               <span className="hidden lg:block">|</span>
               <span className="flex">
                 <CiLocationOn className="lg:text-xl text-sm mt-[3px] mr-1" />
-                The Cupboard
+                {event?.location}
               </span>
-              <span className="hidden lg:block">|</span>
-              <span>Mitzvah Day</span>
             </div>
             <div className="flex gap-5 mt-3">
-              <span className="flex">Priority Sunday</span>
+              <span className="flex">{event?.messageDeliveryDriver}</span>
               <span>|</span>
-              <span>Large Car</span>
+              <span>{event?.messageWarehouseVolunteer}</span>
             </div>
           </div>
           <div className="lg:flex gap-3 mt-3 lg-mt-0">
-            <div>
+            {/* <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
                 <p>Total Assigned : Ellen Befer</p>
                 <h1 className="text-xl font-semibold">15</h1>
               </div>
-            </div>
+            </div> */}
             <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg my-3 lg:my-0">
                 <p>Client Assigned</p>
-                <h1 className="text-xl font-semibold">4/15</h1>
+                <h1 className="text-xl font-semibold">{assignedDate?.length}/{client?.length}</h1>
               </div>
             </div>
-            <div>
+            {/* <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
                 <p>Preferred Delivery Location</p>
                 <h1 className="text-xl font-semibold">Hallandale</h1>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -129,13 +128,15 @@ const EventView = () => {
                 Client Name
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Deliver Delivered to Client Before
+                Assigned Volunteer
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Address
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">City</th>
-              <th className="px-4 py-2 text-left text-sm font-medium">VIP</th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Holocaust Survivor
+              </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 # of Bags
               </th>
@@ -145,27 +146,41 @@ const EventView = () => {
             </tr>
           </thead>
           <tbody>
-            {currentEvents.map((event, index) => (
+            {client?.map((clients, index) => (
               <tr
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
-                <td className="px-4 py-3 text-sm">{event.valunteerName}</td>
-                <td className="px-4 py-3 text-sm">{event.deliveryLocation}</td>
-                <td className="px-4 py-3 text-sm">{event.carSize}</td>
-                <td className="px-4 py-3 text-sm">{event.time}</td>
-                <td className="px-4 py-3 text-sm">{event.driver}</td>
-                <td className="px-4 py-3 text-sm">{event.assigned}</td>
+                <td className="px-4 py-3 text-sm">
+                  {clients?.userId?.firstName} {clients?.userId?.lastName}{" "}
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {clients?.assignedUId
+                    ? `${clients?.assignedUId?.firstName} ${clients?.assignedUId?.lastName}`
+                    : "No Assigned"}
+                </td>
+
+                <td className="px-4 py-3 text-sm">
+                  {clients?.userId?.address}
+                </td>
+                <td className="px-4 py-3 text-sm">{clients?.userId?.city}</td>
+                <td className="px-4 py-3 text-sm">
+                  {clients?.userId?.holocaustSurvivor ? "Yes" : "No"}
+                </td>
+
+                <td className="px-4 py-3 text-sm">
+                  {clients?.userId?.badgeNumber}
+                </td>
                 <td className="px-4 py-3 text-sm">
                   <button
-                    onClick={() => toggleAssign(startIndex + index)}
+                    onClick={() => toggleAssign(clients)}
                     className={`py-1 px-3 rounded-full font-semibold ${
-                      event.clients === "Assign"
-                        ? "bg-[#EDEDED] text-[#234E6F]"
-                        : "bg-blue-500 text-white"
+                      clients?.assigned
+                        ? "bg-blue-500 text-white"
+                        : "bg-gray-100 text-black"
                     }`}
                   >
-                    {event.clients}
+                    Assigned
                   </button>
                 </td>
               </tr>
@@ -174,41 +189,7 @@ const EventView = () => {
         </table>
       </div>
 
-      <div className="flex justify-between items-center mt-4 px-5">
-        <span className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(endIndex, eventData.length)} of{" "}
-          {eventData.length} items
-        </span>
-        <div className="flex gap-2">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 1}
-            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <IoIosArrowBack />
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              onClick={() => handlePageChange(page)}
-              className={`px-3 py-1 rounded-md ${
-                currentPage === page
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-200 text-gray-700"
-              }`}
-            >
-              {page}
-            </button>
-          ))}
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 border rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <IoIosArrowForward />
-          </button>
-        </div>
-      </div>
+      
     </div>
   );
 };

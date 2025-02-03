@@ -1,95 +1,99 @@
 import { baseApi } from "./baseApi";
 
-
-
 const useApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    
     eventAdd: builder.mutation({
-        query: (data) => {
-          return {
-            url: "/events/create",
-            method: "POST",
-            body: data,
-          };
-        },invalidatesTags: ['updateProfile']
-      }),
-    
+      query: (data) => {
+        return {
+          url: "/events/create",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
     getEvent: builder.query({
-      query: ({filterType,searchQuery,eventType,sortOrder,page,limit}) => {
-        console.log(page,limit)
+      query: ({
+        filterType,
+        searchQuery,
+        eventType,
+        sortOrder,
+        page,
+        limit,
+      }) => {
+        console.log(page, limit);
         return {
           url: `/events/get-all?filterType=${filterType}&searchQuery=${searchQuery}&eventType=${eventType}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
-    }), 
+    }),
 
     updateSuccess: builder.query({
-      query: ({eventId,userId,type}) => {
+      query: ({ eventId, userId, type }) => {
         return {
           url: `/events/accept-request?eventId=${eventId}&userId=${userId}&type=${type}`,
           method: "PATCH",
         };
       },
       invalidatesTags: ["updateProfile"],
-    }), 
+    }),
 
     updateCancel: builder.query({
-      query: ({eventId,userId,type}) => {
+      query: ({ eventId, userId, type }) => {
         return {
           url: `/events/cancel-request?eventId=${eventId}&userId=${userId}&type=${type}`,
           method: "PATCH",
         };
       },
       invalidatesTags: ["updateProfile"],
-    }), 
+    }),
 
     getConfirmedDriver: builder.query({
-      query: ({eventId, types, accept}) => {
+      query: ({ eventId, types, accept }) => {
         return {
           url: `/events/get-events-driver?eventId=${eventId}&types=${types}&accept=${accept}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
-    }), 
-
+    }),
 
     getAllGroupClientEvent: builder.query({
-      query: ({searchTerm}) => {
-        console.log('search',searchTerm)
+      query: ({ searchTerm }) => {
+        console.log("search", searchTerm);
         return {
           url: `/client-group/?types=client&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
-    }), 
+    }),
 
     getAllGroupWarehouseEvent: builder.query({
-      query: ({searchTerm}) => {
+      query: ({ searchTerm }) => {
         return {
           url: `/client-group/?types=warehouse&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
-    }), 
+    }),
 
     getAllGroupDriverVolunteer: builder.query({
-      query: ({searchTerm}) => {
+      query: ({ searchTerm }) => {
         return {
           url: `/client-group/?types=driver&searchTerm=${searchTerm}`,
           method: "GET",
         };
       },
       providesTags: ["updateProfile"],
-    }), 
+    }),
 
     getSingleEventGroup: builder.query({
-      query: ({id}) => {
+      query: ({ id }) => {
         return {
           url: `/events/get/${id}`,
           method: "GET",
@@ -98,20 +102,47 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }),
 
+    getSingleVolunteerAssigned: builder.query({
+      query: ({ id }) => {
+        return {
+          url: `/events/volunteer-details/${id}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
+    updateAssigned: builder.mutation({
+      query: ({ data, eventId, clientId, volunteerId }) => {
+        console.log("Mutation Triggered with Data:", {
+          data,
+          eventId,
+          clientId,
+          volunteerId,
+        });
+        return {
+          url: `events/assigned-clients?eventId=${eventId}&clientId=${clientId}&volunteerId=${volunteerId}`,
+          method: "PATCH",
+          body: data,
+        };
+      },
+      invalidatesTags: ["updateProfile"],
+    }),
+
     updateEvent: builder.mutation({
-      query: ({ id, data}) => ({
-        url: `/events/update/${id}`, 
+      query: ({ id, data }) => ({
+        url: `/events/update/${id}`,
         method: "PATCH",
-        body:  data ,
+        body: data,
       }),
       invalidatesTags: ["updateProfile"],
     }),
 
     updateAddEventGroup: builder.mutation({
-      query: ({data}) => ({
-        url: "/events/add-groups", 
+      query: ({ data }) => ({
+        url: "/events/add-groups",
         method: "PATCH",
-        body:  data ,
+        body: data,
       }),
       invalidatesTags: ["updateProfile"],
     }),
@@ -128,16 +159,15 @@ const useApi = baseApi.injectEndpoints({
 
     deleteEventGroup: builder.mutation({
       query: (data) => {
-        console.log("==============================", data)
+        console.log("==============================", data);
         return {
           url: "/events/remove-groups",
           method: "PATCH",
-          body:data,
+          body: data,
         };
       },
       invalidatesTags: ["updateProfile"],
     }),
-
   }),
 });
 
@@ -154,5 +184,7 @@ export const {
   useGetAllGroupWarehouseEventQuery,
   useGetConfirmedDriverQuery,
   useUpdateSuccessQuery,
-  useUpdateCancelQuery
+  useUpdateCancelQuery,
+  useGetSingleVolunteerAssignedQuery,
+  useUpdateAssignedMutation,
 } = useApi;

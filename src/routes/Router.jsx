@@ -69,7 +69,7 @@ export const router = createBrowserRouter([
         element: <PendingWarehouse></PendingWarehouse>
       },
       {
-        path: "/event/eventView/:id",
+        path: "/event/eventView/:eventId/volunteer/:volunteerId",
         element: <EventView></EventView>
       },
       {
