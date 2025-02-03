@@ -74,7 +74,7 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
                 disabled={loadingStates[item._id]}
               >
-                {loadingStates[item._id] ? <Spin size="small" /> : "Add Warehouse Volunteers"}
+                {loadingStates[item._id] ? <Spin size="small" /> : "Add Warehouse"}
               </button>
             </div>
           ))

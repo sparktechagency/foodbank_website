@@ -70,7 +70,7 @@ export const SearchDriverVolunteer = ({ eventId }) => {
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
                 disabled={loadingStates[item._id]}
               >
-                {loadingStates[item._id] ? <Spin size="small" /> : "Add Driver Volunteer"}
+                {loadingStates[item._id] ? <Spin size="small" /> : "Add Driver"}
               </button>
             </div>
           ))
