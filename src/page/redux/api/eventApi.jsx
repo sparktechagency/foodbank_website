@@ -114,12 +114,7 @@ const useApi = baseApi.injectEndpoints({
 
     updateAssigned: builder.mutation({
       query: ({ data, eventId, clientId, volunteerId }) => {
-        console.log("Mutation Triggered with Data:", {
-          data,
-          eventId,
-          clientId,
-          volunteerId,
-        });
+        
         return {
           url: `events/assigned-clients?eventId=${eventId}&clientId=${clientId}&volunteerId=${volunteerId}`,
           method: "PATCH",

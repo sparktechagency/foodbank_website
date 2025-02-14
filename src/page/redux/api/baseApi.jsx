@@ -13,14 +13,15 @@ const baseQuery = fetchBaseQuery({
   //   // }
   //   return headers;
   // },
+  
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState()).logInUser.token;
-    console.log('from baseApi', token)
+    const token = getState().logInUser.token;
+    console.log("from baseApi", token);
     if (token) {
-        headers.set('authorization', `${token}`);
+      headers.set("authorization", `${token}`);
     }
     return headers;
-},
+  },
 });
 
 export const baseApi = createApi({

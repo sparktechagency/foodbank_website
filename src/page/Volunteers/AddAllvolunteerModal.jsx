@@ -15,18 +15,16 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
       phoneNo: values.number,
       alternativePhoneNo: values.alternateNumber,
       address: values.adress,
-      volunteerType: values.Holocaust , 
+      volunteerType: values.Holocaust,
       volunteerRole:
         values.volunteerRole === "1"
           ? "driver"
-          : values.volunteerRole === "2"
-          && "warehouse",
-          // : "both"
-          status:
-          values.volunteerRole === "1"
-            ? "driver"
-            : values.volunteerRole === "2"
-            && "warehouse", 
+          : values.volunteerRole === "2" && "warehouse",
+      // : "both"
+      status:
+        values.volunteerRole === "1"
+          ? "driver"
+          : values.volunteerRole === "2" && "warehouse",
     };
 
     console.log("Payload being sent:", data);
@@ -34,7 +32,7 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
     try {
       const response = await volunteerAdd(data).unwrap();
       console.log("API Response:", response);
-      message.success(response.message );
+      message.success(response.message);
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
@@ -95,9 +93,16 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>
-        <Form.Item name="alternateNumber" label="Alternate Phone Number">
-              <Input placeholder="Enter Alternate Phone Number" />
-            </Form.Item>
+        <Form.Item 
+        name="alternateNumber" 
+        label="Alternate Phone Number"
+        rules={[
+          { required: true, message: "alternative Phone Number is required" },
+      
+        ]}
+        >
+          <Input placeholder="Enter Alternate Phone Number" />
+        </Form.Item>
 
         <Form.Item
           name="adress"

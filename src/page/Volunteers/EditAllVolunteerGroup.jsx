@@ -125,7 +125,7 @@ console.log(client)
         <Form.Item
           name="alternativePhoneNo" label="Alternate Phone Number"
           rules={[
-            { required: true, message: "Phone Number is required" },
+            { required: true, message: "alternative Phone Number is required" },
         
           ]}
         >

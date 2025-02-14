@@ -158,7 +158,7 @@ const Profile = () => {
         </div>
 
         <p className="text-lg font-semibold mt-4">
-          {isLoading ? "Loading..." : adminProfile?.data?.firstName}
+          {isLoading ? "Loading..." : `${adminProfile?.data?.firstName} ${adminProfile?.data?.lastName}` }
         </p>
       </div>
 

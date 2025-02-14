@@ -196,10 +196,10 @@ const Events = () => {
                 <div>
                   <Select
                     className="w-full h-[43px]"
-                    placeholder="Short By"
+                    placeholder="Sort By"
                     onChange={handleShortChange}
                     options={[
-                      { value: "asc", label: "Short By" },
+                      { value: "asc", label: "Sort By" },
                       { value: "desc", label: "Date" },
                     ]}
                   />
@@ -247,7 +247,7 @@ const Events = () => {
                   {data?.data?.data?.length > 0 ? (
                     data.data.data.map((event, index) => {
                       const totalSpotsFilled =
-                        event.warehouse.length + event.driver.length;
+                        event.warehouse.length ;
                       const warehouseNeeded = event.warehouseNeeded; // Example fixed value for warehouseNeeded
 
                       return (

@@ -91,6 +91,7 @@ const DriverVolunteers = () => {
     setSortOrder(value); // Update the selected filter type
   };
 
+  console.log('check',volunteers)
 
 
   return (
@@ -117,12 +118,13 @@ const DriverVolunteers = () => {
           <div>
             <Select
               className="w-full h-[42px]"
-              placeholder="Short By"
+              placeholder="Sort By"
               onChange={handleShortChange}
               options={[
-                { value: "asc", label: "Short By" },
+                { value: "asc", label: "Sort By" },
                 { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
+                { value: "vip", label: "Vip" },
               ]}
             />
           </div>
@@ -131,7 +133,7 @@ const DriverVolunteers = () => {
               onClick={() => setModal2Open(true)}
               className="w-[150px] bg-[#234E6F] rounded-full py-2 text-white"
             >
-              +Add Volunteer
+              +Add Driver
             </button>
           </div>
         </div>
@@ -186,19 +188,19 @@ const DriverVolunteers = () => {
                         <Menu
                           items={volunteer.meetings.map((meeting) => ({
                             key: meeting._id,
-                            label: meeting.clientGroupName,
+                            label: meeting.groupName,
                           }))}
                         />
                       }
                       trigger={["click"]}
                     >
                       <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
-                        {volunteer.meetings.length} Meeting(s){" "}
+                        {volunteer.meetings.length} Groups
                         <IoIosArrowDown />
                       </div>
                     </Dropdown>
                   ) : (
-                    "No Meetings"
+                    "No Groups"
                   )}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">

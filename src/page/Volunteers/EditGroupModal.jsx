@@ -15,9 +15,6 @@ const clientOptions =
     value: volunteer._id,
   })) || [];
   console.log(clientOptions)
-
-
-  // Pre-fill form values when the modal opens
   useEffect(() => {
     if (group) {
       console.log('-----------------',group)

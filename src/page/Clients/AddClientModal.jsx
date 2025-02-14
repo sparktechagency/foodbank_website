@@ -122,7 +122,10 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item name="alternateNumber" label="Alternate Phone Number">
+            <Form.Item name="alternateNumber" label="Alternate Phone Number" rules={[
+            { required: true, message: "alternative Phone Number is required" },
+        
+          ]}>
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 
@@ -134,11 +137,15 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               <Input placeholder="Enter Address" />
             </Form.Item>
 
-            <Form.Item name="apartment" label="Apartment, suite, etc.">
+            <Form.Item name="apartment" label="Apartment, suite, etc." rules={[
+            { required: true, message: "Apartment is required" },
+        
+          ]}>
               <Input placeholder="Enter Apartment Details" />
             </Form.Item>
           </div>
 
+          
           <div className="flex gap-3">
             <Form.Item
               name="city"
@@ -183,11 +190,17 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
             </Form.Item>
           </div>
 
-          <Form.Item name="dietary" label="Dietary Restrictions">
+          <Form.Item name="dietary" label="Dietary Restrictions" rules={[
+            { required: true, message: "Dietary Restrictions is required" },
+        
+          ]}>
             <Input placeholder="Enter Dietary Restrictions" />
           </Form.Item>
 
-          <Form.Item name="deliveryIns" label="Delivery Instructions">
+          <Form.Item name="deliveryIns" label="Delivery Instructions" rules={[
+            { required: true, message: "Delivery Instructions is required" },
+        
+          ]}>
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 

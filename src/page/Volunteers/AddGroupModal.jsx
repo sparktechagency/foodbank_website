@@ -2,7 +2,6 @@ import { Modal, Form, Input, Select, Button, message } from "antd";
 import React, { useState } from "react";
 import {
   useAddVolunteerGroupMutation,
-  useGetAllVolunteerQuery,
   useGetDriverWarehouseQuery,
 
 } from "../redux/api/volunteerApi";

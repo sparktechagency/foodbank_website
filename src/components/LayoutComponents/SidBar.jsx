@@ -12,6 +12,8 @@ import { FaRegHandPaper } from "react-icons/fa";
 import { CgNotes } from "react-icons/cg";
 import { useDispatch } from "react-redux";
 import { logout } from "../../page/redux/features/auth/authSlice";
+import { useGetSuperAdminQuery } from "../../page/redux/api/userApi";
+import { imageUrl } from "../../page/redux/api/baseApi";
 const items = [
   {
     key: "events",
@@ -96,7 +98,7 @@ const SidBar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { data: adminProfile, isLoading } = useGetSuperAdminQuery();
   useEffect(() => {
     const currentPath = location.pathname;
 
@@ -205,9 +207,9 @@ const SidBar = () => {
         <div className="dropdown dropdown-hover">
           <div tabIndex={0} role="button" className="w-full flex  text-start  text-black p-3">
           <span className="text-2xl">
-          <FaRegUserCircle />
+          {`${imageUrl}/${adminProfile?.data?.profilePicture}`}
                 </span>
-                <span className="ml-3">Asher Fahim</span>
+                <span className="ml-3">{adminProfile?.data?.firstName} {adminProfile?.data?.lastName}</span>
           </div>
           <ul
             tabIndex={0}

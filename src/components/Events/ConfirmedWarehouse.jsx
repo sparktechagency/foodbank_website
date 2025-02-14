@@ -123,10 +123,10 @@ export const ConfirmedWarehouse = () => {
                 Volunteer Type
               </th>
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                Preferred Delivery Location
+                Email
               </th>
               <th className=" px-4 py-2 text-left text-sm font-medium">
-                Vip Driver
+                Vip Warehouse
               </th>
               {/* <th className=" px-4 py-2 text-left text-sm font-medium">
                 Assigned
@@ -153,7 +153,7 @@ export const ConfirmedWarehouse = () => {
                       : ""}
                   </td>
                   <td className=" px-4 py-3 text-sm">
-                    {event?.userId?.address}
+                    {event?.userId?.email}
                   </td>
 
                   <td className="px-4 py-3 text-sm">

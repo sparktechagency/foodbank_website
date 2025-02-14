@@ -98,11 +98,17 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
         <Form form={form} layout="vertical" onFinish={handleFinish}>
           <div className="mt-4">
             <div className="flex gap-3">
-              <Form.Item name="first" label="First Name">
+              <Form.Item name="first" label="First Name" rules={[
+            { required: true, message: "First Name is required" },
+        
+          ]}>
                 <Input placeholder="Enter First Name" />
               </Form.Item>
 
-              <Form.Item name="last" label="Last Name">
+              <Form.Item name="last" label="Last Name" rules={[
+            { required: true, message: "Last Name is required" },
+        
+          ]}>
                 <Input placeholder="Enter Last Name" />
               </Form.Item>
             </div>
@@ -120,56 +126,92 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
               </Select>
             </Form.Item>
 
-            <Form.Item name="date" label="Date of Birth">
+            <Form.Item name="date" label="Date of Birth" rules={[
+            { required: true, message: "Date of Birth is required" },
+        
+          ]}>
               <Input type="date" />
             </Form.Item>
 
-            <Form.Item name="number" label="Phone Number">
+            <Form.Item name="number" label="Phone Number" rules={[
+            { required: true, message: "Phone Number is required" },
+        
+          ]}>
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item name="alternateNumber" label="Alternate Phone Number">
+            <Form.Item name="alternateNumber" label="Alternate Phone Number" rules={[
+            { required: true, message: "alternative Phone Number is required" },
+        
+          ]}>
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 
-            <Form.Item name="address" label="Address">
+            <Form.Item name="address" label="Address" rules={[
+            { required: true, message: "Address is required" },
+        
+          ]}>
               <Input placeholder="Enter Address" />
             </Form.Item>
 
-            <Form.Item name="apartment" label="Apartment, suite, etc.">
+            <Form.Item name="apartment" label="Apartment, suite, etc." rules={[
+            { required: true, message: "Apartment is required" },
+        
+          ]}>
               <Input placeholder="Enter Apartment Details" />
             </Form.Item>
           </div>
 
           <div className="flex gap-3">
-            <Form.Item name="city" label="City">
+            <Form.Item name="city" label="City" rules={[
+            { required: true, message: "City is required" },
+        
+          ]}>
               <Input placeholder="Enter City Name" />
             </Form.Item>
 
-            <Form.Item name="state" label="State">
+            <Form.Item name="state" label="State" rules={[
+            { required: true, message: "State is required" },
+        
+          ]}>
               <Input placeholder="Enter State Name" />
             </Form.Item>
 
-            <Form.Item name="zipcode" label="Zipcode">
+            <Form.Item name="zipcode" label="Zipcode" rules={[
+            { required: true, message: "Zipcode is required" },
+        
+          ]}>
               <Input placeholder="Enter ZipCode Name" />
             </Form.Item>
           </div>
 
           <div className="lg:flex gap-3 mt-3">
-            <Form.Item name="household" label="Number of People in Household">
+            <Form.Item name="household" label="Number of People in Household" rules={[
+            { required: true, message: "Number of People is required" },
+        
+          ]}>
               <Input placeholder="Enter household" />
             </Form.Item>
 
-            <Form.Item name="badgeNumber" label="Number of Bags">
+            <Form.Item name="badgeNumber" label="Number of Bags" rules={[
+            { required: true, message: "Number of Bags is required" },
+        
+          ]}>
               <Input placeholder="Enter bags" />
             </Form.Item>
           </div>
 
-          <Form.Item name="dietary" label="Dietary Restrictions">
+          <Form.Item name="dietary" label="Dietary Restrictions" rules={[
+            { required: true, message: "Dietary Restrictions is required" },
+        
+          ]}>
             <Input placeholder="Enter Dietary Restrictions" />
           </Form.Item>
 
-          <Form.Item name="deliveryIns" label="Delivery Instructions">
+          <Form.Item name="deliveryIns" label="Delivery Instructions" rules={[
+            { required: true, message: "Delivery Instructions is required" },
+        
+          ]}>
             <Input placeholder="Enter Delivery Instructions" />
           </Form.Item>
 

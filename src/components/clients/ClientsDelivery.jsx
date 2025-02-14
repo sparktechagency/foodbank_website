@@ -91,10 +91,10 @@ const ClientsDelivery = () => {
           <div>
           <Select
               className="w-full h-[42px]"
-              placeholder='Short By'
+              placeholder='Sort By'
               onChange={handleShortChange}
               options={[
-                { value: "asc", label: "Short By" },
+                { value: "asc", label: "Sort By" },
                 { value: "name", label: "Name" },
                 { value: "desc", label: "Date" },
               ]}

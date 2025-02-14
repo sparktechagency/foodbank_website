@@ -3,14 +3,29 @@
 @tailwind utilities;
 
 
-
-
-
-
-:root{
-  background-color: white;
-  color: black;
+.rbc-event, .rbc-day-slot .rbc-background-event {
+  border: none;
+  box-sizing: border-box;
+  box-shadow: none;
+  margin: 0;
+  padding: 2px 5px;
+  background-color: #2cff02 !important;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
+
+
+.rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
+  background-color: #fd0b03 !important;
+}
+
+
+
+
+
 
 select option {
   background-color: rgb(255, 255, 255) ;

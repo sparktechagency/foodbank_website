@@ -9,6 +9,7 @@ import {
   useUpdateAssignedMutation,
 } from "../../page/redux/api/eventApi";
 import { CloudLightning } from "lucide-react";
+import { Button } from "antd";
 
 const EventView = () => {
   const { eventId, volunteerId } = useParams();
@@ -28,7 +29,7 @@ const EventView = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  const [updateAssigned] = useUpdateAssignedMutation()
+  const [updateAssigned, { isLoading: isUpdating }] = useUpdateAssignedMutation();
 
   
 
@@ -56,17 +57,34 @@ const EventView = () => {
 
 
 
-  // Toggle assign button functionality
-  const toggleAssign = (index) => {
-    console.log(index);
-    console.log(index?.userId?._id);
-    const data = {
-      eventId:eventId,
-      volunteerId:volunteerId,
-      clientId:index?.userId?._id,
-    }
-    updateAssigned(data)
-  };
+      const [loading, setLoading] = useState({});
+
+      // Toggle assign button functionality
+      const toggleAssign = async (index) => {
+        const data = {
+          eventId: eventId,
+          volunteerId: volunteerId,
+          clientId: index?.userId?._id,
+        };
+      
+        // Set loading state for this button
+        setLoading((prev) => ({ ...prev, [index._id]: true }));
+      
+        try {
+
+          const res = await updateAssigned(data).unwrap();
+          if(res.success){
+            setLoading((prev) => ({ ...prev, [index._id]: false }));
+          }
+          console.log('asdfasdf',res);
+  
+          
+        } catch (error) {
+          console.error(error);
+          setLoading((prev) => ({ ...prev, [index._id]: false }));
+        }
+      };
+      console.log(loading)
 
   return (
     <div className="min-h-screen">
@@ -172,16 +190,18 @@ const EventView = () => {
                   {clients?.userId?.badgeNumber}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  <button
+                <Button
                     onClick={() => toggleAssign(clients)}
-                    className={`py-1 px-3 rounded-full font-semibold ${
+                    loading={loading[clients?._id]} // Show loading spinner only for this button
+                    type="primary"
+                    className={`rounded-full font-semibold ${
                       clients?.assigned
                         ? "bg-blue-500 text-white"
                         : "bg-gray-100 text-black"
                     }`}
                   >
-                    Assigned
-                  </button>
+                    {clients?.assigned ? "Assigned" : "Assign"}
+                  </Button>
                 </td>
               </tr>
             ))}

@@ -23,39 +23,48 @@ const AllVolunteers = () => {
     data: allVolunteerData,
     isLoading,
     error,
-  } = useGetAllVolunteerQuery({ searchTerm , sortOrder: sortOrder, page: currentPage,
-    limit: itemsPerPage,});
-    console.log(allVolunteerData)
-    console.log(allVolunteerData?.meta?.total)
+  } = useGetAllVolunteerQuery({
+    searchTerm,
+    sortOrder: sortOrder,
+    page: currentPage,
+    limit: itemsPerPage,
+  });
+  console.log(allVolunteerData);
+  console.log(allVolunteerData?.meta?.total);
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
   const [deleteDriver] = useDeleteVolunteersMutation();
   // Pagination
- const volunteers = allVolunteerData?.data
- console.log(volunteers)
-  
+  const volunteers = allVolunteerData?.data;
+  console.log(volunteers);
+
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
 
   // Error and Loading States
   if (isLoading) {
-    return <div><Loading></Loading></div>;
+    return (
+      <div>
+        <Loading></Loading>
+      </div>
+    );
   }
 
   if (error) {
-    return <div><ServerError></ServerError></div>;
+    return (
+      <div>
+        <ServerError></ServerError>
+      </div>
+    );
   }
 
   // Slice Data for Pagination
   const paginatedVolunteers =
     allVolunteerData?.data.slice(startIndex, endIndex) || [];
 
- 
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-
 
   const handleEdit = (volunteer) => {
     console.log("Editing Volunteer:", volunteer); // Log the volunteer details
@@ -87,7 +96,6 @@ const AllVolunteers = () => {
     setSortOrder(value); // Update the selected filter type
   };
 
-
   return (
     <div>
       <div className="mt-2 mb-5 lg:mx-5 mx-2 lg:flex justify-between">
@@ -107,29 +115,32 @@ const AllVolunteers = () => {
             className="ml-2 flex-1 outline-none text-sm bg-white text-gray-700 placeholder-gray-400"
           />
         </div>
-        <div className="flex justify-between mt-3 gap-3">
-          {/* Filters */}
-          
-          <div>
-            <Select
-              className="w-full h-[42px]"
-              placeholder="Short By"
-              onChange={handleShortChange}
-              options={[
-                { value: "asc", label: "Short By" },
-                { value: "name", label: "Name" },
-                { value: "desc", label: "Date" },
-              ]}
-            />
-          </div>
+        <div>
+          <div className="flex justify-between mt-3 gap-3">
+            {/* Filters */}
 
-          <div className="">
-            <button
-              onClick={() => setModal2Open(true)}
-              className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
-            >
-              + Add Client
-            </button>
+            <div>
+              <Select
+                className="w-full h-[42px]"
+                placeholder="Sort By"
+                onChange={handleShortChange}
+                options={[
+                  { value: "asc", label: "Sort By" },
+                  { value: "name", label: "Name" },
+                  { value: "desc", label: "Date" },
+                  { value: 'vip', label: "Vip" },
+                ]}
+              />
+            </div>
+
+            <div className="">
+              <button
+                onClick={() => setModal2Open(true)}
+                className="w-[160px] bg-[#234E6F] rounded-full py-2 text-white"
+              >
+                + Add Volunteer
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -142,7 +153,7 @@ const AllVolunteers = () => {
                 Volunteer Name
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Phone #
+                Phone
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">Email</th>
               <th className="px-4 py-2 text-left text-sm font-medium">Vip</th>
@@ -150,7 +161,7 @@ const AllVolunteers = () => {
                 Volunteer Type
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Volunteer Meeting
+                Volunteer Groups
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
@@ -172,7 +183,7 @@ const AllVolunteers = () => {
                   {volunteer.volunteerType ? "Yes" : "No"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.volunteerRole==='driver'
+                  {volunteer.volunteerRole === "driver"
                     ? "Driver Volunteer"
                     : "Warehouse Volunteer"}
                 </td>
@@ -190,12 +201,12 @@ const AllVolunteers = () => {
                       trigger={["click"]}
                     >
                       <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
-                        {volunteer.meetings.length} Meeting(s){" "}
+                        {volunteer.meetings.length} Groups
                         <IoIosArrowDown />
                       </div>
                     </Dropdown>
                   ) : (
-                    "No Meetings"
+                    "No Groups"
                   )}
                 </td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
@@ -234,10 +245,7 @@ const AllVolunteers = () => {
           onChange={handlePageChange}
           showSizeChanger={false}
         />
-        
       </div>
-
-     
 
       <AddAllvolunteerModal
         setModal2Open={setModal2Open}

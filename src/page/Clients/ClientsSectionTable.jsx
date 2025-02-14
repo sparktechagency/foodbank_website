@@ -137,10 +137,10 @@ export const ClientsSectionTable = () => {
           <div>
             <Select
               className="w-full h-[42px]"
-              placeholder="Short By"
+              placeholder="Sort By"
               onChange={handleShortChange}
               options={[
-                { value: "asc", label: "Short By" },
+                { value: "asc", label: "Sort By" },
                 { value: 'name', label: "Name" },
                 
                 { value: "desc", label: "Date" },
@@ -178,7 +178,7 @@ export const ClientsSectionTable = () => {
                 Client Delivery Group
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                Number Of Badge
+              Number of Bags
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
@@ -215,12 +215,12 @@ export const ClientsSectionTable = () => {
                       trigger={["click"]}
                     >
                       <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
-                        {client.meetings.length} Meeting(s){" "}
+                        {client.meetings.length} Groups
                         <IoIosArrowDown />
                       </div>
                     </Dropdown>
                   ) : (
-                    "No Meetings"
+                    "No Groups"
                   )}
                 </td>
                 <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>

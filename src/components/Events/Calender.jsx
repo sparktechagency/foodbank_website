@@ -7,14 +7,10 @@ const localizer = momentLocalizer(moment);
 
 export const Calender = ({ event }) => { 
   const myEventsList = event.map((item) => {
-    // Convert `dayOfEvent` to Date object
-    const eventDate = new Date(item.dayOfEvent);
 
-    // Parse start and end times using Moment.js to maintain accuracy
+    const eventDate = new Date(item.dayOfEvent);
     const startDateTime = moment(item.startOfEvent, "h:mm A").toDate();
     const endDateTime = moment(item.endOfEvent, "h:mm A").toDate();
-
-    // Merge event date with the parsed times
     const startDate = new Date(eventDate);
     startDate.setHours(startDateTime.getHours(), startDateTime.getMinutes());
 
@@ -22,10 +18,10 @@ export const Calender = ({ event }) => {
     endDate.setHours(endDateTime.getHours(), endDateTime.getMinutes());
 
     return {
-      title: item.eventName, // Use eventName as the title
+      title: item.eventName, 
       start: startDate,  
       end: endDate,  
-      allDay: false, // Not an all-day event because we are using start and end times
+      allDay: false, 
     };
   }) || [];
 
