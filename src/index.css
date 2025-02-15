@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 
-.rbc-event, .rbc-day-slot .rbc-background-event {
+/* .rbc-event, .rbc-day-slot .rbc-background-event {
   border: none;
   box-sizing: border-box;
   box-shadow: none;
@@ -15,13 +15,13 @@
   cursor: pointer;
   width: 100%;
   text-align: left;
-}
+} */
 
 
-.rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
+/* .rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
   background-color: #fd0b03 !important;
 }
-
+ */
 
 
 

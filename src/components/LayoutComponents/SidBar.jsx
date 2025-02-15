@@ -1,6 +1,4 @@
-
 import { TbUsers } from "react-icons/tb";
-
 
 import logo from "../../assets/header/logo.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -99,6 +97,7 @@ const SidBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data: adminProfile, isLoading } = useGetSuperAdminQuery();
+  console.log(adminProfile);
   useEffect(() => {
     const currentPath = location.pathname;
 
@@ -131,7 +130,7 @@ const SidBar = () => {
 
   // Logout Function
   const handleLogout = () => {
-    dispatch(logout())
+    dispatch(logout());
     navigate("/login");
   };
 
@@ -205,21 +204,28 @@ const SidBar = () => {
       {/* Footer (Log Out) */}
       <div className="custom-sidebar-footer absolute bottom-0 w-full p-4">
         <div className="dropdown dropdown-hover">
-          <div tabIndex={0} role="button" className="w-full flex  text-start  text-black p-3">
-          <span className="text-2xl">
-          {`${imageUrl}/${adminProfile?.data?.profilePicture}`}
-                </span>
-                <span className="ml-3">{adminProfile?.data?.firstName} {adminProfile?.data?.lastName}</span>
+          <div
+            tabIndex={0}
+            role="button"
+            className="w-full flex  text-start  text-black p-3"
+          >
+            <span className="text-2xl">
+              <img
+                className="w-[45px] h-[45px] rounded-full"
+                src={`${imageUrl}/${adminProfile?.data?.profilePicture}`}
+                alt=""
+              />
+            </span>
+            <span className="ml-3 mt-3">
+              {adminProfile?.data?.firstName} {adminProfile?.data?.lastName}
+            </span>
           </div>
           <ul
             tabIndex={0}
             className="dropdown-content menu bg-white text-black z-[1]  w-52 p-2 -top-[90px] shadow"
           >
             <li>
-              <button
-                onClick={handleLogout}
-                
-              >
+              <button onClick={handleLogout}>
                 <span className="text-2xl">
                   <IoIosLogIn />
                 </span>
@@ -227,10 +233,12 @@ const SidBar = () => {
               </button>
             </li>
             <li>
-              <Link to={'/profile'}><span className="text-2xl">
-              <FaRegUser />
+              <Link to={"/profile"}>
+                <span className="text-2xl">
+                  <FaRegUser />
                 </span>
-                <span className="ml-3">Profile</span></Link>
+                <span className="ml-3">Profile</span>
+              </Link>
             </li>
           </ul>
         </div>

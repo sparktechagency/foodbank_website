@@ -65,7 +65,7 @@ const Events = () => {
 
   const handleDelete = (id) => {
     Modal.confirm({
-      title: "Are you sure you want to delete this volunteer?",
+      title: "Are you sure you want to delete event?",
       okText: "Yes",
       okType: "danger",
       cancelText: "No",
