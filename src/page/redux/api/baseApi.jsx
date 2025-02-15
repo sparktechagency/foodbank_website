@@ -31,4 +31,4 @@ export const baseApi = createApi({
   endpoints: () => ({}),
 });
 
-export const imageUrl = "'https://backend.volunhelp.com";
+export const imageUrl = "https://backend.volunhelp.com";
