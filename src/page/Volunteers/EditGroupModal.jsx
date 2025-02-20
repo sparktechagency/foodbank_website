@@ -1,28 +1,41 @@
 import { Modal, Form, Input, Select, Button, message } from "antd";
-import { useEffect } from "react";
-import { useGetDriverWarehouseQuery, useUpdateVolunteerGroupMutation } from "../redux/api/volunteerApi";
+import { useEffect, useState } from "react";
+import {
+  useGetDriverWarehouseQuery,
+  useUpdateVolunteerGroupMutation,
+} from "../redux/api/volunteerApi";
 
 export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
-  console.log(group?.types)
-  const [form] = Form.useForm(); 
+  const [type, setSortOrder] = useState(""); // Volunteer type state
+  console.log(type);
+  console.log(group?.types);
+
+  const [form] = Form.useForm();
   const [updateVolunteerGroup, { isLoading: isSubmitting }] =
     useUpdateVolunteerGroupMutation();
-const { data: allVolunteer, isLoading, error } = useGetDriverWarehouseQuery({limit:5000});
 
-const clientOptions =
-  allVolunteer?.data?.data?.map((volunteer) => ({
-    label: `${volunteer.firstName} ${volunteer.lastName}`,
-    value: volunteer._id,
-  })) || [];
-  console.log(clientOptions)
+  const {
+    data: allVolunteer,
+    isLoading,
+    error,
+  } = useGetDriverWarehouseQuery({ limit: 5000, type: type });
+
+  const clientOptions =
+    allVolunteer?.data?.data?.map((volunteer) => ({
+      label: `${volunteer.firstName} ${volunteer.lastName}`,
+      value: volunteer._id,
+    })) || [];
+  console.log(clientOptions);
+
   useEffect(() => {
     if (group) {
-      console.log('-----------------',group)
+      console.log("-----------------", group);
       form.setFieldsValue({
         groupName: group.groupName,
         types: group?.types,
         clients: group.clients?.map((volunteer) => volunteer._id),
       });
+      setSortOrder(group?.types); // Set initial volunteer type
     }
   }, [group, form]);
 
@@ -32,16 +45,16 @@ const clientOptions =
     const data = {
       groupName: values.groupName,
       types: values.types,
-      clients:values.clients,
-      
-
-      
+      clients: values.clients,
     };
-    
-    console.log('=========================',data)
+
+    console.log("=========================", data);
 
     try {
-      const response = await updateVolunteerGroup({ id: group?._id, data }).unwrap();
+      const response = await updateVolunteerGroup({
+        id: group?._id,
+        data,
+      }).unwrap();
       message.success("Volunteer group updated successfully!");
       setModal2Open1(false);
       console.log("Update Response:", response);
@@ -49,6 +62,11 @@ const clientOptions =
       message.error("Failed to update volunteer group. Please try again.");
       console.error("Update Error:", error);
     }
+  };
+
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
   };
 
   return (
@@ -90,22 +108,22 @@ const clientOptions =
           label="Select Volunteer Type"
           rules={[{ required: true, message: "Please select a Volunteer Type" }]}
         >
-          <Select placeholder="Select">
+          <Select placeholder="Select" onChange={handleShortChange} value={type}>
             <Select.Option value="warehouse">Warehouse Volunteer</Select.Option>
             <Select.Option value="driver">Driver Volunteer</Select.Option>
           </Select>
         </Form.Item>
 
         <Form.Item name="clients" label="Volunteers Name">
-  <Select
-    mode="multiple"
-    options={clientOptions} // Use all fetched volunteers as options
-    defaultValue={group?.clients?.map((volunteer) => volunteer._id)} // Set existing clients as default
-    style={{ width: "100%" }}
-    placeholder="Select Volunteers"
-  />
-</Form.Item>
-
+          <Select
+            mode="multiple"
+            options={clientOptions} 
+            defaultValue={group?.clients?.map((volunteer) => volunteer._id)} 
+            style={{ width: "100%" }}
+            placeholder="Select Volunteers"
+            disabled={!type} 
+          />
+        </Form.Item>
       </Form>
     </Modal>
   );

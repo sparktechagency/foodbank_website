@@ -92,7 +92,7 @@ export const PasswordTab = ({ adminProfile }) => {
         )}
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" block>
+          <Button className="bg-[#234E6F] py-4" type="primary" htmlType="submit" block>
             Update Password
           </Button>
         </Form.Item>

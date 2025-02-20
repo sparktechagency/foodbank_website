@@ -37,6 +37,15 @@ export const SearchDriverVolunteer = ({ eventId }) => {
     }
   };
 
+ 
+  const drivers = eventId?.driver?.filter((ev) => ev.accept === false) || [];
+
+  const clientGroups = clientData?.data?.filter(cln1 => 
+    !drivers?.some(cln2 => {
+      const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
+      return isMatch;  
+    })
+  );  
   return (
     <div>
       <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
@@ -57,8 +66,8 @@ export const SearchDriverVolunteer = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div className="">
-        {clientData?.data?.length > 0 ? (
-          clientData.data.map((item, index) => (
+        {clientGroups?.length > 0 ? (
+          clientGroups.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
               <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">

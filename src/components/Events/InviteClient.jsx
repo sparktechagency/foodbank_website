@@ -19,7 +19,7 @@ export const InviteClient = ({ event }) => {
   // Track loading states for "Remove Client" buttons
   const [removeClientLoading, setRemoveClientLoading] = useState({});
 
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
 
   // Pagination handlers
   const handleGroupPageChange = (page) => {

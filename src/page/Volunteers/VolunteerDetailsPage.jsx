@@ -98,7 +98,7 @@ console.log(singleClientData)
             </button>
           </div>
         </div>
-        <ClientDetailsSection></ClientDetailsSection>
+        <ClientDetailsSection singleClientData={singleClientData}></ClientDetailsSection>
       </div>
     </div>
   );

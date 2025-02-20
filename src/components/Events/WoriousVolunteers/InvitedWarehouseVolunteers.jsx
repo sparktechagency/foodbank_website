@@ -18,9 +18,10 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
   const [removeVolunteerLoading, setRemoveVolunteerLoading] = useState({});
 
   const groups = event?.groups?.filter((data) => data?.type === "warehouse") || [];
-  const volunteers = event?.warehouse || [];
+  // const volunteers = event?.warehouse || [];
+  const volunteers = event?.warehouse?.filter((ev) => ev.accept === false) || [];
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 10;
 
   // Pagination handlers
   const handleGroupPageChange = (page) => {
@@ -107,7 +108,7 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
 
         {/* Warehouse Volunteers Added to Event Section */}
         <div>
-        <p className="mt-2 mb-1">Warehouse Volunteers Added to Event</p>
+        <p className="mt-2 mb-1">Warehouse Volunteers Requested</p>
         <div className="bg-white px-4 border py-2 rounded">
         {paginatedVolunteers.length > 0 ? (
               paginatedVolunteers.map((ev, index) => (

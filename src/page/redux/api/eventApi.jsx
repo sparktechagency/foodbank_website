@@ -62,10 +62,10 @@ const useApi = baseApi.injectEndpoints({
     }),
 
     getAllGroupClientEvent: builder.query({
-      query: ({ searchTerm }) => {
+      query: ({ searchTerm ,eventId}) => {
         console.log("search", searchTerm);
         return {
-          url: `/client-group/?types=client&searchTerm=${searchTerm}`,
+          url: `/client-group/?types=client&searchTerm=${searchTerm}&eventId=${eventId}`,
           method: "GET",
         };
       },

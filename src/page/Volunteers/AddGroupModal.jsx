@@ -1,29 +1,26 @@
 import { Modal, Form, Input, Select, Button, message } from "antd";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useAddVolunteerGroupMutation,
   useGetDriverWarehouseQuery,
-
 } from "../redux/api/volunteerApi";
 
 export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
+  const [type, setSortOrder] = useState(""); // Volunteer type state
   const [addVolunteerGroup, { isLoading: isSubmitting }] = useAddVolunteerGroupMutation();
-  const { data: allVolunteer, isLoading, error } = useGetDriverWarehouseQuery({limit:5000});
-console.log(allVolunteer)
+  const { data: allVolunteer, isLoading, error } = useGetDriverWarehouseQuery({ limit: 5000, type: type });
   const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     name: "",
     clients: [],
   });
 
-  
   const clientOptions =
-  allVolunteer?.data?.data?.map((volunteer) => ({
-    label: `${volunteer.firstName} ${volunteer.lastName}`,
-    value: volunteer._id,
-  })) || [];
-  
-console.log(clientOptions)
+    allVolunteer?.data?.data?.map((volunteer) => ({
+      label: `${volunteer.firstName} ${volunteer.lastName}`,
+      value: volunteer._id,
+    })) || [];
+
   const handleClientChange = (selectedClientIds) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -45,12 +42,27 @@ console.log(clientOptions)
       setModal2Open(false);
       form.resetFields();
       setFormData({ name: "", clients: [] });
+      setSortOrder(""); // Reset the volunteerType state
       console.log("API Response:", response);
     } catch (error) {
       message.error("Failed to create volunteer group. Please try again.");
       console.error("API Error:", error);
     }
   };
+
+  const handleShortChange = (value) => {
+    console.log(value);
+    setSortOrder(value); // Update the selected filter type
+  };
+
+  useEffect(() => {
+    // Reset form and state when modal is closed
+    if (!modal2Open) {
+      form.resetFields();
+      setFormData({ name: "", clients: [] });
+      setSortOrder(""); // Reset the volunteerType state
+    }
+  }, [modal2Open, form]);
 
   return (
     <Modal
@@ -61,6 +73,7 @@ console.log(clientOptions)
         setModal2Open(false);
         form.resetFields();
         setFormData({ name: "", clients: [] });
+        setSortOrder(""); // Reset the volunteerType state
       }}
       bodyStyle={{
         maxHeight: "50vh",
@@ -89,10 +102,11 @@ console.log(clientOptions)
 
         <Form.Item
           name="volunteerType"
+          onChange={handleShortChange}
           label="Select Volunteer Type"
           rules={[{ required: true, message: "Please select a Volunteer Type" }]}
         >
-          <Select placeholder="Select">
+          <Select placeholder="Select" onChange={handleShortChange}>
             <Select.Option value="warehouse">Warehouse Volunteer</Select.Option>
             <Select.Option value="driver">Driver Volunteer</Select.Option>
           </Select>
@@ -101,9 +115,7 @@ console.log(clientOptions)
         <Form.Item
           name="clients"
           label="Add Volunteers"
-          rules={[
-            { required: true, message: "Please select at least one volunteer" },
-          ]}
+          rules={[{ required: true, message: "Please select at least one volunteer" }]}
         >
           <Select
             mode="multiple"
@@ -112,6 +124,7 @@ console.log(clientOptions)
             onChange={handleClientChange}
             style={{ width: "100%" }}
             value={formData.clients}
+            disabled={!type} // Disable clients select if no volunteerType is selected
           />
         </Form.Item>
       </Form>

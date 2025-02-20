@@ -11,7 +11,8 @@ import { NoData } from "../../Basic/NoData";
 
 export const SearchClientGroups = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
-  const { data: clientGroup, isLoading, isError } = useGetAllGroupClientEventQuery({searchTerm});
+  const { data: clientGroup, isLoading, isError } = useGetAllGroupClientEventQuery({searchTerm,eventId});
+  console.log('details',clientGroup)
   const [updateAddEventGroup] = useUpdateAddEventGroupMutation();
   const event = eventId._id;
 
@@ -44,6 +45,14 @@ export const SearchClientGroups = ({ eventId }) => {
     }
   };
 
+
+  const groups = eventId?.groups?.filter((data) => data?.type === "client") || [];
+  console.log('thas thas',groups)
+  const clientGroups = clientGroup?.data?.filter(grp1 => 
+    !groups?.some(grp2 => grp1?._id.toString() === grp2?.gid?.id.toString())
+  );
+    
+
   return (
     <div>
       <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
@@ -64,8 +73,8 @@ export const SearchClientGroups = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
-        {clientGroup?.data?.length > 0 ? (
-          clientGroup.data.map((group) => (
+        {clientGroups?.length > 0 ? (
+          clientGroups.map((group) => (
             <div key={group._id} className="flex justify-between items-center space-y-4">
               <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
                 <h1 className="mt-2">{group.groupName}</h1>

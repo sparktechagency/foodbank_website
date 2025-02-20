@@ -26,9 +26,10 @@ const useApi = baseApi.injectEndpoints({
     }), 
 
     getDriverWarehouse: builder.query({
-      query: ({limit}) => {
+      query: ({limit,type}) => {
+        console.log('rtk',type)
         return {
-          url: `/volunteers/driver-warehouse?limit=${limit}`,
+          url: `/volunteers/driver-warehouse?limit=${limit}&type=${type}`,
           method: "GET",
         };
       },

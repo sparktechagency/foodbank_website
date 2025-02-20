@@ -39,7 +39,14 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
     setLoadingStates((prev) => ({ ...prev, [client._id]: false }));
   };
 
-
+  const volunteers = eventId?.warehouse?.filter((ev) => ev.accept === false) || []; 
+  const volunteersData = clientData?.data?.filter(cln1 => 
+    !volunteers?.some(cln2 => {
+      const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
+      return isMatch;  
+    })
+  ); 
+ 
   return (
     <div>
       <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
@@ -60,8 +67,8 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div className="">
-        {clientData?.data?.length > 0 ? (
-          clientData.data.map((item, index) => (
+        {volunteersData?.length > 0 ? (
+          volunteersData.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
               <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">

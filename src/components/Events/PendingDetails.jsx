@@ -95,9 +95,7 @@ const time =
                 <th className=" px-4 py-2 text-left text-sm font-medium">
                   Volunteer Type
                 </th>
-                <th className=" px-4 py-2 text-left text-sm font-medium">
-                  Preferred Delivery Location
-                </th>
+              
                 <th className=" px-4 py-2 text-left text-sm font-medium">
                   Vip Driver
                 </th>
@@ -125,9 +123,7 @@ const time =
                           event?.userId?.status.slice(1)
                         : ""}
                     </td>
-                    <td className=" px-4 py-3 text-sm">
-                      {event?.userId?.address}
-                    </td>
+                    
 
                     <td className="px-4 py-3 text-sm">{event?.userId?.volunteerType === true?'Yes':"No"}</td>
                     {/* <td className="px-4 py-3 text-sm">Working...</td>

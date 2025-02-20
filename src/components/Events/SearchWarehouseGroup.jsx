@@ -14,7 +14,7 @@ export const SearchWarehouseGroup = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
   console.log(searchTerm)
   const {
-    data: clientGroup,
+    data: warehouseGroup,
     isLoading,
     isError,
   } = useGetAllGroupWarehouseEventQuery({searchTerm});
@@ -27,7 +27,7 @@ export const SearchWarehouseGroup = ({ eventId }) => {
   const event = eventId._id
 
   if (isLoading) return <Loading></Loading>
-  if (isError || !clientGroup?.data) return <div><ServerError></ServerError></div>;
+  if (isError || !warehouseGroup?.data) return <div><ServerError></ServerError></div>;
  
   const handleAddGroup = async (groupId) => {
     const data = {
@@ -49,7 +49,10 @@ export const SearchWarehouseGroup = ({ eventId }) => {
     }
   };
 
-  
+  const groups = eventId?.groups?.filter((data) => data?.type === "warehouse") || []; 
+  const drivers = warehouseGroup?.data?.filter(grp1 => 
+    !groups?.some(grp2 => grp1?._id.toString() === grp2?.gid?.id.toString())
+  );
 
   return (
     <div>
@@ -71,8 +74,8 @@ export const SearchWarehouseGroup = ({ eventId }) => {
       </div>
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
-        {clientGroup?.data?.length > 0 ? (
-          clientGroup.data.map((group) => (
+        {drivers?.length > 0 ? (
+          drivers.map((group) => (
             <div
               key={group._id}
               className="flex justify-between items-center space-y-4"

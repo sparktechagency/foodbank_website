@@ -4,35 +4,7 @@ export const ClientDetailsSection = ({ singleClientData }) => {
   console.log('ddddddd',singleClientData)
   const event = singleClientData?.data?.events;
   console.log(event);
-  const eventData = [
-    {
-      event: "September Holiday Drive 9/2",
-      driver: "Holiday Drive",
-      schedule: "9/2/24",
-      confirmation: "confirmed",
-      dietary: "None",
-      people: "1",
-      bags: "3",
-    },
-    {
-      event: "Mitzvah Sunday 10/14",
-      driver: "Mitzvah Day",
-      schedule: "10/14/24",
-      confirmation: "confirmed",
-      dietary: "None",
-      people: "1",
-      bags: "3",
-    },
-    {
-      event: "Mitzvah Sunday 10/28",
-      driver: "Mitzvah Day",
-      schedule: "10/28/24",
-      confirmation: "confirmed",
-      dietary: "None",
-      people: "1",
-      bags: "3",
-    },
-  ];
+  
   return (
     <div>
       <div className="overflow-x-auto">

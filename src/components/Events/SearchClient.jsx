@@ -41,6 +41,17 @@ export const SearchClient = ({ eventId }) => {
     }
   };
 
+ 
+   
+  const clients = eventId?.client || []; 
+  const clientGroups = clientData?.data?.filter(cln1 => 
+    !clients?.some(cln2 => {
+      const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
+      return isMatch;  
+    })
+  ); 
+  console.log("clientGroups",clientGroups)
+
   return (
     <div>
       <div className="">
@@ -63,8 +74,8 @@ export const SearchClient = ({ eventId }) => {
           </div>
           <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
             <div className="">
-            {clientData?.data?.length > 0 ? (
-          clientData.data.map((item) => (
+            {clientGroups?.length > 0 ? (
+          clientGroups.map((item) => (
             <div key={item._id} className="flex justify-between space-y-4">
               <Link to={`/clients/clientsDetails/${item.id}`}>
                 <h1 className="mt-2">{item.firstName} {item.lastName}</h1>

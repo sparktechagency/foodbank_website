@@ -113,7 +113,7 @@ const Profile = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" block>
+            <Button className="bg-[#234E6F] py-4" type="primary" htmlType="submit" block>
               Save Changes
             </Button>
           </Form.Item>

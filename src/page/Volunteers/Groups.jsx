@@ -1,4 +1,4 @@
-import { message, Modal, Pagination, Select } from "antd";
+import { Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
@@ -26,6 +26,7 @@ const Groups = () => {
 const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
   // Pagination
   const volunteers = volunteerGroup?.data
+  console.log('asdfasdfasdf',volunteers)
 console.log(volunteerGroup?.meta?.total )
 
   if (isLoading) {
@@ -163,25 +164,28 @@ console.log(volunteerGroup?.meta?.total )
                 </td>
                 <td className="px-4 py-3 text-sm">{group.clients?.length}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                  <div className="dropdown">
-                    <button className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">
-                      <BiDotsVerticalRounded />
-                    </button>
-                    <div className="dropdown-content bg-white text-black rounded shadow z-[1] right-0 w-44 p-2">
-                      <button
-                        className="text-sm w-full text-left"
-                        onClick={() => handleEdit(group)}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        className="text-sm w-full text-left"
-                        onClick={() => handleDelete(group._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </div>
+                  <Dropdown
+                    overlay={
+                      <Menu
+                        items={[
+                          {
+                            key: "1",
+                            label: "Edit",
+                            
+                            onClick: () => handleEdit(group) // Pass volunteer to handleEdit
+                          },
+                          {
+                            key: "2",
+                            label: "Delete",
+                            onClick:() => handleDelete(group._id),
+                          },
+                        ]}
+                      />
+                    }
+                    trigger={["click"]}
+                  >
+                    <BiDotsVerticalRounded className="cursor-pointer" />
+                  </Dropdown>
                 </td>
               </tr>
             ))}

@@ -21,7 +21,7 @@ export const InviteDriverVolunteers = ({ event }) => {
   const groups = event?.groups?.filter((data) => data?.type === "driver") || [];
   const drivers = event?.driver?.filter((ev) => ev.accept === false) || [];
 
-  const itemsPerPage = 4;
+  const itemsPerPage = 10;
 
   // Pagination handlers
   const handleGroupPageChange = (page) => {
@@ -111,7 +111,7 @@ export const InviteDriverVolunteers = ({ event }) => {
 
         {/* Drivers Added to Event Section */}
         <div>
-        <p className="mt-2 mb-1">Driver Volunteers Added to Event</p>
+        <p className="mt-2 mb-1">Driver Volunteers Requested</p>
         <div className="bg-white px-4 border py-2 rounded">
         {paginatedDrivers.length > 0 ? (
               paginatedDrivers.map((ev, index) => (
