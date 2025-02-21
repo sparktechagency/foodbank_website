@@ -247,8 +247,9 @@ const Events = () => {
                   {data?.data?.data?.length > 0 ? (
                     data.data.data.map((event, index) => {
                       const totalSpotsFilled =
-                        event.warehouse.length ;
-                      const warehouseNeeded = event.warehouseNeeded; // Example fixed value for warehouseNeeded
+                        event.warehouse.length + event.driver.length;
+                      const warehouseNeeded = event.warehouseNeeded + event.deliveryNeeded;
+                      console.log(event) // Example fixed value for warehouseNeeded
 
                       return (
                         <tr

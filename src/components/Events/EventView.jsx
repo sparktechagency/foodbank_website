@@ -13,7 +13,8 @@ import { Button } from "antd";
 
 const EventView = () => {
   const { eventId, volunteerId } = useParams();
-  console.log(volunteerId);
+  
+  
 
   const {
     data: singleClientData,
@@ -23,6 +24,8 @@ const EventView = () => {
     { id: eventId },
     { refetchOnMountOrArgChange: true }
   );
+
+  
 
   const { data: singleVolunteerData } = useGetSingleVolunteerAssignedQuery(
     { id: volunteerId },
@@ -34,14 +37,15 @@ const EventView = () => {
   
 
   const volunteer = singleVolunteerData?.data;
-  console.log(volunteer);
+ 
 
-  console.log(singleClientData);
+ 
   const client = singleClientData?.data?.event?.client;
+  
   const assignedDate = client&&client.filter((c)=> c.assigned===true)
-  console.log(assignedDate)
+
   const event = singleClientData?.data?.event;
-  console.log(event);
+ 
   const totalSpotsFilled = event?.warehouse.length + event?.driver.length;
   const warehouseNeeded = event?.warehouseNeeded;
 
@@ -84,7 +88,15 @@ const EventView = () => {
           setLoading((prev) => ({ ...prev, [index._id]: false }));
         }
       };
-      console.log(loading)
+    
+      console.log('volunteerId',volunteerId);
+      console.log('client',client)
+
+      const totalAssiendedNumber = client&& client?.filter(clt => 
+        clt?.assignedUId?._id.toString()===volunteerId.toString()
+
+      )
+      console.log(totalAssiendedNumber)
 
   return (
     <div className="min-h-screen">
@@ -109,19 +121,20 @@ const EventView = () => {
                 {event?.location}
               </span>
             </div>
-            <div className="flex gap-5 mt-3">
+            {/* <div className="flex gap-5 mt-3">
               <span className="flex">{event?.messageDeliveryDriver}</span>
               <span>|</span>
               <span>{event?.messageWarehouseVolunteer}</span>
-            </div>
+            </div> */}
           </div>
           <div className="lg:flex gap-3 mt-3 lg-mt-0">
-            {/* <div>
+            <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
-                <p>Total Assigned : Ellen Befer</p>
-                <h1 className="text-xl font-semibold">15</h1>
+                <p>Total Assigned : {volunteer?.firstName}{" "}
+                {volunteer?.lastName}</p>
+                <h1 className="text-xl font-semibold">{totalAssiendedNumber?.length||0}</h1>
               </div>
-            </div> */}
+            </div>
             <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg my-3 lg:my-0">
                 <p>Client Assigned</p>
@@ -145,9 +158,9 @@ const EventView = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Client Name
               </th>
-              <th className="px-4 py-2 text-left text-sm font-medium">
+              {/* <th className="px-4 py-2 text-left text-sm font-medium">
                 Assigned Volunteer
-              </th>
+              </th> */}
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Address
               </th>
@@ -172,11 +185,11 @@ const EventView = () => {
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.firstName} {clients?.userId?.lastName}{" "}
                 </td>
-                <td className="px-4 py-3 text-sm">
+                {/* <td className="px-4 py-3 text-sm">
                   {clients?.assignedUId
                     ? `${clients?.assignedUId?.firstName} ${clients?.assignedUId?.lastName}`
                     : "No Assigned"}
-                </td>
+                </td> */}
 
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.address}

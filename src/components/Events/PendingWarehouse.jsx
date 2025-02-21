@@ -148,7 +148,7 @@ const time =
                     className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                   >
                     <td className=" px-4 py-3 text-sm">
-                      {event?.userId?.firstName} {event?.userId?.lastName}
+                      <Link to={`/volunteers/details/${event?.userId?._id}`}>{event?.userId?.firstName} {event?.userId?.lastName}</Link>
                     </td>
                     <td className="px-4 py-3 text-sm">
                       {event?.userId?.status

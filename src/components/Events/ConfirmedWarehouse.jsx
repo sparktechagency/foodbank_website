@@ -131,9 +131,9 @@ export const ConfirmedWarehouse = () => {
               {/* <th className=" px-4 py-2 text-left text-sm font-medium">
                 Assigned
               </th> */}
-              <th className=" px-4 py-2 text-left text-sm font-medium">
+              {/* <th className=" px-4 py-2 text-left text-sm font-medium">
                 Clients
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -144,7 +144,7 @@ export const ConfirmedWarehouse = () => {
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
                   <td className=" px-4 py-3 text-sm">
-                    {event?.userId?.firstName} {event?.userId?.lastName}
+                    <Link to={`/volunteers/details/${event?.userId?._id}`}>{event?.userId?.firstName} {event?.userId?.lastName}</Link>
                   </td>
                   <td className="px-4 py-3 text-sm">
                     {event?.userId?.status
@@ -160,13 +160,13 @@ export const ConfirmedWarehouse = () => {
                     {event?.userId?.volunteerType === true ? "Yes" : "No"}
                   </td>
                   {/* <td className="px-4 py-3 text-sm">Working...</td> */}
-                  <td className="px-4 py-3 text-sm">
+                  {/* <td className="px-4 py-3 text-sm">
                     <Link to={`/event/eventView/${id}/volunteer/${event?.userId?._id}`}>
                       <span className="bg-[#EDEDED] py-1 px-2 font-semibold rounded-full text-[#234E6F]">
                         View
                       </span>
                     </Link>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
           </tbody>

@@ -8,6 +8,7 @@ const ConfirmedVoluntrees = () => {
    const { id } = useParams();
   const {data:confirmedDriver} = useGetConfirmedDriverQuery({ eventId:id ,types : 'driver', accept:'yes'},
     { refetchOnMountOrArgChange: true });
+    console.log(confirmedDriver)
 
 
     const {
@@ -40,7 +41,7 @@ console.log(confirmedDriver)
           <span className="text-[#007AFF]">Events</span>{" "}
           <IoIosArrowForward className="mt-1 " />{" "}
           <span className="text-[#007AFF]">{event?.eventName}</span>
-          <IoIosArrowForward className="mt-1 " /> Warehouse : Volunteers
+          <IoIosArrowForward className="mt-1 " /> Drivers : Volunteers
           With Response
         </h1>
 
@@ -112,7 +113,7 @@ console.log(confirmedDriver)
                     className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                   >
                     <td className=" px-4 py-3 text-sm">
-                      {event?.userId?.firstName} {event?.userId?.lastName}
+                      <Link to={`/volunteers/details/${event?.userId?._id}`}>{event?.userId?.firstName} {event?.userId?.lastName}</Link>
                     </td>
                     <td className="px-4 py-3 text-sm">
                       {event?.userId?.status
