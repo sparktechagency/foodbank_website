@@ -20,7 +20,7 @@ export const ConfirmedWarehouse = () => {
     isError,
   } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
   
-  console.log(singleClientData);
+
 
   const event = singleClientData?.data?.event;
   const dayOfEvent = event?.dayOfEvent
@@ -31,7 +31,6 @@ export const ConfirmedWarehouse = () => {
       ? `${event.startOfEvent} - ${event.endOfEvent}`
       : "Unknown Time";
 
-  console.log(confirmedDriver);
   const result = confirmedDriver?.data?.data;
   const eventData = [
     {

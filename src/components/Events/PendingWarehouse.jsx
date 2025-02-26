@@ -13,7 +13,7 @@ export const PendingWarehouse = () => {
         isError,
       } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
     
-      console.log(singleClientData)
+     
   
       const event = singleClientData?.data?.event;
   
@@ -32,7 +32,7 @@ const time =
     : "Unknown Time";
 
 
-  console.log(confirmedDriver);
+
   const result = confirmedDriver?.data?.data;
   const eventData = [
     {

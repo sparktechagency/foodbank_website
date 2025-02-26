@@ -12,7 +12,7 @@ import { NoData } from "../../Basic/NoData";
 export const SearchWarehouseGroup = ({ eventId }) => {
   const [loadingStates, setLoadingStates] = useState({});
   const [searchTerm, setSearch] = useState("");
-  console.log(searchTerm)
+
   const {
     data: warehouseGroup,
     isLoading,
@@ -38,12 +38,12 @@ export const SearchWarehouseGroup = ({ eventId }) => {
     setLoadingStates((prev) => ({ ...prev, [groupId]: true }));
     try {
       const response = await updateAddEventGroup({ data }).unwrap();
-      console.log("Group successfully added to event:", response);
+      
       message.success(response.message)
       setLoadingStates((prev) => ({ ...prev, [groupId]: false }));
     } catch (error) {
    
-      console.log("Error adding group to event:", error);
+      
       message.error(error?.data?.message)
       
     }

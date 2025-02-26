@@ -4,7 +4,7 @@ import { useClientGroupAddMutation, useGetAddClientsQuery, useGetGroupClientQuer
 
 export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
   const { data: clientData } = useGetAddClientsQuery();
-  console.log(clientData)
+
   const [addClientGroup] = useClientGroupAddMutation();
 
   const [form] = Form.useForm();
@@ -17,14 +17,14 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
     label: `${client.firstName} ${client.lastName}`,
     value: client._id, 
   })) || [];
-  console.log(clientOptions)
+ 
 
   const handleClientChange = (selectedClientIds) => {
     setFormData((prevData) => ({
       ...prevData,
       clients: selectedClientIds,
     }));
-    console.log("Selected Client IDs:", selectedClientIds);
+   
   };
 
   const handleFinish = async (values) => {
@@ -37,7 +37,7 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
     try {
       const response = await addClientGroup(postData).unwrap();
       message.success(response?.message || "Client group created successfully!");
-      console.log("POST Response:", response);
+      
 
       
       setModalOpen(false);
@@ -45,7 +45,7 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
       setFormData({ name: "", clients: [] });
     } catch (error) {
       message.error(error?.data?.message || "Failed to create client group.");
-      console.error("POST Error:", error);
+      
     }
   };
 

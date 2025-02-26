@@ -97,7 +97,7 @@ const SidBar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { data: adminProfile, isLoading } = useGetSuperAdminQuery();
-  console.log(adminProfile);
+  
   useEffect(() => {
     const currentPath = location.pathname;
 

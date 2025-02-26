@@ -22,7 +22,7 @@ const useApi = baseApi.injectEndpoints({
         page,
         limit,
       }) => {
-        console.log(page, limit);
+      
         return {
           url: `/events/get-all?filterType=${filterType}&searchQuery=${searchQuery}&eventType=${eventType}&sortOrder=${sortOrder}&page=${page}&limit=${limit}`,
           method: "GET",
@@ -63,7 +63,7 @@ const useApi = baseApi.injectEndpoints({
 
     getAllGroupClientEvent: builder.query({
       query: ({ searchTerm ,eventId}) => {
-        console.log("search", searchTerm);
+   
         return {
           url: `/client-group/?types=client&searchTerm=${searchTerm}&eventId=${eventId}`,
           method: "GET",
@@ -154,7 +154,7 @@ const useApi = baseApi.injectEndpoints({
 
     deleteEventGroup: builder.mutation({
       query: (data) => {
-        console.log("==============================", data);
+
         return {
           url: "/events/remove-groups",
           method: "PATCH",

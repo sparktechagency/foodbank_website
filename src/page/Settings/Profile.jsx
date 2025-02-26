@@ -36,7 +36,7 @@ const Profile = () => {
   const id = adminProfile?.data?._id;
 
   const handleProfileUpdate = async (values) => {
-    console.log(values);
+   
     try {
       const data = new FormData();
       data.append("firstName", values.first);
@@ -52,10 +52,10 @@ const Profile = () => {
         jsonObject[key] = value instanceof File ? value.name : value; 
       });
       
-      console.log("FormData as JSON:", JSON.stringify(jsonObject, null, 2));
+     
       
       const response = await updateProfile({ id, data }).unwrap();
-      console.log(response);
+
       message.success(response.message);
     } catch (error) {
       message.error(error?.data?.message || "Failed to update profile.");

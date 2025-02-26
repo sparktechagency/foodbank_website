@@ -26,7 +26,7 @@ export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
       ...prevData,
       clients: selectedClientIds,
     }));
-    console.log("Selected Client IDs:", selectedClientIds);
+  
   };
 
   const handleFinish = async (values) => {
@@ -43,15 +43,15 @@ export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
       form.resetFields();
       setFormData({ name: "", clients: [] });
       setSortOrder(""); // Reset the volunteerType state
-      console.log("API Response:", response);
+    
     } catch (error) {
       message.error("Failed to create volunteer group. Please try again.");
-      console.error("API Error:", error);
+    
     }
   };
 
   const handleShortChange = (value) => {
-    console.log(value);
+
     setSortOrder(value); // Update the selected filter type
   };
 

@@ -13,7 +13,7 @@ export const PendingDetails = () => {
       isError,
     } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
   
-    console.log(singleClientData)
+  
 
     const event = singleClientData?.data?.event;
 
@@ -30,7 +30,6 @@ const time =
     ? `${event.startOfEvent} - ${event.endOfEvent}`
     : "Unknown Time";
 
-  console.log("driver", confirmedDriver);
   const result = confirmedDriver?.data?.data;
  
 

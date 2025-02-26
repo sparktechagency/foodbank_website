@@ -46,7 +46,7 @@ const DriverVolunteers = () => {
   // Slice Data for Pagination
   const paginatedVolunteers =
     allVolunteerData?.data.slice(startIndex, endIndex) || [];
-  console.log(paginatedVolunteers);
+ 
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
@@ -61,7 +61,7 @@ const DriverVolunteers = () => {
 
 
   const handleEdit = (volunteer) => {
-    console.log("Editing Volunteer:", volunteer); // Log the volunteer details
+    
     setEditModal({
       isOpen: true,
       client: volunteer, // Pass the volunteer object to the edit modal
@@ -79,7 +79,7 @@ const DriverVolunteers = () => {
           const response = await deleteDriver(id).unwrap();
           message.success(response.message);
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
+         
           message.error(error.data?.message);
         }
       },
@@ -87,11 +87,11 @@ const DriverVolunteers = () => {
   };
 
   const handleShortChange = (value) => {
-    console.log(value);
+  
     setSortOrder(value); // Update the selected filter type
   };
 
-  console.log('check',volunteers)
+ 
 
 
   return (

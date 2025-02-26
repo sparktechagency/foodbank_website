@@ -9,12 +9,12 @@ export const AddAdmin = ({ modal2Open, setModal2Open }) => {
     try {
       const response = await addUser(values).unwrap();
       message.success("Admin added successfully!");
-      console.log("Response:", response);
+ 
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
       message.error("Failed to add admin. Please try again.");
-      console.error("Error:", error);
+ 
     }
   };
 

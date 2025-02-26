@@ -39,15 +39,15 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
       volunteerRole:"warehouse"
     };
 
-    console.log("Payload to Update:", data);
+   
 
     try {
       const response = await updateVolunteers({ id: client._id, data }).unwrap();
-      console.log("Update Success:", response);
+   
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error Updating Volunteer:", error);
+      
     }
   };
 

@@ -27,7 +27,6 @@ const EventClientDetailsPage = () => {
     isError,
   } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
 
-  console.log(singleClientData);
   const [activeTab, setActiveTab] = useState("list");
 
   // Event Details

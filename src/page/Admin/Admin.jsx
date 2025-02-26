@@ -10,7 +10,7 @@ const Admin = () => {
   const [searchTerm, setSearch] = useState("");
   const { data: allUser, isLoading } = useGetAllUserQuery({searchTerm, sortOrder:sortOrder});
   const [deleteUser] = useDeleteUserMutation();
-  console.log(allUser);
+
 
   // Handle user delete
   const handleDelete = (id) => {
@@ -24,7 +24,7 @@ const Admin = () => {
           const response = await deleteUser(id).unwrap();
           message.success(response.message);
         } catch (error) {
-          console.error("Error deleting user:", error);
+       
           message.error(error.data?.message || "Failed to delete user.");
         }
       },
@@ -40,7 +40,7 @@ const Admin = () => {
   //   return <p>No users found.</p>;
   // }
   const handleShortChange = (value) => {
-    console.log(value);
+   
     setSortOrder(value); // Update the selected filter type
   };
 

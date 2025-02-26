@@ -35,10 +35,10 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
 
     try {
       const response = await updateAddEventGroup({ data }).unwrap();
-      console.log("Group successfully added to event:", response);
+  
       message.success(response.message);
     } catch (error) {
-      console.log("Error adding group to event:", error);
+   
       message.error(error?.data?.message);
     } finally {
       // Reset loading state for this specific group

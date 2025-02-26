@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
 export const ClientDetailsSection = ({ singleClientData }) => {
-  console.log('ddddddd',singleClientData)
+
   const event = singleClientData?.data?.events;
-  console.log(event);
+
   
   return (
     <div>

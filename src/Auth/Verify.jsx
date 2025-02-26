@@ -18,10 +18,10 @@ const Verify = () => {
       otp: otp,
     };
 
-    console.log(data);
+   
     try {
       const response = await verifyOtp(data).unwrap();
-      console.log(response);
+      
       message.success("Success Otp");
       navigate("/reset");
     } catch (error) {

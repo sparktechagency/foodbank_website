@@ -21,7 +21,7 @@ const ClientDetailsPage = () => {
   const client = singleClientData?.data?.filterClient;
 
   const handleEdit = (client) => {
-    console.log("Editing Group:", client);
+  
     setEditModal({
       isOpen: true,
       client,

@@ -7,7 +7,7 @@ import {
 
 export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   const id = client?.id;
-  console.log(client)
+
   const [updateClient] = useUpdateClientMutation();
   const [form] = Form.useForm();
   const { data: singleData, isLoading } = useGetSingleDataQuery(
@@ -39,7 +39,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   }, [singleData, form]);
 
   const handleFinish = async (values) => {
-    console.log("values-------", values);
+   
     const updatedClien = {
       firstName: values.first,
       lastName: values.last,
@@ -58,15 +58,15 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       holocaustSurvivor: Boolean(values.Holocaust),
       dateOfBirth: values.date,
     };
-    console.log(updatedClien);
+   
 
     try {
       await updateClient({ id, data: updatedClien }).unwrap();
-      console.log("Client updated successfully", updatedClien);
+
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error updating client:", error);
+   
     }
   };
 

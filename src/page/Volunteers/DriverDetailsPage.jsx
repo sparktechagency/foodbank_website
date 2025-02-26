@@ -20,9 +20,9 @@ const DriverDetailsPage = () => {
   );
 
   const client = singleClientData?.data;
-console.log(client)
+
   const handleEdit = (client) => {
-    console.log("Editing Group:", client);
+   
     setEditModal({
       isOpen: true,
       client,

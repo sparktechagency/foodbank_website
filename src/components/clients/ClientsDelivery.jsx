@@ -16,7 +16,7 @@ const ClientsDelivery = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const { data: clientGroup, isLoading, error } = useGetallClientGroupsQuery({searchTerm, sortOrder:sortOrder});
-    console.log('dddddddddddddd',clientGroup)
+   
   const [deleteClientGroup] = useDeleteClientGroupMutation()
   
  if (isLoading) {
@@ -29,7 +29,7 @@ const ClientsDelivery = () => {
  
 
   const handleEdit = (group) => {
-    console.log(group)
+    
     setEditModal({
       isOpen: true,
       group, 
@@ -48,7 +48,7 @@ const ClientsDelivery = () => {
           const response = await deleteClientGroup(id).unwrap();
           message.success(response.message );
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
+          
           message.error(error.data?.message );
         }
       },
@@ -56,12 +56,12 @@ const ClientsDelivery = () => {
   };
   
   const handleShortChange = (value) => {
-    console.log(value)
-    setSortOrder(value); // Update the selected filter type
+    
+    setSortOrder(value); 
   };
 
   const handlePageChange = (page) => {
-    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+   
     setCurrentPage(page);
   };
   return (

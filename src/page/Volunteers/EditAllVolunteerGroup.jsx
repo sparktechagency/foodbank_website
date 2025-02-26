@@ -5,8 +5,8 @@ import { useUpdateVolunteersMutation } from "../redux/api/volunteerApi";
 export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) => {
   const [form] = Form.useForm();
   const [updateVolunteers] = useUpdateVolunteersMutation();
-console.log(client)
-  // Set default values when client data is available
+
+
   useEffect(() => {
     if (client) {
       form.setFieldsValue({
@@ -50,16 +50,16 @@ console.log(client)
             && "warehouse",  // Map dropdown values to backend roles
     };
 
-    console.log("Payload to Update:", data);
+ 
 
     try {
       const response = await updateVolunteers({ id: client._id, data }).unwrap();
       message.success(response.message)
-      console.log("Update Success:", response);
+   
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error Updating Volunteer:", error);
+
       message.error(error?.data?.message)
     }
   };

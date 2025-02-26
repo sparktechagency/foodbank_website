@@ -26,7 +26,7 @@ export const PasswordTab = ({ adminProfile }) => {
       oldPassword: values.oldPassword,
       newPassword: values.newPassword,
     };
-    console.log(data)
+
 
     try {
       await changePassword(data).unwrap(); 

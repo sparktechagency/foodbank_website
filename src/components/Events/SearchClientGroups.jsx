@@ -12,7 +12,7 @@ import { NoData } from "../../Basic/NoData";
 export const SearchClientGroups = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
   const { data: clientGroup, isLoading, isError } = useGetAllGroupClientEventQuery({searchTerm,eventId});
-  console.log('details',clientGroup)
+  
   const [updateAddEventGroup] = useUpdateAddEventGroupMutation();
   const event = eventId._id;
 
@@ -34,10 +34,10 @@ export const SearchClientGroups = ({ eventId }) => {
 
     try {
       const response = await updateAddEventGroup({ data }).unwrap();
-      console.log("Group successfully added to event:", response);
+      
       message.success(response.message);
     } catch (error) {
-      console.log("Error adding group to event:", error);
+    
       message.error(error?.data?.message);
     } finally {
       // Reset loading state for this specific group
@@ -47,7 +47,7 @@ export const SearchClientGroups = ({ eventId }) => {
 
 
   const groups = eventId?.groups?.filter((data) => data?.type === "client") || [];
-  console.log('thas thas',groups)
+ 
   const clientGroups = clientGroup?.data?.filter(grp1 => 
     !groups?.some(grp2 => grp1?._id.toString() === grp2?.gid?.id.toString())
   );

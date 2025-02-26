@@ -30,13 +30,13 @@ export const SearchClient = ({ eventId }) => {
 
     try {
       const response = await updateClientGroup({ data, id }).unwrap();
-      console.log("Client successfully added to event:", response);
+   
       message.success(response.message)
     } catch (error) {
-      console.error("Error adding client to event:", error);
+    
       message.error(error?.data?.message);
     } finally {
-      // Reset loading state for this specific client
+   
       setLoadingStates((prev) => ({ ...prev, [client._id]: false }));
     }
   };
@@ -50,7 +50,7 @@ export const SearchClient = ({ eventId }) => {
       return isMatch;  
     })
   ); 
-  console.log("clientGroups",clientGroups)
+
 
   return (
     <div>

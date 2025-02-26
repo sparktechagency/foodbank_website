@@ -7,7 +7,7 @@ import { useDeleteEventClientGroupMutation } from "../../page/redux/api/clientAp
 import { NoData } from "../../Basic/NoData";
 
 export const InviteClient = ({ event }) => {
-  console.log(event);
+
   const [groupPage, setGroupPage] = useState(1);
   const [clientPage, setClientPage] = useState(1);
   const [removeEventGroup] = useDeleteEventGroupMutation();
@@ -36,10 +36,10 @@ export const InviteClient = ({ event }) => {
     const data = { groupId, eventId: event?._id, types: "client" };
     try {
       const response = await removeEventGroup(data).unwrap();
-      console.log("Group successfully removed from event:", response);
+     
       message.success(response.message);
     } catch (error) {
-      console.error("Error removing group from event:", error);
+    
       message.error("Failed to remove group from the event.");
     } finally {
       setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: false }));
@@ -55,10 +55,10 @@ export const InviteClient = ({ event }) => {
         id: event?._id,
         data,
       }).unwrap();
-      console.log("Client successfully removed from event:", response);
+     
       message.success(response.message);
     } catch (error) {
-      console.error("Error removing client from event:", error);
+     
       message.error("Failed to remove client from the event.");
     } finally {
       setRemoveClientLoading((prev) => ({ ...prev, [email]: false }));

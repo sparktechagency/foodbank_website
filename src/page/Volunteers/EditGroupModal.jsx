@@ -6,9 +6,8 @@ import {
 } from "../redux/api/volunteerApi";
 
 export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
-  const [type, setSortOrder] = useState(""); // Volunteer type state
-  console.log(type);
-  console.log(group?.types);
+  const [type, setSortOrder] = useState(""); 
+ 
 
   const [form] = Form.useForm();
   const [updateVolunteerGroup, { isLoading: isSubmitting }] =
@@ -25,30 +24,30 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
       label: `${volunteer.firstName} ${volunteer.lastName}`,
       value: volunteer._id,
     })) || [];
-  console.log(clientOptions);
+
 
   useEffect(() => {
     if (group) {
-      console.log("-----------------", group);
+   
       form.setFieldsValue({
         groupName: group.groupName,
         types: group?.types,
         clients: group.clients?.map((volunteer) => volunteer._id),
       });
-      setSortOrder(group?.types); // Set initial volunteer type
+      setSortOrder(group?.types); 
     }
   }, [group, form]);
 
   const handleFinish = async (values) => {
     const res = group?.clients.map((client) => client._id);
-    console.log(res);
+    
     const data = {
       groupName: values.groupName,
       types: values.types,
       clients: values.clients,
     };
 
-    console.log("=========================", data);
+    
 
     try {
       const response = await updateVolunteerGroup({
@@ -57,15 +56,15 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
       }).unwrap();
       message.success("Volunteer group updated successfully!");
       setModal2Open1(false);
-      console.log("Update Response:", response);
+  
     } catch (error) {
       message.error("Failed to update volunteer group. Please try again.");
-      console.error("Update Error:", error);
+   
     }
   };
 
   const handleShortChange = (value) => {
-    console.log(value);
+   
     setSortOrder(value); // Update the selected filter type
   };
 

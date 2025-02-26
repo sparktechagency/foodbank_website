@@ -18,16 +18,15 @@ const Groups = () => {
   
   const [types, setSortDriver] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage)
+  
   const itemsPerPage = 10;
   const { data: volunteerGroup, isLoading, error } = useGetVolunteersGroupQuery({types,sortOrder:sortOrder,searchTerm:searchTerm,page: currentPage,
     limit: itemsPerPage,});
- console.log(volunteerGroup)
+
 const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
   // Pagination
   const volunteers = volunteerGroup?.data
-  console.log('asdfasdfasdf',volunteers)
-console.log(volunteerGroup?.meta?.total )
+ 
 
   if (isLoading) {
     return <div><Loading></Loading></div>;
@@ -43,7 +42,7 @@ console.log(volunteerGroup?.meta?.total )
   };
 
   const handleEdit = (group) => {
-    console.log("Editing Group:", group);
+  
     setEditModal({
       isOpen: true,
       group,
@@ -61,20 +60,20 @@ console.log(volunteerGroup?.meta?.total )
           const response = await deleteVolunteerGroup(id).unwrap();
           message.success(response.message );
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
+        
           message.error(error.data?.message );
         }
       },
     });
   };
   const handleShortChange = (value) => {
-    console.log(value);
+    
     setSortOrder(value); // Update the selected filter type
   };
 
   const handleEventChange = (value) => {
-    console.log("Selected Value:", value); // Debugging log
-    setSortDriver(value); // Update state with selected value
+ 
+    setSortDriver(value); 
   };
 
   return (

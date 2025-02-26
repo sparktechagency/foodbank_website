@@ -8,7 +8,7 @@ const ConfirmedVoluntrees = () => {
    const { id } = useParams();
   const {data:confirmedDriver} = useGetConfirmedDriverQuery({ eventId:id ,types : 'driver', accept:'yes'},
     { refetchOnMountOrArgChange: true });
-    console.log(confirmedDriver)
+
 
 
     const {
@@ -16,8 +16,7 @@ const ConfirmedVoluntrees = () => {
       isLoading,
       isError,
     } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
-  
-    console.log(singleClientData)
+ 
 
     const event = singleClientData?.data?.event;
 
@@ -31,7 +30,7 @@ const ConfirmedVoluntrees = () => {
 
  
   const result = confirmedDriver?.data?.data;
-console.log(confirmedDriver)
+
 
  
   return (

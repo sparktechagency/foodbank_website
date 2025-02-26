@@ -5,7 +5,7 @@ import { useGetAddClientsQuery, useUpdateClientGroupMutation } from "../../page/
 export const EditClientDeliveryGroup = ({ isModalOpen, setEditModal, group }) => {
   const [form] = Form.useForm();
   const { data: clients } = useGetAddClientsQuery();
-console.log('all',clients)
+
   // Generate options for Select dropdown
   const clientOptions =
     clients?.data?.map((volunteer) => ({
@@ -13,7 +13,7 @@ console.log('all',clients)
       value: volunteer._id,
     })) || [];
 
-  console.log("Client Options:", clientOptions);
+
 
   const [updateClientGroup] = useUpdateClientGroupMutation();
 
@@ -27,23 +27,23 @@ console.log('all',clients)
   }, [isModalOpen, group, form]);
 
   const handleFinish = (values) => {
-    console.log("Form Values:", values);
+ 
     const data = {
       groupName: values?.name,
       clients: values?.clients, // Selected clients' IDs
     };
 
-    console.log("Updating Group ID:", group?._id);
+    
 
     updateClientGroup({ id: group?._id, data })
       .unwrap()
       .then((response) => {
-        console.log("Response:", response);
+     
         message.success(response?.message);
         setEditModal({ isOpen: false, id: null });
       })
       .catch((error) => {
-        console.error("Error updating client group:", error);
+  
         message.error(error?.data?.message || "Failed to update client group");
       });
   };

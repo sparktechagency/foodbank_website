@@ -61,7 +61,7 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
       message.error(
         error.data?.message || "Failed to update event. Please try again."
       );
-      console.error("API Error:", error);
+     
     }
   };
 

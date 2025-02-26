@@ -12,13 +12,13 @@ const ResetPass = () => {
   const navigate = useNavigate();
   const onFinish = async (values) => {
     setIsLoading(true);
-    console.log(values);
+ 
     
     const data = {
       email: localStorage.getItem("email"),
       resetPassword: values?.password,
     };
-    console.log(data)
+    
     resetPassword(data)
       .unwrap()
       .then((payload) => {
@@ -30,7 +30,7 @@ const ResetPass = () => {
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    
   };
   return (
     <div>

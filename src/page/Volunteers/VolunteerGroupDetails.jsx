@@ -11,10 +11,10 @@ const VolunteerGroupDetails = () => {
     { id },
     { refetchOnMountOrArgChange: true }
   );
-  console.log(singleGroupData)
+
 
   const volunteers = singleGroupData?.data?.result?.clients || [];
-  console.log(volunteers);
+
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;

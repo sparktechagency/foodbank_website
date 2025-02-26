@@ -7,7 +7,7 @@ export const Success = () => {
   const {data:success} = useUpdateSuccessQuery({ eventId, type, userId},
               { refetchOnMountOrArgChange: true });
 
-  console.log('success=======',success)
+ 
 
 
   return (

@@ -9,7 +9,7 @@ import { message, Spin } from "antd";
 import { NoData } from "../../../Basic/NoData";
 
 export const SearchWarehouseVolunteer = ({eventId}) => {
-  console.log("warehouise,", eventId)
+  
   const [loadingStates, setLoadingStates] = useState({});
   const [searchTerm, setSearch] = useState("");
   const { data: clientData } = useGetWarehouseEventQuery({searchTerm});
@@ -17,23 +17,23 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
   
 
   const handleAddGroup = async (client) => {
-    console.log(client.email)
+ 
     const id = eventId._id
-    console.log(id)
+    
     const data = {
       userId: client._id,
       email: client.email,
       type: "warehouse",
     };
-    console.log(data)
+   
     setLoadingStates((prev) => ({ ...prev, [client._id]: true }));
     try {
       const response = await updateClientGroup({ data ,id}).unwrap();
-      console.log("Group successfully added to event:", response);
+     
       message.success(response.message);
      
     } catch (error) {
-      console.error("Error adding group to event:", error);
+      
       message.error(error?.data?.message);
     }
     setLoadingStates((prev) => ({ ...prev, [client._id]: false }));

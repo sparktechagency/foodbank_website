@@ -17,11 +17,11 @@ const VolunteerDetailsPage = () => {
     { id },
     { refetchOnMountOrArgChange: true }
   );
-console.log(singleClientData)
+
   const client = singleClientData?.data?.result;
 
   const handleEdit = (client) => {
-    console.log("Editing Group:", client);
+   
     setEditModal({
       isOpen: true,
       client,

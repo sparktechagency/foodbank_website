@@ -20,16 +20,15 @@ export const AddDriver = ({ modal2Open, setModal2Open }) => {
       status: "driver", 
     };
 
-    console.log("Payload being sent:", data);
 
     try {
       const response = await volunteerAdd(data).unwrap();
-      console.log("API Response:", response);
+    
       message.success(response.message );
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error adding volunteer:", error);
+   
       message.error(error.data?.message);
     }
   };

@@ -8,7 +8,7 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
   const [addClient] = useClientAddMutation();
 
   const handleFinish = async (values) => {
-    console.log(values);
+
     const clientData = {
       firstName: values.first,
       lastName: values.last,
@@ -33,11 +33,11 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
 
     try {
       await addClient(clientData).unwrap();
-      console.log("Client added successfully", clientData);
+    
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
-      console.error("Error adding client:", error);
+
     }
   };
 

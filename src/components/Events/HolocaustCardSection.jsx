@@ -1,7 +1,7 @@
 import React from "react";
 
 export const HolocaustCardSection = ({event}) => {
-  console.log(event)
+ 
   return (
     <div>
       <div className="md:grid grid-cols-3 gap-4 max-w-[900px] mt-9 mb-11">

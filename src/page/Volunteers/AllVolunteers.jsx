@@ -29,14 +29,13 @@ const AllVolunteers = () => {
     page: currentPage,
     limit: itemsPerPage,
   });
-  console.log(allVolunteerData);
-  console.log(allVolunteerData?.meta?.total);
+  
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
   const [deleteDriver] = useDeleteVolunteersMutation();
   // Pagination
   const volunteers = allVolunteerData?.data;
-  console.log(volunteers);
+
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -58,7 +57,6 @@ const AllVolunteers = () => {
     );
   }
 
-  // Slice Data for Pagination
   const paginatedVolunteers =
     allVolunteerData?.data.slice(startIndex, endIndex) || [];
 
@@ -67,10 +65,10 @@ const AllVolunteers = () => {
   };
 
   const handleEdit = (volunteer) => {
-    console.log("Editing Volunteer:", volunteer); // Log the volunteer details
+
     setEditModal({
       isOpen: true,
-      client: volunteer, // Pass the volunteer object to the edit modal
+      client: volunteer, 
     });
   };
 
@@ -85,14 +83,14 @@ const AllVolunteers = () => {
           const response = await deleteDriver(id).unwrap();
           message.success(response.message);
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
+     
           message.error(error.data?.message);
         }
       },
     });
   };
   const handleShortChange = (value) => {
-    console.log(value);
+
     setSortOrder(value); // Update the selected filter type
   };
 

@@ -2,10 +2,10 @@ import { Modal, Form, Input, Select, Button } from "antd";
 
 export const EditModalClient = ({ isModalOpen, client, setModal2Open1 }) => {
   const [form] = Form.useForm();
-  console.log(client)
+
 
   const handleFinish = (values) => {
-    console.log("Form Values:", values);
+ 
     setModal2Open1(false);
   };
 

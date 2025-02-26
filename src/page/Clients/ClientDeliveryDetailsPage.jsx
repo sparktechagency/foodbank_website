@@ -7,13 +7,13 @@ import { Pagination } from "antd";
 const ClientDeliveryDetailsPage = () => {
   const [searchTerm, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  console.log(currentPage)
+
   const pageSize = 10;
   const { id } = useParams();
   const { data: singleClientGroupData } = useGetSingleGroupClientDataQuery({ id , searchTerm:searchTerm ,  page: currentPage,
     limit: pageSize,}, { refetchOnMountOrArgChange: true }
   );
-  console.log(singleClientGroupData?.data?.meta?.total)
+  
   const single = singleClientGroupData?.data?.result?.clients;
   
 
@@ -56,7 +56,7 @@ const ClientDeliveryDetailsPage = () => {
   );
 
   const handlePageChange = (page) => {
-    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+    
     setCurrentPage(page);
   };
 

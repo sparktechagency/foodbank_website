@@ -21,7 +21,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
       deliveryNeeded: parseInt(values.deliveryDrivers),
       warehouseNeeded: parseInt(values.warehouseVolunteers),
     };
-    console.log(data)
+
 
     try {
       const response = await eventAdd(data).unwrap();
@@ -30,7 +30,7 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
       setModal2Open(false);
     } catch (error) {
       message.error(error.data?.message || "Failed to add event. Please try again.");
-      console.error("API Error:", error);
+      
     }
   };
 

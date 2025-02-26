@@ -14,7 +14,6 @@ import { ServerError } from "../../Basic/ServerError";
 
 export const ClientsSectionTable = () => {
   const [searchTerm, setSearch] = useState("");
-
   const [modal2Open, setModal2Open] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
@@ -29,8 +28,8 @@ export const ClientsSectionTable = () => {
     page: currentPage,
     limit: pageSize,
   });
-  console.log("Current Page:", currentPage, "API Data:", data);
-  console.log(data);
+
+  
 
   const [deleteClient] = useDeleteClientMutation();
 
@@ -45,7 +44,7 @@ export const ClientsSectionTable = () => {
       (meeting) => meeting.clientGroupName
     ),
   }));
-  console.log(clientData)
+ 
 
   const totalClients = clientData?.length || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -53,14 +52,14 @@ export const ClientsSectionTable = () => {
     clientData?.slice(startIndex, startIndex + itemsPerPage) || [];
 
   const handleEdit = (client) => {
-    console.log(client);
+
     setEditModal({
       isOpen: true,
       client,
     });
   };
   const handlePageChange = (page) => {
-    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+    
     setCurrentPage(page);
   };
 
@@ -82,12 +81,12 @@ export const ClientsSectionTable = () => {
   };
 
   const handleShortChange = (value) => {
-    console.log(value);
+    
     setSortOrder(value); // Update the selected filter type
   };
 
   const handleEventChange = (value) => {
-    console.log("Selected Value:", value); // Debugging log
+    
     setHolocaustSurvivor(value); // Update state with selected value
   };
 

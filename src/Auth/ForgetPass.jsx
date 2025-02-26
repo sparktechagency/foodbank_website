@@ -8,7 +8,7 @@ const ForgetPass = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const onFinish = async (values) => {
-    console.log(values);
+   
     forgotPassword(values)
       .unwrap()
       .then((payload) => {

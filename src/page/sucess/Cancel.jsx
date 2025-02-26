@@ -6,8 +6,7 @@ export const Cancel = () => {
     const{eventId, type, userId} = useParams()
       const {data:cancel} = useUpdateCancelQuery({ eventId, type, userId},
                   { refetchOnMountOrArgChange: true });
-    
-      console.log('idcancel',cancel)
+ 
   return (
     <div className='text-4xl font-bold text-center'>
         Cancel

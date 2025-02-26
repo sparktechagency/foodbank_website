@@ -30,7 +30,7 @@ const useApi = baseApi.injectEndpoints({
   
     getGroupClient: builder.query({
       query: ({searchTerm}) => {
-        console.log(searchTerm)
+      
         return {
           url: `/client?searchTerm=${searchTerm}`,
           method: "GET",
@@ -221,7 +221,7 @@ const useApi = baseApi.injectEndpoints({
 
     deleteEventClientGroup: builder.mutation({
       query: ({data, id}) => {
-        console.log("==============================",data, id)
+      
         return {
           url: `/events/remove-clients/?eventId=${id}`,
           method: "PATCH",

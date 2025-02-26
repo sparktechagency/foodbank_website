@@ -80,23 +80,22 @@ const EventView = () => {
           if(res.success){
             setLoading((prev) => ({ ...prev, [index._id]: false }));
           }
-          console.log('asdfasdf',res);
+         
   
           
         } catch (error) {
-          console.error(error);
+          
           setLoading((prev) => ({ ...prev, [index._id]: false }));
         }
       };
     
-      console.log('volunteerId',volunteerId);
-      console.log('client',client)
+    
 
       const totalAssiendedNumber = client&& client?.filter(clt => 
         clt?.assignedUId?._id.toString()===volunteerId.toString()
 
       )
-      console.log(totalAssiendedNumber)
+   
 
   return (
     <div className="min-h-screen">

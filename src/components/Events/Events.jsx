@@ -41,12 +41,10 @@ const Events = () => {
     page: currentPage,
     limit: pageSize,
   });
-  console.log("Current Page:", currentPage, "API Data:", data);
-
-  console.log(data?.data?.data);
+  
   const [deleteEvent] = useDeleteEventMutation();
 
-  // Fallback for loading or empty data
+
   if (isLoading) {
     return (
       <p>
@@ -56,7 +54,7 @@ const Events = () => {
   }
 
   const handleEdit = (group) => {
-    console.log("Editing Group:", group);
+  
     setEditModal({
       isOpen: true,
       group,
@@ -74,7 +72,7 @@ const Events = () => {
           const response = await deleteEvent(id).unwrap();
           message.success(response.message);
         } catch (error) {
-          console.error("Error deleting volunteer:", error);
+        
           message.error(error.data?.message);
         }
       },
@@ -82,33 +80,24 @@ const Events = () => {
   };
 
   const handleYearChange = (value) => {
-    setFilterType(value); // Update the selected filter type
+    setFilterType(value); 
   };
 
   const handleEventChange = (value) => {
-    console.log(value);
-    setEventType(value); // Update the selected filter type
+
+    setEventType(value); 
   };
 
   const handleShortChange = (value) => {
-    console.log(value);
-    setSortOrder(value); // Update the selected filter type
+   
+    setSortOrder(value); 
   };
   const handlePageChange = (page) => {
-    console.log("Page Changed to:", page); // Debug to confirm `page` is received
+
     setCurrentPage(page);
   };
 
-  // const menu = (
-  //   <Menu>
-  //     <Menu.Item key="edit" onClick={() => handleEdit(event)}>
-  //       Edit
-  //     </Menu.Item>
-  //     <Menu.Item key="delete" onClick={() => handleDelete(event._id)}>
-  //       Delete
-  //     </Menu.Item>
-  //   </Menu>
-  // );
+
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -249,7 +238,7 @@ const Events = () => {
                       const totalSpotsFilled =
                         event.warehouse.length + event.driver.length;
                       const warehouseNeeded = event.warehouseNeeded + event.deliveryNeeded;
-                      console.log(event) // Example fixed value for warehouseNeeded
+                 
 
                       return (
                         <tr
