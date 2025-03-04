@@ -46,10 +46,10 @@ const ClientsDelivery = () => {
       onOk: async () => {
         try {
           const response = await deleteClientGroup(id).unwrap();
-          message.success(response.message );
+          message.success(response?.message );
         } catch (error) {
           
-          message.error(error.data?.message );
+          message.error(error?.data?.message );
         }
       },
     });
@@ -127,15 +127,15 @@ const ClientsDelivery = () => {
         <tbody>
           {clientGroup?.data?.map((group) => (
             <tr
-              key={group._id}
-              className={`${group._id % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
+              key={group?._id}
+              className={`${group?._id % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
               <td className="px-4 py-3 text-sm">
-                <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
-                  {group.groupName}
+                <Link to={`/clients/ClientDeliveryDetailsPage/${group?._id}`}>
+                  {group?.groupName}
                 </Link>
               </td>
-              <td className="px-4 py-3 text-sm">{group.clients.length}</td>
+              <td className="px-4 py-3 text-sm">{group?.clients?.length}</td>
               <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                
                 <Dropdown
@@ -150,7 +150,7 @@ const ClientsDelivery = () => {
                           {
                             key: "2",
                             label: "Delete",
-                            onClick: () => handleDelete(group._id),
+                            onClick: () => handleDelete(group?._id),
                           },
                         ]}
                       />

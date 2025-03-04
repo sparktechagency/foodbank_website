@@ -10,9 +10,7 @@ import {
   Pagination,
   Select,
 } from "antd";
-import { MdAccessTime } from "react-icons/md";
 import { Link } from "react-router-dom";
-import Swal from "sweetalert2";
 import { AddEventModal } from "./AddEventModal";
 import { Calender } from "./Calender";
 import { UpdateEvent } from "./UpdateEvent";
@@ -41,9 +39,8 @@ const Events = () => {
     page: currentPage,
     limit: pageSize,
   });
-  
-  const [deleteEvent] = useDeleteEventMutation();
 
+  const [deleteEvent] = useDeleteEventMutation();
 
   if (isLoading) {
     return (
@@ -54,7 +51,6 @@ const Events = () => {
   }
 
   const handleEdit = (group) => {
-  
     setEditModal({
       isOpen: true,
       group,
@@ -70,34 +66,28 @@ const Events = () => {
       onOk: async () => {
         try {
           const response = await deleteEvent(id).unwrap();
-          message.success(response.message);
+          message.success(response?.message);
         } catch (error) {
-        
-          message.error(error.data?.message);
+          message.error(error?.data?.message);
         }
       },
     });
   };
 
   const handleYearChange = (value) => {
-    setFilterType(value); 
+    setFilterType(value);
   };
 
   const handleEventChange = (value) => {
-
-    setEventType(value); 
+    setEventType(value);
   };
 
   const handleShortChange = (value) => {
-   
-    setSortOrder(value); 
+    setSortOrder(value);
   };
   const handlePageChange = (page) => {
-
     setCurrentPage(page);
   };
-
-
 
   return (
     <div className="min-h-screen px-2 pt-5 lg:px-5 lg:pt-10">
@@ -141,7 +131,7 @@ const Events = () => {
                     onClick={() => setActiveTab("list")}
                     className={`${
                       activeTab === "list" ? "bg-white" : "bg-transparent"
-                    } rounded px-2 py-[8px]  w-[120px]`}
+                    } rounded px-2 py-[8px]  w-[120px] whitespace-nowrap`}
                   >
                     List View
                   </button>
@@ -149,7 +139,7 @@ const Events = () => {
                     onClick={() => setActiveTab("calendar")}
                     className={`${
                       activeTab === "calendar" ? "bg-white" : "bg-transparent"
-                    } py-1 rounded text-center w-[120px]`}
+                    } py-1 rounded text-center w-[120px] whitespace-nowrap`}
                   >
                     Calendar View
                   </button>
@@ -198,7 +188,7 @@ const Events = () => {
               <div className="hidden lg:block">
                 <button
                   onClick={() => setModal2Open(true)}
-                  className=" bg-[#234E6F] w-[100px] rounded-full py-2 text-white"
+                  className=" bg-[#234E6F] w-[100px] rounded-full whitespace-nowrap py-2 text-white"
                 >
                   + Add Event
                 </button>
@@ -234,12 +224,15 @@ const Events = () => {
                 </thead>
                 <tbody>
                   {data?.data?.data?.length > 0 ? (
-                    data.data.data.map((event, index) => {
+                    data?.data?.data?.map((event, index) => {
+                      const confirmWarehouse = event?.warehouse?.filter((e) => e.accept === true) || [];
+                      const confirmDriver = event?.driver?.filter((e) => e.accept === true) || [];
                       const totalSpotsFilled =
-                        event.warehouse.length + event.driver.length;
-                      const warehouseNeeded = event.warehouseNeeded + event.deliveryNeeded;
-                 
+                      confirmWarehouse?.length + confirmDriver?.length;
+                      const warehouseNeeded =
+                        event?.warehouseNeeded + event?.deliveryNeeded;
 
+                      console.log(data);
                       return (
                         <tr
                           key={event._id}
@@ -248,20 +241,20 @@ const Events = () => {
                           }`}
                         >
                           <td className="px-4 py-3 text-sm ">
-                            <Link to={`/event/eventDetails/${event._id}`}>
-                              {event.eventName}
+                            <Link to={`/event/eventDetails/${event?._id}`}>
+                              {event?.eventName}
                             </Link>
                           </td>
                           <td className="px-4 py-3 text-sm ">
-                            {(event.eventType === "MitzvahSunday" &&
+                            {(event?.eventType === "MitzvahSunday" &&
                               "Mitzvah Sunday") ||
-                              (event.eventType === "PersonalShopper" &&
+                              (event?.eventType === "PersonalShopper" &&
                                 "Personal Shopper") ||
-                              (event.eventType === "HolidayDrive" &&
+                              (event?.eventType === "HolidayDrive" &&
                                 "Holiday Drive")}
                           </td>
                           <td className="px-4 py-3 text-sm ">
-                            {new Date(event.dayOfEvent).toLocaleDateString()}
+                            {new Date(event?.dayOfEvent).toLocaleDateString()}
                           </td>
                           <td className="px-4 py-3 text-sm">
                             {totalSpotsFilled}/{warehouseNeeded}
@@ -302,8 +295,7 @@ const Events = () => {
                                     {
                                       key: "2",
                                       label: "Delete",
-                                      onClick: () =>
-                                        handleDelete(event._id),
+                                      onClick: () => handleDelete(event?._id),
                                     },
                                   ]}
                                 />

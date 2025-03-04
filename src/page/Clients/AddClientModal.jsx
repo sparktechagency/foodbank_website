@@ -122,10 +122,7 @@ export const AddClientModal = ({ modal2Open, setModal2Open }) => {
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item name="alternateNumber" label="Alternate Phone Number" rules={[
-            { required: true, message: "alternative Phone Number is required" },
-        
-          ]}>
+            <Form.Item name="alternateNumber" label="Alternate Phone Number (Optional)" >
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 

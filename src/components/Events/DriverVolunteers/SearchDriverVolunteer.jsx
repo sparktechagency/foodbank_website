@@ -15,12 +15,12 @@ export const SearchDriverVolunteer = ({ eventId }) => {
 
   const handleAddGroup = async (client) => {
     // Set loading state for this specific client
-    setLoadingStates((prev) => ({ ...prev, [client._id]: true }));
+    setLoadingStates((prev) => ({ ...prev, [client?._id]: true }));
 
-    const id = eventId._id;
+    const id = eventId?._id;
     const data = {
-      userId: client._id,
-      email: client.email,
+      userId: client?._id,
+      email: client?.email,
       type: "driver",
     };
 
@@ -33,19 +33,21 @@ export const SearchDriverVolunteer = ({ eventId }) => {
       message.error(error?.data?.message);
     } finally {
       // Reset loading state for this specific client
-      setLoadingStates((prev) => ({ ...prev, [client._id]: false }));
+      setLoadingStates((prev) => ({ ...prev, [client?._id]: false }));
     }
   };
 
  
   const drivers = eventId?.driver?.filter((ev) => ev.accept === false) || [];
+ 
 
   const clientGroups = clientData?.data?.filter(cln1 => 
-    !drivers?.some(cln2 => {
+    !eventId?.driver?.some(cln2 => {
       const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
       return isMatch;  
     })
   );  
+  console.log(clientGroups)
   return (
     <div>
       <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">
@@ -67,19 +69,19 @@ export const SearchDriverVolunteer = ({ eventId }) => {
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div className="">
         {clientGroups?.length > 0 ? (
-          clientGroups.map((item, index) => (
+          clientGroups?.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <Link to={`/clients/clientsDetails/${item.id}`}>
+              <Link to={`/clients/clientsDetails/${item?.id}`}>
                 <h1 className="mt-2">
-                  {item.firstName}&#160;{item.lastName}
+                  {item?.firstName}&#160;{item?.lastName}
                 </h1>
               </Link>
               <button
                 onClick={() => handleAddGroup(item)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
-                disabled={loadingStates[item._id]}
+                disabled={loadingStates[item?._id]}
               >
-                {loadingStates[item._id] ? <Spin size="small" /> : "Add Driver"}
+                {loadingStates[item?._id] ? <Spin size="small" /> : "Add Driver"}
               </button>
             </div>
           ))

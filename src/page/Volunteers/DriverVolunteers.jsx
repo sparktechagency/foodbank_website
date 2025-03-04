@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
-  IoIosArrowBack,
+
   IoIosArrowDown,
-  IoIosArrowForward,
+
 } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { useGetDriverQuery } from "../redux/api/volunteerApi";
-import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
-import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
+
 import { AddDriver } from "./AddDriver";
 import { EditDriver } from "./EditDriver";
 import { useDeleteDriverMutation } from "../redux/api/clientApi";
@@ -28,13 +27,7 @@ const DriverVolunteers = () => {
   const [deleteDriver] = useDeleteDriverMutation();
  
   const volunteers = allVolunteerData?.data
-  const totalPages = allVolunteerData
-    ? Math.ceil(allVolunteerData.data.length / itemsPerPage)
-    : 1;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
 
-  // Error and Loading States
   if (isLoading) {
     return <div><Loading></Loading></div>;
   }
@@ -43,17 +36,6 @@ const DriverVolunteers = () => {
     return <div><ServerError></ServerError></div>;
   }
 
-  // Slice Data for Pagination
-  const paginatedVolunteers =
-    allVolunteerData?.data.slice(startIndex, endIndex) || [];
- 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -243,14 +225,7 @@ const DriverVolunteers = () => {
         
       </div>
 
-      {/* <Pagination
-          current={currentPage}
-          pageSize={itemsPerPage}
-          total={allVolunteerData?.meta?.total || 0}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        /> */}
-
+ 
 
       <AddDriver setModal2Open={setModal2Open} modal2Open={modal2Open} />
       <EditDriver

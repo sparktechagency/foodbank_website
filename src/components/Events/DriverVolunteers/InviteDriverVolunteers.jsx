@@ -79,18 +79,18 @@ export const InviteDriverVolunteers = ({ event }) => {
           <p className="mt-2 mb-1">Driver Volunteers Group</p>
         </div>
         <div className="bg-white border px-4 py-2 rounded">
-        {paginatedGroups.length > 0 ? (
-              paginatedGroups.map((item, index) => (
+        {paginatedGroups?.length > 0 ? (
+              paginatedGroups?.map((item, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link to={`/group/details/${item?.gid?._id}`}>
-                    <h1 className="mt-2">{item.gid.groupName}</h1>
+                    <h1 className="mt-2">{item?.gid?.groupName}</h1>
                   </Link>
                   <button
-                    onClick={() => handleRemoveGroup(item.gid._id)}
+                    onClick={() => handleRemoveGroup(item?.gid?._id)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                    disabled={removeGroupLoading[item.gid._id]}
+                    disabled={removeGroupLoading[item?.gid?._id]}
                   >
-                    {removeGroupLoading[item.gid._id] ? <Spin size="small" /> : "Remove"}
+                    {removeGroupLoading[item?.gid?._id] ? <Spin size="small" /> : "Remove"}
                   </button>
                 </div>
               ))
@@ -113,8 +113,8 @@ export const InviteDriverVolunteers = ({ event }) => {
         <div>
         <p className="mt-2 mb-1">Driver Volunteers Requested</p>
         <div className="bg-white px-4 border py-2 rounded">
-        {paginatedDrivers.length > 0 ? (
-              paginatedDrivers.map((ev, index) => (
+        {paginatedDrivers?.length > 0 ? (
+              paginatedDrivers?.map((ev, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link to={`/clients/clientsDetails/${ev?.userId?._id}`}>
                     <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>

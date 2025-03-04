@@ -65,7 +65,7 @@ const ClientDetailsPage = () => {
 
                 <div className="mb-8">
                   <h1 className="font-semibold">Alternate Phone</h1>
-                  <p>{client?.alternativePhoneNo}</p>
+                  <p>{client?.alternativePhoneNo || "No Number"}</p>
                 </div>
               </div>
 

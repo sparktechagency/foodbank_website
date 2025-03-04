@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { CiLocationOn } from "react-icons/ci";
-import { IoIosArrowBack, IoIosArrowForward, IoIosTimer } from "react-icons/io";
-import { useParams } from "react-router-dom";
+import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useGetSingleEventGroupQuery,
   useGetSingleVolunteerAssignedQuery,
   useUpdateAssignedMutation,
 } from "../../page/redux/api/eventApi";
-import { CloudLightning } from "lucide-react";
-import { Button } from "antd";
+
+import { Button, Select } from "antd";
 
 const EventView = () => {
   const { eventId, volunteerId } = useParams();
-  
-  
+
+  const [sortOrder, setSortOrder] = useState("");
 
   const {
     data: singleClientData,
@@ -25,7 +25,7 @@ const EventView = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-  
+
 
   const { data: singleVolunteerData } = useGetSingleVolunteerAssignedQuery(
     { id: volunteerId },
@@ -34,76 +34,98 @@ const EventView = () => {
 
   const [updateAssigned, { isLoading: isUpdating }] = useUpdateAssignedMutation();
 
-  
+
 
   const volunteer = singleVolunteerData?.data;
- 
 
- 
+
+
   const client = singleClientData?.data?.event?.client;
-  
-  const assignedDate = client&&client.filter((c)=> c.assigned===true)
+
+  const assignedDate = client && client?.filter((c) => c.assigned === true)
 
   const event = singleClientData?.data?.event;
- 
-  const totalSpotsFilled = event?.warehouse.length + event?.driver.length;
+
+  const totalSpotsFilled = event?.warehouse?.length + event?.driver?.length;
   const warehouseNeeded = event?.warehouseNeeded;
 
   const dayOfEvent = event?.dayOfEvent
-    ? new Date(event.dayOfEvent).toLocaleDateString()
+    ? new Date(event?.dayOfEvent).toLocaleDateString()
     : "Unknown Date";
   const time =
     event?.startOfEvent && event?.endOfEvent
-      ? `${event.startOfEvent} - ${event.endOfEvent}`
+      ? `${event?.startOfEvent} - ${event?.endOfEvent}`
       : "Unknown Time";
 
- 
+  const [loading, setLoading] = useState({});
+
+  // Toggle assign button functionality
+  const toggleAssign = async (index) => {
+    const data = {
+      eventId: eventId,
+      volunteerId: volunteerId,
+      clientId: index?.userId?._id,
+    };
+
+    // Set loading state for this button
+    setLoading((prev) => ({ ...prev, [index._id]: true }));
+
+    try {
+
+      const res = await updateAssigned(data).unwrap();
+      if (res.success) {
+        setLoading((prev) => ({ ...prev, [index._id]: false }));
+      }
 
 
 
-      const [loading, setLoading] = useState({});
+    } catch (error) {
 
-      // Toggle assign button functionality
-      const toggleAssign = async (index) => {
-        const data = {
-          eventId: eventId,
-          volunteerId: volunteerId,
-          clientId: index?.userId?._id,
-        };
-      
-        // Set loading state for this button
-        setLoading((prev) => ({ ...prev, [index._id]: true }));
-      
-        try {
+      setLoading((prev) => ({ ...prev, [index._id]: false }));
+    }
+  };
 
-          const res = await updateAssigned(data).unwrap();
-          if(res.success){
-            setLoading((prev) => ({ ...prev, [index._id]: false }));
-          }
-         
+
+
+  const totalAssiendedNumber = client && client?.filter(clt =>
+    clt?.assignedUId?._id.toString() === volunteerId.toString()
+  )
+  const VolunteersData = client?.filter(cl => cl?.assignedUId?._id.toString() === volunteerId || cl?.assignedUId === null)
+  const handleSortChange = (value) => {
+    setSortOrder(value);
+  };
+  const sortedVolunteers = useMemo(() => {
+    if (!VolunteersData) return [];
   
-          
-        } catch (error) {
-          
-          setLoading((prev) => ({ ...prev, [index._id]: false }));
-        }
-      };
-    
-    
+    return [...VolunteersData].sort((a, b) => {
+      if (sortOrder === "address-asc") {
+        return a.userId.address?.localeCompare(b.userId.address);
+      } else if (sortOrder === "address-desc") {
+        return b.userId.address?.localeCompare(a.userId.address);
+      } else if (sortOrder === "city-asc") {
+        return a.userId.city?.localeCompare(b.userId.city);
+      } else if (sortOrder === "city-desc") {
+        return b.userId.city?.localeCompare(a.userId.city);
+      } else if (sortOrder === "name-asc") {
+        return a.userId.firstName?.localeCompare(b.userId.firstName);
+      } else if (sortOrder === "name-desc") {
+        return b.userId.firstName?.localeCompare(a.userId.firstName);
+      }
+      return 0; // Default: No sorting
+    });
+  }, [VolunteersData, sortOrder]);
 
-      const totalAssiendedNumber = client&& client?.filter(clt => 
-        clt?.assignedUId?._id.toString()===volunteerId.toString()
 
-      )
-   
-
+  console.log("sortedVolunteers",sortedVolunteers)
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen">
       <div className="lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1">
-          <span className="text-[#007AFF]">{event?.eventName}</span>{" "}
-          <IoIosArrowForward className="mt-1" /> {volunteer?.firstName}{" "}
-          {volunteer?.lastName} {totalSpotsFilled}/{warehouseNeeded}
+          <Link to={'/'}><span className="text-[#007AFF]">{event?.eventName}</span>{" "}</Link>
+          <IoIosArrowForward className="mt-1" /> <button onClick={() => navigate(-1)}>{volunteer?.firstName}{" "}
+          {volunteer?.lastName}</button>
+           {/* {totalSpotsFilled}/{warehouseNeeded} */}
         </h1>
 
         <div className="lg:flex justify-between">
@@ -130,8 +152,8 @@ const EventView = () => {
             <div>
               <div className="bg-[#E3F5FF] p-4 rounded-lg">
                 <p>Total Assigned : {volunteer?.firstName}{" "}
-                {volunteer?.lastName}</p>
-                <h1 className="text-xl font-semibold">{totalAssiendedNumber?.length||0}</h1>
+                  {volunteer?.lastName}</p>
+                <h1 className="text-xl font-semibold">{totalAssiendedNumber?.length || 0}</h1>
               </div>
             </div>
             <div>
@@ -148,6 +170,22 @@ const EventView = () => {
             </div> */}
           </div>
         </div>
+      </div>
+
+      <div className="flex justify-end mr-4 mt-4">
+      <Select
+  className="w-[120px] h-[43px]"
+  placeholder="Sort By"
+  onChange={handleSortChange}
+  options={[
+    { value: "address-asc", label: "Address (A-Z)" },
+    { value: "address-desc", label: "Address (Z-A)" },
+    { value: "city-asc", label: "City (A-Z)" },
+    { value: "city-desc", label: "City (Z-A)" },
+    { value: "name-asc", label: "Name (A-Z)" },
+    { value: "name-desc", label: "Name (Z-A)" },
+  ]}
+/>
       </div>
 
       <div className="lg:mx-5 mx-2 overflow-x-auto">
@@ -176,7 +214,7 @@ const EventView = () => {
             </tr>
           </thead>
           <tbody>
-            {client?.map((clients, index) => (
+            {sortedVolunteers?.map((clients, index) => (
               <tr
                 key={index}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
@@ -202,15 +240,14 @@ const EventView = () => {
                   {clients?.userId?.badgeNumber}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                <Button
+                  <Button
                     onClick={() => toggleAssign(clients)}
                     loading={loading[clients?._id]} // Show loading spinner only for this button
                     type="primary"
-                    className={`rounded-full font-semibold ${
-                      clients?.assigned
+                    className={`rounded-full font-semibold ${clients?.assigned
                         ? "bg-blue-500 text-white"
                         : "bg-gray-100 text-black"
-                    }`}
+                      }`}
                   >
                     {clients?.assigned ? "Assigned" : "Assign"}
                   </Button>
@@ -221,7 +258,7 @@ const EventView = () => {
         </table>
       </div>
 
-      
+
     </div>
   );
 };

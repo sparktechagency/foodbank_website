@@ -1,7 +1,7 @@
 import React from "react";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetConfirmedDriverQuery, useGetSingleEventGroupQuery } from "../../page/redux/api/eventApi";
 
 export const PendingDetails = () => {
@@ -23,24 +23,24 @@ export const PendingDetails = () => {
   );
   
   const dayOfEvent = event?.dayOfEvent
-  ? new Date(event.dayOfEvent).toLocaleDateString()
+  ? new Date(event?.dayOfEvent).toLocaleDateString()
   : "Unknown Date";
 const time =
   event?.startOfEvent && event?.endOfEvent
-    ? `${event.startOfEvent} - ${event.endOfEvent}`
+    ? `${event?.startOfEvent} - ${event?.endOfEvent}`
     : "Unknown Time";
 
   const result = confirmedDriver?.data?.data;
  
-
+  const navigate = useNavigate();
   return (
     <div>
       <div className="min-h-screen">
         <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
           <h1 className="flex gap-1 ">
-            <span className="text-[#007AFF]">Events</span>{" "}
+            <Link to={'/'}><span className="text-[#007AFF] ">Events</span>{" "}</Link>
             <IoIosArrowForward className="mt-1 " />{" "}
-            <span className="text-[#007AFF]">{event?.eventName}</span>
+            <button onClick={() => navigate(-1)} className="text-[#007AFF]">{event?.eventName}</button >
             <IoIosArrowForward className="mt-1 " /> Delivery Drivers :
             Volunteers With Response
           </h1>
@@ -67,21 +67,7 @@ const time =
 
         <div className="mt-5 lg:flex justify-between lg:px-5 px-2 pt-3">
           {/* Search Box */}
-          <div className="flex items-center border-b border-gray-300 px-1 w-full mr-5 pb-3">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5 text-gray-500"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M11 2a9 9 0 106.32 15.49l4.58 4.58a1 1 0 001.4-1.42l-4.58-4.58A9 9 0 0011 2zm0 2a7 7 0 110 14 7 7 0 010-14z" />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search Event"
-              className="ml-2 flex-1 bg-white outline-none text-sm text-gray-700 placeholder-gray-400"
-            />
-          </div>
+          
         </div>
 
         <div className="lg:mx-5 mx-2 overflow-x-auto">
@@ -108,23 +94,23 @@ const time =
             </thead>
             <tbody>
               {result &&
-                result.map((event, index) => (
+                result?.map((event, index) => (
                   <tr
                     key={index}
                     className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                   >
                     <td className=" px-4 py-3 text-sm">
-                      <Link to={`/volunteers/details/${event?.userId?._id}`}>{event?.userId?.firstName} {event?.userId?.lastName}</Link>
+                      <Link to={`/volunteers/details/${event?.driver?.userId?._id}`}>{event?.driver?.userId?.firstName} {event?.driver?.userId?.lastName}</Link>
                     </td>
                     <td className="px-4 py-3 text-sm">
-                      {event?.userId?.status
-                        ? event?.userId?.status.charAt(0).toUpperCase() +
-                          event?.userId?.status.slice(1)
+                      {event?.driver?.userId?.status
+                        ? event?.driver?.userId?.status.charAt(0).toUpperCase() +
+                          event?.driver?.userId?.status.slice(1)
                         : ""}
                     </td>
                     
 
-                    <td className="px-4 py-3 text-sm">{event?.userId?.volunteerType === true?'Yes':"No"}</td>
+                    <td className="px-4 py-3 text-sm">{event?.driver?.userId?.volunteerType === true?'Yes':"No"}</td>
                     {/* <td className="px-4 py-3 text-sm">Working...</td>
                     <td className="px-4 py-3 text-sm">
                       <Link to={`/event/eventView/${event?.userId?._id}`}>

@@ -123,11 +123,8 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
           <Input placeholder="Enter Phone Number" />
         </Form.Item>
         <Form.Item
-          name="alternativePhoneNo" label="Alternate Phone Number"
-          rules={[
-            { required: true, message: "alternative Phone Number is required" },
-        
-          ]}
+          name="alternativePhoneNo" label="Alternate Phone Number (Optional)"
+         
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>

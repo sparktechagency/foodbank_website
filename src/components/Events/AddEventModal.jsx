@@ -1,4 +1,13 @@
-import { Modal, Form, Input, Select, DatePicker, Button, TimePicker, message } from "antd";
+import {
+  Modal,
+  Form,
+  Input,
+  Select,
+  DatePicker,
+  Button,
+  TimePicker,
+  message,
+} from "antd";
 import React from "react";
 import { MdAccessTime } from "react-icons/md";
 import { useEventAddMutation } from "../../page/redux/api/eventApi";
@@ -10,27 +19,27 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
   const handleFinish = async (values) => {
     // Prepare the data to match the API requirements
     const data = {
-      eventName: values.name,
-      eventType: values.type,
-      location: values.location,
-      messageDeliveryDriver: values.message,
-      messageWarehouseVolunteer: values.volunteer,
-      dayOfEvent: values.date.format("YYYY-MM-DD"),
-      startOfEvent: values.timeFrom.format("h:mm A"),
-      endOfEvent: values.timeTo.format("h:mm A"),
-      deliveryNeeded: parseInt(values.deliveryDrivers),
-      warehouseNeeded: parseInt(values.warehouseVolunteers),
+      eventName: values?.name,
+      eventType: values?.type,
+      location: values?.location,
+      messageDeliveryDriver: values?.message,
+      messageWarehouseVolunteer: values?.volunteer,
+      dayOfEvent: values?.date.format("YYYY-MM-DD"),
+      startOfEvent: values?.timeFrom.format("h:mm A"),
+      endOfEvent: values?.timeTo.format("h:mm A"),
+      deliveryNeeded: parseInt(values?.deliveryDrivers),
+      warehouseNeeded: parseInt(values?.warehouseVolunteers),
     };
-
 
     try {
       const response = await eventAdd(data).unwrap();
-      message.success(response.message || "Event added successfully!");
+      message.success(response?.message || "Event added successfully!");
       form.resetFields();
       setModal2Open(false);
     } catch (error) {
-      message.error(error.data?.message || "Failed to add event. Please try again.");
-      
+      message.error(
+        error?.data?.message || "Failed to add event. Please try again."
+      );
     }
   };
 
@@ -80,7 +89,9 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           <Select placeholder="Select Event Type">
             <Select.Option value="MitzvahSunday">Mitzvah Sunday</Select.Option>
             <Select.Option value="HolidayDrive">Holiday Drive</Select.Option>
-            <Select.Option value="PersonalShopper">Personal Shopper</Select.Option>
+            <Select.Option value="PersonalShopper">
+              Personal Shopper
+            </Select.Option>
           </Select>
         </Form.Item>
 
@@ -114,13 +125,12 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
           </h1>
 
           <Form.Item
-  name="date"
-  label="On"
-  rules={[{ required: true, message: "Date is required" }]}
->
-  <DatePicker className="w-full" format="MM-DD-YYYY" />
-</Form.Item>
-
+            name="date"
+            label="On"
+            rules={[{ required: true, message: "Date is required" }]}
+          >
+            <DatePicker className="w-full" format="MM-DD-YYYY" />
+          </Form.Item>
 
           <Form.Item
             name="timeFrom"

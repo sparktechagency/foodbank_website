@@ -120,9 +120,9 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
             >
               <Select placeholder="Select Event Type">
                 <Select.Option value={true}>Yes</Select.Option>{" "}
-                {/* Boolean true */}
+              
                 <Select.Option value={false}>No</Select.Option>{" "}
-                {/* Boolean false */}
+                
               </Select>
             </Form.Item>
 
@@ -140,10 +140,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
               <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
-            <Form.Item name="alternateNumber" label="Alternate Phone Number" rules={[
-            { required: true, message: "alternative Phone Number is required" },
-        
-          ]}>
+            <Form.Item name="alternateNumber" label="Alternate Phone Number (Optional)">
               <Input placeholder="Enter Alternate Phone Number" />
             </Form.Item>
 

@@ -92,20 +92,20 @@ export const InviteClient = ({ event }) => {
           <p className="mt-2 mb-1">Client Groups</p>
         </div>
           <div className="bg-white border px-4 py-2 rounded">
-            {paginatedGroups.length > 0 ? (
-              paginatedGroups.map((item, index) => (
+            {paginatedGroups?.length > 0 ? (
+              paginatedGroups?.map((item, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link
-                    to={`/clients/ClientDeliveryDetailsPage/${item.gid._id}`}
+                    to={`/clients/ClientDeliveryDetailsPage/${item?.gid?._id}`}
                   >
-                    <h1 className="mt-2">{item.gid.groupName}</h1>
+                    <h1 className="mt-2">{item?.gid?.groupName}</h1>
                   </Link>
                   <button
-                    onClick={() => handleRemoveGroup(item.gid._id)}
+                    onClick={() => handleRemoveGroup(item?.gid?._id)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                    disabled={removeGroupLoading[item.gid._id]}
+                    disabled={removeGroupLoading[item?.gid?._id]}
                   >
-                    {removeGroupLoading[item.gid._id] ? (
+                    {removeGroupLoading[item?.gid?._id] ? (
                       <Spin size="small" />
                     ) : (
                       "Remove"
@@ -123,7 +123,7 @@ export const InviteClient = ({ event }) => {
                 <Pagination
                   current={groupPage}
                   pageSize={itemsPerPage}
-                  total={groups.length}
+                  total={groups?.length}
                   onChange={handleGroupPageChange}
                   showSizeChanger={false}
                 />
@@ -136,8 +136,8 @@ export const InviteClient = ({ event }) => {
         <div className="">
           <p className="mt-2 mb-1">Clients Added to Event</p>
           <div className="bg-white px-4 border py-2 rounded">
-            {paginatedClients.length > 0 ? (
-              paginatedClients.map((ev, index) => (
+            {paginatedClients?.length > 0 ? (
+              paginatedClients?.map((ev, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link to={`/clients/clientsDetails/${ev?.userId?.id}`}>
                     <h1 className="mt-2">
@@ -145,11 +145,11 @@ export const InviteClient = ({ event }) => {
                     </h1>
                   </Link>
                   <button
-                    onClick={() => handleRemoveEventGroup(ev.userId.email)}
+                    onClick={() => handleRemoveEventGroup(ev?.userId?.email)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                    disabled={removeClientLoading[ev.userId.email]}
+                    disabled={removeClientLoading[ev?.userId?.email]}
                   >
-                    {removeClientLoading[ev.userId.email] ? (
+                    {removeClientLoading[ev?.userId?.email] ? (
                       <Spin className="text-white" size="small" />
                     ) : (
                       "Remove"

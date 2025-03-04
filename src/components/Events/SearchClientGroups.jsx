@@ -75,16 +75,16 @@ export const SearchClientGroups = ({ eventId }) => {
         <div>
         {clientGroups?.length > 0 ? (
           clientGroups.map((group) => (
-            <div key={group._id} className="flex justify-between items-center space-y-4">
-              <Link to={`/clients/ClientDeliveryDetailsPage/${group._id}`}>
-                <h1 className="mt-2">{group.groupName}</h1>
+            <div key={group?._id} className="flex justify-between items-center space-y-4">
+              <Link to={`/clients/ClientDeliveryDetailsPage/${group?._id}`}>
+                <h1 className="mt-2">{group?.groupName}</h1>
               </Link>
               <button
-                onClick={() => handleAddGroup(group._id)}
+                onClick={() => handleAddGroup(group?._id)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
-                disabled={loadingStates[group._id]}
+                disabled={loadingStates[group?._id]}
               >
-                {loadingStates[group._id] ? <Spin size="small" /> : "Add Groups"}
+                {loadingStates[group?._id] ? <Spin size="small" /> : "Add Groups"}
               </button>
             </div>
           ))

@@ -2,7 +2,7 @@ import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { CiLocationOn } from "react-icons/ci";
 import { useState } from "react";
 import Volunteers from "./Volunteers";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import WhereHouseVolunteers from "./WhereHouseVolunteers";
 import { HolocaustCardSection } from "./HolocaustCardSection";
 import { InviteClient } from "./InviteClient";
@@ -41,7 +41,7 @@ const EventClientDetailsPage = () => {
     : "Unknown Date";
   const time =
     event?.startOfEvent && event?.endOfEvent
-      ? `${event.startOfEvent} - ${event.endOfEvent}`
+      ? `${event?.startOfEvent} - ${event?.endOfEvent}`
       : "Unknown Time";
 
   if (isLoading) return <Loading></Loading>
@@ -51,13 +51,15 @@ const EventClientDetailsPage = () => {
     <div className="min-h-screen">
       <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1 ">
-          <span className="text-[#007AFF]">Events</span>
-          <IoIosArrowForward className="mt-1" /> {eventName} {totalSpotsFilled}/
-          {warehouseNeeded}
+          <Link to={'/'}><span className="text-[#007AFF]">Events</span></Link>
+          <IoIosArrowForward className="mt-1" /> {eventName}
+           {/* {totalSpotsFilled}/
+          {warehouseNeeded} */}
         </h1>
 
         <h1 className="text-2xl font-bold mt-3">
-          {eventName} {totalSpotsFilled}/{warehouseNeeded}
+          {eventName} 
+          {/* {totalSpotsFilled}/{warehouseNeeded} */}
         </h1>
 
         <div className="lg:flex lg:gap-5 mt-3 ">

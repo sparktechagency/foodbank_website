@@ -1,17 +1,14 @@
 import { useState } from "react";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import {
-  IoIosArrowBack,
+
   IoIosArrowDown,
-  IoIosArrowForward,
+  
 } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { Dropdown, Menu, message, Modal, Pagination, Select } from "antd";
 import { useGetWarehouseQuery } from "../redux/api/volunteerApi";
-import { AddAllvolunteerModal } from "./AddAllvolunteerModal";
-import { EditAllVolunteerGroup } from "./EditAllVolunteerGroup";
-import { AddDriver } from "./AddDriver";
-import { EditDriver } from "./EditDriver";
+
 import { useDeleteWarehouseMutation } from "../redux/api/clientApi";
 import { AddWarehouse } from "./AddWarehouse";
 import { EditWarehouse } from "./EditWarehouse";
@@ -28,15 +25,9 @@ const DriverGroup = () => {
   const [modal2Open, setModal2Open] = useState(false);
   const [editModal, setEditModal] = useState({ isOpen: false, client: null });
   const [deleteDriver] = useDeleteWarehouseMutation()
-  // Pagination
-  const volunteers = allVolunteerData?.data
-  const totalPages = allVolunteerData
-    ? Math.ceil(allVolunteerData.data.length / itemsPerPage)
-    : 1;
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
   
+  const volunteers = allVolunteerData?.data
+ 
   if (isLoading) {
     return <div><Loading></Loading></div>;
   }
@@ -46,17 +37,8 @@ const DriverGroup = () => {
   }
 
   
-  // Slice Data for Pagination
-  const paginatedVolunteers =
-    allVolunteerData?.data.slice(startIndex, endIndex) || [];
 
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
-  };
+  
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -67,7 +49,7 @@ const DriverGroup = () => {
   
     setEditModal({
       isOpen: true,
-      client: volunteer, // Pass the volunteer object to the edit modal
+      client: volunteer, 
     });
   };
 
@@ -90,7 +72,7 @@ const DriverGroup = () => {
   };
   const handleShortChange = (value) => {
 
-    setSortOrder(value); // Update the selected filter type
+    setSortOrder(value); 
   };
 
 

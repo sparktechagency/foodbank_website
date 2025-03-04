@@ -14,8 +14,8 @@ export const AddModalClientDeliveriGroup = ({ modalOpen, setModalOpen }) => {
   });
 
   const clientOptions = clientData?.data?.map((client) => ({
-    label: `${client.firstName} ${client.lastName}`,
-    value: client._id, 
+    label: `${client?.firstName} ${client?.lastName}`,
+    value: client?._id, 
   })) || [];
  
 

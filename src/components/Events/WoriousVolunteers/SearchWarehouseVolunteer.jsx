@@ -21,8 +21,8 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
     const id = eventId._id
     
     const data = {
-      userId: client._id,
-      email: client.email,
+      userId: client?._id,
+      email: client?.email,
       type: "warehouse",
     };
    
@@ -41,8 +41,8 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
 
   const volunteers = eventId?.warehouse?.filter((ev) => ev.accept === false) || []; 
   const volunteersData = clientData?.data?.filter(cln1 => 
-    !volunteers?.some(cln2 => {
-      const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
+    !eventId?.warehouse?.some(cln2 => {
+      const isMatch = cln1?._id.toString() === cln2?.userId?._id.toString(); 
       return isMatch;  
     })
   ); 
@@ -68,20 +68,20 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div className="">
         {volunteersData?.length > 0 ? (
-          volunteersData.map((item, index) => (
+          volunteersData?.map((item, index) => (
             <div key={index} className="flex justify-between space-y-4">
-              <Link to={`/clients/clientsDetails/${item.id}`}>
+              <Link to={`/clients/clientsDetails/${item?.id}`}>
                 <h1 className="mt-2">
-                  {item.firstName}&nbsp;
-                  {item.lastName}
+                  {item?.firstName}&nbsp;
+                  {item?.lastName}
                 </h1>
               </Link>
               <button
                 onClick={() => handleAddGroup(item)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
-                disabled={loadingStates[item._id]}
+                disabled={loadingStates[item?._id]}
               >
-                {loadingStates[item._id] ? <Spin size="small" /> : "Add Warehouse"}
+                {loadingStates[item?._id] ? <Spin size="small" /> : "Add Warehouse"}
               </button>
             </div>
           ))

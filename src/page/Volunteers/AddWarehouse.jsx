@@ -87,11 +87,8 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
         </Form.Item>
 
         <Form.Item
-          name="alternativePhoneNo" label="Alternate Phone Number"
-          rules={[
-            { required: true, message: "alternative Phone Number is required" },
-        
-          ]}
+          name="alternativePhoneNo" label="Alternate Phone Number (Optional)"
+          
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>

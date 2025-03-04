@@ -9,8 +9,8 @@ export const EditClientDeliveryGroup = ({ isModalOpen, setEditModal, group }) =>
   // Generate options for Select dropdown
   const clientOptions =
     clients?.data?.map((volunteer) => ({
-      label: `${volunteer.firstName} ${volunteer.lastName}`,
-      value: volunteer._id,
+      label: `${volunteer?.firstName} ${volunteer?.lastName}`,
+      value: volunteer?._id,
     })) || [];
 
 
@@ -21,7 +21,7 @@ export const EditClientDeliveryGroup = ({ isModalOpen, setEditModal, group }) =>
     if (isModalOpen && group) {
       form.setFieldsValue({
         name: group?.groupName,
-        clients: group?.clients?.map((client) => client._id), // Set existing clients
+        clients: group?.clients?.map((client) => client?._id), // Set existing clients
       });
     }
   }, [isModalOpen, group, form]);

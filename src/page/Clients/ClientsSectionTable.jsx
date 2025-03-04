@@ -37,7 +37,7 @@ export const ClientsSectionTable = () => {
     id: client._id,
     clientName: `${client.firstName} ${client.lastName}`,
     phoneNo: client.phoneNo,
-    alternativePhoneNo: client.alternativePhoneNo,
+    alternativePhoneNo: client.alternativePhoneNo ,
     holocaustSurvivor: client.holocaustSurvivor,
     badgeNumber: client.badgeNumber,
     clientDeliveryGroups: client.meetings.map(
@@ -195,7 +195,7 @@ export const ClientsSectionTable = () => {
                 </td>
                 <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
                 <td className="px-4 py-3 text-sm">
-                  {client.alternativePhoneNo}
+                  {client.alternativePhoneNo || "No Number"}
                 </td>
                 <td className="px-4 py-3 text-sm">
                   {client.holocaustSurvivor ? "Yes" : "No"}
@@ -273,7 +273,6 @@ export const ClientsSectionTable = () => {
           onChange={handlePageChange}
           showSizeChanger={false}
         />
-          ;
         </div>
       </div>
       <AddClientModal

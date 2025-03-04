@@ -17,9 +17,11 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
   // Track loading states for "Remove Volunteer" butto
   const [removeVolunteerLoading, setRemoveVolunteerLoading] = useState({});
 
-  const groups = event?.groups?.filter((data) => data?.type === "warehouse") || [];
+  const groups =
+    event?.groups?.filter((data) => data?.type === "warehouse") || [];
   // const volunteers = event?.warehouse || [];
-  const volunteers = event?.warehouse?.filter((ev) => ev.accept === false) || [];
+  const volunteers =
+    event?.warehouse?.filter((ev) => ev.accept === false) || [];
 
   const itemsPerPage = 10;
 
@@ -33,8 +35,14 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
   };
 
   // Slice data for pagination
-  const paginatedGroups = groups.slice((groupPage - 1) * itemsPerPage, groupPage * itemsPerPage);
-  const paginatedVolunteers = volunteers.slice((volunteerPage - 1) * itemsPerPage, volunteerPage * itemsPerPage);
+  const paginatedGroups = groups.slice(
+    (groupPage - 1) * itemsPerPage,
+    groupPage * itemsPerPage
+  );
+  const paginatedVolunteers = volunteers.slice(
+    (volunteerPage - 1) * itemsPerPage,
+    volunteerPage * itemsPerPage
+  );
 
   const handleRemoveGroup = async (groupId) => {
     setRemoveGroupLoading((prev) => ({ ...prev, [groupId]: true }));
@@ -55,7 +63,10 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
     const data = { email, type: "warehouse" };
 
     try {
-      const response = await deleteEventClient({ id: event?._id, data }).unwrap();
+      const response = await deleteEventClient({
+        id: event?._id,
+        data,
+      }).unwrap();
       message.success(response.message);
     } catch (error) {
       message.error("Failed to remove volunteer from the event.");
@@ -69,49 +80,54 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
       <div className="grid grid-cols-2">
         <div>
           <h1 className="font-semibold">Invite Warehouse Volunteers</h1>
-          
         </div>
       </div>
 
       <div className="lg:grid grid-cols-2 gap-4">
         {/* Warehouse Groups Section */}
         <div>
-        <p className="mt-2 mb-1">Warehouse Volunteers Group</p>
-        <div className="bg-white border px-4 py-2 rounded">
-        {paginatedGroups.length > 0 ? (
-              paginatedGroups.map((item, index) => (
+          <p className="mt-2 mb-1">Warehouse Volunteers Group</p>
+          <div className="bg-white border px-4 py-2 rounded">
+            {paginatedGroups?.length > 0 ? (
+              paginatedGroups?.map((item, index) => (
                 <div key={index} className="flex justify-between space-y-4">
-                  <h1 className="mt-2">{item.gid.groupName}</h1>
+                  <h1 className="mt-2">{item?.gid?.groupName}</h1>
                   <button
-                    onClick={() => handleRemoveGroup(item.gid._id)}
+                    onClick={() => handleRemoveGroup(item?.gid?._id)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
-                    disabled={removeGroupLoading[item.gid._id]}
+                    disabled={removeGroupLoading[item?.gid?._id]}
                   >
-                    {removeGroupLoading[item.gid._id] ? <Spin size="small" /> : "Remove"}
+                    {removeGroupLoading[item?.gid?._id] ? (
+                      <Spin size="small" />
+                    ) : (
+                      "Remove"
+                    )}
                   </button>
                 </div>
               ))
             ) : (
-              <div className=" py-2"><NoData></NoData></div>
+              <div className=" py-2">
+                <NoData></NoData>
+              </div>
             )}
-          <div className="mt-4 flex justify-end">
-            <Pagination
-              current={groupPage}
-              pageSize={itemsPerPage}
-              total={groups.length}
-              onChange={handleGroupPageChange}
-              showSizeChanger={false}
-            />
+            <div className="mt-4 flex justify-end">
+              <Pagination
+                current={groupPage}
+                pageSize={itemsPerPage}
+                total={groups.length}
+                onChange={handleGroupPageChange}
+                showSizeChanger={false}
+              />
+            </div>
           </div>
-        </div>
         </div>
 
         {/* Warehouse Volunteers Added to Event Section */}
         <div>
-        <p className="mt-2 mb-1">Warehouse Volunteers Requested</p>
-        <div className="bg-white px-4 border py-2 rounded">
-        {paginatedVolunteers.length > 0 ? (
-              paginatedVolunteers.map((ev, index) => (
+          <p className="mt-2 mb-1">Warehouse Volunteers Requested</p>
+          <div className="bg-white px-4 border py-2 rounded">
+            {paginatedVolunteers?.length > 0 ? (
+              paginatedVolunteers?.map((ev, index) => (
                 <div key={index} className="flex justify-between space-y-4">
                   <Link to={`/clients/clientsDetails/${ev?.userId?._id}`}>
                     <h1 className="mt-2">
@@ -123,23 +139,29 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
                     disabled={removeVolunteerLoading[ev?.email]}
                   >
-                    {removeVolunteerLoading[ev?.email] ? <Spin size="small" /> : "Remove"}
+                    {removeVolunteerLoading[ev?.email] ? (
+                      <Spin size="small" />
+                    ) : (
+                      "Remove"
+                    )}
                   </button>
                 </div>
               ))
             ) : (
-              <div className=" py-2"><NoData></NoData></div>
+              <div className=" py-2">
+                <NoData></NoData>
+              </div>
             )}
-          <div className="mt-4 flex justify-end">
-            <Pagination
-              current={volunteerPage}
-              pageSize={itemsPerPage}
-              total={volunteers.length}
-              onChange={handleVolunteerPageChange}
-              showSizeChanger={false}
-            />
+            <div className="mt-4 flex justify-end">
+              <Pagination
+                current={volunteerPage}
+                pageSize={itemsPerPage}
+                total={volunteers.length}
+                onChange={handleVolunteerPageChange}
+                showSizeChanger={false}
+              />
+            </div>
           </div>
-        </div>
         </div>
       </div>
     </div>

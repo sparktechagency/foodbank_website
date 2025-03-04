@@ -112,11 +112,8 @@ export const EditDriver = ({ client, setModal2Open1, isModalOpen }) => {
         </Form.Item>
 
         <Form.Item
-          name="alternativePhoneNo" label="Alternate Phone Number"
-          rules={[
-            { required: true, message: "alternative Phone Number is required" },
-        
-          ]}
+          name="alternativePhoneNo" label="Alternate Phone Number (Optional)"
+          
         >
           <Input placeholder="Enter Phone Number" />
         </Form.Item>
