@@ -39,15 +39,15 @@ const WhereHouseVolunteers = ({event}) => {
 
             // className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
             >
-              <td className=" px-4 py-3 text-sm">{event.eventType}</td>
-              <td className=" px-4 py-3 text-sm">{event.warehouseNeeded}</td>
+              <td className=" px-4 py-3 text-sm">{event?.eventType}</td>
+              <td className=" px-4 py-3 text-sm">{event?.warehouseNeeded}</td>
               <td className=" px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-              <Link to={`/event/confirmedWarehouse/${event._id}`}>
+              <Link to={`/event/confirmedWarehouse/${event?._id}`}>
                   {acceptDriver?.length}
                 </Link>
               </td>
               <td className="px-4 py-3 text-sm text-[#007AFF] font-semibold underline">
-              <Link to={`/event/pending-Warehouse/${event._id}`}>{pendingDriver?.length}    </Link>
+              <Link to={`/event/pending-Warehouse/${event?._id}`}>{pendingDriver?.length}    </Link>
               </td>
             </tr>
           </tbody>

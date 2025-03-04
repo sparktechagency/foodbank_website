@@ -74,7 +74,7 @@ export const SearchClientGroups = ({ eventId }) => {
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
         {clientGroups?.length > 0 ? (
-          clientGroups.map((group) => (
+          clientGroups?.map((group) => (
             <div key={group?._id} className="flex justify-between items-center space-y-4">
               <Link to={`/clients/ClientDeliveryDetailsPage/${group?._id}`}>
                 <h1 className="mt-2">{group?.groupName}</h1>

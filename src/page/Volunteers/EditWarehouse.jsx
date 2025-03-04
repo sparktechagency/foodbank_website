@@ -10,17 +10,17 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
   useEffect(() => {
     if (client) {
       form.setFieldsValue({
-        first: client.firstName,
-        last: client.lastName,
-        email: client.email,
-        number: client.phoneNo,
-        alternativePhoneNo: client.alternativePhoneNo,
-        adress: client.address,
-        Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
+        first: client?.firstName,
+        last: client?.lastName,
+        email: client?.email,
+        number: client?.phoneNo,
+        alternativePhoneNo: client?.alternativePhoneNo,
+        adress: client?.address,
+        Holocaust: client?.volunteerType ? "1" : "2", // Yes for true, No for false
         volunteerRole:
-          client.volunteerRole === "driver"
+          client?.volunteerRole === "driver"
             ? "1"
-            : client.volunteerRole === "warehouse"
+            : client?.volunteerRole === "warehouse"
             ? "2"
             : "3", // Map volunteerRole to dropdown values
       });
@@ -29,20 +29,20 @@ export const EditWarehouse = ({ client, setModal2Open1, isModalOpen }) => {
 
   const handleFinish = async (values) => {
     const data = {
-      firstName: values.first,
-      lastName: values.last,
-      email: values.email,
-      phoneNo: values.number,
-      alternativePhoneNo: values.alternativePhoneNo,
-      address: values.adress,
-      volunteerType: values.Holocaust === "1", 
+      firstName: values?.first,
+      lastName: values?.last,
+      email: values?.email,
+      phoneNo: values?.number,
+      alternativePhoneNo: values?.alternativePhoneNo,
+      address: values?.adress,
+      volunteerType: values?.Holocaust === "1", 
       volunteerRole:"warehouse"
     };
 
    
 
     try {
-      const response = await updateVolunteers({ id: client._id, data }).unwrap();
+      const response = await updateVolunteers({ id: client?._id, data }).unwrap();
    
       setModal2Open1(false);
       form.resetFields();

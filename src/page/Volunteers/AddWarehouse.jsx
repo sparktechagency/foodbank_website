@@ -9,13 +9,13 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
   const handleFinish = async (values) => {
     // Construct payload
     const data = {
-      firstName: values.first,
-      lastName: values.last,
-      email: values.email,
-      phoneNo: values.number,
-      alternativePhoneNo: values.alternativePhoneNo,
-      address: values.adress,
-      volunteerType: values.Holocaust , 
+      firstName: values?.first,
+      lastName: values?.last,
+      email: values?.email,
+      phoneNo: values?.number,
+      alternativePhoneNo: values?.alternativePhoneNo,
+      address: values?.adress,
+      volunteerType: values?.Holocaust , 
       volunteerRole:"warehouse",
       status: "warehouse", 
     };
@@ -24,12 +24,12 @@ export const AddWarehouse = ({ modal2Open, setModal2Open }) => {
     try {
       const response = await volunteerAdd(data).unwrap();
    
-      message.success(response.message );
+      message.success(response?.message );
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
      
-      message.error(error.data?.message);
+      message.error(error?.data?.message);
     }
   };
 

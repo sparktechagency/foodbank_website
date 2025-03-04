@@ -149,19 +149,19 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
             </tr>
           </thead>
           <tbody>
-            {volunteers.map((group) => (
-              <tr key={group._id} className="bg-white">
+            {volunteers?.map((group) => (
+              <tr key={group?._id} className="bg-white">
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/group/details/${group._id}`}>
+                  <Link to={`/group/details/${group?._id}`}>
                     {group?.groupName}
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {group.types === "warehouse"
+                  {group?.types === "warehouse"
                     ? "Warehouse Volunteer"
                     : "Driver Volunteer"}
                 </td>
-                <td className="px-4 py-3 text-sm">{group.clients?.length}</td>
+                <td className="px-4 py-3 text-sm">{group?.clients?.length}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   <Dropdown
                     overlay={
@@ -176,7 +176,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
                           {
                             key: "2",
                             label: "Delete",
-                            onClick:() => handleDelete(group._id),
+                            onClick:() => handleDelete(group?._id),
                           },
                         ]}
                       />
@@ -213,7 +213,7 @@ const [deleteVolunteerGroup] = useDeleteVolunteersGroupMutation()
       <EditGroupModal
         isModalOpen={editModal.isOpen}
         setModal2Open1={setEditModal}
-        group={editModal.group}
+        group={editModal?.group}
       />
     </div>
   );

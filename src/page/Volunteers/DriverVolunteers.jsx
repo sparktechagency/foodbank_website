@@ -143,41 +143,41 @@ const DriverVolunteers = () => {
             </tr>
           </thead>
           <tbody>
-            {volunteers.map((volunteer, index) => (
+            {volunteers?.map((volunteer, index) => (
               <tr
-                key={volunteer._id}
+                key={volunteer?._id}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/drivers/details/${volunteer._id}`}>
-                    {volunteer.firstName} {volunteer.lastName}
+                  <Link to={`/drivers/details/${volunteer?._id}`}>
+                    {volunteer?.firstName} {volunteer?.lastName}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-sm">{volunteer.phoneNo}</td>
-                <td className="px-4 py-3 text-sm">{volunteer.email}</td>
+                <td className="px-4 py-3 text-sm">{volunteer?.phoneNo}</td>
+                <td className="px-4 py-3 text-sm">{volunteer?.email}</td>
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.volunteerType ? "Yes" : "No"}
+                  {volunteer?.volunteerType ? "Yes" : "No"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.volunteerRole === 'driver'
+                  {volunteer?.volunteerRole === 'driver'
                     ? "Driver Volunteer"
                     : "Warehouse Volunteer"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.meetings.length > 0 ? (
+                  {volunteer?.meetings?.length > 0 ? (
                     <Dropdown
                       overlay={
                         <Menu
-                          items={volunteer.meetings.map((meeting) => ({
-                            key: meeting._id,
-                            label: meeting.groupName,
+                          items={volunteer?.meetings?.map((meeting) => ({
+                            key: meeting?._id,
+                            label: meeting?.groupName,
                           }))}
                         />
                       }
                       trigger={["click"]}
                     >
                       <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
-                        {volunteer.meetings.length} Groups
+                        {volunteer?.meetings?.length} Groups
                         <IoIosArrowDown />
                       </div>
                     </Dropdown>
@@ -198,7 +198,7 @@ const DriverVolunteers = () => {
                           {
                             key: "2",
                             label: "Delete",
-                            onClick: () => handleDelete(volunteer._id),
+                            onClick: () => handleDelete(volunteer?._id),
                           },
                         ]}
                       />
@@ -231,7 +231,7 @@ const DriverVolunteers = () => {
       <EditDriver
         isModalOpen={editModal.isOpen}
         setModal2Open1={setEditModal}
-        client={editModal.client}
+        client={editModal?.client}
       />
     </div>
   );

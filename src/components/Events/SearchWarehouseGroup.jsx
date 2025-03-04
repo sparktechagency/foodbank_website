@@ -75,9 +75,9 @@ export const SearchWarehouseGroup = ({ eventId }) => {
       <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
         <div>
         {drivers?.length > 0 ? (
-          drivers.map((group) => (
+          drivers?.map((group) => (
             <div
-              key={group._id}
+              key={group?._id}
               className="flex justify-between items-center space-y-4"
             >
               <Link to={`/group/details/${group?._id}`}>
@@ -88,7 +88,7 @@ export const SearchWarehouseGroup = ({ eventId }) => {
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm"
                 disabled={loadingStates[group?._id]}
               >
-                {loadingStates[group._id] ? <Spin size="small" /> : "Add Groups"}
+                {loadingStates[group?._id] ? <Spin size="small" /> : "Add Groups"}
               </button>
             </div>
           ))

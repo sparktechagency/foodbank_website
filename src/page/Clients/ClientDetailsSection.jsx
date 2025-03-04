@@ -38,18 +38,18 @@ export const ClientDetailsSection = ({ singleClientData }) => {
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/event/eventDetails/${eventItem._id}`}>
+                  <Link to={`/event/eventDetails/${eventItem?._id}`}>
                     <p className="text-[#007AFF] underline">
-                      {eventItem.eventName}
+                      {eventItem?.eventName}
                     </p>
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {new Date(eventItem.dayOfEvent).toLocaleDateString()}
+                  {new Date(eventItem?.dayOfEvent).toLocaleDateString()}
                 </td>
-                <td className="px-4 py-3 text-sm">{eventItem.endOfEvent}</td>
-                <td className="px-4 py-3 text-sm">{eventItem.eventType}</td>
-                <td className="px-4 py-3 text-sm">{eventItem.location}</td>
+                <td className="px-4 py-3 text-sm">{eventItem?.endOfEvent}</td>
+                <td className="px-4 py-3 text-sm">{eventItem?.eventType}</td>
+                <td className="px-4 py-3 text-sm">{eventItem?.location}</td>
               </tr>
             ))}
           </tbody>

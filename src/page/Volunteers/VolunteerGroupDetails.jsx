@@ -61,18 +61,18 @@ const VolunteerGroupDetails = () => {
             </tr>
           </thead>
           <tbody>
-            {currentVolunteers.map((volunteer, index) => (
+            {currentVolunteers?.map((volunteer, index) => (
               <tr
                 key={volunteer._id}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/volunteers/details/${volunteer._id}`}>{volunteer.firstName} {volunteer.lastName}</Link>
+                  <Link to={`/volunteers/details/${volunteer?._id}`}>{volunteer?.firstName} {volunteer?.lastName}</Link>
                 </td>
-                <td className="px-4 py-3 text-sm">{volunteer.phoneNo}</td>
-                <td className="px-4 py-3 text-sm">{volunteer.email}</td>
+                <td className="px-4 py-3 text-sm">{volunteer?.phoneNo}</td>
+                <td className="px-4 py-3 text-sm">{volunteer?.email}</td>
                 <td className="px-4 py-3 text-sm">
-                  {volunteer.volunteerType ? "Yes" : "No"}
+                  {volunteer?.volunteerType ? "Yes" : "No"}
                 </td>
                 <td className="px-4 py-3 text-sm">{volunteer?.volunteerRole}</td>
               </tr>
@@ -83,8 +83,8 @@ const VolunteerGroupDetails = () => {
 
       <div className="flex justify-between items-center mt-4 px-4">
         <span className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {Math.min(endIndex, volunteers.length)} of{" "}
-          {volunteers.length} items
+          Showing {startIndex + 1} to {Math.min(endIndex, volunteers?.length)} of{" "}
+          {volunteers?.length} items
         </span>
         <div className="flex gap-2">
           <button

@@ -9,22 +9,22 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
   const handleFinish = async (values) => {
     // Construct payload
     const data = {
-      firstName: values.first,
-      lastName: values.last,
-      email: values.email,
-      phoneNo: values.number,
-      alternativePhoneNo: values.alternateNumber,
-      address: values.adress,
-      volunteerType: values.Holocaust,
+      firstName: values?.first,
+      lastName: values?.last,
+      email: values?.email,
+      phoneNo: values?.number,
+      alternativePhoneNo: values?.alternateNumber,
+      address: values?.adress,
+      volunteerType: values?.Holocaust,
       volunteerRole:
-        values.volunteerRole === "1"
+        values?.volunteerRole === "1"
           ? "driver"
-          : values.volunteerRole === "2" && "warehouse",
+          : values?.volunteerRole === "2" && "warehouse",
       // : "both"
       status:
-        values.volunteerRole === "1"
+        values?.volunteerRole === "1"
           ? "driver"
-          : values.volunteerRole === "2" && "warehouse",
+          : values?.volunteerRole === "2" && "warehouse",
     };
 
     
@@ -32,12 +32,12 @@ export const AddAllvolunteerModal = ({ modal2Open, setModal2Open }) => {
     try {
       const response = await volunteerAdd(data).unwrap();
      
-      message.success(response.message);
+      message.success(response?.message);
       setModal2Open(false);
       form.resetFields();
     } catch (error) {
       
-      message.error(error.data?.message);
+      message.error(error?.data?.message);
     }
   };
 

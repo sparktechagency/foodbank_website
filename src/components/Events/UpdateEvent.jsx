@@ -21,18 +21,18 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
   useEffect(() => {
     if (event) {
       form.setFieldsValue({
-        name: event.eventName || "",
-        type: event.eventType || "",
-        location: event.location || "",
-        date: event.dayOfEvent ? dayjs(event.dayOfEvent) : null,
-        timeFrom: event.startOfEvent
-          ? dayjs(event.startOfEvent, "h:mm A")
+        name: event?.eventName || "",
+        type: event?.eventType || "",
+        location: event?.location || "",
+        date: event?.dayOfEvent ? dayjs(event?.dayOfEvent) : null,
+        timeFrom: event?.startOfEvent
+          ? dayjs(event?.startOfEvent, "h:mm A")
           : null,
-        timeTo: event.endOfEvent ? dayjs(event.endOfEvent, "h:mm A") : null,
-        deliveryDrivers: event.deliveryNeeded?.toString() || "",
-        warehouseVolunteers: event.warehouseNeeded?.toString() || "",
-        message: event.messageDeliveryDriver || "",
-        volunteer: event.messageWarehouseVolunteer || "",
+        timeTo: event?.endOfEvent ? dayjs(event?.endOfEvent, "h:mm A") : null,
+        deliveryDrivers: event?.deliveryNeeded?.toString() || "",
+        warehouseVolunteers: event?.warehouseNeeded?.toString() || "",
+        message: event?.messageDeliveryDriver || "",
+        volunteer: event?.messageWarehouseVolunteer || "",
       });
     }
   }, [event, isModalOpen]);
@@ -40,26 +40,26 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
   const handleFinish = async (values) => {
     // Prepare the data for updating the event
     const data = {
-      eventName: values.name,
-      eventType: values.type,
-      location: values.location,
-      messageDeliveryDriver: values.message,
-      messageWarehouseVolunteer: values.volunteer,
-      dayOfEvent: values.date.format("YYYY-MM-DD"),
-      startOfEvent: values.timeFrom.format("h:mm A"),
-      endOfEvent: values.timeTo.format("h:mm A"),
-      deliveryNeeded: parseInt(values.deliveryDrivers),
-      warehouseNeeded: parseInt(values.warehouseVolunteers),
+      eventName: values?.name,
+      eventType: values?.type,
+      location: values?.location,
+      messageDeliveryDriver: values?.message,
+      messageWarehouseVolunteer: values?.volunteer,
+      dayOfEvent: values?.date.format("YYYY-MM-DD"),
+      startOfEvent: values?.timeFrom.format("h:mm A"),
+      endOfEvent: values?.timeTo.format("h:mm A"),
+      deliveryNeeded: parseInt(values?.deliveryDrivers),
+      warehouseNeeded: parseInt(values?.warehouseVolunteers),
     };
 
     try {
-      const response = await updateEvent({ id: event._id, data }).unwrap();
-      message.success(response.message || "Event updated successfully!");
+      const response = await updateEvent({ id: event?._id, data }).unwrap();
+      message.success(response?.message || "Event updated successfully!");
       form.resetFields();
       setModal2Open1(false);
     } catch (error) {
       message.error(
-        error.data?.message || "Failed to update event. Please try again."
+        error?.data?.message || "Failed to update event. Please try again."
       );
      
     }

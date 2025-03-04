@@ -38,7 +38,7 @@ const VolunteerDetailsPage = () => {
       <EditAllVolunteerGroup
             isModalOpen={editModal.isOpen}
             setModal2Open1={setEditModal}
-            client={editModal.client}
+            client={editModal?.client}
           />
 
       <div className="bg-[#FAFAFA]">

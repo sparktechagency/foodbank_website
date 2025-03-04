@@ -116,14 +116,14 @@ const ClientDeliveryDetailsPage = () => {
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
                   <td className="px-4 py-3 text-sm">
-                    <Link to={`/clients/clientsDetails/${event.id}`}>{event.firstName} {event.lastName}</Link>
+                    <Link to={`/clients/clientsDetails/${event?.id}`}>{event?.firstName} {event?.lastName}</Link>
                   </td>
-                  <td className="px-4 py-3 text-sm">{event.phoneNo}</td>
-                  <td className="px-4 py-3 text-sm">{event.alternativePhoneNo}</td>
-                  <td className="px-4 py-3 text-sm">{event.address}</td>
-                  <td className="px-4 py-3 text-sm">{event.city}</td>
-                  <td className="px-4 py-3 text-sm">{event.zipCode}</td>
-                  <td className="px-4 py-3 text-sm">{event.badgeNumber}</td>
+                  <td className="px-4 py-3 text-sm">{event?.phoneNo}</td>
+                  <td className="px-4 py-3 text-sm">{event?.alternativePhoneNo}</td>
+                  <td className="px-4 py-3 text-sm">{event?.address}</td>
+                  <td className="px-4 py-3 text-sm">{event?.city}</td>
+                  <td className="px-4 py-3 text-sm">{event?.zipCode}</td>
+                  <td className="px-4 py-3 text-sm">{event?.badgeNumber}</td>
                 </tr>
               ))}
             </tbody>

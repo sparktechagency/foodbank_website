@@ -34,14 +34,14 @@ export const ClientsSectionTable = () => {
   const [deleteClient] = useDeleteClientMutation();
 
   const clientData = data?.data?.map((client) => ({
-    id: client._id,
-    clientName: `${client.firstName} ${client.lastName}`,
-    phoneNo: client.phoneNo,
-    alternativePhoneNo: client.alternativePhoneNo ,
-    holocaustSurvivor: client.holocaustSurvivor,
-    badgeNumber: client.badgeNumber,
-    clientDeliveryGroups: client.meetings.map(
-      (meeting) => meeting.clientGroupName
+    id: client?._id,
+    clientName: `${client?.firstName} ${client?.lastName}`,
+    phoneNo: client?.phoneNo,
+    alternativePhoneNo: client?.alternativePhoneNo ,
+    holocaustSurvivor: client?.holocaustSurvivor,
+    badgeNumber: client?.badgeNumber,
+    clientDeliveryGroups: client?.meetings?.map(
+      (meeting) => meeting?.clientGroupName
     ),
   }));
  
@@ -72,9 +72,9 @@ export const ClientsSectionTable = () => {
       onOk: async () => {
         try {
           const response = await deleteClient(id).unwrap();
-          message.success(response.message);
+          message.success(response?.message);
         } catch (error) {
-          message.error(error.data?.message);
+          message.error(error?.data?.message);
         }
       },
     });
@@ -189,32 +189,32 @@ export const ClientsSectionTable = () => {
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">
-                  <Link to={`/clients/clientsDetails/${client.id}`}>
-                  {client.firstName} {client.lastName}
+                  <Link to={`/clients/clientsDetails/${client?.id}`}>
+                  {client?.firstName} {client?.lastName}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-sm">{client.phoneNo}</td>
+                <td className="px-4 py-3 text-sm">{client?.phoneNo}</td>
                 <td className="px-4 py-3 text-sm">
-                  {client.alternativePhoneNo || "No Number"}
+                  {client?.alternativePhoneNo || "No Number"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {client.holocaustSurvivor ? "Yes" : "No"}
+                  {client?.holocaustSurvivor ? "Yes" : "No"}
                 </td>
                 <td className="px-4 py-3 text-sm">
-                  {client.meetings.length > 0 ? (
+                  {client?.meetings?.length > 0 ? (
                     <Dropdown
                       overlay={
                         <Menu
-                          items={client.meetings.map((meeting) => ({
-                            key: meeting._id,
-                            label: meeting.groupName,
+                          items={client?.meetings.map((meeting) => ({
+                            key: meeting?._id,
+                            label: meeting?.groupName,
                           }))}
                         />
                       }
                       trigger={["click"]}
                     >
                       <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between">
-                        {client.meetings.length} Groups
+                        {client?.meetings?.length} Groups
                         <IoIosArrowDown />
                       </div>
                     </Dropdown>
@@ -222,7 +222,7 @@ export const ClientsSectionTable = () => {
                     "No Groups"
                   )}
                 </td>
-                <td className="px-4 py-3 text-sm">{client.badgeNumber}</td>
+                <td className="px-4 py-3 text-sm">{client?.badgeNumber}</td>
                 <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
                   {/* <details className="dropdown">
                     <summary className="btn m-1 bg-[#00000000] -my-3 px-0 shadow-none hover:bg-[#ffffff00] border-none">

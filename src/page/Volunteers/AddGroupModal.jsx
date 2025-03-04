@@ -17,8 +17,8 @@ export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
 
   const clientOptions =
     allVolunteer?.data?.data?.map((volunteer) => ({
-      label: `${volunteer.firstName} ${volunteer.lastName}`,
-      value: volunteer._id,
+      label: `${volunteer?.firstName} ${volunteer?.lastName}`,
+      value: volunteer?._id,
     })) || [];
 
   const handleClientChange = (selectedClientIds) => {
@@ -31,9 +31,9 @@ export const AddGroupModal = ({ modal2Open, setModal2Open }) => {
 
   const handleFinish = async (values) => {
     const data = {
-      groupName: values.groupName,
-      types: values.volunteerType,
-      clients: formData.clients,
+      groupName: values?.groupName,
+      types: values?.volunteerType,
+      clients: formData?.clients,
     };
 
     try {

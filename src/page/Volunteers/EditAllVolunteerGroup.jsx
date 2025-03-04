@@ -10,18 +10,18 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
   useEffect(() => {
     if (client) {
       form.setFieldsValue({
-        first: client.firstName,
-        last: client.lastName,
-        email: client.email,
-        number: client.phoneNo,
+        first: client?.firstName,
+        last: client?.lastName,
+        email: client?.email,
+        number: client?.phoneNo,
        
-        adress: client.address,
-        alternativePhoneNo: client.alternativePhoneNo,
-        Holocaust: client.volunteerType ? "1" : "2", // Yes for true, No for false
+        adress: client?.address,
+        alternativePhoneNo: client?.alternativePhoneNo,
+        Holocaust: client?.volunteerType ? "1" : "2", // Yes for true, No for false
         volunteerRole:
-          client.volunteerRole === "driver"
+          client?.volunteerRole === "driver"
             ? "1"
-            : client.volunteerRole === "warehouse"
+            : client?.volunteerRole === "warehouse"
             ? "2"
             : "3", // Map volunteerRole to dropdown values
       });
@@ -30,23 +30,23 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
 
   const handleFinish = async (values) => {
     const data = {
-      firstName: values.first,
-      lastName: values.last,
-      email: values.email,
-      phoneNo: values.number,
-      address: values.adress,
-      alternativePhoneNo: values.alternativePhoneNo,
-      volunteerType: values.Holocaust === "1", 
+      firstName: values?.first,
+      lastName: values?.last,
+      email: values?.email,
+      phoneNo: values?.number,
+      address: values?.adress,
+      alternativePhoneNo: values?.alternativePhoneNo,
+      volunteerType: values?.Holocaust === "1", 
       volunteerRole:
-        values.volunteerRole === "1"
+        values?.volunteerRole === "1"
           ? "driver"
-          : values.volunteerRole === "2"
+          : values?.volunteerRole === "2"
           ? "warehouse"
           : "both",
           status:
-          values.volunteerRole === "1"
+          values?.volunteerRole === "1"
             ? "driver"
-            : values.volunteerRole === "2"
+            : values?.volunteerRole === "2"
             && "warehouse",  // Map dropdown values to backend roles
     };
 

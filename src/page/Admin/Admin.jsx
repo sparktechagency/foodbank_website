@@ -115,18 +115,18 @@ const Admin = () => {
             <tbody>
               {allUser?.data?.map((user, index) => (
                 <tr
-                  key={user._id}
+                  key={user?._id}
                   className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
                 >
                   <td className="px-4 py-3 text-sm">
-                    {user.firstName} {user.lastName}
+                    {user?.firstName} {user?.lastName}
                   </td>
-                  <td className="px-4 py-3 text-sm">{user.email}</td>
+                  <td className="px-4 py-3 text-sm">{user?.email}</td>
                   <td className="px-4 py-3 text-sm">
-                    {new Date(user.createdAt).toLocaleDateString()}
+                    {new Date(user?.createdAt).toLocaleDateString()}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-500 flex justify-end">
-                    {user.role === "super_admin" ? (
+                    {user?.role === "super_admin" ? (
                       <button
                         className="text-blue-500 bg-transparent border border-blue-500 rounded px-3 py-1"
                         disabled
@@ -135,7 +135,7 @@ const Admin = () => {
                       </button>
                     ) : (
                       <button
-                        onClick={() => handleDelete(user._id)}
+                        onClick={() => handleDelete(user?._id)}
                         className="text-red-500 bg-transparent border border-red-500 rounded px-3 py-1"
                       >
                         Delete

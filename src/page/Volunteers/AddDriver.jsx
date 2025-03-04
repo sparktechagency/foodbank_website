@@ -9,13 +9,13 @@ export const AddDriver = ({ modal2Open, setModal2Open }) => {
   const handleFinish = async (values) => {
     // Construct payload
     const data = {
-      firstName: values.first,
-      lastName: values.last,
-      email: values.email,
-      phoneNo: values.number,
-      alternativePhoneNo: values.alternateNumber,
-      address: values.adress,
-      volunteerType: values.Holocaust , 
+      firstName: values?.first,
+      lastName: values?.last,
+      email: values?.email,
+      phoneNo: values?.number,
+      alternativePhoneNo: values?.alternateNumber,
+      address: values?.adress,
+      volunteerType: values?.Holocaust , 
       volunteerRole:"driver",
       status: "driver", 
     };

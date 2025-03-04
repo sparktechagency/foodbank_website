@@ -18,22 +18,22 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   useEffect(() => {
     if (singleData?.data?.filterClient) {
       form.setFieldsValue({
-        first: singleData.data?.filterClient?.firstName,
-        last: singleData.data?.filterClient?.lastName,
-        number: singleData.data?.filterClient?.phoneNo,
-        alternateNumber: singleData.data?.filterClient?.alternativePhoneNo,
-        address: singleData.data?.filterClient?.address,
-        apartment: singleData.data?.filterClient?.apartment,
-        city: singleData.data?.filterClient?.city,
-        state: singleData.data?.filterClient?.state,
-        zipcode: singleData.data?.filterClient?.zipCode,
-        badgeNumber: singleData.data?.filterClient?.badgeNumber,
-        household: singleData.data?.filterClient?.peopleHousehold,
-        dietary: singleData.data?.filterClient?.dietaryRestrictions,
-        deliveryIns: singleData.data?.filterClient?.deliveryInstructions,
-        clientDeliveryGroup: singleData.data?.filterClient?.clientDeliveryGroup,
-        Holocaust: singleData.data?.filterClient?.holocaustSurvivor ? true : false, 
-        date: singleData.data?.filterClient?.dateOfBirth,
+        first: singleData?.data?.filterClient?.firstName,
+        last: singleData?.data?.filterClient?.lastName,
+        number: singleData?.data?.filterClient?.phoneNo,
+        alternateNumber: singleData?.data?.filterClient?.alternativePhoneNo,
+        address: singleData?.data?.filterClient?.address,
+        apartment: singleData?.data?.filterClient?.apartment,
+        city: singleData?.data?.filterClient?.city,
+        state: singleData?.data?.filterClient?.state,
+        zipcode: singleData?.data?.filterClient?.zipCode,
+        badgeNumber: singleData?.data?.filterClient?.badgeNumber,
+        household: singleData?.data?.filterClient?.peopleHousehold,
+        dietary: singleData?.data?.filterClient?.dietaryRestrictions,
+        deliveryIns: singleData?.data?.filterClient?.deliveryInstructions,
+        clientDeliveryGroup: singleData?.data?.filterClient?.clientDeliveryGroup,
+        Holocaust: singleData?.data?.filterClient?.holocaustSurvivor ? true : false, 
+        date: singleData?.data?.filterClient?.dateOfBirth,
       });
     }
   }, [singleData, form]);
@@ -41,22 +41,22 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
   const handleFinish = async (values) => {
    
     const updatedClien = {
-      firstName: values.first,
-      lastName: values.last,
-      phoneNo: values.number,
-      alternativePhoneNo: values.alternateNumber,
-      address: values.address,
-      apartment: values.apartment,
-      city: values.city,
-      state: values.state,
-      zipCode: values.zipcode,
-      badgeNumber: values.badgeNumber,
-      peopleHousehold: values.household,
-      dietaryRestrictions: values.dietary,
-      deliveryInstructions: values.deliveryIns,
+      firstName: values?.first,
+      lastName: values?.last,
+      phoneNo: values?.number,
+      alternativePhoneNo: values?.alternateNumber,
+      address: values?.address,
+      apartment: values?.apartment,
+      city: values?.city,
+      state: values?.state,
+      zipCode: values?.zipcode,
+      badgeNumber: values?.badgeNumber,
+      peopleHousehold: values?.household,
+      dietaryRestrictions: values?.dietary,
+      deliveryInstructions: values?.deliveryIns,
       
-      holocaustSurvivor: Boolean(values.Holocaust),
-      dateOfBirth: values.date,
+      holocaustSurvivor: Boolean(values?.Holocaust),
+      dateOfBirth: values?.date,
     };
    
 

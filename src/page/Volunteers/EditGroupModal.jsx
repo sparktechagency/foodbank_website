@@ -21,8 +21,8 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
 
   const clientOptions =
     allVolunteer?.data?.data?.map((volunteer) => ({
-      label: `${volunteer.firstName} ${volunteer.lastName}`,
-      value: volunteer._id,
+      label: `${volunteer?.firstName} ${volunteer?.lastName}`,
+      value: volunteer?._id,
     })) || [];
 
 
@@ -30,9 +30,9 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
     if (group) {
    
       form.setFieldsValue({
-        groupName: group.groupName,
+        groupName: group?.groupName,
         types: group?.types,
-        clients: group.clients?.map((volunteer) => volunteer._id),
+        clients: group?.clients?.map((volunteer) => volunteer?._id),
       });
       setSortOrder(group?.types); 
     }
@@ -42,9 +42,9 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
     const res = group?.clients.map((client) => client._id);
     
     const data = {
-      groupName: values.groupName,
-      types: values.types,
-      clients: values.clients,
+      groupName: values?.groupName,
+      types: values?.types,
+      clients: values?.clients,
     };
 
     
