@@ -116,7 +116,7 @@ const EventView = () => {
   }, [VolunteersData, sortOrder]);
 
 
-  console.log("sortedVolunteers",sortedVolunteers)
+ 
   const navigate = useNavigate();
   return (
     <div className="min-h-screen">

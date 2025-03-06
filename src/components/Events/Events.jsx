@@ -232,7 +232,7 @@ const Events = () => {
                       const warehouseNeeded =
                         event?.warehouseNeeded + event?.deliveryNeeded;
 
-                      console.log(data);
+                      
                       return (
                         <tr
                           key={event._id}

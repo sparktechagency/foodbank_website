@@ -47,7 +47,7 @@ export const SearchDriverVolunteer = ({ eventId }) => {
       return isMatch;  
     })
   );  
-  console.log(clientGroups)
+
   return (
     <div>
       <div className="flex items-center border-b border-gray-300 px-1 py-3 my-3 mt-7 w-full mr-5">

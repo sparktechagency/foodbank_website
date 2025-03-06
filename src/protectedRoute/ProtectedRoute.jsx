@@ -26,7 +26,7 @@ const ProtectedRoute = ({ children }) => {
         return null;
       }
 
-      console.log(payload);
+   
       return payload;
     } catch (error) {
       console.error("JWT Error:", error.message);

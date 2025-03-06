@@ -40,7 +40,7 @@ export const SearchClient = ({ eventId }) => {
   };
 
   const clients = eventId?.client || [];
-  console.log(clients)
+
   const clientGroups = clientData?.data?.filter(
     (cln1) =>
       !clients?.some((cln2) => {
