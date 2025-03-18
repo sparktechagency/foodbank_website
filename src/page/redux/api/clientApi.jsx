@@ -16,8 +16,7 @@ const useApi = baseApi.injectEndpoints({
       providesTags: ["updateProfile"],
     }),
 
-    getAddClients: builder.query({
-      
+    getAddClients: builder.query({ 
       query: () => {
         
         return {

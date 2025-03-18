@@ -21,7 +21,7 @@ export const ClientsSectionTable = () => {
   const itemsPerPage = 10;
   const [holocaustSurvivor, setHolocaustSurvivor] = useState("");
   const [sortOrder, setSortOrder] = useState("");
-  const { data,  isLoading, error } = useGetClientQuery({
+  const { data, isLoading, error } = useGetClientQuery({
     searchTerm,
     holocaustSurvivor,
     sortOrder,
@@ -29,22 +29,19 @@ export const ClientsSectionTable = () => {
     limit: pageSize,
   });
 
-  
-
   const [deleteClient] = useDeleteClientMutation();
 
   const clientData = data?.data?.map((client) => ({
     id: client?._id,
     clientName: `${client?.firstName} ${client?.lastName}`,
     phoneNo: client?.phoneNo,
-    alternativePhoneNo: client?.alternativePhoneNo ,
+    alternativePhoneNo: client?.alternativePhoneNo,
     holocaustSurvivor: client?.holocaustSurvivor,
     badgeNumber: client?.badgeNumber,
     clientDeliveryGroups: client?.meetings?.map(
       (meeting) => meeting?.clientGroupName
     ),
   }));
- 
 
   const totalClients = clientData?.length || 0;
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -52,14 +49,12 @@ export const ClientsSectionTable = () => {
     clientData?.slice(startIndex, startIndex + itemsPerPage) || [];
 
   const handleEdit = (client) => {
-
     setEditModal({
       isOpen: true,
       client,
     });
   };
   const handlePageChange = (page) => {
-    
     setCurrentPage(page);
   };
 
@@ -81,23 +76,28 @@ export const ClientsSectionTable = () => {
   };
 
   const handleShortChange = (value) => {
-    
     setSortOrder(value); // Update the selected filter type
   };
 
   const handleEventChange = (value) => {
-    
     setHolocaustSurvivor(value); // Update state with selected value
   };
 
   if (isLoading) {
-    return <p><Loading></Loading></p>;
+    return (
+      <p>
+        <Loading></Loading>
+      </p>
+    );
   }
 
   if (error) {
-    return <div><ServerError></ServerError></div>;
+    return (
+      <div>
+        <ServerError></ServerError>
+      </div>
+    );
   }
-
 
   return (
     <div>
@@ -140,10 +140,9 @@ export const ClientsSectionTable = () => {
               onChange={handleShortChange}
               options={[
                 { value: "asc", label: "Sort By" },
-                { value: 'name', label: "Name" },
-                
+                { value: "name", label: "Name" },
+
                 { value: "desc", label: "Date" },
-                
               ]}
             />
           </div>
@@ -177,7 +176,7 @@ export const ClientsSectionTable = () => {
                 Client Delivery Group
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-              Number of Bags
+                Number of Bags
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium"></th>
             </tr>
@@ -190,7 +189,7 @@ export const ClientsSectionTable = () => {
               >
                 <td className="px-4 py-3 text-sm">
                   <Link to={`/clients/clientsDetails/${client?.id}`}>
-                  {client?.firstName} {client?.lastName}
+                    {client?.firstName} {client?.lastName}
                   </Link>
                 </td>
                 <td className="px-4 py-3 text-sm">{client?.phoneNo}</td>
@@ -238,7 +237,7 @@ export const ClientsSectionTable = () => {
                     </ul>
                   </details> */}
 
-<Dropdown
+                  <Dropdown
                     overlay={
                       <Menu
                         items={[
@@ -266,13 +265,13 @@ export const ClientsSectionTable = () => {
         </table>
         {/* Ant Design Pagination */}
         <div className="mt-4 flex justify-end">
-        <Pagination
-          current={currentPage}
-          pageSize={pageSize}
-          total={data?.meta?.total || 0}
-          onChange={handlePageChange}
-          showSizeChanger={false}
-        />
+          <Pagination
+            current={currentPage}
+            pageSize={pageSize}
+            total={data?.meta?.total || 0}
+            onChange={handlePageChange}
+            showSizeChanger={false}
+          />
         </div>
       </div>
       <AddClientModal
