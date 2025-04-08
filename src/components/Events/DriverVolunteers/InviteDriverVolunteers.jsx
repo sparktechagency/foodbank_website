@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { useDeleteEventGroupMutation } from "../../../page/redux/api/eventApi";
+import { useDeleteEventGroupMutation, useUpdateSuccessConfirmMutation, useUpdateSuccessQuery } from "../../../page/redux/api/eventApi";
 import { message, Pagination, Spin } from "antd"; // Import Spin for loading indicator
 import { useDeleteEventClientGroupMutation } from "../../../page/redux/api/clientApi";
 import { Link } from "react-router-dom";
@@ -63,6 +63,29 @@ export const InviteDriverVolunteers = ({ event }) => {
       setRemoveDriverLoading((prev) => ({ ...prev, [email]: false }));
     }
   };
+
+
+  const [updateSuccess, { isLoading }] = useUpdateSuccessConfirmMutation();;
+ 
+ 
+  const handleConfirmButton = async (user) => { 
+    const type= "driver"; 
+    const eventId = event?._id; 
+    const userId = user?.userId?._id;
+    const from = "admin"
+    if (!userId || !eventId) {
+      message.error("Missing required parameters.");
+      return;
+    }
+
+    try {
+      const response = await updateSuccess({ eventId, type, userId, from}).unwrap();
+      message.success(response.message);
+    } catch (error) {
+      console.error("Error confirming driver:", error);
+      message.error(error.data.message || "Failed to confirm driver.");
+    }
+}; 
 
     const handleDelete = (id) => {
       Modal.confirm({
@@ -137,7 +160,8 @@ export const InviteDriverVolunteers = ({ event }) => {
                     <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
                   </Link>
                   <div className="flex gap-2">
-                    <button className="border px-4 rounded-full">Confirmed</button>
+                   
+                    <button onClick={(data)=> handleConfirmButton(ev)} className="border px-4 rounded-full"> {isLoading?<Spin size="small" /> :"Confirmed"}</button>
                   <button
                     onClick={() => handleRemoveEventGroup(ev?.email)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"

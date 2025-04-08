@@ -2,10 +2,14 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { message, Pagination, Spin } from "antd";
+import { Dropdown, Menu } from "antd";
 import {
   useGetConfirmedDriverQuery,
   useGetSingleEventGroupQuery,
-} from "../../page/redux/api/eventApi";
+} from "../../page/redux/api/eventApi"; 
+import { useState } from "react";
+import { useDeleteEventClientGroupMutation } from "../../page/redux/api/clientApi";
 
 export const ConfirmedWarehouse = () => {
   const { id } = useParams();
@@ -13,13 +17,14 @@ export const ConfirmedWarehouse = () => {
     { eventId: id, types: "warehouse", accept: "yes" },
     { refetchOnMountOrArgChange: true }
   );
-
+  const [removeDriverLoading, setRemoveDriverLoading] = useState({});
+  const [deleteEventClient] = useDeleteEventClientGroupMutation();
   const {
     data: singleClientData,
     isLoading,
     isError,
   } = useGetSingleEventGroupQuery({ id }, { refetchOnMountOrArgChange: true });
-  
+
 
 
   const event = singleClientData?.data?.event;
@@ -32,13 +37,26 @@ export const ConfirmedWarehouse = () => {
       : "Unknown Time";
 
   const result = confirmedDriver?.data?.data;
-  
+
   const navigate = useNavigate();
+  const handleRemoveEventGroup = async (email) => {
+    setRemoveDriverLoading((prev) => ({ ...prev, [email]: true }));
+    const data = { email, type: "warehouse" };
+
+    try {
+      const response = await deleteEventClient({ id: event?._id, data }).unwrap();
+      message.success(response.message);
+    } catch (error) {
+      message.error("Failed to remove driver from the event.");
+    } finally {
+      setRemoveDriverLoading((prev) => ({ ...prev, [email]: false }));
+    }
+  };
   return (
     <div className="min-h-screen">
       <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
         <h1 className="flex gap-1 ">
-        <Link to={'/'}><span className="text-[#007AFF]">Events</span></Link>
+          <Link to={'/'}><span className="text-[#007AFF]">Events</span></Link>
           <IoIosArrowForward className="mt-1 " />{" "}
           <button onClick={() => navigate(-1)} className="text-[#007AFF]">{event?.eventName}</button>
           <IoIosArrowForward className="mt-1 " /> Warehouse : Volunteers
@@ -62,7 +80,7 @@ export const ConfirmedWarehouse = () => {
         </div>
       </div>
 
-      
+
 
       <div className="lg:mx-5 mx-2 overflow-x-auto">
         <table className="min-w-full border-collapse  mt-6 border border-gray-300">
@@ -79,6 +97,9 @@ export const ConfirmedWarehouse = () => {
               </th>
               <th className=" px-4 py-2 text-left text-sm font-medium">
                 Vip Warehouse
+              </th>
+              <th className=" px-4 py-2 text-left text-sm font-medium">
+                Action
               </th>
               {/* <th className=" px-4 py-2 text-left text-sm font-medium">
                 Assigned
@@ -101,7 +122,7 @@ export const ConfirmedWarehouse = () => {
                   <td className="px-4 py-3 text-sm">
                     {event?.driver?.userId?.status
                       ? event?.driver?.userId?.status.charAt(0).toUpperCase() +
-                        event?.driver?.userId?.status.slice(1)
+                      event?.driver?.userId?.status.slice(1)
                       : ""}
                   </td>
                   <td className=" px-4 py-3 text-sm">
@@ -110,6 +131,24 @@ export const ConfirmedWarehouse = () => {
 
                   <td className="px-4 py-3 text-sm">
                     {event?.driver?.userId?.volunteerType === true ? "Yes" : "No"}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-500 flex justify-center">
+                    <Dropdown
+                      overlay={
+                        <Menu
+                          onClick={() => handleRemoveEventGroup(event.driver?.email)}
+                          items={[
+                            {
+                              key: "2",
+                              label: "Remove",
+                            }
+                          ]}
+                        />
+                      }
+                      trigger={["click"]}
+                    >
+                      <BiDotsVerticalRounded className="cursor-pointer" />
+                    </Dropdown>
                   </td>
                   {/* <td className="px-4 py-3 text-sm">Working...</td> */}
                   {/* <td className="px-4 py-3 text-sm">

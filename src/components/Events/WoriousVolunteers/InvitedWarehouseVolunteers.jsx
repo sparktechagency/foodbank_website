@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDeleteEventGroupMutation } from "../../../page/redux/api/eventApi";
+import { useDeleteEventGroupMutation, useUpdateSuccessConfirmMutation } from "../../../page/redux/api/eventApi";
 import { message, Pagination, Spin } from "antd";
 import { useDeleteEventClientGroupMutation } from "../../../page/redux/api/clientApi";
 import { Link } from "react-router-dom";
@@ -75,6 +75,28 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
     }
   };
 
+    const [updateSuccess, { isLoading }] = useUpdateSuccessConfirmMutation();;
+   
+   
+    const handleConfirmButton = async (user) => { 
+      const type= "warehouse"; 
+      const eventId = event?._id; 
+      const userId = user?.userId?._id;
+  
+      if (!userId || !eventId) {
+        message.error("Missing required parameters.");
+        return;
+      };
+      const from = "admin"
+      try {
+        const response = await updateSuccess({ eventId, type, userId, from}).unwrap();
+        message.success(response.message);
+      } catch (error) {
+        console.error("Error confirming driver:", error);
+        message.error(error.data.message || "Failed to confirm driver.");
+      }
+  }; 
+
   return (
     <div>
       <div className="grid grid-cols-2">
@@ -134,7 +156,8 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
                       {ev?.userId?.firstName} {ev?.userId?.lastName}
                     </h1>
                   </Link>
-                  <div className="flex gap-2"><button className="border px-4 rounded-full ">Confirmed</button>
+                  <div className="flex gap-2"> 
+                  <button onClick={(data)=> handleConfirmButton(ev)} className="border px-4 rounded-full"> {isLoading?<Spin size="small" /> :"Confirmed"}</button>
                   <button
                     onClick={() => handleRemoveEventGroup(ev?.email)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"

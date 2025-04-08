@@ -2,11 +2,14 @@ import { BiDotsVerticalRounded } from "react-icons/bi";
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { message, Pagination, Spin } from "antd";
 import {
   useGetConfirmedDriverQuery,
   useGetSingleEventGroupQuery,
 } from "../../page/redux/api/eventApi";
 import { Dropdown, Menu } from "antd";
+import { useState } from "react";
+import { useDeleteEventClientGroupMutation } from "../../page/redux/api/clientApi";
 
 const ConfirmedVoluntrees = () => {
   const { id } = useParams();
@@ -14,6 +17,8 @@ const ConfirmedVoluntrees = () => {
     { eventId: id, types: "driver", accept: "yes" },
     { refetchOnMountOrArgChange: true }
   );
+  const [removeDriverLoading, setRemoveDriverLoading] = useState({});
+  const [deleteEventClient] = useDeleteEventClientGroupMutation();
 
   const {
     data: singleClientData,
@@ -34,6 +39,21 @@ const ConfirmedVoluntrees = () => {
   const result = confirmedDriver?.data?.data;
 
   const navigate = useNavigate();
+
+
+  const handleRemoveEventGroup = async (email) => {
+    setRemoveDriverLoading((prev) => ({ ...prev, [email]: true }));
+    const data = { email, type: "driver" };
+
+    try {
+      const response = await deleteEventClient({ id: event?._id, data }).unwrap();
+      message.success(response.message);
+    } catch (error) {
+      message.error("Failed to remove driver from the event.");
+    } finally {
+      setRemoveDriverLoading((prev) => ({ ...prev, [email]: false }));
+    }
+  };
 
   return (
     <div className="min-h-screen">
@@ -145,12 +165,12 @@ const ConfirmedVoluntrees = () => {
                     <Dropdown
                       overlay={
                         <Menu
+                         onClick={()=>handleRemoveEventGroup(event.driver?.email)}
                           items={[
                             {
                               key: "2",
-                              label: "Remove",
-                              onClick: () => handleDelete(event?._id),
-                            },
+                              label: "Remove", 
+                            }
                           ]}
                         />
                       }

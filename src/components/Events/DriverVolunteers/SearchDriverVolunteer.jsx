@@ -39,8 +39,6 @@ export const SearchDriverVolunteer = ({ eventId }) => {
 
  
   const drivers = eventId?.driver?.filter((ev) => ev.accept === false) || [];
- 
-
   const clientGroups = clientData?.data?.filter(cln1 => 
     !eventId?.driver?.some(cln2 => {
       const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
@@ -66,16 +64,17 @@ export const SearchDriverVolunteer = ({ eventId }) => {
           className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
         />
       </div>
-      <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
+      <div className="bg-white border lg:grid px-4 py-2 rounded w-full">
         <div className="">
         {clientGroups?.length > 0 ? (
           clientGroups?.map((item, index) => (
-            <div key={index} className="flex justify-between space-y-4">
+            <div key={index} className="flex justify-between space-y-4 w-full">
               <Link to={`/clients/clientsDetails/${item?.id}`}>
                 <h1 className="mt-2">
                   {item?.firstName}&#160;{item?.lastName}
                 </h1>
               </Link>
+
               <button
                 onClick={() => handleAddGroup(item)}
                 className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"

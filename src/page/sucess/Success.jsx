@@ -4,6 +4,7 @@ import { useUpdateSuccessQuery } from "../redux/api/eventApi";
 
 export const Success = () => {
   const{eventId, type, userId} = useParams()
+
   const {data:success} = useUpdateSuccessQuery({ eventId, type, userId},
               { refetchOnMountOrArgChange: true });
 

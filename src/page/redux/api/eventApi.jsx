@@ -34,7 +34,7 @@ const useApi = baseApi.injectEndpoints({
     updateSuccess: builder.query({
       query: ({ eventId, userId, type }) => {
         return {
-          url: `/events/accept-request?eventId=${eventId}&userId=${userId}&type=${type}`,
+          url: `/events/accept-request?eventId=${eventId}&userId=${userId}&type=${type}&from=user`,
           method: "PATCH",
         };
       },
@@ -163,8 +163,23 @@ const useApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["updateProfile"],
     }),
+    updateSuccessConfirm: builder.mutation({
+      query: ({ eventId, userId, type, from }) => ({
+        url: `/events/accept-request?eventId=${eventId}&userId=${userId}&type=${type}&from=${from}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["updateProfile"],
+    }),
+    updateClientStatus: builder.mutation({
+      query: ({ eventId, clientId, confirmed }) => ({
+        url: `/events/confirmed-clients-status?eventId=${eventId}&clientId=${clientId}&confirmed=${confirmed}`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["updateProfile"],  
+    }),
   }),
 });
+
 
 export const {
   useEventAddMutation,
@@ -182,4 +197,6 @@ export const {
   useUpdateCancelQuery,
   useGetSingleVolunteerAssignedQuery,
   useUpdateAssignedMutation,
+  useUpdateSuccessConfirmMutation,
+  useUpdateClientStatusMutation
 } = useApi;

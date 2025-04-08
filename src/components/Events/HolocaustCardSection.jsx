@@ -1,6 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const HolocaustCardSection = ({event}) => {
+
+  console.log(event, "event");
  
   return (
     <div>
@@ -15,7 +18,10 @@ export const HolocaustCardSection = ({event}) => {
         </div>
         <div className="rounded-xl shadow p-3">
           <h1>Total</h1>
-          <h1 className="text-2xl font-semibold mt-2">{event?.data?.total}</h1>
+          <h1 className="text-2xl font-semibold mt-2">
+            <Link className="text-indigo-400" to={`/event/confirmedClients/${event.data.event._id}`}>
+            {event?.data?.total}
+            </Link> </h1>
         </div>
       </div>
     </div>

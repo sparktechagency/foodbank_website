@@ -105,7 +105,7 @@ const Events = () => {
         </div>
         <div className="justify-between lg:mt-5 lg:flex">
           {/* Search Box */}
-          <div className="flex items-center w-full px-1 border-b border-gray-300 lg:mr-5">
+          <div className="flex items-center w-full px-1 border-b border-gray-300 lg:mr-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5 text-gray-500"
@@ -126,7 +126,7 @@ const Events = () => {
             <div className="gap-2 mt-3 lg:flex">
               {/* Tabs for List and Calendar View */}
               <div>
-                <div className="flex bg-[#EDF0F2] w-[230px] gap-4 rounded-lg p-[2px]">
+                <div className="flex bg-[#EDF0F2] w-[280px] gap-4 rounded-lg p-[2px]">
                   <button
                     onClick={() => setActiveTab("list")}
                     className={`${
@@ -139,7 +139,7 @@ const Events = () => {
                     onClick={() => setActiveTab("calendar")}
                     className={`${
                       activeTab === "calendar" ? "bg-white" : "bg-transparent"
-                    } py-1 rounded text-center w-[120px] whitespace-nowrap`}
+                    } py-1 rounded text-center w-[190px] whitespace-nowrap`}
                   >
                     Calendar View
                   </button>
@@ -188,7 +188,7 @@ const Events = () => {
               <div className="hidden lg:block">
                 <button
                   onClick={() => setModal2Open(true)}
-                  className=" bg-[#234E6F] w-[100px] rounded-full whitespace-nowrap py-2 text-white"
+                  className=" bg-[#234E6F] w-[130px] rounded-full whitespace-nowrap py-2 text-white"
                 >
                   + Add Event
                 </button>

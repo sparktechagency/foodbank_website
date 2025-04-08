@@ -31,6 +31,7 @@ import { ConfirmedWarehouse } from "../components/Events/ConfirmedWarehouse";
 import { PendingWarehouse } from "../components/Events/PendingWarehouse";
 import { Cancel } from "../page/sucess/Cancel";
 import ProtectedRoute from "../protectedRoute/ProtectedRoute";
+import ConfirmedClient from "../components/Events/ConfirmClinet";
 
 
 
@@ -55,6 +56,10 @@ export const router = createBrowserRouter([
       {
         path: "/event/confirmedVolunteers/:id",
         element: <ConfirmedVoluntrees></ConfirmedVoluntrees>
+      },
+      {
+        path: "/event/confirmedClients/:id",
+        element: <ConfirmedClient></ConfirmedClient>
       },
       {
         path: "/event/confirmedWarehouse/:id",
