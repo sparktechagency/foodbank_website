@@ -92,6 +92,9 @@ export const AddEventModal = ({ modal2Open, setModal2Open }) => {
             <Select.Option value="PersonalShopper">
               Personal Shopper
             </Select.Option>
+            <Select.Option value="NorthBroward">
+            North Broward
+            </Select.Option>
           </Select>
         </Form.Item>
 

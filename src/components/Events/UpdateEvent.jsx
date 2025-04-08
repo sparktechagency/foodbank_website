@@ -98,6 +98,9 @@ export const UpdateEvent = ({ isModalOpen, setModal2Open1, event }) => {
             <Select.Option value="PersonalShopper">
               Personal Shopper
             </Select.Option>
+            <Select.Option value="NorthBroward">
+            North Broward
+            </Select.Option>
           </Select>
         </Form.Item>
 

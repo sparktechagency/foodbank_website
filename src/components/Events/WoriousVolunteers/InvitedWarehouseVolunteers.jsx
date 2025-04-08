@@ -134,6 +134,7 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
                       {ev?.userId?.firstName} {ev?.userId?.lastName}
                     </h1>
                   </Link>
+                  <div className="flex gap-2"><button className="border px-4 rounded-full ">Confirmed</button>
                   <button
                     onClick={() => handleRemoveEventGroup(ev?.email)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
@@ -144,7 +145,7 @@ export const InvitedWarehouseVolunteers = ({ event }) => {
                     ) : (
                       "Remove"
                     )}
-                  </button>
+                  </button></div>
                 </div>
               ))
             ) : (

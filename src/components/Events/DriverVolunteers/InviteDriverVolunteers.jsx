@@ -64,6 +64,23 @@ export const InviteDriverVolunteers = ({ event }) => {
     }
   };
 
+    const handleDelete = (id) => {
+      Modal.confirm({
+        title: "Are you sure you want to delete event?",
+        okText: "Yes",
+        okType: "danger",
+        cancelText: "No",
+        onOk: async () => {
+          try {
+            const response = await deleteEvent(id).unwrap();
+            message.success(response?.message);
+          } catch (error) {
+            message.error(error?.data?.message);
+          }
+        },
+      });
+    };
+
   return (
     <div>
       <div className="">
@@ -119,6 +136,8 @@ export const InviteDriverVolunteers = ({ event }) => {
                   <Link to={`/clients/clientsDetails/${ev?.userId?._id}`}>
                     <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
                   </Link>
+                  <div className="flex gap-2">
+                    <button className="border px-4 rounded-full">Confirmed</button>
                   <button
                     onClick={() => handleRemoveEventGroup(ev?.email)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
@@ -126,6 +145,7 @@ export const InviteDriverVolunteers = ({ event }) => {
                   >
                     {removeDriverLoading[ev?.email] ? <Spin size="small" /> : "Remove"}
                   </button>
+                  </div>
                 </div>
               ))
             ) : (

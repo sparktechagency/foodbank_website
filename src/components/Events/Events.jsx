@@ -251,7 +251,9 @@ const Events = () => {
                               (event?.eventType === "PersonalShopper" &&
                                 "Personal Shopper") ||
                               (event?.eventType === "HolidayDrive" &&
-                                "Holiday Drive")}
+                                "Holiday Drive") || 
+                                (event?.eventType === "NorthBroward" &&
+                                  "North Broward")}
                           </td>
                           <td className="px-4 py-3 text-sm ">
                             {new Date(event?.dayOfEvent).toLocaleDateString()}
