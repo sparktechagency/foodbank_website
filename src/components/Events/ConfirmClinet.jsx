@@ -64,12 +64,9 @@ const ConfirmedClient = () => {
                 <div className="lg:px-5 px-2 py-6">
                     <div className="flex justify-between items-center pb-4">
                         <h2 className="text-lg font-semibold">Confirmed Clients</h2>
-                        <button
-                            onClick={() => navigate('/clients/all')}
-                            className="text-blue-500 underline"
-                        >
-                            Total Clients: {clients.length}
-                        </button>
+                         
+                           <p> Total Clients: {clients.length}</p>
+                         
                     </div>
 
                     <div className="overflow-x-auto">

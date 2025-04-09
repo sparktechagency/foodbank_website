@@ -31,7 +31,7 @@ export const Success = () => {
             <div className="flex items-center justify-center mb-4">
               <div
                 className={`w-10 h-10 flex items-center justify-center rounded-full ${
-                  success.data?.status ? "bg-green-100" : "bg-red-100"
+                  success?.data?.status ? "bg-green-100" : "bg-red-100"
                 }`}
               >
                 {success?.data.status ? (

@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-
 import { CiLocationOn } from "react-icons/ci";
 import { IoIosArrowForward, IoIosTimer } from "react-icons/io";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -8,13 +7,12 @@ import {
   useGetSingleVolunteerAssignedQuery,
   useUpdateAssignedMutation,
 } from "../../page/redux/api/eventApi";
-
 import { Button, Select } from "antd";
 
 const EventView = () => {
   const { eventId, volunteerId } = useParams();
-
   const [sortOrder, setSortOrder] = useState("");
+  const [filterConfirmed, setFilterConfirmed] = useState(""); // Added state for filtering confirmed status
 
   const {
     data: singleClientData,
@@ -25,8 +23,6 @@ const EventView = () => {
     { refetchOnMountOrArgChange: true }
   );
 
-
-
   const { data: singleVolunteerData } = useGetSingleVolunteerAssignedQuery(
     { id: volunteerId },
     { refetchOnMountOrArgChange: true }
@@ -34,21 +30,12 @@ const EventView = () => {
 
   const [updateAssigned, { isLoading: isUpdating }] = useUpdateAssignedMutation();
 
-
-
   const volunteer = singleVolunteerData?.data;
-
-
-
   const client = singleClientData?.data?.event?.client;
-
-  const assignedDate = client && client?.filter((c) => c.assigned === true)
-
+  const assignedDate = client && client?.filter((c) => c.assigned === true);
   const event = singleClientData?.data?.event;
-
   const totalSpotsFilled = event?.warehouse?.length + event?.driver?.length;
   const warehouseNeeded = event?.warehouseNeeded;
-
   const dayOfEvent = event?.dayOfEvent
     ? new Date(event?.dayOfEvent).toLocaleDateString()
     : "Unknown Date";
@@ -67,37 +54,47 @@ const EventView = () => {
       clientId: index?.userId?._id,
     };
 
-    // Set loading state for this button
     setLoading((prev) => ({ ...prev, [index._id]: true }));
 
     try {
-
       const res = await updateAssigned(data).unwrap();
       if (res.success) {
         setLoading((prev) => ({ ...prev, [index._id]: false }));
       }
-
-
-
     } catch (error) {
-
       setLoading((prev) => ({ ...prev, [index._id]: false }));
     }
   };
 
-
-
   const totalAssiendedNumber = client && client?.filter(clt =>
     clt?.assignedUId?._id.toString() === volunteerId.toString()
-  )
-  const VolunteersData = client?.filter(cl => cl?.assignedUId?._id.toString() === volunteerId || cl?.assignedUId === null)
+  );
+  const VolunteersData = client?.filter(cl =>
+    cl?.assignedUId?._id.toString() === volunteerId || cl?.assignedUId === null
+  );
+
   const handleSortChange = (value) => {
     setSortOrder(value);
   };
+
+  const handleFilterChange = (value) => {
+    setFilterConfirmed(value); // Set confirmed filter
+  };
+
   const sortedVolunteers = useMemo(() => {
     if (!VolunteersData) return [];
-  
-    return [...VolunteersData].sort((a, b) => {
+
+    let filteredData = [...VolunteersData];
+
+    // Filter by confirmed status
+    if (filterConfirmed && filterConfirmed !== "all") {
+      filteredData = filteredData.filter(client =>
+        client?.confirmed === filterConfirmed
+      );
+    }
+
+    // Sorting logic
+    return filteredData.sort((a, b) => {
       if (sortOrder === "address-asc") {
         return a.userId.address?.localeCompare(b.userId.address);
       } else if (sortOrder === "address-desc") {
@@ -113,11 +110,10 @@ const EventView = () => {
       }
       return 0; // Default: No sorting
     });
-  }, [VolunteersData, sortOrder]);
+  }, [VolunteersData, sortOrder, filterConfirmed]); // Add filterConfirmed to dependencies
 
-//  console.log("clients", sortedVolunteers)
- 
   const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
       <div className="lg:px-5 px-2 pt-6">
@@ -125,7 +121,6 @@ const EventView = () => {
           <Link to={'/'}><span className="text-[#007AFF]">{event?.eventName}</span>{" "}</Link>
           <IoIosArrowForward className="mt-1" /> <button onClick={() => navigate(-1)}>{volunteer?.firstName}{" "}
           {volunteer?.lastName}</button>
-           {/* {totalSpotsFilled}/{warehouseNeeded} */}
         </h1>
 
         <div className="lg:flex justify-between">
@@ -142,11 +137,6 @@ const EventView = () => {
                 {event?.location}
               </span>
             </div>
-            {/* <div className="flex gap-5 mt-3">
-              <span className="flex">{event?.messageDeliveryDriver}</span>
-              <span>|</span>
-              <span>{event?.messageWarehouseVolunteer}</span>
-            </div> */}
           </div>
           <div className="lg:flex gap-3 mt-3 lg-mt-0">
             <div>
@@ -162,30 +152,37 @@ const EventView = () => {
                 <h1 className="text-xl font-semibold">{assignedDate?.length}/{client?.length}</h1>
               </div>
             </div>
-            {/* <div>
-              <div className="bg-[#E3F5FF] p-4 rounded-lg">
-                <p>Preferred Delivery Location</p>
-                <h1 className="text-xl font-semibold">Hallandale</h1>
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
 
       <div className="flex justify-end mr-4 mt-4">
-      <Select
-  className="w-[120px] h-[43px]"
-  placeholder="Sort By"
-  onChange={handleSortChange}
-  options={[
-    { value: "address-asc", label: "Address (A-Z)" },
-    { value: "address-desc", label: "Address (Z-A)" },
-    { value: "city-asc", label: "City (A-Z)" },
-    { value: "city-desc", label: "City (Z-A)" },
-    { value: "name-asc", label: "Name (A-Z)" },
-    { value: "name-desc", label: "Name (Z-A)" },
-  ]}
-/>
+        <Select
+          className="w-[190px] h-[43px]"
+          placeholder="Sort By"
+          onChange={handleFilterChange} // Filter confirmed status
+          options={[
+            { value: "all", label: "All" },
+            { value: "Not-Called", label: "Not-Called" },
+            { value: "Confirmed", label: "Confirmed" },
+            { value: "Unable-to-Reach", label: "Unable-to-Reach" },
+            { value: "Rescheduled", label: "Rescheduled" },
+            { value: "Skip-Month", label: "Skip-Month" }
+          ]}
+        />
+        <Select
+          className="w-[120px] h-[43px]"
+          placeholder="Sort By"
+          onChange={handleSortChange}
+          options={[
+            { value: "address-asc", label: "Address (A-Z)" },
+            { value: "address-desc", label: "Address (Z-A)" },
+            { value: "city-asc", label: "City (A-Z)" },
+            { value: "city-desc", label: "City (Z-A)" },
+            { value: "name-asc", label: "Name (A-Z)" },
+            { value: "name-desc", label: "Name (Z-A)" },
+          ]}
+        />
       </div>
 
       <div className="lg:mx-5 mx-2 overflow-x-auto pb-10">
@@ -195,9 +192,6 @@ const EventView = () => {
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Client Name
               </th>
-              {/* <th className="px-4 py-2 text-left text-sm font-medium">
-                Assigned Volunteer
-              </th> */}
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Address
               </th>
@@ -206,7 +200,7 @@ const EventView = () => {
                 Holocaust Survivor
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-              Number of Bags
+                Number of Bags
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Confirmed 
@@ -225,12 +219,6 @@ const EventView = () => {
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.firstName} {clients?.userId?.lastName}{" "}
                 </td>
-                {/* <td className="px-4 py-3 text-sm">
-                  {clients?.assignedUId
-                    ? `${clients?.assignedUId?.firstName} ${clients?.assignedUId?.lastName}`
-                    : "No Assigned"}
-                </td> */}
-
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.address}
                 </td>
@@ -238,7 +226,6 @@ const EventView = () => {
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.holocaustSurvivor ? "Yes" : "No"}
                 </td>
-
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.badgeNumber}
                 </td>
@@ -248,7 +235,7 @@ const EventView = () => {
                 <td className="px-4 py-3 text-sm">
                   <Button
                     onClick={() => toggleAssign(clients)}
-                    loading={loading[clients?._id]} // Show loading spinner only for this button
+                    loading={loading[clients?._id]}
                     type="primary"
                     className={`rounded-full font-semibold ${clients?.assigned
                         ? "bg-blue-500 text-white"
@@ -263,8 +250,6 @@ const EventView = () => {
           </tbody>
         </table>
       </div>
-
-
     </div>
   );
 };
