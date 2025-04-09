@@ -200,7 +200,7 @@ const Events = () => {
         {/* Dynamic Content Based on Tab */}
         <div className="mt-5">
           {activeTab === "list" && (
-            <div className="overflow-x-auto ">
+            <div className="">
               {/* Table View */}
               <table className="lg:w-full w-[1000px] border-collapse  border border-gray-300">
                 <thead>

@@ -115,7 +115,7 @@ const EventView = () => {
     });
   }, [VolunteersData, sortOrder]);
 
-
+//  console.log("clients", sortedVolunteers)
  
   const navigate = useNavigate();
   return (
@@ -188,7 +188,7 @@ const EventView = () => {
 />
       </div>
 
-      <div className="lg:mx-5 mx-2 overflow-x-auto">
+      <div className="lg:mx-5 mx-2 overflow-x-auto pb-10">
         <table className="lg:w-full w-[1000px] border-collapse mt-6 border border-gray-300">
           <thead>
             <tr className="bg-gray-100">
@@ -206,7 +206,10 @@ const EventView = () => {
                 Holocaust Survivor
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
-                # of Bags
+              Number of Bags
+              </th>
+              <th className="px-4 py-2 text-left text-sm font-medium">
+                Confirmed 
               </th>
               <th className="px-4 py-2 text-left text-sm font-medium">
                 Clients
@@ -238,6 +241,9 @@ const EventView = () => {
 
                 <td className="px-4 py-3 text-sm">
                   {clients?.userId?.badgeNumber}
+                </td>
+                <td className="px-4 py-3 text-sm">
+                  {clients?.confirmed}
                 </td>
                 <td className="px-4 py-3 text-sm">
                   <Button
