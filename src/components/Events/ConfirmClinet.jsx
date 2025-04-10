@@ -22,7 +22,7 @@ const ConfirmedClient = () => {
     const event = singleClientData?.data?.event;
     const clients = event?.client || [];
 
-    // Pagination
+    
     const paginatedClients = clients.slice(
         (currentPage - 1) * itemsPerPage,
         currentPage * itemsPerPage
@@ -32,13 +32,13 @@ const ConfirmedClient = () => {
         setCurrentPage(page);
     };
 
-    // Use the mutation hook here
+    
     const [updateClientStatus, { isLoading: isUpdating }] = useUpdateClientStatusMutation();
 
     const handleUpdateStatus = async (clientId, status) => {
         try {
-            console.log("Updating status for clientId:",  id, clientId,   status);
-            // Call the mutation function instead of axios
+         
+          
             await updateClientStatus({ eventId: id, clientId, confirmed: status }).unwrap();
             refetch();
             message.success("Client status updated successfully!");
@@ -47,7 +47,6 @@ const ConfirmedClient = () => {
         }
     };
 
-    // Dropdown Menu
     const getDropdownMenu = (clientId) => (
         <Menu onClick={({ key }) => handleUpdateStatus(clientId, key)}>
             <Menu.Item key="Not-Called">Not Called</Menu.Item>

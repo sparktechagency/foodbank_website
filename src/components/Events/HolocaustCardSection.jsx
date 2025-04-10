@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const HolocaustCardSection = ({event}) => {
 
-  console.log(event, "event");
+
  
   return (
     <div>
