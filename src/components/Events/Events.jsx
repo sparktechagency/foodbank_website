@@ -20,8 +20,10 @@ import {
 } from "../../page/redux/api/eventApi";
 import { NoData } from "../../Basic/NoData";
 import { Loading } from "../../Basic/Loading";
+import Download from "./Download";
 
 const Events = () => {
+  const [openAddModal, setOpenAddModal] = useState(false);
   const [searchQuery, setSearch] = useState("");
   const [filterType, setFilterType] = useState(null);
   const [eventType, setEventType] = useState("");
@@ -299,6 +301,12 @@ const Events = () => {
                                       label: "Delete",
                                       onClick: () => handleDelete(event?._id),
                                     },
+                                    {
+                                      key: "3",
+                                      label: "Download",
+                                      // onClick: () => handleDelete(event?._id),
+                                      onClick: () => setOpenAddModal(true),
+                                    },
                                   ]}
                                 />
                               }
@@ -339,6 +347,10 @@ const Events = () => {
           )}
         </div>
       </div>
+
+
+<Download setOpenAddModal={setOpenAddModal}
+        openAddModal={openAddModal}></Download>
 
       <AddEventModal
         modal2Open={modal2Open}
