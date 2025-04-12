@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
 const Download = ({ openAddModal, setOpenAddModal, event }) => {
-  const { data: cvDownload } = useGetCvDownloadQuery(event);
+  const { data: cvDownload , isLoading} = useGetCvDownloadQuery(event);
   const printRef = useRef();
   const [isDownloading, setIsDownloading] = useState()
 
@@ -13,6 +13,8 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
     setOpenAddModal(false);
   };
  
+  const eventDetails = cvDownload?.data?.eventDetails;
+  const assignedClients = cvDownload?.data?.assignedClients;
 
   const handleDownload = async () => {
     setIsDownloading(true); 
@@ -46,8 +48,7 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
     setIsDownloading(false);
   };
 
-  const eventDetails = cvDownload?.data?.eventDetails;
-  const assignedClients = cvDownload?.data?.assignedClients;
+   console.log("eventDetails=========", eventDetails)
   
   // useEffect(()=>{
   //   if(!assignedClients?.length){
@@ -64,7 +65,13 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
       footer={null}
       width={900}
     >
-      <div className="p-6 font-sans text-sm text-black grid justify-center">
+    {
+      isLoading ? (
+        <div className="text-center my-10">
+        <p className="text-lg font-medium">Loading...</p>
+      </div>
+      ) : (
+<div className="p-6 font-sans text-sm text-black grid justify-center">
       <button
   className="bg-cyan-700 p-2 text-white mt-4 mb-5 flex items-center justify-center gap-2"
   onClick={handleDownload}
@@ -204,6 +211,9 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
             ) }
         </div>  
       </div>
+      )
+    }
+       
     </Modal>
   );
 };
