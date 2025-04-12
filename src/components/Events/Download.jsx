@@ -14,19 +14,37 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
 
   const handleDownload = () => {
     const input = printRef.current;
-
+  
     html2canvas(input, { scale: 2 }).then((canvas) => {
       const imgData = canvas.toDataURL("image/png");
       const pdf = new jsPDF("p", "mm", "a4");
-
-      const imgProps = pdf.getImageProperties(imgData);
+  
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+  
+      const imgProps = pdf.getImageProperties(imgData);
+      const imgWidth = pdfWidth;
+      const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+  
+      let heightLeft = imgHeight;
+      let position = 0;
+  
+      // প্রথম পেইজ
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+  
+      // যদি height বেশি হয়, তাহলে আরও পেইজ অ্যাড করো
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+      }
+  
       pdf.save("receipt.pdf");
     });
   };
+  
 
   return (
     <Modal
