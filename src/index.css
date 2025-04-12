@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* .rbc-event, .rbc-day-slot .rbc-background-event {
   border: none;
   box-sizing: border-box;
@@ -17,25 +16,21 @@
   text-align: left;
 } */
 
-
 /* .rbc-event.rbc-selected, .rbc-day-slot .rbc-selected.rbc-background-event {
   background-color: #fd0b03 !important;
 }
  */
 
-:root{
+:root {
   background-color: #ffffff;
   color: black;
 }
 
-
 select option {
-  background-color: rgb(255, 255, 255) ;
-border-radius: none;
-   border: none;
+  background-color: rgb(255, 255, 255);
+  border-radius: none;
+  border: none;
 }
-
-
 
 .ant-table {
   border: none !important;
@@ -47,7 +42,7 @@ border-radius: none;
 
 .ant-table-thead > tr > th {
   border: none !important;
-  background: #f5f5f5; 
+  background: #f5f5f5;
 }
 
 .ant-table-tbody > tr > td {
@@ -58,19 +53,24 @@ border-radius: none;
   border: none !important;
 }
 
+.no-print {
+  display: block;
+}
 
-
-
-
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
 
 .ant-pagination-item {
-  border-radius: 50% !important; 
+  border-radius: 50% !important;
 }
 
 /* Active pagination button */
 .ant-pagination-item-active {
-  background-color: #D9000A !important; /* Active background color */
-  border-color: #D9000A !important;    /* Active border color */
+  background-color: #d9000a !important; /* Active background color */
+  border-color: #d9000a !important; /* Active border color */
 }
 
 /* Active pagination button text */
@@ -80,88 +80,66 @@ border-radius: none;
 
 /* Hover effect for buttons */
 
-
-
 /* In your CSS file or inside a styled-components if you're using them */
 .no-border-radius-modal .ant-modal {
   border-radius: 0 !important;
 }
-
-
-
 
 /* :where(.css-dev-only-do-not-override-49qm)[class^="ant-checkbox"] [class^="ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class*=" ant-checkbox"] [class^="ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class^="ant-checkbox"] [class*=" ant-checkbox"], :where(.css-dev-only-do-not-override-49qm)[class*=" ant-checkbox"] [class*=" ant-checkbox"] {
     box-sizing: border-box;
     background-color: #D9000A;
 } */
 
-:where(.css-dev-only-do-not-override-49qm).ant-checkbox-checked .ant-checkbox-inner {
+:where(.css-dev-only-do-not-override-49qm).ant-checkbox-checked
+  .ant-checkbox-inner {
   background-color: #000000;
   border-color: #000000;
 }
 
-
-
-:where(.css-dev-only-do-not-override-49qm).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+:where(.css-dev-only-do-not-override-49qm).ant-tabs
+  .ant-tabs-tab.ant-tabs-tab-active
+  .ant-tabs-tab-btn {
   color: #ff3916;
-  
 }
 
-
-
-
 .custom-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-  color: red !important; 
+  color: red !important;
 }
 
 .custom-tabs .ant-tabs-ink-bar {
-  background-color: red !important; 
+  background-color: red !important;
 }
 
-
 .custom-tabs .ant-tabs-tab:hover {
-  color: inherit !important; 
+  color: inherit !important;
 }
 
 .custom-tabs .ant-tabs-tab-btn:hover {
-  color: inherit !important; 
+  color: inherit !important;
 }
 
-
 .custom-tabs .ant-tabs-tab {
-  border-bottom: none !important; 
+  border-bottom: none !important;
 }
 
 .custom-tabs .ant-tabs-tab-active {
   border-bottom: 2px solid red !important;
 }
 
-
-
-
-
 .ant-pagination .ant-pagination-item {
-  background-color: white !important; 
-  border-color: white !important; 
-  
+  background-color: white !important;
+  border-color: white !important;
 }
 
 .ant-pagination .ant-pagination-item-active {
-  background-color: #234E6F !important;
-  border-color: #234E6F !important;
+  background-color: #234e6f !important;
+  border-color: #234e6f !important;
 }
 
 .ant-pagination .ant-pagination-item a {
-  color: black !important; 
+  color: black !important;
 }
 
 .ant-pagination .ant-pagination-item-active a {
   color: white !important;
 }
-
-
-
-
-
-
-
