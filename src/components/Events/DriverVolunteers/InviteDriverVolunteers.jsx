@@ -76,10 +76,11 @@ export const InviteDriverVolunteers = ({ event }) => {
     if (!userId || !eventId) {
       message.error("Missing required parameters.");
       return;
-    }
+    } 
 
     try {
       const response = await updateSuccess({ eventId, type, userId, from}).unwrap();
+      console.log("=========", response)
       message.success(response.message);
     } catch (error) {
       console.error("Error confirming driver:", error);
@@ -159,8 +160,7 @@ export const InviteDriverVolunteers = ({ event }) => {
                   <Link to={`/clients/clientsDetails/${ev?.userId?._id}`}>
                     <h1 className="mt-2">{ev?.userId?.firstName} {ev?.userId?.lastName}</h1>
                   </Link>
-                  <div className="flex gap-2">
-                   
+                  <div className="flex gap-2"> 
                     <button onClick={(data)=> handleConfirmButton(ev)} className="border px-4 rounded-full"> {isLoading?<Spin size="small" /> :"Confirmed"}</button>
                   <button
                     onClick={() => handleRemoveEventGroup(ev?.email)}

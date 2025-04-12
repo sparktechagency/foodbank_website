@@ -16,6 +16,8 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
   const eventDetails = cvDownload?.data?.eventDetails;
   const assignedClients = cvDownload?.data?.assignedClients;
 
+  console.log("assignedClients", assignedClients)
+
   const handleDownload = async () => {
     setIsDownloading(true); 
 

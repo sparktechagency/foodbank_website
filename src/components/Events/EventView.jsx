@@ -23,6 +23,10 @@ const EventView = () => {
     { refetchOnMountOrArgChange: true }
   );
 
+  console.log("======", eventId
+    
+  )
+
   const { data: singleVolunteerData } = useGetSingleVolunteerAssignedQuery(
     { id: volunteerId },
     { refetchOnMountOrArgChange: true }
