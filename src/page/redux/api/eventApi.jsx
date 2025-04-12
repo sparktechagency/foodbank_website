@@ -177,6 +177,17 @@ const useApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["updateProfile"],  
     }),
+
+    getCvDownload: builder.query({
+      query: ( event ) => {
+        return {
+          url: `/events/get_assigned_clients_for_event?eventId=${event}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["updateProfile"],
+    }),
+
   }),
 });
 
@@ -198,5 +209,6 @@ export const {
   useGetSingleVolunteerAssignedQuery,
   useUpdateAssignedMutation,
   useUpdateSuccessConfirmMutation,
-  useUpdateClientStatusMutation
+  useUpdateClientStatusMutation,
+  useGetCvDownloadQuery
 } = useApi;

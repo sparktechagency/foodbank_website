@@ -41,6 +41,7 @@ const Events = () => {
     page: currentPage,
     limit: pageSize,
   });
+  console.log(data)
 
   const [deleteEvent] = useDeleteEventMutation();
 
@@ -56,6 +57,14 @@ const Events = () => {
     setEditModal({
       isOpen: true,
       group,
+    });
+  };
+
+  const handleDownload = (eventId) => {
+    console.log(eventId)
+    setOpenAddModal({
+      isOpen: true,
+      eventId,
     });
   };
 
@@ -305,7 +314,7 @@ const Events = () => {
                                       key: "3",
                                       label: "Download",
                                       // onClick: () => handleDelete(event?._id),
-                                      onClick: () => setOpenAddModal(true),
+                                      onClick: () => handleDownload(event?._id),
                                     },
                                   ]}
                                 />
@@ -349,7 +358,7 @@ const Events = () => {
       </div>
 
 
-<Download setOpenAddModal={setOpenAddModal}
+<Download event={openAddModal.eventId} setOpenAddModal={setOpenAddModal}
         openAddModal={openAddModal}></Download>
 
       <AddEventModal
