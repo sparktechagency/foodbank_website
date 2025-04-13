@@ -150,7 +150,7 @@ export const ClientsSectionTable = () => {
           <div className="">
             <button
               onClick={() => setModal2Open(true)}
-              className="w-[100px] bg-[#234E6F] rounded-full py-2 text-white"
+              className="w-[140px] bg-[#234E6F] rounded-full py-2 text-white"
             >
               + Add Client
             </button>
