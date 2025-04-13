@@ -56,7 +56,9 @@ select option {
 .no-print {
   display: block;
 }
-
+#background_dark {
+  background-color: #9cc9eb88 !important;
+}
 @media print {
   .no-print {
     display: none !important;

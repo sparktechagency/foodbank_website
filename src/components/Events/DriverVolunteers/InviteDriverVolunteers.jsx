@@ -50,17 +50,17 @@ export const InviteDriverVolunteers = ({ event }) => {
     }
   };
 
-  const handleRemoveEventGroup = async (email) => {
-    setRemoveDriverLoading((prev) => ({ ...prev, [email]: true }));
-    const data = { email, type: "driver" };
-
+  const handleRemoveEventGroup = async (driver) => {
+    // console.log("driver.v2", driver)
+    setRemoveDriverLoading((prev) => ({ ...prev, [driver.email]: true }));
+    const data = { email: driver.email, type: "driver", driver: driver?.userId?._id }; 
     try {
       const response = await deleteEventClient({ id: event?._id, data }).unwrap();
       message.success(response.message);
     } catch (error) {
       message.error("Failed to remove driver from the event.");
     } finally {
-      setRemoveDriverLoading((prev) => ({ ...prev, [email]: false }));
+      setRemoveDriverLoading((prev) => ({ ...prev, [driver.email]: false }));
     }
   };
 
@@ -163,7 +163,7 @@ export const InviteDriverVolunteers = ({ event }) => {
                   <div className="flex gap-2"> 
                     <button onClick={(data)=> handleConfirmButton(ev)} className="border px-4 rounded-full"> {isLoading?<Spin size="small" /> :"Confirmed"}</button>
                   <button
-                    onClick={() => handleRemoveEventGroup(ev?.email)}
+                    onClick={() => handleRemoveEventGroup(ev)}
                     className="bg-blue-600 text-white px-3 rounded-full text-sm flex items-center justify-center"
                     disabled={removeDriverLoading[ev?.email]}
                   >

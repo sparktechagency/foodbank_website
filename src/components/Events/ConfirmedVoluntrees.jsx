@@ -41,17 +41,17 @@ const ConfirmedVoluntrees = () => {
   const navigate = useNavigate();
 
 
-  const handleRemoveEventGroup = async (email) => {
-    setRemoveDriverLoading((prev) => ({ ...prev, [email]: true }));
-    const data = { email, type: "driver" };
-
+  const handleRemoveEventGroup = async (driver) => {
+    // console.log("driver.v2", driver)
+    setRemoveDriverLoading((prev) => ({ ...prev, [driver.email]: true }));
+    const data = { email: driver.email, type: "driver", driver: driver?.userId?._id }; 
     try {
       const response = await deleteEventClient({ id: event?._id, data }).unwrap();
       message.success(response.message);
     } catch (error) {
       message.error("Failed to remove driver from the event.");
     } finally {
-      setRemoveDriverLoading((prev) => ({ ...prev, [email]: false }));
+      setRemoveDriverLoading((prev) => ({ ...prev, [driver.email]: false }));
     }
   };
 
@@ -165,7 +165,7 @@ const ConfirmedVoluntrees = () => {
                     <Dropdown
                       overlay={
                         <Menu
-                         onClick={()=>handleRemoveEventGroup(event.driver?.email)}
+                         onClick={()=>handleRemoveEventGroup(event.driver)}
                           items={[
                             {
                               key: "2",

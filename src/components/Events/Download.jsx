@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { useGetCvDownloadQuery } from "../../page/redux/api/eventApi";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import imageTop from "../../assets/pdfTop.png"
+import imageBottom from "../../assets/pdfBottom.png"
 
 const Download = ({ openAddModal, setOpenAddModal, event }) => {
   const { data: cvDownload , isLoading} = useGetCvDownloadQuery(event);
@@ -115,26 +117,27 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
                 key={index}
                 className=" grid items-stretch pdf-page h-[800px] px-10 py-6 border mb-4 bg-white"
                 style={{ width: "700px", margin: "0 auto" }}
+                id={item?.userId?.holocaustSurvivor && "background_dark"}
               >
                 {/* Header */}
                 <div className="">
                   <div className="flex justify-between items-start mt-5">
                     <div>
                       <img
-                        src="https://i.imgur.com/xz0SlhF.png"
+                        src={imageTop}
                         alt="Cupboard Logo"
                         crossOrigin="anonymous"
                         className="w-32 mb-2"
                       />
                     </div>
-                    <div className="text-right text-xs">
-                      <p className="font-bold">Holocaust Survivor Assistance Program</p>
-                      <p className="font-semibold">The Cupboard Delivery Client Receipt</p>
+                    <div className="text-right text-xs mt-9">
+                      {item?.userId?.holocaustSurvivor && <p className="font-bold">Holocaust Survivor Assistance Program</p>}  
                     </div>
                   </div>
 
                   {/* Client Info */}
                   <div className="text-center mt-2 text-sm">
+                  <h6 className="font-semibold pb-4">The Cupboard Delivery Client Receipt</h6>
                     <p className="font-bold">
                       Name : {item?.userId?.firstName}, {item?.userId?.lastName}
                     </p>
@@ -182,7 +185,7 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
                         <strong>Delivery Instructions:</strong>{" "}
                         {item?.userId?.deliveryInstructions}
                       </p>
-                      <p className="pb-">
+                      <p className="pb-3">
                         <strong>Number of Bags:</strong> {item?.userId?.badgeNumber}
                       </p>
                     </div>
@@ -198,15 +201,17 @@ const Download = ({ openAddModal, setOpenAddModal, event }) => {
                   </div>
                 </div>
 
-                {/* Footer */}
-                <div className="mt-4 flex justify-start items-center">
-                  <img
-                    src="https://i.imgur.com/5TcuWxF.png"
-                    alt="Claims Conference"
-                    crossOrigin="anonymous"
-                    className="w-40"
-                  />
-                </div>
+                {item?.userId?.holocaustSurvivor && (
+ <div className="mt-4 flex justify-start items-center">
+ <img
+   src={imageBottom}
+   alt="Claims Conference"
+   crossOrigin="anonymous"
+   className="w-40"
+ />
+</div>
+                )}
+                
               </div>
             )):(
               <p className="text-black">No Data Available</p>
