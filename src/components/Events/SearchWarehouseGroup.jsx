@@ -72,13 +72,13 @@ export const SearchWarehouseGroup = ({ eventId }) => {
           className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
         />
       </div>
-      <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
+      <div className="w-full bg-white border px-4 py-2 rounded">
         <div>
         {drivers?.length > 0 ? (
           drivers?.map((group) => (
             <div
               key={group?._id}
-              className="flex justify-between items-center space-y-4"
+              className="w-full flex justify-between items-center space-y-4"
             >
               <Link to={`/group/details/${group?._id}`}>
                 <h1 className="mt-2">{group?.groupName}</h1>

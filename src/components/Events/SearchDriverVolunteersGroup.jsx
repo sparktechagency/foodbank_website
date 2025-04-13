@@ -69,7 +69,7 @@ export const SearchDriverVolunteersGroup = ({ eventId }) => {
           className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
         />
       </div>
-      <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
+      <div className="bg-white border px-4 py-2 rounded">
         <div>
         {drivers?.length > 0 ? (
           drivers?.map((group) => (

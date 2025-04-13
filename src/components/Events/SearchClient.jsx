@@ -69,13 +69,13 @@ export const SearchClient = ({ eventId }) => {
               className="ml-2 flex-1 outline-none bg-[#F6F7F9] text-sm text-gray-700 placeholder-gray-400"
             />
           </div>
-          <div className="bg-white border lg:grid grid-cols-2 px-4 py-2 rounded">
-            <div className="">
+          <div className="bg-white border w-full  px-4 py-2 rounded">
+            
               {clientGroups?.length > 0 ? (
                 clientGroups?.map((item) => (
                   <div
                     key={item._id}
-                    className="flex justify-between space-y-4"
+                    className="w-full flex justify-between"
                   >
                     <Link to={`/clients/clientsDetails/${item?.id}`}>
                       <h1 className="mt-2">
@@ -84,7 +84,7 @@ export const SearchClient = ({ eventId }) => {
                     </Link>
                     <button
                       onClick={() => handleAddGroup(item)}
-                      className="border border-blue-900 text-blue-900 px-3 rounded-full text-sm flex items-center justify-center"
+                      className="border border-blue-900 text-blue-900 rounded-full text-sm flex items-center justify-center px-3"
                       disabled={loadingStates[item?._id]}
                     >
                       {loadingStates[item?._id] ? (
@@ -101,8 +101,7 @@ export const SearchClient = ({ eventId }) => {
                 </p>
               )}
             </div>
-          </div>
-        </div>
+          </div> 
       </div>
     </div>
   );
