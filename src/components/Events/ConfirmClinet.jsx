@@ -57,6 +57,8 @@ const ConfirmedClient = () => {
         </Menu>
     );
 
+    console.log("paginatedClients", paginatedClients)
+
     return (
         <div className="min-h-screen">
             <div className="bg-[#FAFAFA] lg:px-5 px-2 pt-6">
@@ -76,8 +78,9 @@ const ConfirmedClient = () => {
                                     <th className="px-4 py-2 text-left text-sm font-medium">Last Name</th>
                                     <th className="px-4 py-2 text-left text-sm font-medium">Address</th>
                                     <th className="px-4 py-2 text-left text-sm font-medium">Phone #</th>
-                                    <th className="px-4 py-2 text-left text-sm font-medium">Alternate Phone #</th>
+                                    <th className="px-4 py-2 text-left text-sm font-medium">Alternate Phone</th>
                                     <th className="px-4 py-2 text-left text-sm font-medium">Holocaust Survivor</th>
+                                    <th className="px-4 py-2 text-left text-sm font-medium">Assigned Driver</th>
                                     <th className="px-4 py-2 text-left text-sm font-medium">Confirmed</th>
                                 </tr>
                             </thead>
@@ -97,7 +100,8 @@ const ConfirmedClient = () => {
                                         <td className="px-4 py-3 text-sm">{client?.userId?.address}</td>
                                         <td className="px-4 py-3 text-sm">{client?.userId?.phoneNo}</td>
                                         <td className="px-4 py-3 text-sm">{client?.userId?.alternativePhoneNo}</td>
-                                        <td className="px-4 py-3 text-sm">{client?.userId?.badgeNumber}</td>
+                                        <td className="px-4 py-3 text-sm">{client?.userId?.holocaustSurvivor? "Yes": "No"}</td>
+                                        <td className="px-4 py-3 text-sm">{client?.assignedUId? `${client?.assignedUId.firstName + " " + client?.assignedUId.lastName}` : "None"}</td>
                                         <td className="px-4 py-3 text-sm">
                                             <Dropdown overlay={getDropdownMenu(client?.userId?.id)} trigger={["click"]}>
                                                 <div className="cursor-pointer bg-[#EDEDED] px-3 py-1 rounded-full flex items-center justify-between w-[180px]">
