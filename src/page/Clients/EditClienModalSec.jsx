@@ -34,6 +34,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
         clientDeliveryGroup: singleData?.data?.filterClient?.clientDeliveryGroup,
         Holocaust: singleData?.data?.filterClient?.holocaustSurvivor ? true : false, 
         date: singleData?.data?.filterClient?.dateOfBirth,
+        email: singleData?.data?.filterClient?.email,
       });
     }
   }, [singleData, form]);
@@ -44,6 +45,7 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       firstName: values?.first,
       lastName: values?.last,
       phoneNo: values?.number,
+      email: values?.email,
       alternativePhoneNo: values?.alternateNumber,
       address: values?.address,
       apartment: values?.apartment,
@@ -54,7 +56,6 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
       peopleHousehold: values?.household,
       dietaryRestrictions: values?.dietary,
       deliveryInstructions: values?.deliveryIns,
-      
       holocaustSurvivor: Boolean(values?.Holocaust),
       dateOfBirth: values?.date,
     };
@@ -62,13 +63,14 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
 
     try {
       await updateClient({ id, data: updatedClien }).unwrap();
-
       setModal2Open1(false);
       form.resetFields();
     } catch (error) {
    
     }
   };
+
+  console.log("=========client==", client)
 
   return (
     <div>
@@ -131,6 +133,13 @@ export const EditClienModalSec = ({ isModalOpen, client, setModal2Open1 }) => {
         
           ]}>
               <Input type="date" />
+            </Form.Item>
+
+            <Form.Item name="email" label="Email" rules={[
+            { required: true, message: "Email is required" },
+        
+          ]}>
+              <Input placeholder="Enter Phone Number" />
             </Form.Item>
 
             <Form.Item name="number" label="Phone Number" rules={[
