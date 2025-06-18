@@ -39,7 +39,7 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
   }, [group, form]);
 
   const handleFinish = async (values) => {
-    const res = group?.clients.map((client) => client._id);
+    const res = group?.clients.map((client) => client?._id);
     
     const data = {
       groupName: values?.groupName,
@@ -117,7 +117,7 @@ export const EditGroupModal = ({ isModalOpen, setModal2Open1, group }) => {
           <Select
             mode="multiple"
             options={clientOptions} 
-            defaultValue={group?.clients?.map((volunteer) => volunteer._id)} 
+            defaultValue={group?.clients?.map((volunteer) => volunteer?._id)} 
             style={{ width: "100%" }}
             placeholder="Select Volunteers"
             disabled={!type} 

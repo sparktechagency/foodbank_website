@@ -41,7 +41,7 @@ export const SearchDriverVolunteer = ({ eventId }) => {
   const drivers = eventId?.driver?.filter((ev) => ev.accept === false) || [];
   const clientGroups = clientData?.data?.filter(cln1 => 
     !eventId?.driver?.some(cln2 => {
-      const isMatch = cln1._id.toString() === cln2.userId._id.toString(); 
+      const isMatch = cln1?._id.toString() === cln2.userId?._id.toString(); 
       return isMatch;  
     })
   );  

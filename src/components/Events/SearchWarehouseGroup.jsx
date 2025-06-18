@@ -24,7 +24,7 @@ export const SearchWarehouseGroup = ({ eventId }) => {
     { isLoading: isMutating, isError: isMutationError },
   ] = useUpdateAddEventGroupMutation();
 
-  const event = eventId._id
+  const event = eventId?._id
 
   if (isLoading) return <Loading></Loading>
   if (isError || !warehouseGroup?.data) return <div><ServerError></ServerError></div>;

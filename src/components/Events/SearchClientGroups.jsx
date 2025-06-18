@@ -14,7 +14,7 @@ export const SearchClientGroups = ({ eventId }) => {
   const { data: clientGroup, isLoading, isError } = useGetAllGroupClientEventQuery({searchTerm,eventId});
   
   const [updateAddEventGroup] = useUpdateAddEventGroupMutation();
-  const event = eventId._id;
+  const event = eventId?._id;
 
   // Track loading state for each group
   const [loadingStates, setLoadingStates] = useState({});

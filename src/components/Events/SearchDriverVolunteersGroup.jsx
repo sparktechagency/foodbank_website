@@ -12,7 +12,7 @@ import { NoData } from "../../Basic/NoData";
 export const SearchDriverVolunteersGroup = ({ eventId }) => {
   const [searchTerm, setSearch] = useState("");
   const { data: driverData, isLoading, isError } = useGetAllGroupDriverVolunteerQuery({searchTerm});
-  const event = eventId._id;
+  const event = eventId?._id;
 
   const [updateAddEventGroup, { isLoading: isMutating, isError: isMutationError }] =
     useUpdateAddEventGroupMutation();

@@ -21,7 +21,7 @@ export const SearchClient = ({ eventId }) => {
     // Set loading state for this specific client
     setLoadingStates((prev) => ({ ...prev, [client._id]: true }));
 
-    const id = eventId._id;
+    const id = eventId?._id;
     const data = {
       userId: client?._id,
       email: client?.email,
@@ -74,7 +74,7 @@ export const SearchClient = ({ eventId }) => {
               {clientGroups?.length > 0 ? (
                 clientGroups?.map((item) => (
                   <div
-                    key={item._id}
+                    key={item?._id}
                     className="w-full flex justify-between"
                   >
                     <Link to={`/clients/clientsDetails/${item?.id}`}>

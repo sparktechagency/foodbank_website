@@ -249,7 +249,7 @@ export const ClientsSectionTable = () => {
                           {
                             key: "2",
                             label: "Delete",
-                            onClick: () => handleDelete(client._id),
+                            onClick: () => handleDelete(client?._id),
                           },
                         ]}
                       />

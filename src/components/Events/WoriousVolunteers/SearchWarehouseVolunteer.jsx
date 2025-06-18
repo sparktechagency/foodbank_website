@@ -18,7 +18,7 @@ export const SearchWarehouseVolunteer = ({eventId}) => {
 
   const handleAddGroup = async (client) => {
  
-    const id = eventId._id
+    const id = eventId?._id
     
     const data = {
       userId: client?._id,

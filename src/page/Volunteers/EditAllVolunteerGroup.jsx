@@ -53,7 +53,7 @@ export const EditAllVolunteerGroup = ({ client, setModal2Open1, isModalOpen }) =
  
 
     try {
-      const response = await updateVolunteers({ id: client._id, data }).unwrap();
+      const response = await updateVolunteers({ id: client?._id, data }).unwrap();
       message.success(response.message)
    
       setModal2Open1(false);

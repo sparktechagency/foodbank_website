@@ -63,7 +63,7 @@ const VolunteerGroupDetails = () => {
           <tbody>
             {currentVolunteers?.map((volunteer, index) => (
               <tr
-                key={volunteer._id}
+                key={volunteer?._id}
                 className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}
               >
                 <td className="px-4 py-3 text-sm">

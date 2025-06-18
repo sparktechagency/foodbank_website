@@ -19,7 +19,7 @@ export const HolocaustCardSection = ({event}) => {
         <div className="rounded-xl shadow p-3">
           <h1>Total</h1>
           <h1 className="text-2xl font-semibold mt-2">
-            <Link className="text-indigo-400" to={`/event/confirmedClients/${event.data.event._id}`}>
+            <Link className="text-indigo-400" to={`/event/confirmedClients/${event.data.event?._id}`}>
             {event?.data?.total}
             </Link> </h1>
         </div>
